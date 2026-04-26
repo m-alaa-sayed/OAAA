@@ -18,7 +18,7 @@
             </button>
         </div>
     </div>
-    <oaaaqa-ag-grid [columns]="columns" [actions]="actions" [dataList]="visitPlanOverviewList"></oaaaqa-ag-grid>
+    <oaaaqa-ag-grid *hasPermission="[Permission.VISIT_PLAN_VIEW_ALL]" [columns]="columns" [actions]="actions" [dataList]="visitPlanOverviewList"></oaaaqa-ag-grid>
 </div>
 
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

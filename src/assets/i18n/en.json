@@ -490,7 +490,8 @@
         "BELOW": "Below",
         "ABOVE": "above",
         "CSEQA_GENERAL_SPECIALIZATION_ERROR":"Please ensure entering the specialization subject title for the educational qualification (Bachelor’s degree).",
-        "ABOVE": "above"
+        "ABOVE": "above",
+        "NOT_SCHOOL_EMPLOYEE": "User is not a school employee"
         },
       "PAGINATION": {
         "PAGE": "Page",

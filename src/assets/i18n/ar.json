@@ -511,7 +511,8 @@
         "BELOW": "أقل من",
         "ABOVE": "أكثر من",
         "CSEQA_GENERAL_SPECIALIZATION_ERROR":"يرجى الالتزام بإدخال مسمى مادة التخصص للمؤهل التربوي (البكالوريوس).",
-        "ABOVE": "أكثر من"
+        "ABOVE": "أكثر من",
+        "NOT_SCHOOL_EMPLOYEE": "المستخدم غير موظف في مدرسة"
         },
       "PAGINATION": {
         "PAGE": "صفحة",

@@ -4,6 +4,8 @@ import {TranslateService} from '@ngx-translate/core';
 import {ToastService} from 'src/app/core/services/toast-service';
 import {SelfEvaluationDocumentService} from '../../service/self-evaluation-document.service';
 import {SelfEvaluationDocument} from '../../types/self-evaluation-document';
+import { Permission } from 'src/app/core/enum/permission';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'self-evaluation-document-list',
@@ -12,6 +14,7 @@ import {SelfEvaluationDocument} from '../../types/self-evaluation-document';
 })
 export class SelfEvaluationDocumentListComponent implements OnInit {
 
+  protected readonly Permission = Permission;
   //--- dumy data for grid 
   selfEvaluationDocumentList: SelfEvaluationDocument[] = [];
 
@@ -25,6 +28,7 @@ export class SelfEvaluationDocumentListComponent implements OnInit {
     public translate: TranslateService,
     private router: Router,
     public toastService: ToastService,
+    private authService: AuthService,
     private selfEvaluationDocumentService: SelfEvaluationDocumentService) {
   }
 
@@ -48,6 +52,8 @@ export class SelfEvaluationDocumentListComponent implements OnInit {
 
   //-- prepare grid cols 
   private prepareGridHeaderCols() {
+    const userPermissions = this.authService.getUserClaim()?.permissions ?? [];
+    
     this.columns = [
       {
         field: 'documentNumber',
@@ -125,7 +131,8 @@ export class SelfEvaluationDocumentListComponent implements OnInit {
       {
         label: this.translate.instant('PAGES.COMMON.LABELS.DETAILS'),
         icon: 'ri-eye-fill',
-        callback: (row: any) => this.openDetails(row)
+        callback: (row: any) => this.openDetails(row),
+        show: () => userPermissions.includes(Permission.SELF_EVALUATION_DOCUMENT_VIEW_DETAILS),
 
       },
     ];
