@@ -1,0 +1,51 @@
+<!-- auth-page wrapper -->
+<div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
+    <!-- <div class="bg-overlay"></div> -->
+    <!-- auth-page content -->
+    <div class="auth-page-content overflow-hidden pt-lg-5">
+        <div class="container">
+            <div class="row justify-content-center d-flex align-items-stretch p-5">
+                <div class="col-md-6 col-lg-6 col-xl-6 p-0">
+                    <div class="h-100 text-center w-100">
+                        <img src="./assets/images/jawda-images/login-image.webp" alt="jawda" class="login-image" />
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-6 col-xl-6 p-0">
+                    <div class=" bg-white  p-4 h-100" (keydown)="onKeyDown($event)">
+                        <a class="navbar-brand" routerLink="/" (click)="backToLogin()">
+                            <img src="assets/images/jawda-images/logo.svg" class="card-logo card-logo-dark"
+                                alt="logo" />
+                        </a>
+                        <div class="p-2 py-5">
+                            <h5 class="text-primary mt-5 text-center">{{ "PAGES.OTP.LABELS.ENTER_OTP" | translate }}</h5>
+                            <div [dir]="direction" class="text-center py-3">
+                                <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)"
+                                    [config]="config"></ng-otp-input>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button [disabled]="otpCode.length !== config.length" class="btn btn-primary w-100"
+                                    (click)="verifyOtp()">{{ "PAGES.OTP.LABELS.VERIFY_OTP" | translate }}</button>
+                            </div>
+
+                            <div class="mt-3 text-center">
+                                <p>{{ "PAGES.OTP.LABELS.REQUEST_OTP_AFTER" | translate }} {{ otpTimer }} {{ "PAGES.OTP.LABELS.SECONDS" | translate }}</p>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="mb-0">{{ "PAGES.OTP.LABELS.DIDN`T_RECEIVE" | translate }} 
+                                <button (click)="resendOtp()" 
+                                    [disabled]="otpTimer > 0"
+                                    class="fw-semibold text-primary text-decoration-underline cursor-pointer no-style-button"> {{
+                                    "PAGES.OTP.LABELS.RESENT_OTP" | translate }}
+                                </button> </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end auth page content -->
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

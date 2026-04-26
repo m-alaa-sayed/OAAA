@@ -1,0 +1,52 @@
+<!-- Edit History Card -->
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.EDIT_HISTORY' | translate }}</h4>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ACTION_TYPE' | translate }}</th>
+                        <th>{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.RESPONSIBLE_EMPLOYEE' | translate }}</th>
+                        <th>{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.DATE_TIME' | translate }}</th>
+                        <th>{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.NOTES' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let history of pagedHistoryData">
+                        <td>{{ getOperationTypeLabel(history.operationType) | translate }}</td>
+                        <td>{{ getCurrentLangUserName(history) }}</td>
+                        <td [attr.dir]="getDateTimeDirection()" [style]="'text-align: ' + (translate.currentLang === 'ar' ? 'right' : 'left') + ' !important'">{{ formatDateTime(history.createdOn) }}</td>
+                        <td>{{ history.notes || '-' }}</td>
+                    </tr>
+                    <tr *ngIf="!pagedHistoryData || pagedHistoryData.length === 0">
+                        <td colspan="4" class="text-center text-muted py-3">
+                            {{ 'PAGES.COMMON.LABELS.NO_DATA' | translate }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- No Data Section -->
+            <div *ngIf="!historyData || historyData.length === 0" class="text-center py-4 text-muted">
+                {{ 'PAGES.COMMON.LABELS.NO_DATA' | translate }}
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div class="text-sm-right float-end listjs-pagination">
+                    <ngb-pagination [collectionSize]="historyData.length" [(page)]="currentPage"
+                                    [pageSize]="pageSize"
+                                    [maxSize]="5" (pageChange)="onPageChange($event)">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Pagination -->
+
+</div>

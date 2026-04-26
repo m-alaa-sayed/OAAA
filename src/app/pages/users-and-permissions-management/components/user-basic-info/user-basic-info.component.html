@@ -1,0 +1,66 @@
+<!-- Basic Information Card -->
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.MAIN_INFO' | translate }}</h4>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label class="form-label fw-bold">{{ 'PAGES.COMMON.LABELS.NAME' | translate }}</label>
+                <span> : </span>
+                <span class="fw-light text-muted">{{ userData.name }}</span>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-bold">{{ 'PAGES.COMMON.LABELS.ID_NUMBER' | translate }}</label>
+                <span> : </span>
+                <span class="fw-light text-muted">{{ userData.civilOrPassportNumber }}</span>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-bold">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ID_TYPE' | translate
+                    }}</label>
+                <span> : </span>
+                <span class="fw-light text-muted">{{ userData.idType | translate }}</span>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-bold">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ACCOUNT_TYPE' | translate
+                    }}</label>
+                <span> : </span>
+                <span class="fw-light text-muted">{{ userData.accountType | translate }}</span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label class="form-label fw-bold">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.CENTER/ORGANIZATION' |
+                    translate }}</label>
+                <span> : </span>
+                <span class="fw-light text-muted">{{ userData.centerOrOrganization }}</span>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-bold">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.MOBILE' | translate }}</label>
+                <span> : </span>
+                <span class="fw-light text-muted">{{ userData.mobile }}</span>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-bold">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.EMAIL' | translate }}</label>
+                <span> : </span>
+                <span class="fw-light text-muted">{{ userData.email }}</span>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-bold">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.USERNAME' | translate
+                    }}</label>
+                <span> : </span>
+                <span class="fw-light text-muted">{{ userData.username }}</span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label class="form-label fw-bold">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.STATUS' | translate
+                    }}</label>
+                <span> : </span>
+                <span class="badge"
+                    [ngClass]="userData.status == 'PAGES.COMMON.LABELS.ACTIVE' ? 'bg-success' : 'bg-danger'">{{
+                    userData.status | translate}}</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+/* Whole block aligned to the right edge */
+.export-links {
+  display: flex;
+  justify-content: flex-end;   /* push columns to the right */
+  gap: 24px;                   /* space between the two columns */
+  margin-bottom: 20px;
+  width: 100%; /* take full row so flex-end reaches the edge */
+  //direction: rtl;
+}
+
+/* Each column: vertical stack, centered */
+.export-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  direction: rtl;
+}
+
+/* Button look */
+.export-group button {
+  background: none;
+  border: none;
+  color: #1a73e8;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+.export-group button:focus { outline: none; }
+
+/* Optional: stack columns on very small screens */
+@media (max-width: 520px) {
+  .export-links { flex-direction: column; align-items: flex-end; }
+}

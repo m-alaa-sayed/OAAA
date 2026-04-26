@@ -1,0 +1,296 @@
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0 text-start">
+            {{ 'PAGES.VISIT_FORM.LABELS.VISIT_DETAILS' | translate }}
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <div class="mb-3 text-end">
+                            <button (click)="addNewItem(addDoc)" *ngIf="canUpdateDocuments"
+                                    class="btn btn-primary">{{ 'PAGES.COMMON.LABELS.ADD' | translate }}
+                            </button>
+                        </div>
+                        <table class="table align-middle table-bordered text-center">
+                            <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.DOCUMENT_EVIDENCE_NAME' | translate }}</th>
+                                <th>{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.TYPE' | translate }}</th>
+                                <th>{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.DESCRIPTION' | translate }}</th>
+                                <th>{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.DELIVERED' | translate }}</th>
+                                <th>{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.RESPONSIBLE_PERSON' | translate }}</th>
+                                <th>{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.DELIVERY_DATE' | translate }}</th>
+                                <th>{{ 'PAGES.COMMON.LABELS.NOTES' | translate }}</th>
+                                <th>{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.CONTENT' | translate }}</th>
+                                <th>{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.RECEIVED' | translate }}</th>
+                                <th>{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.RECEIPT_DATE' | translate }}</th>
+                                <th>{{ 'PAGES.COMMON.LABELS.ACTIONS' | translate }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let item of paginatedSchoolDocumentDeliveryItems; let i = index">
+                                <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+                                <td>{{ item.documentName }}</td>
+                                <td>{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.' + item.documentType | translate }}</td>
+                                <td>{{ item.description }}</td>
+                                <td *ngIf="item.deliveryStatus === 'YES'"> {{ item.deliveryStatus ? ('PAGES.COMMON.LABELS.' + item.deliveryStatus | translate) : '' }}</td>
+                                <td *ngIf="item.deliveryStatus !== 'YES'"> {{ item.deliveryStatus ? ('PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.' + item.deliveryStatus | translate) : '' }}</td>
+                                <td>{{ LanguageUtil.isArabic ? item.deliveredBy?.fullNameAr : item.deliveredBy?.fullNameEn }}</td>
+                                <td>{{ item.deliveryDate }}</td>
+                                <td>{{ item.notes }}</td>
+                                <td>
+                                    <button class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                                            *ngIf="item.documentFileName"
+                                            (click)="downloadUploadedFile(item.documentFileName, item.documentBucketName)">
+                                        {{ "PAGES.COMMON.LABELS.DOWNLOAD" | translate }}
+                                    </button>
+                                </td>
+                                <td>
+                                    <input [checked]="item.isReceived" class="form-check-input" disabled type="checkbox"/>
+                                </td>
+                                <td>{{ item.receivingDate }}</td>
+                                <td class="d-flex" *ngIf="!canUpdateDocuments">
+                                    <button (click)="selectedDocIndex = ((currentPage - 1) * pageSize + i); updateDoc(addDoc, item, true)"
+                                            class="btn btn-primary btn-sm w-100">{{ 'PAGES.COMMON.LABELS.VIEW' | translate }}
+                                    </button>
+                                </td>
+                                <td class="d-flex" *ngIf="canUpdateDocuments">
+                                    <button (click)="selectedDocIndex = ((currentPage - 1) * pageSize + i); updateDoc(addDoc, item, false)"
+                                            class="btn btn-primary btn-sm w-100">{{ 'PAGES.COMMON.LABELS.EDIT' | translate }}
+                                    </button>
+                                    <button (click)="selectedDocIndex = ((currentPage - 1) * pageSize + i); open(deleteDoc)"
+                                            *ngIf="!isRequest" class="btn btn-danger btn-sm w-100 ms-1">
+                                        {{ 'PAGES.COMMON.LABELS.DELETE' | translate }}
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div *ngIf="!paginatedSchoolDocumentDeliveryItems || paginatedSchoolDocumentDeliveryItems.length == 0 "
+                             class="text-center py-4 text-muted">
+                            {{ "PAGES.COMMON.MESSAGES.NO_RESULT" | translate }}
+                        </div>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="row mt-3">
+                        <div class="col-sm-12">
+                            <div class="text-sm-right float-end listjs-pagination">
+                                <ngb-pagination [collectionSize]="schoolDocumentDeliveryItems.length"
+                                                [(page)]="currentPage"
+                                                [pageSize]="pageSize" (pageChange)="onPageChange($event)">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Pagination -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #addDoc>
+    <form *ngIf="newItem">
+        <div class="default-modal">
+            <div class="modal-header d-flex justify-content-between align-items-center flex-row bg-primary-light p-3">
+                <h5 class="modal-title m-0" *ngIf="isAddMode">{{ 'PAGES.COMMON.LABELS.ADD' | translate }}</h5>
+                <h5 class="modal-title m-0" *ngIf="!isAddMode">{{ 'PAGES.COMMON.LABELS.EDIT' | translate }}</h5>
+            </div>
+
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">
+                                    {{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.DOCUMENT_EVIDENCE_NAME' | translate }}
+                                    <span class="text-danger" *ngIf="newItem.isNew">*</span>
+                                </label>
+                                <input [(ngModel)]="newItem.documentName"
+                                       name="documentName"
+                                       [class.is-invalid]="isSubmitted && !newItem.documentName"
+                                       [disabled]="!newItem.isNew && (newItem.submitStatus === 'SUBMITTED' || isViewMode)"
+                                       class="form-control"/>
+                                <div *ngIf="isSubmitted && !newItem.documentName"
+                                     class="invalid-feedback">
+                                    {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">
+                                    {{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.TYPE' | translate }}
+                                    <span class="text-danger" *ngIf="newItem.isNew">*</span>
+                                </label>
+                                <select [(ngModel)]="newItem.documentType"
+                                        name="documentType"
+                                        [class.is-invalid]="isSubmitted && !newItem.documentType"
+                                        [disabled]="!newItem.isNew  && (newItem.submitStatus === 'SUBMITTED' || isViewMode)"
+                                        class="form-select">
+                                    <option value="DIGITAL">{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.DIGITAL' | translate }}</option>
+                                    <option value="PAPER">{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.PAPER' | translate }}</option>
+                                </select>
+                                <div *ngIf="isSubmitted && !newItem.documentType"
+                                     class="invalid-feedback">
+                                    {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.DESCRIPTION' | translate }}</label>
+                                <textarea rows="2" id="description" name="description"
+                                          class="form-control form-control-md"
+                                          [disabled]="!newItem.isNew && (newItem.submitStatus === 'SUBMITTED' || isViewMode)"
+                                          [(ngModel)]="newItem.description"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="isSchoolUser || isTlUser">
+                            <div class="col-md-4 mb-3" *ngIf="isSchoolUser || newItem.deliveryStatus">
+                                <label class="form-label">
+                                    {{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.DELIVERED' | translate }}
+                                    <span class="text-danger" *ngIf="!isTlUser">*</span>
+                                </label>
+                                <select [(ngModel)]="newItem.deliveryStatus" name="deliveryStatus" class="form-select"
+                                        [class.is-invalid]="isSubmitted && !newItem.deliveryStatus"
+                                        (ngModelChange)="onDeliveryStatusChanged()"
+                                        [disabled]="isTlUser || this.isViewMode">
+                                    <option value="YES">{{ 'PAGES.COMMON.LABELS.YES' | translate }}</option>
+                                    <option value="FAILED">{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.FAILED' | translate }}</option>
+                                    <option value="IN_PROGRESS">{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.IN_PROGRESS' | translate }}</option>
+                                </select>
+                                <div *ngIf="isSubmitted && !newItem.deliveryStatus"
+                                     class="invalid-feedback">
+                                    {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3" *ngIf="newItem.deliveryStatus === 'YES'">
+                                <label class="form-label">
+                                    {{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.DELIVERY_DATE' | translate }}
+                                    <span class="text-danger" *ngIf="!isTlUser">*</span>
+                                </label>
+                                <input type="date" name="deliveryDate" class="form-control"
+                                       [(ngModel)]="newItem.deliveryDate" [disabled]="isTlUser || this.isViewMode"
+                                       [class.is-invalid]="isSubmitted && !newItem.deliveryDate"/>
+                                <div *ngIf="isSubmitted && !newItem.deliveryDate"
+                                     class="invalid-feedback">
+                                    {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3"
+                                 *ngIf="newItem.deliveryStatus === 'YES' || newItem.deliveryStatus === 'FAILED'">
+                                <label class="form-label">
+                                    {{ 'PAGES.COMMON.LABELS.NOTES' | translate }}
+                                    <span class="text-danger"
+                                          *ngIf="!isTlUser && newItem.deliveryStatus === 'FAILED'">*</span>
+                                </label>
+                                <input name="notes" class="form-control"
+                                       [(ngModel)]="newItem.notes" [disabled]="isTlUser || this.isViewMode"
+                                       [class.is-invalid]="isSubmitted && newItem.deliveryStatus === 'FAILED' && !newItem.notes"/>
+                                <div *ngIf="isSubmitted && newItem.deliveryStatus === 'FAILED' && !newItem.notes"
+                                     class="invalid-feedback">
+                                    {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="!newItem.isNew && newItem.deliveryStatus !== 'IN_PROGRESS' && isTlUser">
+                            <div class="col-md-4 mb-3">
+                                <input type="checkbox" name="isReceived" class="form-check-input me-2"
+                                       [(ngModel)]="newItem.isReceived" [disabled]="newItem.deliveryStatus !== 'YES' || this.isViewMode"
+                                       (ngModelChange)="onIsReceivedChanged()"/>
+                                <label class="form-check-label">{{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.RECEIVED' | translate }}</label>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    {{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.RECEIPT_DATE' | translate }}
+                                    <span class="text-danger"
+                                          *ngIf="!(newItem.deliveryStatus !== 'YES' || !newItem.isReceived)">*</span>
+                                </label>
+                                <input type="date" name="receivingDate" class="form-control"
+                                       [(ngModel)]="newItem.receivingDate"
+                                       [disabled]="newItem.deliveryStatus !== 'YES' || !newItem.isReceived || this.isViewMode"
+                                       [min]="newItem.deliveryDate"
+                                       [class.is-invalid]="isSubmitted && newItem.isReceived && !newItem.receivingDate"/>
+                                <div *ngIf="isSubmitted && newItem.isReceived && !newItem.receivingDate"
+                                     class="invalid-feedback">
+                                    {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="newItem.documentType === 'DIGITAL' && newItem.deliveryStatus === 'YES'">
+                            <div class="col-md-12 mb-3" *ngIf="!newItem.isNew">
+                                <label class="form-label">
+                                    <label class="form-label">
+                                        {{ 'PAGES.SCHOOL_DOCUMENT_DELIVERY.LABELS.CONTENT' | translate }}
+                                        <!-- <span class="text-danger" *ngIf="isSchoolUser">*</span>-->
+                                    </label>
+                                </label>
+                                <div class="input-group">
+                                    <ng-container *ngIf="isSchoolUser">
+                                        <input type="file" class="d-none" #fileInput (change)="onFileSelected($event)"
+                                               id="inputGroupFile02" aria-describedby="inputGroupFileAddon04"
+                                               aria-label="Upload"/>
+                                        <button class="btn btn-outline-primary" type="button"
+                                                (click)="fileInput.click()">
+                                            <i class=" ri-upload-2-fill"></i>
+                                        </button>
+                                    </ng-container>
+                                    <ng-container #fileSelected *ngIf="isSchoolUser">
+                                        <input type="text" class="form-control m-0" [value]="selectedFileName"
+                                               [disabled]="true"
+                                               [value]="newItem.documentFileName || ''"
+                                               [class.is-invalid]="isSubmitted && !newItem.documentFileName"
+                                               readonly title="File selected">
+                                    </ng-container>
+                                    <button type="button"
+                                            *ngIf="newItem.documentFileName"
+                                            class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                                            (click)="downloadUploadedFile(newItem.documentFileName, newItem.documentBucketName)">
+                                        {{ "PAGES.COMMON.LABELS.DOWNLOAD" | translate }}
+                                    </button>
+                                </div>
+                                <div *ngIf="isSubmitted && !newItem.documentFileName"
+                                     class="invalid-feedback" style="display: block !important;">
+                                    {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer d-flex">
+                <button type="button" class="btn btn-outline-secondary" (click)="selectedDocIndex = -1; close()">
+                    {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                </button>
+
+                <button class="btn btn-primary" type="button" (click)="addNewItemToList()" *ngIf="!isViewMode">
+                    {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #deleteDoc let-modal let-row="row">
+    <div class="modal-body">
+        <p>{{ 'PAGES.COMMON.MESSAGES.DELETE_CONFIRMATION_MESSAGE' | translate }}</p>
+    </div>
+    <div class="modal-footer d-flex justify-content-between">
+        <button class="btn btn-outline-secondary" (click)="selectedDocIndex = -1; close()">
+            {{ 'PAGES.COMMON.LABELS.NO' | translate }}
+        </button>
+        <button class="btn btn-primary" (click)="remove(selectedDocIndex)">
+            {{ 'PAGES.COMMON.LABELS.YES' | translate }}
+        </button>
+    </div>
+</ng-template>

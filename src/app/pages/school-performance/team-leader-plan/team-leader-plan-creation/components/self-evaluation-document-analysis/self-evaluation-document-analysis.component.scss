@@ -1,0 +1,565 @@
+.school-performance-layout {
+  display: flex;
+  min-height: 100vh;
+  // direction: rtl;
+  font-family: 'Neo Sans Arabic Regular', sans-serif;
+  background-color: #f8f9fa;
+  
+  .main-content {
+    flex: 1;
+    padding: 0;
+    background-color: #f8f9fa;
+    // direction: ltr;
+    position: relative;
+    
+    .school-header {
+      background: linear-gradient(135deg, #00A5A7 0%, #016393 100%);
+      color: white;
+      padding: 24px 32px;
+      box-shadow: 0 4px 20px rgba(0, 165, 167, 0.15);
+      // direction: rtl;
+      position: relative;
+      overflow: hidden;
+      
+      // Decorative background pattern
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        transform: translate(50px, -50px);
+      }
+      
+      .header-actions {
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 2;
+        
+        .back-btn {
+          background: rgba(255, 255, 255, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          color: white;
+          padding: 10px 18px;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 14px;
+          font-weight: 500;
+          backdrop-filter: blur(10px);
+          
+          &:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+          }
+          
+          &:active {
+            transform: translateX(-1px);
+          }
+          
+          i {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+          }
+          
+          &:hover i {
+            transform: translateX(-2px);
+          }
+        }
+      }
+      
+      .school-details {
+        position: relative;
+        z-index: 2;
+        
+        .school-name {
+          font-size: 32px;
+          font-weight: 700;
+          margin: 0 0 12px 0;
+          text-align: right;
+          line-height: 1.2;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          color: #fff;
+        }
+        
+        .school-meta {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          font-size: 16px;
+          opacity: 0.95;
+          // direction: rtl;
+          justify-content: flex-end;
+          flex-wrap: wrap;
+          
+          .divider {
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: bold;
+            font-size: 12px;
+          }
+          
+          .school-code,
+          .school-type,
+          .location {
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+            backdrop-filter: blur(5px);
+          }
+        }
+      }
+    }
+    
+    .tab-content-area {
+      padding: 24px;
+      min-height: calc(100vh - 160px);
+      background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+    }
+  }
+  
+  .sidebar-nav {
+    width: 320px;
+    background-color: #ffffff;
+    border-left: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    // direction: rtl;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    
+    .nav-header {
+      padding: 24px 20px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-bottom: 1px solid #dee2e6;
+      position: relative;
+      z-index: 10;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 20px;
+        right: 20px;
+        height: 2px;
+        background: linear-gradient(90deg, #00A5A7, #016393);
+      }
+      
+      h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: #1F487E;
+        text-align: center;
+        font-family: 'Neo Sans Arabic Medium', sans-serif;
+      }
+    }
+    
+    .nav-tabs {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow-y: auto;
+      position: sticky;
+      top: 130px;
+      z-index: 5;
+      background-color: #ffffff;
+      border-bottom: 1px solid #e9ecef;
+      max-height: calc(100vh - 230px); // Adjust based on header height + top offset
+      
+      .nav-tab {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        background-color: #ffffff;
+        border: none;
+        border-bottom: 1px solid #f1f3f4;
+        color: #475467;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-align: right;
+        // direction: rtl;
+        position: relative;
+        overflow: hidden;
+        
+        // Hover effect background
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 0;
+          height: 100%;
+          background: linear-gradient(90deg, rgba(0, 165, 167, 0.08), rgba(1, 99, 147, 0.05));
+          transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        // Active indicator
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 0;
+          height: 100%;
+          background: #00A5A7;
+          transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .tab-label {
+          flex: 1;
+          line-height: 1.5;
+          position: relative;
+          z-index: 2;
+          font-family: 'Neo Sans Arabic Regular', sans-serif;
+        }
+        
+        .tab-arrow {
+          font-size: 18px;
+          margin-left: 12px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          z-index: 2;
+          color: #98A2B3;
+        }
+        
+        &:hover {
+          background-color: #f8f9fa;
+          color: #00A5A7;
+          transform: translateX(-4px);
+          box-shadow: 4px 0 12px rgba(0, 165, 167, 0.1);
+          
+          &::before {
+            width: 100%;
+          }
+          
+          .tab-arrow {
+            transform: translateX(-4px);
+            color: #00A5A7;
+          }
+        }
+        
+        &.active {
+          background-color: #f0f9ff;
+          color: #016393;
+          font-weight: 600;
+          
+          &::after {
+            width: 4px;
+          }
+          
+          &::before {
+            width: 100%;
+            background: linear-gradient(90deg, rgba(0, 165, 167, 0.12), rgba(1, 99, 147, 0.08));
+          }
+          
+          .tab-arrow {
+            transform: translateX(-4px);
+            color: #016393;
+          }
+          
+          .tab-label {
+            font-family: 'Neo Sans Arabic Medium', sans-serif;
+          }
+        }
+        
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}
+
+// RTL adjustments
+[dir="rtl"] {
+  .school-performance-layout {
+    .main-content {
+      .school-header {
+        &::before {
+          right: auto;
+          left: 0;
+          transform: translate(-50px, -50px);
+        }
+        
+        .header-actions {
+          .back-btn {
+            &:hover {
+              transform: translateX(3px);
+            }
+            
+            &:hover i {
+              transform: translateX(2px);
+            }
+          }
+        }
+      }
+    }
+    
+    .sidebar-nav {
+      border-left: none;
+      border-right: 1px solid #e9ecef;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+      
+      .nav-tabs {
+        .nav-tab {
+          &::before {
+            right: auto;
+            left: 0;
+          }
+          
+          &::after {
+            right: auto;
+            left: 0;
+          }
+          
+          &:hover {
+            transform: translateX(4px);
+            box-shadow: -4px 0 12px rgba(0, 165, 167, 0.1);
+            
+            .tab-arrow {
+              transform: translateX(4px);
+            }
+          }
+          
+          &.active {
+            .tab-arrow {
+              transform: translateX(4px);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Enhanced responsive design
+@media (max-width: 1024px) {
+  .school-performance-layout {
+    .sidebar-nav {
+      width: 280px;
+      
+      .nav-tabs .nav-tab {
+        padding: 14px 16px;
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .school-performance-layout {
+    flex-direction: column;
+    
+    .main-content {
+      .school-header {
+        padding: 20px 16px;
+        
+        .header-actions {
+          margin-bottom: 16px;
+          
+          .back-btn {
+            padding: 8px 14px;
+            font-size: 13px;
+          }
+        }
+        
+        .school-details {
+          .school-name {
+            font-size: 24px;
+            margin-bottom: 10px;
+          }
+          
+          .school-meta {
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 13px;
+            
+            .school-code,
+            .school-type,
+            .location {
+              padding: 3px 8px;
+              font-size: 12px;
+            }
+          }
+        }
+      }
+      
+      .tab-content-area {
+        padding: 16px;
+        min-height: auto;
+      }
+    }
+    
+    .sidebar-nav {
+      width: 100%;
+      order: 2;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 15;
+      
+      .nav-header {
+        padding: 16px;
+        
+        h3 {
+          font-size: 16px;
+        }
+      }
+      
+      .nav-tabs {
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+        padding-bottom: 4px;
+        position: sticky;
+        top: 130px;
+        z-index: 10;
+        background-color: #ffffff;
+        
+        .nav-tab {
+          min-width: 180px;
+          flex-shrink: 0;
+          border-bottom: 1px solid #dee2e6;
+          border-right: 1px solid #f1f3f4;
+          padding: 12px 16px;
+          
+          &:last-child {
+            border-right: none;
+          }
+          
+          &::after {
+            top: auto;
+            bottom: 0;
+            height: 3px;
+            width: 0;
+          }
+          
+          &.active::after {
+            width: 100%;
+            height: 3px;
+          }
+          
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 165, 167, 0.1);
+          }
+        }
+      }
+    }
+    
+    .main-content {
+      order: 1;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .school-performance-layout {
+    .main-content {
+      .school-header {
+        padding: 16px 12px;
+        
+        .school-details {
+          .school-name {
+            font-size: 20px;
+          }
+          
+          .school-meta {
+            .school-code,
+            .school-type,
+            .location {
+              font-size: 11px;
+              padding: 2px 6px;
+            }
+          }
+        }
+      }
+    }
+    
+    .sidebar-nav {
+      .nav-tabs {
+        .nav-tab {
+          min-width: 160px;
+          padding: 10px 12px;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+// Accessibility improvements
+@media (prefers-reduced-motion: reduce) {
+  .school-performance-layout {
+    .sidebar-nav .nav-tabs .nav-tab,
+    .main-content .school-header .header-actions .back-btn {
+      transition: none;
+    }
+  }
+}
+
+// Focus states for accessibility
+.school-performance-layout {
+  .sidebar-nav .nav-tabs .nav-tab:focus,
+  .main-content .school-header .header-actions .back-btn:focus {
+    outline: 2px solid #00A5A7;
+    outline-offset: 2px;
+  }
+}
+
+// Custom scrollbar for sidebar
+.sidebar-nav .nav-tabs {
+  scrollbar-width: thin;
+  scrollbar-color: #00A5A7 #f1f3f4;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f3f4;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #00A5A7;
+    border-radius: 3px;
+    
+    &:hover {
+      background: #016393;
+    }
+  }
+}
+
+// Loading state animation
+.nav-tab {
+  &.loading {
+    pointer-events: none;
+    opacity: 0.6;
+    
+    &::before {
+      animation: shimmer 1.5s infinite;
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+} 

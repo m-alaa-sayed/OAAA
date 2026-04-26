@@ -1,0 +1,147 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    {{ (mode === 'add' ? 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.ADD_PERMISSION' : 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.EDIT_PERMISSION') | translate }}
+  </h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="onCancel()"></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="permissionForm">
+    <!-- Code Row -->
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label for="code" class="form-label">
+          {{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.CODE' | translate }} <span class="text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="permissionCode"
+          formControlName="permissionCode"
+          [class.is-invalid]="isFieldInvalid('permissionCode')"
+        />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('permissionCode')">
+          {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Name Row -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="permissionNameAr" class="form-label">
+          {{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.NAME_AR' | translate }} <span class="text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="permissionNameAr"
+          formControlName="permissionNameAr"
+          [class.is-invalid]="isFieldInvalid('permissionNameAr')"
+        />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('permissionNameAr')">
+          {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="permissionNameEn" class="form-label">
+          {{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.NAME_EN' | translate }} <span class="text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="permissionNameEn"
+          formControlName="permissionNameEn"
+          [class.is-invalid]="isFieldInvalid('permissionNameEn')"
+        />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('permissionNameEn')">
+          {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Row -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="permissionDescriptionAr" class="form-label">
+          {{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.DESCRIPTION_AR' | translate }} <span class="text-danger">*</span>
+        </label>
+        <textarea
+          class="form-control"
+          id="permissionDescriptionAr"
+          formControlName="permissionDescriptionAr"
+          [class.is-invalid]="isFieldInvalid('permissionDescriptionAr')"
+          rows="3"
+        ></textarea>
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('permissionDescriptionAr')">
+          {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="permissionDescriptionEn" class="form-label">
+          {{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.DESCRIPTION_EN' | translate }} <span class="text-danger">*</span>
+        </label>
+        <textarea
+          class="form-control"
+          id="permissionDescriptionEn"
+          formControlName="permissionDescriptionEn"
+          [class.is-invalid]="isFieldInvalid('permissionDescriptionEn')"
+          rows="3"
+        ></textarea>
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('permissionDescriptionEn')">
+          {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Switches Row -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <div class="form-check form-switch d-flex align-items-center gap-3">
+          <label class="form-check-label mb-0" for="isClientAccessible">
+            {{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.IS_CLIENT_ACCESSIBLE' | translate }}
+          </label>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="isClientAccessible"
+            formControlName="isClientAccessible"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-check form-switch d-flex align-items-center gap-3">
+          <label class="form-check-label mb-0" for="enabled">
+            {{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.ENABLED' | translate }}
+          </label>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="enabled"
+            formControlName="enabled"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+    {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+  </button>
+  <button 
+    type="button" 
+    class="btn btn-primary" 
+    (click)="onSave()"
+    [disabled]="isSaveDisabled()"
+  >
+    <i class="mdi mdi-content-save"></i>
+    {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+  </button>
+</div>

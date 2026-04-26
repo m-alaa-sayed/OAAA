@@ -1,0 +1,48 @@
+<page-title
+        *ngIf="!isReport"
+        [title]="title | translate"
+        [breadcrumbItems]="[{ label: visitFormListPageTitle | translate, link: visitFormListLink, active: true, state: previousState },
+            { label: title | translate,  active: true }]">
+</page-title>
+
+<page-title
+        *ngIf="isReport"
+        [title]="title | translate"
+        [breadcrumbItems]="[
+            { label: 'MENUITEMS.MENU.REPORTS_LIST' | translate, link: '/jawda/school-performance/reports/CSEQA', active: true },
+            { label: visitFormListPageTitle | translate, link: visitFormListLink, active: true, state: previousState },
+            { label: title | translate,  active: true }]">
+</page-title>
+
+<visit-details *ngIf="visitData" [visitData]="visitData"></visit-details>
+
+<div class="card shadow-sm p-3">
+    <div *ngIf="!isReport">
+        <div *hasPermission="[Permission.CLASSROOM_OBSERVATION_VISIT_FORM_CREATE , Permission.GENERAL_EVIDENCE_VISIT_FORM_CREATE]"
+             class="card-body d-flex justify-content-end mx-0 px-0">
+            <button class="btn btn-primary" (click)="addNewForm()">
+                <i class="ri-add-line align-bottom me-1"></i> {{ 'PAGES.COMMON.LABELS.ADD' | translate }}
+            </button>
+        </div>
+    </div>
+    <oaaaqa-ag-grid [columns]="columns" [actions]="actions" [dataList]="list"></oaaaqa-ag-grid>
+</div>
+
+<ng-template #delete let-modal let-row="row">
+    <div class="modal-body">
+        <p>{{ 'PAGES.COMMON.MESSAGES.DELETE_CONFIRMATION_MESSAGE' | translate }}</p>
+    </div>
+    <div class="modal-footer d-flex justify-content-between">
+        <button class="btn btn-outline-secondary" (click)="close()">
+            {{ 'PAGES.COMMON.LABELS.NO' | translate }}
+        </button>
+        <button class="btn btn-primary" (click)="removeForm(selectedRow)">
+            {{ 'PAGES.COMMON.LABELS.YES' | translate }}
+        </button>
+    </div>
+</ng-template>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+
+

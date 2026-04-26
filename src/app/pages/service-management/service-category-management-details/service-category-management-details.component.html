@@ -1,0 +1,102 @@
+<page-title [title]="'MENUITEMS.MENU.CATEGORY_MANAGEMENT' | translate"
+    [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.CATEGORY_MANAGEMENT' | translate, link: '/jawda/service-management/service-category-management-list', active: true },
+{ label: dto.categoryNameAr ? (translate.currentLang == 'ar' ? dto.categoryNameAr : dto.categoryNameEn) : 'PAGES.COMMON.LABELS.ADD' | translate,  active: false }]"></page-title>
+<form class="row g-3" #submitForm="ngForm" (ngSubmit)="save()">
+    <div class="col-lg-12">
+        <div class="card shadow-sm">
+            <div class="card-header align-items-center justify-content-between d-flex">
+                <h5 class="card-title mb-0">{{ 'MENUITEMS.MENU.CATEGORY_MANAGEMENT' | translate }}</h5>
+            </div>
+            <div class="card-body">
+                <div class="live-preview">
+                    <div class="row gy-4">
+                        <div class="col-6">
+                            <label for="categoryNameAr" class="form-label">
+                                {{ 'PAGES.SERVICE_CATEGORY_MANAGEMENT.LABELS.CATEGORY_NAME_AR' | translate }}
+                            </label>
+                            <input type="text" class="form-control" id="categoryNameAr" name="categoryNameAr"
+                                placeholder="{{ 'PAGES.SERVICE_CATEGORY_MANAGEMENT.LABELS.CATEGORY_NAME_AR' | translate }}"
+                                required noWhitespace #categoryNameArRef="ngModel" [disabled]="!edit"
+                                [(ngModel)]="dto.categoryNameAr"
+                                [ngClass]="{'is-invalid': submitForm.submitted && categoryNameArRef.invalid}">
+                            <div *ngIf="submitForm.submitted && categoryNameArRef.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div>
+                                <label for="categoryNameEn" class="form-label">
+                                    {{ 'PAGES.SERVICE_CATEGORY_MANAGEMENT.LABELS.CATEGORY_NAME_EN' | translate }}
+                                </label>
+                                <input type="text" class="form-control" id="categoryNameEn" name="categoryNameEn"
+                                    placeholder="{{ 'PAGES.SERVICE_CATEGORY_MANAGEMENT.LABELS.CATEGORY_NAME_EN' | translate }}"
+                                    required #categoryNameEnRef="ngModel" [disabled]="!edit"
+                                    [(ngModel)]="dto.categoryNameEn"
+                                    [ngClass]="{'is-invalid':submitForm.submitted && categoryNameEnRef.invalid}">
+                                <div *ngIf="submitForm.submitted && categoryNameEnRef.invalid" class="invalid-feedback">
+                                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div>
+                                <label for="categoryDescAr" class="form-label">{{
+                                    'PAGES.SERVICE_CATEGORY_MANAGEMENT.LABELS.CATEGORY_DESC_AR' | translate }}
+                                    <small class="text-danger ms-3">
+                                        ({{
+                                        'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                                </label>
+                                <textarea class="form-control" id="categoryDescAr" name="categoryDescAr" rows="3"
+                                    placeholder="{{ 'PAGES.SERVICE_CATEGORY_MANAGEMENT.LABELS.CATEGORY_DESC_AR' | translate }}"
+                                    [(ngModel)]="dto.categoryDescAr" [disabled]="!edit"
+                                    (ngModelChange)="onTextChange(dto, 'categoryDescAr', $event)"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div>
+                                <label for="categoryDescEn" class="form-label">{{
+                                    'PAGES.SERVICE_CATEGORY_MANAGEMENT.LABELS.CATEGORY_DESC_EN' | translate }}
+                                    <small class="text-danger ms-3">
+                                        ({{
+                                        'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                                </label>
+                                <textarea class="form-control" id="categoryDescEn" name="categoryDescEn" rows="3"
+                                    placeholder="{{ 'PAGES.SERVICE_CATEGORY_MANAGEMENT.LABELS.CATEGORY_DESC_AR' | translate }}"
+                                    [(ngModel)]="dto.categoryDescEn" [disabled]="!edit"
+                                    (ngModelChange)="onTextChange(dto, 'categoryDescEn', $event)"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="displayStatus"
+                                        name="displayStatus" [(ngModel)]="dto.displayStatus" [disabled]="!edit">
+                                    <label class="form-check-label" for="displayStatus">
+                                        {{ 'PAGES.SERVICE_CATEGORY_MANAGEMENT.LABELS.DISPLAYING_STATUS' | translate }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button type="reset" class="me-2 btn btn-outline-secondary waves-effect waves-light"
+                                    (click)="cancel()">{{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+                                </button>
+                                <button *ngIf="edit" type="submit" class="btn btn-primary">{{ 'PAGES.COMMON.LABELS.SAVE'
+                                    | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

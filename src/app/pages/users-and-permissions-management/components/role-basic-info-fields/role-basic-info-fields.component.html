@@ -1,0 +1,93 @@
+<!-- Basic Information Card -->
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">{{'PAGES.COMMON.LABELS.MAIN_DATA' | translate}}</h4>
+    </div>
+    <div class="card-body" *ngIf="roleData">
+        <form>
+            <!-- Row 1 -->
+            <div class="row mb-3">
+                <label *ngIf="roleData.roleCode" for="code" class="col-md-5 fw-bold">{{
+                    'PAGES.COMMON.LABELS.CODE' | translate }} : <span class="fw-normal">{{ roleData.roleCode
+                        }}</span></label>
+                <label for="roleType" class="col-md-5 fw-bold">{{
+                    'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLE_TYPE' | translate }} : <span
+                        class="fw-normal">{{('PAGES.PERMISSIONS_MANAGEMENT.LABELS.' + (roleData.typeCode ??
+                        'PROCEDURAL')) | translate}}</span></label>
+            </div>
+            <div class="row mb-3 align-items-end">
+                <div class="col-md-5">
+                    <label for="roleNameAr" class="form-label">
+                        {{ 'PAGES.COMMON.LABELS.ROLE_NAME_AR' | translate }}
+                        <span class="text-danger" *ngIf="!isFieldDisabled('roleNameAr')">*</span>
+                    </label>
+                    <input type="text" class="form-control" id="roleNameAr" [(ngModel)]="roleData.roleNameAr"
+                        name="roleNameAr" #roleNameAr="ngModel" [disabled]="isFieldDisabled('roleNameAr')" required
+                        [ngClass]="{'is-invalid': isFieldInvalid('roleNameAr', roleNameAr)}">
+                    <div *ngIf="isFieldInvalid('roleNameAr', roleNameAr)" class="invalid-feedback d-block">
+                        <span *ngIf="roleNameAr.errors?.['required']">{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' |
+                            translate }}</span>
+                        <span *ngIf="!roleNameAr.errors?.['required'] && isFieldInvalid('roleNameAr', roleNameAr)">
+                            {{ 'PAGES.COMMON.VALIDATION.INVALID_ROLE_NAME_FORMAT.AR' | translate }}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label for="roleNameEn" class="form-label">
+                        {{ 'PAGES.COMMON.LABELS.ROLE_NAME_EN' | translate }}
+                        <span class="text-danger" *ngIf="!isFieldDisabled('roleNameEn')">*</span>
+                    </label>
+                    <input type="text" class="form-control" id="roleNameEn" [(ngModel)]="roleData.roleNameEn"
+                        name="roleNameEn" #roleNameEn="ngModel" [disabled]="isFieldDisabled('roleNameEn')" required
+                        [ngClass]="{'is-invalid': isFieldInvalid('roleNameEn', roleNameEn)}">
+                    <div *ngIf="isFieldInvalid('roleNameEn', roleNameEn)" class="invalid-feedback d-block">
+                        <span *ngIf="roleNameEn.errors?.['required']">{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' |
+                            translate }}</span>
+                        <span *ngIf="!roleNameEn.errors?.['required'] && isFieldInvalid('roleNameEn', roleNameEn)">
+                            {{ 'PAGES.COMMON.VALIDATION.INVALID_ROLE_NAME_FORMAT.EN' | translate }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="row mb-3 ">
+                <div class="col-md-5">
+                    <label for="description" class="form-label">{{ 'PAGES.COMMON.LABELS.DESCRIPTION' | translate
+                        }}</label>
+                    <!-- <textarea *ngIf="lang === 'en'" class="form-control" id="description" rows="3"
+                        [(ngModel)]="roleData.roleDescriptionEn" name="description"
+                        [disabled]="isFieldDisabled('description')"></textarea> -->
+                    <textarea class="form-control" id="description" rows="3"
+                        [(ngModel)]="roleData.roleDescriptionAr" name="description"
+                        [disabled]="isFieldDisabled('description')"></textarea>
+                </div>
+                <div class="col-md-5">
+                    <label for="group" class="form-label">
+                        {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.GROUP' | translate }}
+                        <span class="text-danger" *ngIf="!isFieldDisabled('groupe')">*</span>
+                    </label>
+                    <select class="form-select" id="group" [(ngModel)]="roleData.group" name="group" #group="ngModel"
+                        [compareWith]="compareGroups" [disabled]="isFieldDisabled('groupe')" required
+                        (ngModelChange)="onGroupSelectionChange()"
+                        [ngClass]="{'is-invalid': isFieldInvalid('group', group)}">
+                        <option [ngValue]="undefined" disabled hidden>{{ 'PAGES.COMMON.LABELS.SELECT_PLACEHOLDER' | translate }}</option>
+                        <option *ngFor="let group of groups" [ngValue]="group">{{ (translate.currentLang === 'ar' ?
+                            group.nameAr : group.nameEn) || group.code }}</option>
+                    </select>
+                    <div *ngIf="isFieldInvalid('group', group)" class="invalid-feedback d-block">
+                        {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="state" class="form-label d-block">{{ 'PAGES.COMMON.LABELS.STATUS' | translate }}</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="state"
+                            [checked]="roleData.isActive" (change)="roleData.isActive = $any($event.target).checked"
+                            name="status" [disabled]="isFieldDisabled('status')">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

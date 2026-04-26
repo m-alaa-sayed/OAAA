@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card shadow-sm">
+
+      <!-- Wizard Title -->
+      <div class="card-header" *ngIf="title">
+        <h4 class="card-title mb-0">{{ title | translate }}</h4>
+      </div>
+
+      <!-- Wizard Steps (RTL/LTR) -->
+      <div class="card-body d-flex justify-content-center no-print">
+        <div class="wizard-container d-flex" [attr.dir]="translate.currentLang === 'ar' ? 'rtl' : 'ltr'">
+          <div
+            *ngFor="let s of steps; let i = index"
+            class="wizard-step"
+            [ngClass]="{
+              'active': currentStep === i + 1,
+              'completed': currentStep > i + 1,
+              'upcoming': currentStep < i + 1,
+              'clickable': clickableSteps.includes(i + 1)
+            }"
+            (click)="onStepClick(i + 1)"
+            [style.cursor]="clickableSteps.includes(i + 1) ? 'pointer' : 'default'"
+          >
+            <span>{{ translate.currentLang === 'en' ? s.labelEn : s.labelAr }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wizard Content -->
+      <div class="wizard-content px-2 pb-4">
+        <!-- Show only current step on screen -->
+        <div class="screen-only">
+          <ng-container
+            *ngComponentOutlet="steps[currentStep - 1].component; inputs: getComponentInputs(currentStep - 1)">
+          </ng-container>
+        </div>
+        
+        <!-- Show all steps when printing -->
+        <div class="print-only">
+          <ng-container *ngFor="let step of steps; let i = index">
+            <div class="print-step-section page-break-after">
+              <h3 class="print-step-title">
+                <span class="step-number">{{ i + 1 }}.</span> 
+                {{ translate.currentLang === 'en' ? step.labelEn : step.labelAr }}
+              </h3>
+              <div class="print-step-content">
+                <ng-container
+                  *ngComponentOutlet="step.component; inputs: getComponentInputs(i)">
+                </ng-container>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

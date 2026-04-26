@@ -1,0 +1,63 @@
+<div class="card" *ngIf="permissionData">
+    <div class="card-header">
+        <h4 class="card-title mb-0">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.PERMISSION_INFO' | translate }}</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.ID' | translate }} : </label>
+                <span class="mx-2">{{ permissionData.id }}</span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.CODE' | translate }} : </label>
+                <span class="mx-2">{{ permissionData.permissionCode }}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.NAME_AR' | translate }} :
+                </label>
+                <span class="mx-2">{{ permissionData.permissionNameAr }}</span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.NAME_EN' | translate }} :
+                </label>
+                <span class="mx-2">{{ permissionData.permissionNameEn }}</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.DESCRIPTION_AR' | translate }}
+                    : </label>
+                <span class="mx-2">{{ permissionData.permissionDescriptionAr }}</span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.DESCRIPTION_EN' | translate }}
+                    : </label>
+                <span class="mx-2">{{ permissionData.permissionDescriptionEn }}</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.IS_CLIENT_ACCESSIBLE' |
+                    translate }} : </label>
+                <span class="mx-2">
+                    <span class="badge" [ngClass]="permissionData.isClientAccessible ? 'bg-success' : 'bg-danger'">
+                        {{ ( permissionData.isClientAccessible ? 'PAGES.COMMON.LABELS.YES' : 'PAGES.COMMON.LABELS.NO' ) | translate }}
+                    </span>
+                </span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.ENABLED' | translate }} :
+                </label>
+                <span class="mx-2">
+                    <span class="badge" [ngClass]="permissionData.enabled ? 'bg-success' : 'bg-danger'">
+                        {{ ( permissionData.enabled ? 'PAGES.COMMON.LABELS.ACTIVE': 'PAGES.COMMON.LABELS.INACTIVE' ) | translate }}
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

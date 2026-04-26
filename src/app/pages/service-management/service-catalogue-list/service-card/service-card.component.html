@@ -1,0 +1,33 @@
+<div class="card service-card h-100">
+  <div class="card-body text-center">
+    <div class="avatar-lg mx-auto mb-3">
+      <img
+        [src]="'data:image/svg+xml;base64,' + service.serviceLogo"
+        class="img-fluid service-icon-img"
+        alt="Service Logo" />
+    </div>
+
+    <h5 class="card-title mb-0">
+      {{ translate.currentLang === 'ar' ? service.serviceNameAr : service.serviceNameEn }}
+    </h5>
+  </div>
+
+  <div class="card-footer bg-light border-top d-flex justify-content-between px-2">
+    <button
+      type="button"
+      class="btn btn-soft-secondary btn-sm"
+      (click)="previousTransaction()">
+      {{ "PAGES.SERVICE_CATALOGUE.LABELS.PREVIOUS_TRANSACTION" | translate }}
+      <i *ngIf="translate.currentLang === 'ar'" class="fa-solid fa-arrow-left ms-1"></i>
+      <i *ngIf="translate.currentLang === 'en'" class="fa-solid fa-arrow-right ms-1"></i>
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-soft-primary btn-sm"
+      (click)="showServiceDetails()">
+      {{ "PAGES.SERVICE_CATALOGUE.LABELS.SERVICE_DETAILS" | translate }}
+      <i class="fa-solid fa-eye ms-1"></i>
+    </button>
+  </div>
+</div>

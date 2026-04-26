@@ -1,0 +1,64 @@
+<page-title
+        [title]="'PAGES.QUALITY_ASSURANCE.LABELS.EXTERNAL_REVIEW_QUALITY_ASSURANCE_FORM' |translate"
+        [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.EXTERNAL_REVIEW_QUALITY_ASSURANCE_FORMS' | translate, link: '/jawda/school-performance/quality-assurance-form/list', active: true },
+        { label: 'PAGES.QUALITY_ASSURANCE.LABELS.EXTERNAL_REVIEW_QUALITY_ASSURANCE_FORM' | translate,  active: true }]">
+</page-title>
+
+<form-main-data *ngIf="mainRequestData" [mainRequestData]="mainRequestData"></form-main-data>
+
+<request-user-details *ngIf="qualityAssuranceFormInfo.user"
+                      [applicantData]="qualityAssuranceFormInfo.user"></request-user-details>
+
+<!-- tabs -->
+<app-tabs *ngIf=" showTabs" [tabs]="tabs"></app-tabs>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="mb-3">{{ 'PAGES.QUALITY_ASSURANCE.LABELS.COMMENTS'|translate }}</h5>
+
+        <div *ngIf="commentList && commentList.length > 0">
+            <div *ngFor="let item of commentList" class="border-bottom pb-3 mb-3">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div class="col-md-3 d-flex">
+                        <div class="image-col">
+                            <span class="h-100"> <i class="ri-user-line fs-1 text-primary"></i></span>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">{{ translate.currentLang == 'ar' ? item.user.fullNameAr : item.user.fullNameEn }}</h6>
+                            <p class="text-muted small mb-1">{{ item.role }}</p>
+                            <p class="mt-2 mb-0">{{ item.comment }}</p>
+                            <div class="text-muted small">{{ item.createdOn | date: 'short' }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!commentList || commentList.length == 0">
+            <h6 class="mb-1">{{ 'PAGES.COMMON.MESSAGES.NO_DATA_FOUND'|translate }}</h6>
+        </div>
+        <!-- New Comment Field -->
+        <div class="pt-2" *hasPermission="[Permission.QA_FOLLOW_UP_FORM_COMMENT]">
+            <label class="form-label">{{ 'PAGES.QUALITY_ASSURANCE.LABELS.COMMENT'|translate }}</label>
+            <textarea [(ngModel)]="newCommentText" rows="3" class="form-control"></textarea>
+            <div class="d-flex justify-content-end">
+                <button (click)="addComment()" class="btn btn-primary mt-2">{{ "PAGES.VISIT_FORM.LABELS.ADD_COMMENT" | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="row">
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-outline-secondary"
+                        [routerLink]="'/jawda/school-performance/quality-assurance-form/list'">
+                    {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

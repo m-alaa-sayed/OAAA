@@ -1,0 +1,49 @@
+<page-title [title]="title |translate" 
+[breadcrumbItems]="[{ label: breadcrumbTitle | translate, 
+link: '/jawda/school-performance/visit-form/'+type+'/list',
+ active: true },
+    { label: breadcrumb | translate, 
+link: '/jawda/school-performance/visit-form/'+type+'/management/'+visitFormRequestInfo?.scheduledSchoolVisitId,
+ active: true },
+{ label: title | translate,  active: false }]"></page-title>
+
+<visit-form-request-actions *ngIf="visitFormRequestInfo" 
+    [mode] = "isReturnForEdit ? 'inbox':'view'" [taskId]="taskId"
+    (actionEventEmitter)="submit($event)" (showErrorAndHideSpinner)="showValidationMessage($event)"
+    [visitFormRequestInfo]="visitFormRequestInfo"></visit-form-request-actions>
+
+<form-main-data *ngIf="mainRequestData" [mainRequestData]="mainRequestData"></form-main-data>
+
+<request-user-details *ngIf="requestObject" [applicantData]="requestObject.applicantUser"></request-user-details>
+
+<follow-up-request *ngIf="requestObject" [requestHistoryList]="requestObject.requestHistoryList"></follow-up-request>
+
+<!-- tabs -->
+<app-tabs *ngIf=" showTabs" [tabs]="tabs"></app-tabs>
+
+<visit-form-request-actions *ngIf="visitFormRequestInfo" 
+    [mode] = "isReturnForEdit ? 'inbox':'view'" [taskId]="taskId"
+    (actionEventEmitter)="submit($event)" (showErrorAndHideSpinner)="showValidationMessage($event)"
+    [visitFormRequestInfo]="visitFormRequestInfo"></visit-form-request-actions>
+
+<div class="card shadow-sm" *ngIf="isReturnForEdit && !taskId">
+    <div class="card-body">
+        <div class="pt-2 mx-3 d-flex justify-content-between">
+            <div class="d-flex justify-content-start rounded">
+                <button type="button" class="step-prev btn btn-primary"
+                [routerLink]="'/jawda/school-performance/visit-form/'+type+'/management/'+visitFormRequestInfo?.scheduledSchoolVisitId">
+                {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+                </button>
+            </div>
+            <div class="d-flex justify-content-end rounded">
+                <button type="button" class="btn btn-outline-secondary"
+                    [routerLink]="'/jawda/school-performance/visit-form/'+type+'/list'">
+                    {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

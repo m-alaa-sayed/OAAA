@@ -1,0 +1,58 @@
+<div class="tab-content">
+    <!-- Header -->
+    <div class="tab-header">
+        <h2 class="page-title">{{ 'PAGES.SCHOOL_PERFORMANCE.TABS.EVIDENCE_COLLECTION_STATS' | translate }}</h2>
+    </div>
+
+    <div class="tab-body">
+        <div class="staff-data-container" *ngIf="groupedFormsStats">
+
+            <!-- CLASSROOM_OBSERVATION Table -->
+            <h3 class="text-center">
+                {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.CLASSROOM_OBSERVATION_STATS' | translate }}
+            </h3>
+            <table class="table table-bordered text-center" dir="rtl">
+                <thead>
+                <tr>
+                    <th>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.CLASSROOM_OBSERVATION.SUBJECTS' | translate }}</th>
+                    <th *ngFor="let key of classroomObservationKeys">
+                        {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.CLASSROOM_OBSERVATION.' + key | translate }}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.TOTAL_FORMS' | translate }}</td>
+                    <td *ngFor="let key of classroomObservationKeys">
+                        {{ groupedFormsStats['CLASSROOM_OBSERVATION'][key] }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- GENERAL_EVIDENCE Table -->
+            <h3 class="text-center">
+                {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.GENERAL_EVIDENCE_STATS' | translate }}
+            </h3>
+            <table class="table table-bordered text-center" dir="rtl">
+                <thead>
+                <tr>
+                    <th>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.GENERAL_EVIDENCE.FORMS'| translate }}</th>
+                    <th *ngFor="let key of generalEvidenceKeys">
+                        {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.GENERAL_EVIDENCE.' + key | translate }}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.TOTAL_FORMS' | translate }}</td>
+                    <td *ngFor="let key of generalEvidenceKeys">
+                        {{ groupedFormsStats['GENERAL_EVIDENCE'][key] }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

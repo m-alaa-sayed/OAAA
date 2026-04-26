@@ -1,0 +1,21 @@
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<page-title [title]="'MENUITEMS.MENU.EXTERNAL_REVIEWERS_INTERVIEW_RESULT' | translate"></page-title>
+<div class="card shadow-sm">
+    <div class="card-header align-items-center justify-content-between d-flex">
+        <h5 class="card-title mb-0">
+            {{ 'PAGES.EXTERNAL_REVIEWERS_INTERVIEW_RESULT.LABELS.REGISTER_CANDIDATE_PERSONAL_INTERVIEWS_RESULT' | translate }}
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="live-preview">
+            <div class="row gy-4">
+                <div class="col-12">
+                    <div class="row g-3">
+                        <oaaaqa-ag-grid
+                                [columns]="columns" [actions]="actions" [dataList]="candidates" [columnFilterOptions]="columnFilterOptions"></oaaaqa-ag-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

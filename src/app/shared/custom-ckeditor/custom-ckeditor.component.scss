@@ -1,0 +1,75 @@
+::ng-deep .ck-editor__editable {
+  font-size: 14px !important;
+  
+  p {
+    font-size: 14px !important;
+  }
+  
+  h1 {
+    font-size: 18px !important;
+  }
+  
+  h2 {
+    font-size: 16px !important;
+  }
+  
+  h3, h4, h5, h6 {
+    font-size: 15px !important;
+  }
+  
+  li {
+    font-size: 14px !important;
+  }
+}
+
+// Fix for CKEditor dropdown positioning issues
+::ng-deep .ck.ck-dropdown__panel {
+  z-index: 99999 !important;
+  position: fixed !important;
+  will-change: transform !important;
+}
+
+::ng-deep .ck.ck-balloon-panel {
+  z-index: 99999 !important;
+  position: fixed !important;
+}
+
+::ng-deep .ck-toolbar {
+  position: relative !important;
+  z-index: 1000 !important;
+  overflow: visible !important;
+}
+
+::ng-deep .ck-toolbar__items {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+// Ensure dropdown panels are properly positioned and visible
+::ng-deep .ck-dropdown .ck-dropdown__panel {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  transform: translateY(0) !important;
+  margin-top: 4px !important;
+  min-width: 160px !important;
+  max-height: 300px !important;
+  overflow-y: auto !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+// Fix for containers that might clip the dropdown
+::ng-deep .ck-editor {
+  overflow: visible !important;
+}
+
+::ng-deep .ck-editor__main {
+  overflow: visible !important;
+}
+
+// Ensure heading dropdown items are visible
+::ng-deep .ck-list__item {
+  display: block !important;
+  padding: 8px 12px !important;
+  white-space: nowrap !important;
+}

@@ -1,0 +1,166 @@
+<form #cheqaForm="ngForm">
+    <!-- section 1 title -->
+    <h6>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.RELEVANT_EXPERIENCE_AND_ATTACHMENTS" | translate }}</h6>
+    <!-- row 1 -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="mb-3">
+                <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.QUALITY_ASSURANCE_IN_HIGHER_EDUCATION" | translate }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                    <small class="text-danger ms-3">
+                        ({{
+                        'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                </label>
+                <textarea type="text" class="form-control" name="qualityAssuranceExperience" required
+                    [disabled]="!isEditMode" id="qualityAssuranceExperience" #qualityAssuranceExperience="ngModel"
+                    [(ngModel)]="this.externalReviewersRegistrationRequestInfo.cheqaExperience.qualityAssuranceExperience"
+                    placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                    (ngModelChange)="onTextChange(externalReviewersRegistrationRequestInfo.cheqaExperience, 'qualityAssuranceExperience', $event)">
+                    </textarea>
+                <div *ngIf="isSubmitting && qualityAssuranceExperience.invalid" class="invalid-feedback">
+                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- row 2 -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="mb-3">
+                <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.TRAINING_OR_EXPERIENCE_IN_EXTERNAL_QUALITY_ASSURANCE"
+                    |
+                    translate }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                    <small class="text-danger ms-3">
+                        ({{
+                        'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                </label>
+                <textarea type="text" class="form-control" name="trainingOrExternalQaExperience" required
+                    id="trainingOrExternalQaExperience" #trainingOrExternalQaExperience="ngModel"
+                    [disabled]="!isEditMode"
+                    [(ngModel)]="this.externalReviewersRegistrationRequestInfo.cheqaExperience.trainingOrExternalQaExperience"
+                    placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                    (ngModelChange)="onTextChange(externalReviewersRegistrationRequestInfo.cheqaExperience, 'trainingOrExternalQaExperience', $event)">
+                    </textarea>
+                <div *ngIf="isSubmitting && trainingOrExternalQaExperience.invalid" class="invalid-feedback">
+                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- row 3 -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="mb-3">
+                <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.MEET_THE_CRITERIA_FOR_AN_EFFECTIVE_MEMBER" | translate
+                    }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                    <small class="text-danger ms-3">
+                        ({{
+                        'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                </label>
+                <textarea type="text" class="form-control" name="externalReviewTeamParticipation" required
+                    [disabled]="!isEditMode" id="externalReviewTeamParticipation"
+                    #externalReviewTeamParticipation="ngModel"
+                    [(ngModel)]="this.externalReviewersRegistrationRequestInfo.cheqaExperience.externalReviewTeamParticipation"
+                    placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                    (ngModelChange)="onTextChange(externalReviewersRegistrationRequestInfo.cheqaExperience, 'externalReviewTeamParticipation', $event)">
+                    </textarea>
+                <div *ngIf="isSubmitting && externalReviewTeamParticipation.invalid" class="invalid-feedback">
+                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- row 4 -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="mb-3">
+                <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.PROGRAMME_THAT_YOU_ASSESSED_DESIGNED" | translate }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                    <small class="text-danger ms-3">
+                        ({{
+                        'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                </label>
+                <textarea type="text" class="form-control" name="programOrCourseDesignExperience" required
+                    id="programOrCourseDesignExperience" #programOrCourseDesignExperience="ngModel"
+                    [disabled]="!isEditMode"
+                    [(ngModel)]="this.externalReviewersRegistrationRequestInfo.cheqaExperience.programOrCourseDesignExperience"
+                    placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                    (ngModelChange)="onTextChange(externalReviewersRegistrationRequestInfo.cheqaExperience, 'programOrCourseDesignExperience', $event)">
+                    </textarea>
+                <div *ngIf="isSubmitting && programOrCourseDesignExperience.invalid" class="invalid-feedback">
+                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- row 5 -->
+    <div class="row my-4">
+        <div class="col-12">
+            <div class="mb-3">
+                <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.SUBJECT_YOU_ARE_TEACHING_IN_CURRENT_PREVIOUS_HEIS" |
+                    translate }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                    <small class="text-danger ms-3">
+                        ({{
+                        'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                </label>
+                <textarea type="text" class="form-control" name="currentOrPreviousTeachingExperience" required
+                    id="currentOrPreviousTeachingExperience" #currentOrPreviousTeachingExperience="ngModel"
+                    [disabled]="!isEditMode"
+                    [(ngModel)]="this.externalReviewersRegistrationRequestInfo.cheqaExperience.currentOrPreviousTeachingExperience"
+                    placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                    (ngModelChange)="onTextChange(externalReviewersRegistrationRequestInfo.cheqaExperience, 'currentOrPreviousTeachingExperience', $event)">
+                    </textarea>
+                <div *ngIf="isSubmitting && currentOrPreviousTeachingExperience.invalid" class="invalid-feedback">
+                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- section 2 title -->
+    <h6>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.REQUIRED_DOCUMENTS" | translate }}</h6>
+
+
+    <div class="row">
+        <div class="col-6 mt-2">
+            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.CV" | translate }}
+                <span *ngIf="isEditMode" class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <ng-container *ngIf="isEditMode">
+                    <input type="file" class="d-none" #fileInput (change)="onFileSelected($event)" id="inputGroupFile02"
+                        aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                    <button class="btn btn-outline-primary" type="button" (click)="fileInput.click()">
+                        <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                    </button>
+                </ng-container>
+                <ng-container #fileSelected>
+                    <input type="text" class="form-control m-0" [value]="selectedFileName" [disabled]="true" readonly
+                        title="File selected">
+                </ng-container>
+                <button *ngIf="externalReviewersRegistrationRequestInfo.cheqaExperience.resumeFileName" type="button"
+                    class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                    (click)="downloadUploadedFile(this.externalReviewersRegistrationRequestInfo.cheqaExperience.resumeFileName ,this.externalReviewersRegistrationRequestInfo.cheqaExperience.resumeBucketName)">Download</button>
+
+            </div>
+            <div *ngIf="isSubmitting && !selectedFileName" class="invalid-feedback">
+                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+            </div>
+        </div>
+    </div>
+
+
+</form>

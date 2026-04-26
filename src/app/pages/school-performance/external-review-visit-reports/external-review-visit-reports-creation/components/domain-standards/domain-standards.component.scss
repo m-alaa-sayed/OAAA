@@ -1,0 +1,17 @@
+
+.accordion-arrow {
+    transition: transform 0.2s ease;
+}
+.accordion-button:not(.collapsed) .accordion-arrow {
+    transform: rotate(180deg);
+}
+.accordion-button::after {
+    display: none !important;
+}
+
+.accordion-button::after {
+    display: none !important;
+}
+.accordion-button:hover {
+    filter: brightness(0.9);
+}

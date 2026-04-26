@@ -1,0 +1,10 @@
+.form-control-static {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-bottom: 0;
+    min-height: 34px;
+}
+
+::ng-deep .ag-header-cell-label{
+    justify-content: center;
+}

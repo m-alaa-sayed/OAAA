@@ -1,0 +1,124 @@
+<div class="tab-content">
+  <!-- Header -->
+  <div class="tab-header">
+    <h2 class="page-title">{{ 'PAGES.SCHOOL_PERFORMANCE.TEACHING_STAFF.TITLE' | translate }}</h2>
+  </div>
+
+  <div class="tab-body">
+    <div class="teaching-staff-container">
+      <!-- Statistics Summary -->
+
+
+      <!-- Main Teaching Staff Table -->
+      <div class="section-card mb-4">
+        <div class="section-header">
+          <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.TEACHING_STAFF.ADMINISTRATIVE_EDUCATIONAL_STAFF' |
+            translate }}</h3>
+        </div>
+
+        <div class="table-container">
+          <oaaaqa-ag-grid [dataList]="schoolInfo.teachingStaffData" [columns]="teachingStaffColumns"
+            [selectable]="false" [actions]="[]" [pagination]="false" [showRowNumbers]="false"
+            (cellValueChanged)="onCellValueChanged($event)"
+            tableHeadColor="#E6F2F7">
+          </oaaaqa-ag-grid>
+        </div>
+      </div>
+
+      <!-- Subject Teachers Section -->
+      <div class="section-card mb-4">
+        <div class="section-header">
+          <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.TEACHING_STAFF.SUBJECT_TEACHERS' | translate }}</h3>
+        </div>
+
+        <div class="table-container">
+          <oaaaqa-ag-grid [dataList]="schoolInfo.subjectTeachersData" [columns]="subjectTeachersColumns"
+            [selectable]="false" [actions]="gridActions" [parentComponent]="this"
+            [pinnedBottomRowData]="pinnedBottomRowData" [pagination]="false" [showRowNumbers]="false"
+            (cellValueChanged)="onSubjectTeachersCellValueChanged($event)"
+            tableHeadColor="#E6F2F7">
+          </oaaaqa-ag-grid>
+        </div>
+      </div>
+      <div class="additional-staff-section m2 no-print">
+        <div class="additional-staff-form">
+          <div class="form-row d-flex gap-3">
+            <div class="form-group flex-fill">
+              <label class="form-label" for="numberOfGuards">
+                {{ 'PAGES.SCHOOL_PERFORMANCE.TEACHING_STAFF.TEACHER_TO_STUDENT_RATIO' | translate }}
+              </label>
+               <input type="number"
+                  id="numberOfGuards"
+                  class="form-input"
+                  [readOnly]="isReadonly"
+                  [disabled]="isReadonly"
+                  [(ngModel)]="schoolInfo.teacherStudentRatio"
+                  name="teacherStudentRatio"
+                  #teacherStudentRatioRef="ngModel"
+                  min="0"
+                  max="100"
+                  (blur)="validatePercentage('teacherStudentRatio')">
+            </div>
+
+            <div class="form-group flex-fill">
+              <label class="form-label" for="numberOfCleaners">
+                {{ 'PAGES.SCHOOL_PERFORMANCE.TEACHING_STAFF.TEACHING_STAFF_TURNOVER_RATE' | translate }}
+              </label>
+               <input type="number"
+                    id="numberOfCleaners"
+                    class="form-input"
+                    [readOnly]="isReadonly"
+                    [disabled]="isReadonly"
+                    [(ngModel)]="schoolInfo.teachingStaffTurnoverRate"
+                    name="teachingStaffTurnoverRate"
+                    #teachingStaffTurnoverRateRef="ngModel"
+                    min="0"
+                    max="100"
+                    (blur)="validatePercentage('teachingStaffTurnoverRate')">
+            </div>
+          </div>
+        </div>
+        <div class="additional-staff-form" *ngIf="showMajorDevelopments">
+            <div class="form-row d-flex gap-3">
+                <div class="form-group flex-fill">
+                    <label class="form-label" for="numberOfCleaners">
+                        {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.MAJOR_DEVELOPMENTS' | translate }}
+                    </label>
+                    <textarea
+                            id="majorDevelopments"
+                            class="form-textarea large"
+                            [disabled]="true"
+                            [readOnly]="true"
+                            [(ngModel)]="schoolInfo.schoolAboutData.majorDevelopments"
+                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.MAJOR_DEVELOPMENTS_PLACEHOLDER' | translate"
+                            style="width: 100%;"
+                            name="majorDevelopments" rows="15"></textarea>
+                </div>
+            </div>
+        </div>
+
+      </div>
+      <!-- Print Only Table -->
+      <div class="print-only" style="margin: 0px 20px 30px;">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <tbody>
+              <tr>
+                <td class="fw-bold" style="width: 30%;">{{ 'PAGES.SCHOOL_PERFORMANCE.TEACHING_STAFF.TEACHER_TO_STUDENT_RATIO' | translate }}</td>
+                <td>{{ schoolInfo.teacherStudentRatio || '-' }}</td>
+              </tr>
+              <tr>
+                <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.TEACHING_STAFF.TEACHING_STAFF_TURNOVER_RATE' | translate }}</td>
+                <td>{{ schoolInfo.teachingStaffTurnoverRate || '-' }}</td>
+              </tr>
+              <tr *ngIf="showMajorDevelopments">
+                <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.MAJOR_DEVELOPMENTS' | translate }}</td>
+                <td>{{ schoolInfo.schoolAboutData.majorDevelopments || '-' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,140 @@
+<form #submitForm="ngForm">
+    <div class="card m-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{ "PAGES.TEAM_LEADER_PLAN.LABELS.TEAM_LEADER_ANALYSIS" | translate }}
+            </h5>
+        </div>
+        <div *ngIf="visitPlanRequestInfo.leaderAnalyses !=null" class="card-body">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">
+                        {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.ABOUT_THE_SCHOOL' | translate }}
+                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                    </label>
+                    <app-custom-ckeditor name="editorAr" [disabled]="!isEditMode"
+                              #briefAboutSchool="ngModel" id="briefAboutSchool" name="briefAboutSchool" required
+                              [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                              [(ngModel)]="visitPlanRequestInfo.leaderAnalyses.briefAboutSchool">
+                    </app-custom-ckeditor>
+                    <div *ngIf="isSubmitting && briefAboutSchool?.invalid" class="text-danger text-start mt-1">
+                        <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        {{
+                            'PAGES.TEAM_LEADER_PLAN.LABELS.FROM_WHAT_THE_SCHOOL_MENTIONED_IT_APPEARS_TO_US' |
+                                translate
+                        }}
+                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                    </label>
+                    <app-custom-ckeditor name="editorAr" required [disabled]="!isEditMode"
+                              #basedOnSchoolStatement="ngModel" id="basedOnSchoolStatement"
+                              [ngClass]="{ 'ckeditor-disabled': !isEditMode }" name="basedOnSchoolStatement"
+                              [(ngModel)]="visitPlanRequestInfo.leaderAnalyses.basedOnSchoolStatement">
+                    </app-custom-ckeditor>
+                    <div *ngIf="isSubmitting && basedOnSchoolStatement?.invalid" class="text-danger text-start mt-1">
+                        <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="form-label">
+                        {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.FOLLOW_UP_PRIORITIES_BASED_ON_THE_ABOVE' | translate }}
+                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                    </label>
+                    <app-custom-ckeditor name="editorAr" required [disabled]="!isEditMode"
+                              #followUpPriorities="ngModel" id="followUpPriorities" name="followUpPriorities"
+                              [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                              [(ngModel)]="visitPlanRequestInfo.leaderAnalyses.followUpPriorities">
+                    </app-custom-ckeditor>
+                    <div *ngIf="isSubmitting && followUpPriorities?.invalid" class="text-danger text-start mt-1">
+                        <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.ADDITIONAL_EVIDENCE' | translate }}
+                        <!-- Removed required asterisk if not needed -->
+                    </label>
+                    <app-custom-ckeditor
+                            name="additionalEvidence"
+                            [disabled]="!isEditMode"
+                            #additionalEvidence="ngModel"
+                            id="additionalEvidence"
+                            [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                            [(ngModel)]="visitPlanRequestInfo.leaderAnalyses.additionalEvidence">
+                    </app-custom-ckeditor>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="form-label">
+                        {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.GENERAL_NOTES' | translate }}
+                    </label>
+                    <app-custom-ckeditor
+                            name="generalNotes"
+                            [disabled]="!isEditMode"
+                            #generalNotes="ngModel"
+                            id="generalNotes"
+                            [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                            [(ngModel)]="visitPlanRequestInfo.leaderAnalyses.generalNotes">
+                    </app-custom-ckeditor>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+<!-- <div *ngIf="showButtons" class="pt-2 mx-3 d-flex justify-content-between">
+
+    <div class="d-flex justify-content-start rounded">
+        <button type="button" class="step-prev btn btn-primary" (click)="previousEvent.emit()">
+            {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+        </button>
+
+        <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancelEvent.emit()">
+            {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+
+    </div>
+
+    <div class="d-flex justify-content-end rounded w-25">
+        <button type="button" class="step-next btn btn-primary" *ngIf="isEditMode" (click)="validateForm(save)">
+            {{ 'PAGES.COMMON.LABELS.SUBMIT' | translate }}
+        </button>
+    </div>
+</div> -->
+
+
+<step-action-buttons *ngIf="showButtons" [showNextBtn]="false"
+                    (saveEvent)="saveBtn()"
+                     (previousEvent)="previousEvent.emit()" (submitEvent)="validateForm(save)"
+                     (cancelEvent)="cancelEvent.emit()"></step-action-buttons>
+
+<ng-template #save let-modal>
+    <div class="default-modal">
+        <div class="modal-body">
+            <div class="mb-3 row">
+                <label class="col-12 col-form-label">
+                    {{ "PAGES.COMMON.MESSAGES.BASIC_CONFIRM_SAVE" | translate }}</label>
+            </div>
+        </div>
+        <div class="modal-footer d-flex">
+            <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                {{ "PAGES.COMMON.LABELS.NO" | translate }}
+            </button>
+
+            <button class="btn btn-primary" type="button" (click)="submit()">
+                {{ "PAGES.COMMON.LABELS.YES" | translate }}
+            </button>
+        </div>
+    </div>
+</ng-template>

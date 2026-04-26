@@ -1,0 +1,329 @@
+<form #submitForm="ngForm">
+    <div class="card m-4"
+         *ngIf="!schoolView || ( schoolView && visitReportSubmissionRequestInfo.status === 'APPROVED')">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{ "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.OVERALL_SCHOOL_PERFORMANCE" |translate }}</h5>
+        </div>
+        <div class="card-body">
+            <!-- card -->
+            <div class="card my-2">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">{{ "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.OVERALL_JUDGMENT" |translate }} </h5>
+                </div>
+                <div class="card-body">
+
+                    <div class="row mx-2">
+                        <div class="col-6 d-flex" *ngIf="!schoolView">
+                            <h6 class="fw-bold text-dark fw-semibold mb-0">
+                                {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SYSTEM_GENERATED_JUDGMENT'|translate }} :
+                            </h6>
+                            <p class="fs-6 text-muted mx-3">{{
+                                    "PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES." + JudgmentCode[visitReportSubmissionRequestInfo.overallSystemJudgment || 0] | translate
+                                }}
+                            </p>
+                        </div>
+
+                        <div class="col-6 d-flex">
+                            <h6 class="fw-bold text-dark fw-semibold mb-0">
+                                {{ (schoolView ? 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.JUDGMENT' : 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.PROFESSIONAL_JUDGMENT') | translate }}
+                            </h6>
+                            <p class="fs-6 text-muted mx-3">
+                                {{ "PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES." + JudgmentCode[visitReportSubmissionRequestInfo.overallProfessionalJudgment || 0] | translate }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div *ngIf="visitReportSubmissionRequestInfo.overallSystemJudgment != visitReportSubmissionRequestInfo.overallProfessionalJudgment && visitReportSubmissionRequestInfo.status!='REPORT_REJECTED' && !schoolView"
+                         class="row mx-2">
+                        <div class="col-md-7">
+                            <label class="fw-bold text-dark fw-semibold mb-1"
+                                   [class.text-muted]="!canEditJudgmentAndJustification">
+                                {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.JUDGMENT_CHANGE_JUSTIFICATIONS' | translate }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <textarea rows="3"
+                                      name="judgmentChangeJustification"
+                                      class="form-control"
+                                      [(ngModel)]="visitReportSubmissionRequestInfo.judgmentChangeJustification"
+                                      [readonly]="!canEditJudgmentAndJustification"
+                                      [ngClass]="{ 'bg-light opacity-75': !canEditJudgmentAndJustification }"></textarea>
+                        </div>
+                        <div *ngIf="isSubmitting && visitReportSubmissionRequestInfo.overallSystemJudgment != visitReportSubmissionRequestInfo.overallProfessionalJudgment && visitReportSubmissionRequestInfo.status!='REPORT_REJECTED' && !schoolView && (!visitReportSubmissionRequestInfo.judgmentChangeJustification || (visitReportSubmissionRequestInfo.judgmentChangeJustification && visitReportSubmissionRequestInfo.judgmentChangeJustification.trim()==''))"
+                             class="text-danger text-start mt-1">
+                            <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                        </div>
+                        <div class="col-5 mt-2">
+                            <label>{{ "PAGES.REQUEST_DETAILS.LABELS.ATACHMENT" | translate }}
+                            </label>
+                            <div class="input-group">
+                                <ng-container *ngIf="canEditJudgmentAndJustification">
+                                    <input type="file" class="d-none" #fileInput (change)="onFileSelected($event)"
+                                           id="inputGroupFile02" aria-describedby="inputGroupFileAddon04"
+                                           aria-label="Upload"/>
+                                    <button class="btn btn-outline-primary" type="button" (click)="fileInput.click()"
+                                            [disabled]="!canEditJudgmentAndJustification">
+                                        <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                                    </button>
+                                </ng-container>
+                                <ng-container #fileSelected>
+                                    <input type="text" class="form-control m-0" [value]="selectedFileName"
+                                           [disabled]="true"
+                                           [value]="visitReportSubmissionRequestInfo.judgmentChangeAttachmentFileName || ''"
+                                           readonly title="File selected">
+                                </ng-container>
+                                <button type="button"
+                                        *ngIf="visitReportSubmissionRequestInfo.judgmentChangeAttachmentFileName"
+                                        class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                                        (click)="downloadUploadedFile(visitReportSubmissionRequestInfo.judgmentChangeAttachmentFileName,visitReportSubmissionRequestInfo.judgmentChangeAttachmentBucketName)">{{
+                                        "PAGES.COMMON.LABELS.DOWNLOAD" | translate
+                                    }}
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- card -->
+            <div *ngIf="schoolView" class="card my-2">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">{{
+                            "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.GENERAL_SCHOOL_PERFORMANCE_DETAILS" |
+                                translate
+                        }}</h5>
+                </div>
+                <div class="card-body">
+
+                    <table class="table table-bordered text-center" dir="rtl">
+                        <thead>
+                        <tr>
+                            <th rowspan="2">{{ "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.DOMAIN" |translate }}
+                            </th>
+                            <th colspan="2">{{ "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.JUDGMENT" |translate }}</th>
+                        </tr>
+                        <tr>
+                            <th>{{ "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.TERM" |translate }}</th>
+                            <th>{{ "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.CODE" |translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let row of visitReportSubmissionRequestInfo.domainEvaluations">
+                            <td>{{ "PAGES.COMMON.LABELS." + row.domain |translate }}</td>
+                            <td>{{
+                                    "PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES." +
+                                    JudgmentCode[row.professionalJudgment || 0] | translate
+                                }}
+                            </td>
+                            <td>{{ row.professionalJudgment }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+
+            <div *ngIf="!schoolView" class="card my-2">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">{{
+                            "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.GENERAL_SCHOOL_PERFORMANCE_DETAILS" |
+                                translate
+                        }}</h5>
+                </div>
+                <div class="card-body">
+
+                    <table class="table table-bordered text-center" dir="rtl">
+                        <thead>
+                        <tr>
+                            <th rowspan="2">{{ "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.DOMAIN" |translate }}
+                            </th>
+                            <th colspan="2">{{
+                                    "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SYSTEM_GENERATED_JUDGMENT"
+                                        |translate
+                                }}
+                            </th>
+                            <th colspan="2">{{
+                                    "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.PROFESSIONAL_JUDGMENT"
+                                        |translate
+                                }}
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>{{ "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.TERM" |translate }}</th>
+                            <th>{{ "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.CODE" |translate }}</th>
+                            <th>{{ "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.TERM" |translate }}</th>
+                            <th>{{ "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.CODE" |translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let row of visitReportSubmissionRequestInfo.domainEvaluations">
+                            <td>{{ "PAGES.COMMON.LABELS." + row.domain |translate }}</td>
+                            <td>{{
+                                    "PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES." + JudgmentCode[row.systemJudgment
+                                    || 0]
+                                        | translate
+                                }}
+                            </td>
+                            <td>{{ row.systemJudgment }}</td>
+                            <td>{{
+                                    "PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES." +
+                                    JudgmentCode[row.professionalJudgment || 0] | translate
+                                }}
+                            </td>
+                            <td>{{ row.professionalJudgment }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- card -->
+    <div class="card m-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{
+                    "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.OVERALL_SCHOOL_PERFORMANCE_DESCRIPTION" |
+                        translate
+                }}</h5>
+        </div>
+        <div class="card-body">
+            <div *ngIf="!schoolView" class="mx-4 mb-2 d-flex justify-content-end">
+                <button class="btn btn-primary" (click)="importFromDomainSummary(forms)" [disabled]="isLoadingDomains">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.IMPORT_FROM_DOMAIN_SUMMARY' | translate }}
+                </button>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">
+                        {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.KEY_STRENGTHS' | translate }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <!--                    <ckeditor [ngClass]="{ 'ckeditor-disabled': !isEditMode }" [editor]="editor"-->
+                    <!--                              [config]="editorConfig" #strengthsAnalysis="ngModel" id="strengthsAnalysis"-->
+                    <!--                              name="strengthsAnalysis" required [disabled]="!isEditMode"-->
+                    <!--                              [(ngModel)]="visitReportSubmissionRequestInfo.strengthsAnalysis">-->
+                    <!--                    </ckeditor>-->
+                    <app-custom-ckeditor id="strengthsAnalysis" name="strengthsAnalysis" required
+                              #strengthsAnalysis="ngModel"
+                              [disabled]="!isEditMode"
+                              [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                              [(ngModel)]="visitReportSubmissionRequestInfo.strengthsAnalysis">
+                    </app-custom-ckeditor>
+
+                    <div *ngIf="isSubmitting && strengthsAnalysis?.invalid" class="text-danger text-start mt-1">
+                        <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.KEY_IMPROVEMENT_AREAS' | translate }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <app-custom-ckeditor name="editorAr" [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                              #improvementsAnalysis="ngModel" id="improvementsAnalysis"
+                              name="improvementsAnalysis" required [disabled]="!isEditMode"
+                              [(ngModel)]="visitReportSubmissionRequestInfo.improvementsAnalysis">
+                    </app-custom-ckeditor>
+                    <div *ngIf="isSubmitting && improvementsAnalysis?.invalid" class="text-danger text-start mt-1">
+                        <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="form-label">
+                        {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.RECOMMENDATIONS' | translate }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <app-custom-ckeditor name="editorAr" [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                              #recommendations="ngModel" id="recommendations"
+                              name="recommendations"
+                              required [disabled]="!isEditMode"
+                              [(ngModel)]="visitReportSubmissionRequestInfo.recommendations">
+                    </app-custom-ckeditor>
+                    <div *ngIf="isSubmitting && recommendations?.invalid" class="text-danger text-start mt-1">
+                        <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="card shadow-sm my-5" *ngIf="showAttachments">
+    <app-common-attachments [attachmentList]="visitReportSubmissionRequestInfo.attachments || []"
+                            (attachmentAddEventEmitter)="addAttchment($event)"
+                            [isEditMode]="isEditMode" [showResponsibleData]="true"
+                            (attachmentRemoveEventEmitter)="removeAttchment($event)">
+    </app-common-attachments>
+</div>
+
+<!-- <div *ngIf="showButtons" class="pt-2 mx-3 d-flex justify-content-between">
+
+    <div class="d-flex justify-content-start rounded">
+        <button type="button" class="step-prev btn btn-primary" (click)="previousEvent.emit()">
+            {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+        </button>
+
+        <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancelEvent.emit()">
+            {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+
+    </div>
+
+    <div class="d-flex justify-content-end rounded w-25" (click)="next()">
+        <button type="button" class="step-next btn btn-primary">
+            {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+        </button>
+    </div>
+</div> -->
+
+<ng-template #forms let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">{{ 'PAGES.DOMAIN_SUMMARY.LABELS.IMPORT_FROM_FORMS' | translate }}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+
+    <div class="modal-body">
+        <table class="table table-sm table-bordered mb-3">
+            <thead>
+            <tr>
+                <th>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SERIAL_NUMBER' | translate }}</th>
+                <th>{{ 'PAGES.DOMAIN_SUMMARY.LABELS.DOMAIN' | translate }}</th>
+                <th>{{ 'PAGES.DOMAIN_SUMMARY.LABELS.POSITIVE_ASPECTS_OR_STRENGTHS' | translate }}</th>
+                <th>{{ 'PAGES.DOMAIN_SUMMARY.LABELS.AREAS_FOR_IMPROVEMENT' | translate }}</th>
+                <th>{{ 'PAGES.DOMAIN_SUMMARY.LABELS.DOMAIN_SUMMARY' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let form of importedDomainSummary || []; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ "PAGES.COMMON.LABELS." + form.domain |translate }}</td>
+                <td [innerHTML]="form.strengthsAnalysis"></td>
+                <td [innerHTML]="form.improvementsAnalysis"></td>
+                <td [innerHTML]="form.domainSummary"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
+            {{ 'PAGES.COMMON.LABELS.CLOSE' | translate }}
+        </button>
+    </div>
+</ng-template>
+
+<step-action-buttons *ngIf="showButtons" [showSubmitBtn]="false" (previousEvent)="previousEvent.emit()"
+                     [showSaveBtn]="showSaveBtn"
+                     (saveEvent)="save()" (nextEvent)="nextEvent.emit()"
+                     (cancelEvent)="cancelEvent.emit()"></step-action-buttons>

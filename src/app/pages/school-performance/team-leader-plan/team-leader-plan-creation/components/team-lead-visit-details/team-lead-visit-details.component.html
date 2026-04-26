@@ -1,0 +1,170 @@
+<div class="card m-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">{{ "PAGES.TEAM_LEADER_PLAN.LABELS.VISIT_DETAILS" | translate }}</h5>
+    </div>
+    <div class="card-body">
+
+
+        <div class="row mx-2">
+            <div class="col-12 d-flex">
+                <h6 class="fw-bold text-dark fw-semibold mb-0">
+                    {{'PAGES.TEAM_LEADER_PLAN.LABELS.SCHEDULE_NUMBER'|translate}} : </h6>
+                <p class="fs-6 text-muted mx-3">{{ visitPlanRequestInfo.scheduledSchoolVisit?.school?.code }}</p>
+            </div>
+        </div>
+
+        <div class="row mx-2 py-3">
+            <div class="col-6">
+                <label class="form-label"><h6 class="fw-bold text-dark fw-semibold mb-0">
+                    {{'PAGES.TEAM_LEADER_PLAN.LABELS.PRELIMINARY_VISIT_PERIOD'|translate}}
+                <span *ngIf="isEditMode" class="text-danger">*</span></h6>
+                    
+                </label>
+                <input type="date" class="form-control" [disabled]="!isEditMode"
+                    [(ngModel)]="visitPlanRequestInfo.preliminaryVisitPeriodFrom"
+                    (ngModelChange)="validateVisitPeriod()">
+            </div>
+        </div>
+
+        <div class="row mx-2 py-3">
+            <div class="col-12">
+                <h6 class="fw-bold text-dark fw-semibold mb-0">
+                    {{'PAGES.TEAM_LEADER_PLAN.LABELS.VISIT_PERIOD'|translate}}</h6>
+            </div>
+        </div>
+
+        <div class="row mx-4">
+            <div class="col-md-6">
+                <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.FROM'|translate}}</label>
+                <input type="date" class="form-control" [disabled]="true"
+                    [value]="visitPlanRequestInfo.scheduledSchoolVisit?.visitFrom">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.TO'|translate}}</label>
+                <input type="date" class="form-control" [disabled]="true"
+                    [value]="visitPlanRequestInfo.scheduledSchoolVisit?.visitTo">
+            </div>
+        </div>
+
+
+
+        <div class="card my-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">{{ "PAGES.TEAM_LEADER_PLAN.LABELS.SCHOOL_INFORMATION" | translate }}</h5>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.SCHOOL_NAME'|translate}}</label>
+                        <input type="text" class="form-control" [value]="
+                        translate.currentLang == 'ar' ?
+                        visitPlanRequestInfo.scheduledSchoolVisit?.school?.nameAr
+                        : visitPlanRequestInfo.scheduledSchoolVisit?.school?.nameEn" [disabled]="true">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.SCHOOL_CODE'|translate}}</label>
+                        <input type="text" class="form-control" [disabled]="true"
+                            [value]="visitPlanRequestInfo.scheduledSchoolVisit?.school?.code">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.SCHOOL_TYPE'|translate}}</label>
+                        <input type="text" class="form-control" [disabled]="true"
+                            [value]="'PAGES.COMMON.LABELS.' + visitPlanRequestInfo.scheduledSchoolVisit?.school?.type|translate">
+                    </div>
+                </div>
+
+
+                <div class="row py-3">
+                    <div class="col-md-4">
+                        <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.SCHOOL_GENDER'|translate}}</label>
+                        <input type="text" class="form-control" [disabled]="true"
+                            [value]="'PAGES.COMMON.LABELS.' + visitPlanRequestInfo.scheduledSchoolVisit?.school?.gender|translate">
+                    </div>
+
+                    <div class="col-md-8">
+                        <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.GRADES'|translate}}</label>
+                        <input type="text" class="form-control" [disabled]="true"
+                            [value]="visitPlanRequestInfo.scheduledSchoolVisit?.school?.classes">
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.GOVERNORATE'|translate}}</label>
+                        <input type="text" class="form-control" [disabled]="true" [value]="
+                          translate.currentLang =='ar'?
+                        visitPlanRequestInfo.scheduledSchoolVisit?.school?.governorate?.nameAr:
+                        visitPlanRequestInfo.scheduledSchoolVisit?.school?.governorate?.nameEn">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.WILAYAT'|translate}}</label>
+                        <input type="text" class="form-control" [disabled]="true" [value]="
+                        translate.currentLang =='ar'?
+                        visitPlanRequestInfo.scheduledSchoolVisit?.school?.wilayat?.nameAr
+                        : visitPlanRequestInfo.scheduledSchoolVisit?.school?.wilayat?.nameEn">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label
+                            class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.GEOGRAPHIC_LOCATION'|translate}}</label>
+                        <input type="text" class="form-control" [disabled]="true">
+                    </div>
+                </div>
+
+
+                <div class="row py-3">
+                    <div class="col-md-4">
+                        <label
+                            class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.SCHOOL_PRINCIPAL_NAME'|translate}}</label>
+                        <input type="text" class="form-control"
+                            [value]="visitPlanRequestInfo.scheduledSchoolVisit?.school?.principalName"
+                            [disabled]="true">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.EMAIL'|translate}}</label>
+                        <input type="text" class="form-control" [disabled]="true"
+                            [value]="visitPlanRequestInfo.scheduledSchoolVisit?.school?.email">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.PHONE_NUMBER'|translate}}</label>
+                        <input type="text" class="form-control" [disabled]="true"
+                            [value]="visitPlanRequestInfo.scheduledSchoolVisit?.school?.phone">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<!-- buttons -->
+<div *ngIf="showButtons" class="row mt-3 mx-3">
+    <div class="d-flex justify-content-between rounded">
+        <button type="button" class="btn btn-outline-secondary" (click)="cancelEvent.emit()">
+            {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+
+        <button
+            [disabled]="!visitPlanRequestInfo.preliminaryVisitPeriodFrom && !visitPlanRequestInfo.preliminaryVisitPeriodTo"
+            *ngIf="!visitPlanRequestInfo.id" type="button" class="btn btn-primary" (click)="saveEvent.emit()">
+            {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+        </button>
+
+        <button *ngIf="visitPlanRequestInfo.id"
+            [disabled]="!visitPlanRequestInfo.preliminaryVisitPeriodFrom && !visitPlanRequestInfo.preliminaryVisitPeriodTo"
+            type="button" class="btn btn-primary" (click)="nextEvent.emit()">
+            {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+        </button>
+    </div>
+</div>

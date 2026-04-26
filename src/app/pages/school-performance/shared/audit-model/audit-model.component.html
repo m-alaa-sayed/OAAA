@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-end">
+    <i class="ri-history-line fs-5 cursor-pointer" (click)="openAuditPopup()"></i>
+</div>
+
+<ng-template #auditModal let-modal>
+    <div class="modal-header d-flex justify-content-between align-items-center bg-primary-light p-3">
+        <h5 class="modal-title d-flex align-items-center">
+            <i class="ri-history-line mx-1"></i>
+            {{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.AUDIT_HISTORY' | translate }}
+        </h5>
+        <button type="button" class="btn-close m-0 p-0" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+            <div class="table-responsive">
+                <table class="table table-gridjs">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">{{'PAGES.EXTERNAL_REVIEWER.LABELS.OPERATION_TYPE'|translate}}</th>
+                            <th class="text-center">{{'PAGES.EXTERNAL_REVIEWER.LABELS.OPERATION_DATE'|translate}}</th>
+                            <th class="text-center">{{'PAGES.EXTERNAL_REVIEWER.LABELS.RESPONSIBLE'|translate}}</th>
+                            <th class="text-center">{{'PAGES.COMMON.LABELS.ID_NUMBER'|translate}}</th>
+                            <th class="text-center">{{'PAGES.COMMON.LABELS.EMAIL'|translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let log of paginatedAuditLogs; let i = index">
+                           <td>{{ (auditPage - 1) * auditPageSize + i + 1 }}</td>
+                            <td>
+                                {{ ("PAGES.COMMON.LABELS." + log.action) | translate }}
+                            </td>
+                            <td>{{ log.actionTime | date:'short' }}</td>
+                            <td>
+                                {{ translate.currentLang === 'ar' ? log.parameters['fullNameAr'] :
+                                log.parameters['fullNameEn'] }}
+                            </td>
+                            <td>
+                                {{ log.parameters['civilNumber']}}
+                            </td>
+                            <td>
+                                {{ log.parameters['email']}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="col col-sm-12" *ngIf="auditLogs && auditLogs.length > 0">
+                <div class="text-sm-right float-end listjs-pagination">
+                    <ngb-pagination [collectionSize]="auditTotal" [(page)]="auditPage" [pageSize]="auditPageSize"
+                        (pageChange)="onAuditPageChange($event)">
+                    </ngb-pagination>
+                </div>
+            </div>
+            <!-- End Pagination -->
+            <ng-container *ngIf="!auditLogs || auditLogs.length == 0">
+                <p class="text-muted mb-0 text-center">{{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.NO_AUDIT_LOGS' |
+                    translate }}</p>
+            </ng-container>
+    </div>
+</ng-template>

@@ -1,0 +1,251 @@
+<form #cseqaForm="ngForm">
+    <!-- section 1 title -->
+    <h6>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.RELEVANT_EXPERIENCE_AND_ATTACHMENTS" | translate }}</h6>
+    <!-- row 1 -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="mb-3">
+                <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.FAMILIARITY_WITH_OMANI_SOCIETAL_VALUES" | translate }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                    <small class="text-danger ms-3">
+                        ({{
+                        'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                </label>
+                <textarea type="text" class="form-control" name="qualityAssuranceExperience" required
+                    id="qualityAssuranceExperience" #qualityAssuranceExperience="ngModel" [disabled]="!isEditMode"
+                    [(ngModel)]="this.externalReviewersRegistrationRequestInfo.sceqaExperience.schoolEducationSystemExperience"
+                    placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                    (ngModelChange)="onTextChange()">
+                    </textarea>
+                <div *ngIf="isSubmitting && qualityAssuranceExperience.invalid" class="invalid-feedback">
+                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- section 2 title -->
+    <h6>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.REQUIRED_DOCUMENTS" | translate }}</h6>
+
+    <!-- row 1 -->
+    <div class="row">
+        <div class="col-6 mt-2">
+            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.CV"| translate }}
+                <span *ngIf="isEditMode" class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+
+                <ng-container *ngIf="isEditMode">
+                    <input type="file" class="d-none" #fileInput (change)="onFileSelected($event,'cv')"
+                        id="inputGroupFile02" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                    <button class="btn btn-outline-primary" type="button" (click)="fileInput.click()">
+                        <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                    </button>
+                </ng-container>
+
+                <ng-container #fileSelected>
+                    <input type="text" class="form-control m-0"
+                        [value]="this.externalReviewersRegistrationRequestInfo.sceqaExperience.resumeFileName || ''"
+                        readonly [disabled]="true" title="File selected">
+                </ng-container>
+                <button *ngIf="this.externalReviewersRegistrationRequestInfo.sceqaExperience.resumeFileName"
+                    type="button" class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                    (click)="downloadUploadedFile(externalReviewersRegistrationRequestInfo.sceqaExperience.resumeFileName ,externalReviewersRegistrationRequestInfo.sceqaExperience.resumeFileBucketName)">{{ 'PAGES.COMMON.LABELS.DOWNLOAD' | translate }}</button>
+
+            </div>
+            <div *ngIf="isSubmitting && !this.externalReviewersRegistrationRequestInfo.sceqaExperience.resumeFileName"
+                class="invalid-feedback">
+                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+            </div>
+        </div>
+
+        <div class="col-6 mt-2">
+            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.ACADEMIC_QUALIFICATION"| translate }}
+                <span *ngIf="isEditMode" class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+
+                <ng-container *ngIf="isEditMode">
+                    <input type="file" class="d-none" #fileInput1 (change)="onFileSelected($event,'qualification')"
+                        id="inputGroupFile02" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                    <button class="btn btn-outline-primary" type="button" (click)="fileInput1.click()">
+                        <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                    </button>
+                </ng-container>
+                <ng-container #fileSelected>
+                    <input type="text" class="form-control m-0"
+                        [value]="externalReviewersRegistrationRequestInfo.sceqaExperience.degreeCertificateFileName || ''"
+                        readonly [disabled]="true" title="File selected">
+                </ng-container>
+                <button *ngIf="externalReviewersRegistrationRequestInfo.sceqaExperience.degreeCertificateFileName"
+                    type="button" class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                    (click)="downloadUploadedFile(externalReviewersRegistrationRequestInfo.sceqaExperience.degreeCertificateFileName ,externalReviewersRegistrationRequestInfo.sceqaExperience.degreeCertificateBucketName)">{{ 'PAGES.COMMON.LABELS.DOWNLOAD' | translate }}</button>
+
+            </div>
+            <div *ngIf="isSubmitting && !externalReviewersRegistrationRequestInfo.sceqaExperience.degreeCertificateFileName"
+                class="invalid-feedback">
+                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- row 2 -->
+    <div class="row mt-3">
+        <div class="col-6 mt-2">
+            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.NATIONAL_ID_RESIDENCE"| translate }}
+                <span *ngIf="isEditMode && externalReviewersRegistrationRequestInfo.insideOman"
+                    class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <ng-container *ngIf="isEditMode">
+                    <input type="file" class="d-none" #fileInput2 (change)="onFileSelected($event,'id_residence')"
+                        id="inputGroupFile02" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                    <button class="btn btn-outline-primary" type="button" (click)="fileInput2.click()">
+                        <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                    </button>
+                </ng-container>
+
+                <ng-container #fileSelected>
+                    <input type="text" class="form-control m-0"
+                        [value]="externalReviewersRegistrationRequestInfo.sceqaExperience.idCardFileName || ''" readonly
+                        [disabled]="true" title="File selected">
+                </ng-container>
+                <button *ngIf="externalReviewersRegistrationRequestInfo.sceqaExperience.idCardFileName" type="button"
+                    class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                    (click)="downloadUploadedFile(externalReviewersRegistrationRequestInfo.sceqaExperience.idCardFileName ,externalReviewersRegistrationRequestInfo.sceqaExperience.idCardBucketName)">{{ 'PAGES.COMMON.LABELS.DOWNLOAD' | translate }}</button>
+
+            </div>
+            <div *ngIf="isSubmitting && !externalReviewersRegistrationRequestInfo.sceqaExperience.idCardFileName && externalReviewersRegistrationRequestInfo.insideOman"
+                class="invalid-feedback">
+                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+            </div>
+        </div>
+
+        <div class="col-6 mt-2">
+            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.ENGLISH_PROFICIENCY"| translate }}
+                <span *ngIf="isEditMode && !externalReviewersRegistrationRequestInfo.insideOman"
+                    class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <ng-container *ngIf="isEditMode">
+                    <input type="file" class="d-none" #fileInput3 (change)="onFileSelected($event,'english')"
+                        id="inputGroupFile02" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                    <button class="btn btn-outline-primary" type="button" (click)="fileInput3.click()">
+                        <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                    </button>
+                </ng-container>
+                <ng-container #fileSelected>
+                    <input type="text" class="form-control m-0"
+                        [value]="externalReviewersRegistrationRequestInfo.sceqaExperience.approvalLetterFileName || ''"
+                        readonly [disabled]="true" title="File selected">
+                </ng-container>
+                <button *ngIf="externalReviewersRegistrationRequestInfo.sceqaExperience.approvalLetterFileName"
+                    type="button" class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                    (click)="downloadUploadedFile(externalReviewersRegistrationRequestInfo.sceqaExperience.approvalLetterFileName ,externalReviewersRegistrationRequestInfo.sceqaExperience.approvalLetterBucketName)">{{ 'PAGES.COMMON.LABELS.DOWNLOAD' | translate }}</button>
+
+            </div>
+            <div *ngIf="isSubmitting && !externalReviewersRegistrationRequestInfo.sceqaExperience.approvalLetterFileName && !externalReviewersRegistrationRequestInfo.insideOman"
+                class="invalid-feedback">
+                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- row 3 -->
+    <div class="row mt-3">
+        <div class="col-6 mt-2">
+            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.IT_SKILLS"| translate }}
+                <!-- <span *ngIf="isEditMode" class="text-danger">*</span> -->
+            </label>
+            <div class="input-group">
+
+                <ng-container *ngIf="isEditMode">
+                    <input type="file" class="d-none" #fileInput4 (change)="onFileSelected($event,'it_skills')"
+                        id="inputGroupFile02" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                    <button class="btn btn-outline-primary" type="button" (click)="fileInput4.click()">
+                        <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                    </button>
+                </ng-container>
+                <ng-container #fileSelected>
+                    <input type="text" class="form-control m-0"
+                        [value]="externalReviewersRegistrationRequestInfo.sceqaExperience.personalPhotoFileName || ''"
+                        readonly [disabled]="true" title="File selected">
+                </ng-container>
+                <button *ngIf="externalReviewersRegistrationRequestInfo.sceqaExperience.personalPhotoFileName"
+                    type="button" class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                    (click)="downloadUploadedFile(externalReviewersRegistrationRequestInfo.sceqaExperience.personalPhotoFileName ,externalReviewersRegistrationRequestInfo.sceqaExperience.personalPhotoBucketName)">{{ 'PAGES.COMMON.LABELS.DOWNLOAD' | translate }}</button>
+
+            </div>
+            <!-- <div *ngIf="isSubmitting && !selectedFileNames['it_skills']" class="invalid-feedback">
+                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+            </div> -->
+        </div>
+
+        <div class="col-6 mt-2">
+            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.CERTIFICATE_OF_GOOD_CONDUCT"| translate }}
+                <!-- <span *ngIf="isEditMode" class="text-danger">*</span> -->
+            </label>
+            <div class="input-group">
+                <ng-container *ngIf="isEditMode">
+                    <input type="file" class="d-none" #fileInput5 (change)="onFileSelected($event,'conduct')"
+                        id="inputGroupFile02" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                    <button class="btn btn-outline-primary" type="button" (click)="fileInput5.click()">
+                        <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                    </button>
+                </ng-container>
+                <ng-container #fileSelected>
+                    <input type="text" class="form-control m-0"
+                        [value]="externalReviewersRegistrationRequestInfo.sceqaExperience.passportFileName || ''"
+                        readonly [disabled]="true" title="File selected">
+                </ng-container>
+                <button *ngIf="externalReviewersRegistrationRequestInfo.sceqaExperience.passportFileName" type="button"
+                    class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                    (click)="downloadUploadedFile(externalReviewersRegistrationRequestInfo.sceqaExperience.passportFileName ,externalReviewersRegistrationRequestInfo.sceqaExperience.passportBucketName)">{{ 'PAGES.COMMON.LABELS.DOWNLOAD' | translate }}</button>
+
+            </div>
+            <!-- <div *ngIf="isSubmitting && !selectedFileNames['conduct']" class="invalid-feedback">
+                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+            </div> -->
+        </div>
+    </div>
+
+
+    <!-- row 4 -->
+    <div class="row mt-3">
+        <div class="col-6 mt-2">
+            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.UPLOAD_PROOF"| translate }}
+                <span *ngIf="isEditMode && !externalReviewersRegistrationRequestInfo.insideOman"
+                    class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <ng-container *ngIf="isEditMode">
+                    <input type="file" class="d-none" #fileInput6 (change)="onFileSelected($event,'proof')"
+                        id="inputGroupFile02" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                    <button class="btn btn-outline-primary" type="button" (click)="fileInput6.click()">
+                        <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                    </button>
+                </ng-container>
+
+                <ng-container #fileSelected>
+                    <input type="text" class="form-control m-0"
+                        [value]="externalReviewersRegistrationRequestInfo.sceqaExperience.jobTitleProofFileName || ''"
+                        readonly [disabled]="true" title="File selected">
+                </ng-container>
+                <button *ngIf="externalReviewersRegistrationRequestInfo.sceqaExperience.jobTitleProofFileName"
+                    type="button" class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                    (click)="downloadUploadedFile(externalReviewersRegistrationRequestInfo.sceqaExperience.jobTitleProofFileName ,externalReviewersRegistrationRequestInfo.sceqaExperience.jobTitleProofBucketName)">{{ 'PAGES.COMMON.LABELS.DOWNLOAD' | translate }}</button>
+
+            </div>
+            <div *ngIf="isSubmitting && 
+            !externalReviewersRegistrationRequestInfo.sceqaExperience.jobTitleProofFileName
+            && !externalReviewersRegistrationRequestInfo.insideOman" class="invalid-feedback">
+                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+            </div>
+        </div>
+    </div>
+
+
+
+</form>

@@ -1,0 +1,126 @@
+<div class="mx-4">
+    <div class="card-body">
+        <h6 class="py-2">{{ "PAGES.REQUEST_DETAILS.LABELS.AVAILABILITY_SETTINGS" | translate }}</h6>
+
+        <div class="row">
+            <div class="col-5 form-check form-switch form-switch-lg ms-4">
+                <input type="checkbox" class="form-check-input" name="isAvailable" id="isAvailable"
+                    [disabled]="!isEditMode" [checked]="externalReviewer.isAvailable"
+                    [(ngModel)]="externalReviewer.isAvailable">
+                <label class="form-check-label"
+                    for="displayStatus">{{'PAGES.REQUEST_DETAILS.LABELS.AVAILABLE_TO_PARTICIPATE' | translate
+                    }}
+                </label>
+            </div>
+        </div>
+
+        <div *ngIf="this.externalReviewer.currentIsAvailable != this.externalReviewer.isAvailable" class="row mt-4">
+            <div class="col-12">
+                <div class="mb-3">
+                    <label>{{ "PAGES.REQUEST_DETAILS.LABELS.JUSTIFICATIONS" | translate }}
+                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                        <small class="text-danger ms-3">
+                            ({{
+                            'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                    </label>
+                    <textarea type="text" class="form-control" name="availabilityChangeReasons" [disabled]="!isEditMode"
+                        id="availabilityChangeReasons" #availabilityChangeReasons="ngModel"
+                        placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                        (ngModelChange)="onTextChange()"
+                        [(ngModel)]="this.externalReviewer.availabilityChangeReasons">
+                        >
+                    </textarea>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="this.externalReviewer.currentIsAvailable != this.externalReviewer.isAvailable" class="row">
+            <div class="col-6 mt-2">
+                <label>{{ "PAGES.REQUEST_DETAILS.LABELS.ATACHMENT" | translate }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                    <ng-container *ngIf="isEditMode">
+                        <input type="file" class="d-none" #fileInput (change)="onFileSelected($event)"
+                            id="inputGroupFile02" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                        <button class="btn btn-outline-primary" type="button" (click)="fileInput.click()">
+                            <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                        </button>
+                    </ng-container>
+
+                    <ng-container #fileSelected>
+                        <input type="text" class="form-control m-0" [disabled]="true"
+                            [value]="externalReviewer.availabilityChangeFileName || ''" readonly title="File selected">
+                    </ng-container>
+                    <button *ngIf="externalReviewer.availabilityChangeFileName" type="button"
+                        class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                        (click)="downloadUploadedFile(this.externalReviewer.availabilityChangeFileName ,externalReviewer.availabilityChangeFileBucketName)">Download</button>
+
+                </div>
+                <!-- <div *ngIf="isSubmitting && !externalReviewersRegistrationRequestInfo.oqfExperience.resumeBucketName"
+                    class="invalid-feedback">
+                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                </div> -->
+            </div>
+        </div>
+
+
+        <h6 class="mt-5">{{ "PAGES.REQUEST_DETAILS.LABELS.LOG" | translate }}</h6>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-gridjs">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">{{ "PAGES.COMMON.LABELS.ACTION" | translate
+                                }}</th>
+                            <th class="text-center">{{ "PAGES.REQUEST_DETAILS.LABELS.DATE_AND_TIME" | translate
+                                }}</th>
+                            <th class="text-center">{{ "PAGES.REQUEST_DETAILS.LABELS.JUSTIFICATIONS" | translate }}
+                            </th>
+                            <th class="text-center">{{ "PAGES.REQUEST_DETAILS.LABELS.ATACHMENTS" | translate }}</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let log of paginatedAuditLogs; let i = index">
+                            <td>{{ (auditPage - 1) * auditPageSize + i + 1 }}</td>
+                            <!-- Executed by name (Arabic or English) -->
+                            <td>
+                                {{ ("PAGES.COMMON.LABELS." + log.parameters['action']) | translate }}
+                            </td>
+
+                            <td>{{ log.actionTime | date:'short' }}</td>
+
+                            <!-- Old version as link -->
+                            <td>
+                                {{ log.parameters['reasons'] || '' }}
+                            </td>
+
+                            <!-- New version as link -->
+                            <td>
+                                <a (click)="downloadUploadedFile(log.parameters['fileName'],log.parameters['fileBucketName'])"
+                                    class="avatar-title bg-light text-primary fs-3 cursor-pointer">
+                                    <i class="ri-download-fill"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="col col-sm-12" *ngIf="auditLogs && auditLogs.length > 0">
+                <div class="text-sm-right float-end listjs-pagination">
+                    <ngb-pagination [collectionSize]="auditTotal" [(page)]="auditPage" [pageSize]="auditPageSize"
+                        (pageChange)="onAuditPageChange($event)">
+                    </ngb-pagination>
+                </div>
+            </div>
+            <!-- End Pagination -->
+            <ng-container *ngIf="!auditLogs || auditLogs.length == 0">
+                <p class="text-muted mb-0 text-center">{{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.NO_AUDIT_LOGS' |
+                    translate }}</p>
+            </ng-container>
+        </div>
+    </div>

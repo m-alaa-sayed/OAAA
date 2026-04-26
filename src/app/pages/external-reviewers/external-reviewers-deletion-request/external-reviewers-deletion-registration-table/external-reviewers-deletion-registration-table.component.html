@@ -1,0 +1,88 @@
+<div class="card-body">
+    <div class="d-flex justify-content-between align-items-center p-3">
+        <h5>{{"PAGES.ER_DELETION.LABELS.REGISTER_REVIEWER_DELETION" | translate}} </h5>
+
+        <button class="btn btn-primary justify-content-end d-flex" (click)="open(details)"
+            [disabled]="!selectedExternalReviewers || selectedExternalReviewers.length === 0">
+            <i class="ri-eye-fill me-1"></i>
+            {{ "PAGES.COMMON.LABELS.DETAILS" | translate }}
+        </button>
+    </div>
+
+    <oaaaqa-ag-grid [actions]="actions" [dataList]="filteredExternalReviewersList"
+        [selectable]="true" (selectedListChangeEvent)="OnExternalReviewersSelectChange($event)" [columns]="columns">
+    </oaaaqa-ag-grid>
+</div>
+
+
+<ng-template #details let-modal>
+    <form #submitForm="ngForm">
+        <div class="default-modal">
+            <div class="modal-header bg-primary-light p-3 d-flex justify-content-between align-items-center">
+                <h5 class="modal-title">{{ 'PAGES.ER_DELETION.LABELS.DELETION_REQUEST_DETAILS' | translate }}</h5>
+                <button type="button" class="btn-close m-0 p-0" (click)="cancel()"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">
+                        <h5 class="text-start">{{ "PAGES.ER_DELETION.LABELS.REVIEWER_INFORMATION" | translate }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                            <div class="tags-list my-5 d-flex flex-wrap gap-5" >
+                                <span class="badge bg-secondary px-3 py-2 fs-5"
+                                    *ngFor="let externalReviwer of selectedExternalReviewers">
+                                    {{ translate.currentLang === 'ar' ? externalReviwer.user?.fullNameAr 
+                                    : externalReviwer.user?.fullNameEn }}
+                                </span>
+                            </div>
+                    </div>
+                </div>
+
+
+                <!-- Lower Section: Training Management -->
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="text-start"> {{ 'PAGES.ER_DELETION.LABELS.DELETION_JUSTIFICATIONS' | translate }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Notes -->
+                            <div class="col-md-12 mb-3">
+                                <div class="text-start">
+                                    <label for="notes" class="form-label fw-bold d-block mb-2">
+                                        {{ "PAGES.COMMON.LABELS.JUSTIFICATIONS" | translate }}
+                                        <span class="text-danger">*</span>      
+                                        <small class="text-danger ms-3">
+                                            ({{
+                                            'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                                    </label>
+                                    <textarea class="form-control" id="notes" name="notes" [(ngModel)]="notes" rows="4"
+                                    #notesField="ngModel" required title=""
+                                    [class.is-invalid]="(notesField.invalid && notesField.touched) || (isSubmitting && notesField.invalid)"
+                                        placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+                                        style="resize: none; text-align: right; min-height: 80px;"
+                                        (ngModelChange)="onTextChange()"></textarea>
+                                            <div class="invalid-feedback" *ngIf="(notesField.invalid && notesField.touched) || (isSubmitting && notesField.invalid)">
+                                                {{ "PAGES.COMMON.MESSAGES.FIELD_REQUIRED" | translate }}
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex">
+                <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+                    {{ "PAGES.COMMON.LABELS.NO" | translate }}
+                </button>
+
+                <button class="btn btn-primary" type="button" (click)="addToList()">
+                    {{ "PAGES.COMMON.LABELS.YES" | translate }}
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>

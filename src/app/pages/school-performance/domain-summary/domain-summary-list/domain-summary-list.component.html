@@ -1,0 +1,18 @@
+<page-title *ngIf="!isReport"
+            [title]="pageTitle | translate"
+            [breadcrumbItems]="[{ label: pageTitle | translate,  active: true}]">
+</page-title>
+
+<page-title *ngIf="isReport"
+            [title]="pageTitle | translate"
+            [breadcrumbItems]="[
+            { label: 'MENUITEMS.MENU.REPORTS_LIST' | translate, link: '/jawda/school-performance/reports/CSEQA', active: true },
+            { label: pageTitle | translate,  active: true}]">
+</page-title>
+
+<!-- grid table -->
+<div class="card shadow-sm p-3">
+    <oaaaqa-ag-grid [columns]="columns" [actions]="actions" [dataList]="list"></oaaaqa-ag-grid>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

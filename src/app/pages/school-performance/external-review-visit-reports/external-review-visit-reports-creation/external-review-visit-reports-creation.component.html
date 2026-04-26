@@ -1,0 +1,25 @@
+<page-title [title]="'MENUITEMS.MENU.ADD_EXTERNAL_REVIEW_VISIT_REPORT' | translate"
+            [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.EXTERNAL_REVIEW_VISIT_REPORTS' | translate, link: '/jawda/school-performance/external-review-visit-reports/list', active: true },
+{ label: 'MENUITEMS.MENU.ADD_EXTERNAL_REVIEW_VISIT_REPORT' | translate,  active: false }]"></page-title>
+
+
+<request-main-data *ngIf="visitReportSubmissionRequestInfo.request && mainRequestData " [mainRequestData]="mainRequestData "></request-main-data>
+
+<request-user-details *ngIf="visitReportSubmissionRequestInfo.request" [applicantData]="visitReportSubmissionRequestInfo.request.applicantUser"></request-user-details>
+
+<follow-up-request *ngIf="visitReportSubmissionRequestInfo.request && !schoolView && visitReportSubmissionRequestInfo.request?.requestHistoryList "
+                   [requestHistoryList]="visitReportSubmissionRequestInfo.request?.requestHistoryList!"></follow-up-request>
+
+<app-report-document-downloader *ngIf="visitReportSubmissionRequestInfo && visitReportSubmissionRequestInfo.id"
+                                (generateReport)="generateReportDocument($event)"
+                                [visitReportSubmissionRequestInfo]="visitReportSubmissionRequestInfo">
+</app-report-document-downloader>
+
+<oaaaqa-management-wizard *ngIf="visitReportSubmissionRequestInfo && showSteps" [steps]="steps"
+                          [clickableSteps]="[5,6]">
+</oaaaqa-management-wizard>
+
+
+
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

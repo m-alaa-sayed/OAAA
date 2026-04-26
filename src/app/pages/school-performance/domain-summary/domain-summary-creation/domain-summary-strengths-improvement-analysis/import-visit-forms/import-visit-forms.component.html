@@ -1,0 +1,114 @@
+<!-- Column Toggle Panel -->
+<div ngbDropdown class="mb-2">
+    <div class="row g-2">
+        <div class="col-sm-4">
+            <h5 class="" ngbDropdownToggle>{{ 'PAGES.COMMON.LABELS.DISPLAYED_COLUMNS' | translate }}</h5>
+        </div>
+        <div class="col-sm-auto ms-auto">
+            <div class="list-grid-nav hstack gap-1" ngbDropdown>
+                <button class="btn btn-primary" (click)="downloadExcel()" [disabled]="!importVisitForms.length">
+                    {{ 'PAGES.COMMON.LABELS.DOWNLOAD_FORMS' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div ngbDropdownMenu class="p-2 d-flex flex-wrap gap-2">
+        <label class="d-flex align-items-center gap-1" *ngFor="let col of columns; let i = index">
+            <input type="checkbox" [(ngModel)]="col.visible"/>
+            {{ col.label | translate }}
+        </label>
+    </div>
+</div>
+
+<!-- Table -->
+<table class="table table-sm table-bordered table-nowrap table-striped-columns mb-3">
+    <thead>
+    <tr class="table-primary">
+        <th *ngIf="columns[0].visible">{{ columns[0].label | translate }}</th>
+        <th *ngIf="columns[1].visible" class="colum-form-width text-center">{{ columns[1].label | translate }}</th>
+        <th *ngIf="columns[2].visible" class="colum-form-width text-center">{{ columns[2].label | translate }}</th>
+        <th *ngIf="columns[3].visible" class="colum-form-width text-center">{{ columns[3].label | translate }}</th>
+        <th *ngIf="columns[4].visible" class="colum-form-width text-center">{{ columns[4].label | translate }}</th>
+        <th *ngIf="columns[5].visible" class="colum-form-width text-center">{{ columns[5].label | translate }}</th>
+        <th *ngIf="columns[6].visible" class="colum-form-width text-center">{{ columns[6].label | translate }}</th>
+        <th *ngIf="columns[7].visible" class="colum-form-width text-center">{{ columns[7].label | translate }}</th>
+        <th *ngIf="columns[8].visible" class="colum-form-width text-center">{{ columns[8].label | translate }}</th>
+        <th *ngIf="columns[9].visible" class="colum-form-width text-center">{{ columns[9].label | translate }}</th>
+        <th *ngIf="columns[10].visible" class="colum-form-width text-center">{{ columns[10].label | translate }}
+        </th>
+        <th *ngIf="columns[11].visible" class="colum-form-width text-center">{{ columns[11].label | translate }}
+        </th>
+        <th *ngIf="columns[12].visible" class="colum-form-width text-center">{{ columns[12].label | translate }}
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let form of paginatedImportVisitForms || []">
+        <td *ngIf="columns[0].visible">{{ form.formCode }}</td>
+        <td *ngIf="columns[1].visible">{{ ('PAGES.VISIT_FORM.LABELS.' + form.type) | translate }}</td>
+        <td *ngIf="columns[2].visible">{{ this.translate.currentLang == 'ar' ? form.fullNameAr : form.fullNameEn }}
+        </td>
+        <td *ngIf="columns[3].visible && LanguageUtil.isArabic">
+            <span dir="ltr">{{ form.createdOn | date:'yyyy-MM-dd hh:mm a':'':'en' }}</span>
+        </td>
+        <td *ngIf="columns[3].visible && !LanguageUtil.isArabic">{{ form.createdOn | date:'dd-MM-yyyy hh:mm a' }}
+        </td>
+        <td *ngIf="columns[4].visible" [innerHTML]="form.strengthsAnalysis"></td>
+        <td *ngIf="columns[5].visible" [innerHTML]="form.improvementsAnalysis"></td>
+        <td *ngIf="columns[6].visible" [innerHTML]="form.details"></td>
+        <td *ngIf="columns[7].visible" [innerHTML]="form.summary"></td>
+        <td *ngIf="columns[8].visible">
+            <ul class="list-unstyled mb-0 text-start">
+                <li *ngFor="let note of getNotes('ACADEMIC_ACHIEVEMENT', form.visitFormDomainEvaluations)"
+                    class="dotted-li">
+                    <span>{{ note[0] }}</span>: <span class="text-muted">{{ note[1] }}</span>
+                </li>
+            </ul>
+        </td>
+        <td *ngIf="columns[9].visible">
+            <ul class="list-unstyled mb-0 text-start">
+                <li *ngFor="let note of getNotes('PERSONAL_DEVELOPMENT', form.visitFormDomainEvaluations)"
+                    class="dotted-li">
+                    <span>{{ note[0] }}</span>: <span class="text-muted">{{ note[1] }}</span>
+                </li>
+            </ul>
+        </td>
+        <td *ngIf="columns[10].visible">
+            <ul class="list-unstyled mb-0 text-start">
+                <li *ngFor="let note of getNotes('TEACHING_AND_ASSESSMENT', form.visitFormDomainEvaluations)"
+                    class="dotted-li">
+                    <span>{{ note[0] }}</span>: <span class="text-muted">{{ note[1] }}</span>
+                </li>
+            </ul>
+        </td>
+        <td *ngIf="columns[11].visible">
+            <ul class="list-unstyled mb-0 text-start">
+                <li *ngFor="let note of getNotes('LEARNING_ENVIRONMENT', form.visitFormDomainEvaluations)"
+                    class="dotted-li">
+                    <span>{{ note[0] }}</span>: <span class="text-muted">{{ note[1] }}</span>
+                </li>
+            </ul>
+        </td>
+        <td *ngIf="columns[12].visible">
+            <ul class="list-unstyled mb-0 text-start">
+                <li *ngFor="let note of getNotes('LEADERSHIP_AND_GOVERNANCE', form.visitFormDomainEvaluations)"
+                    class="dotted-li">
+                    <span>{{ note[0] }}</span>: <span class="text-muted">{{ note[1] }}</span>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <div class="text-sm-right float-end listjs-pagination">
+            <ngb-pagination [collectionSize]="importVisitForms.length" [(page)]="currentPage" [pageSize]="pageSize"
+                            (pageChange)="onPageChange($event)">
+            </ngb-pagination>
+        </div>
+    </div>
+</div>
+<!-- End Pagination -->

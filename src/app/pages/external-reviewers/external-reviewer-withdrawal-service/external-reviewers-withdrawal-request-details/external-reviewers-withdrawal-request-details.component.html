@@ -1,0 +1,205 @@
+<page-title [title]="title" [breadcrumbItems]="[{ label: title, active: true }]"></page-title>
+
+<external-reviewers-withdrawal-request-actions *ngIf="requestObject && taskId" (actionEventEmitter)="submit($event)"
+  (showErrorAndHideSpinner)="showValidationMessage($event)"
+  [requestObject]="requestObject"></external-reviewers-withdrawal-request-actions>
+
+<request-main-data *ngIf="mainRequestData" [title]="'PAGES.COMMON.LABELS.MAIN_DATA'"
+  [mainRequestData]="mainRequestData"></request-main-data>
+
+<request-user-details *ngIf="requestObject" [applicantData]="requestObject.applicantUser"></request-user-details>
+
+<div class="card-body">
+  <div class="card shadow-sm my-5">
+    <div class="card-header">
+      <h5 class="mb-0 text-start">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.REQUEST_DATA'|translate}}</h5>
+    </div>
+    <div class="row mt-4 mx-2">
+      <div class="col-12">
+        <div class="mb-3">
+          <label>{{ "PAGES.COMMON.LABELS.JUSTIFICATIONS" | translate }}
+            <small class="text-danger ms-3">
+              ({{
+              'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+          </label>
+          <textarea type="text" class="form-control" name="withdrawJustification" id="withdrawJustification"
+            #withdrawJustification="ngModel" placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+            (ngModelChange)="onTextChange(requestObject.externalReviewWithdrawInfo, 'withdrawJustification', $event)"
+            [disabled]="requestObject && !((requestObject.serviceStep.stepCode.includes('_ER_ERW_RETURN_FOR_EDIT')) && taskId)"
+            [(ngModel)]="requestObject?.externalReviewWithdrawInfo.withdrawJustification">
+                      </textarea>
+        </div>
+      </div>
+    </div>
+    <app-common-attachments
+      [attachmentList]="requestObject?.externalReviewWithdrawInfo.externalReviewWithdrawAttachments || []"
+      (attachmentAddEventEmitter)="addInfoAttchment($event)"
+      [isEditMode]="(requestObject && (requestObject.serviceStep.stepCode.includes('_ER_ERW_RETURN_FOR_EDIT')) && taskId)"
+      (attachmentRemoveEventEmitter)="removeInfoAttchment($event)"></app-common-attachments>
+  </div>
+</div>
+
+
+<external-reviewer-summary *ngIf="externalReviewerId && !isReturnForEdit"
+  [externalReviewerId]="externalReviewerId"></external-reviewer-summary>
+
+<div class="card shadow-sm" *ngIf="requestObject &&  requestObject.externalReviewWithdrawInfo && taskId
+        && !((requestObject.serviceStep.stepCode.includes('_ER_ERW_RETURN_FOR_EDIT')) && taskId)">
+  <div class="card-header">
+    <h5 class="card-title mb-0">
+      {{ 'PAGES.EXTERNAL_REVIEWERS_WITHDRAW.TITLE.' + requestObject.oaaaService.module+'_DME_RECOMENDATION' | translate
+      }}
+    </h5>
+  </div>
+  <div class="card-body">
+    <div class="mb-3 row align-items-center">
+      <label class="col-md-1 col-form-label text-start">
+        {{ 'PAGES.REQUEST_DETAILS.LABELS.RECOMMENDATION' | translate }}
+        <span *ngIf="taskId && requestObject.serviceStep.stepCode.includes('_DME_ERW_UNDER_REVIEW')"
+          class="text-danger">*</span>
+
+      </label>
+      <div class="col-sm-10 d-flex gap-4">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="recommendation" id="recommended" value="MET"
+            [disabled]="taskId==null || !requestObject.serviceStep.stepCode.includes('_DME_ERW_UNDER_REVIEW')"
+            [(ngModel)]="requestObject.externalReviewWithdrawInfo.dataManagementEmployerRecommendation" />
+          <label class="form-check-label" for="recommended">
+            {{ 'PAGES.COMMON.LABELS.APPROVAL' | translate }}
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="recommendation" id="notRecommended" value="NOT_MET"
+            [disabled]="taskId==null || !requestObject.serviceStep.stepCode.includes('_DME_ERW_UNDER_REVIEW')"
+            [(ngModel)]="requestObject.externalReviewWithdrawInfo.dataManagementEmployerRecommendation" />
+          <label class="form-check-label" for="notRecommended">
+            {{ 'PAGES.COMMON.LABELS.REJECTION' | translate }}
+          </label>
+        </div>
+      </div>
+      <div *ngIf="isSubmitted && !requestObject.externalReviewWithdrawInfo.dataManagementEmployerRecommendation"
+        class="invalid-feedback d-block">
+        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="dataManagementEmployerRecommendationNotes" class="col-md-2 col-form-label text-start">
+        {{ 'PAGES.REQUEST_DETAILS.LABELS.JUSTIFICATIONS' | translate }}
+        <span *ngIf="taskId && requestObject.serviceStep.stepCode.includes('_DME_ERW_UNDER_REVIEW')"
+          class="text-danger">*</span>
+        <small class="text-danger ms-3">
+          ({{
+          'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+      </label>
+      <textarea id="dataManagementEmployerRecommendationNotes" name="dataManagementEmployerRecommendationNotes"
+        class="form-control col-md-12" rows="3" placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+        (ngModelChange)="onTextChange(requestObject.externalReviewWithdrawInfo, 'dataManagementEmployerRecommendationNotes', $event)"
+        [disabled]="taskId==null || !requestObject.serviceStep.stepCode.includes('_DME_ERW_UNDER_REVIEW')"
+        #dataManagementEmployerRecommendationNotes="ngModel" required
+        [(ngModel)]="requestObject.externalReviewWithdrawInfo.dataManagementEmployerRecommendationNotes"></textarea>
+
+      <div *ngIf="isSubmitted && dataManagementEmployerRecommendationNotes?.invalid"
+        class="text-danger text-start mt-1">
+        <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card shadow-sm"
+  *ngIf="requestObject &&  requestObject.externalReviewWithdrawInfo && taskId
+        && !((requestObject.serviceStep.stepCode.includes('_ER_ERW_RETURN_FOR_EDIT') || requestObject.serviceStep.stepCode.includes('_DME_ERW_UNDER_REVIEW') ) && taskId)">
+  <div class="card-header">
+    <h5 class="card-title mb-0">
+      {{ 'PAGES.EXTERNAL_REVIEWERS_WITHDRAW.TITLE.' + requestObject.oaaaService.module+'_SDM_RECOMENDATION' | translate
+      }}
+    </h5>
+  </div>
+  <div class="card-body">
+    <div class="mb-3 row align-items-center">
+      <label class="col-md-1 col-form-label text-start">
+        {{ 'PAGES.REQUEST_DETAILS.LABELS.RECOMMENDATION' | translate }}
+        <span *ngIf="taskId && requestObject.serviceStep.stepCode.includes('_SDM_ERW_UNDER_REVIEW')"
+          class="text-danger">*</span>
+      </label>
+      <div class="col-sm-10 d-flex gap-4">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="recommendedSDM" id="recommendedSDM" value="MET"
+            [disabled]="taskId==null || !requestObject.serviceStep.stepCode.includes('_SDM_ERW_UNDER_REVIEW')"
+            [(ngModel)]="requestObject.externalReviewWithdrawInfo.supportDepartmentManagerRecommendation" />
+          <label class="form-check-label" for="recommendedSDM">
+            {{ 'PAGES.COMMON.LABELS.APPROVAL' | translate }}
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="notRecommendedSDM" id="notRecommendedSDM" value="NOT_MET"
+            [disabled]="taskId==null || !requestObject.serviceStep.stepCode.includes('_SDM_ERW_UNDER_REVIEW')"
+            [(ngModel)]="requestObject.externalReviewWithdrawInfo.supportDepartmentManagerRecommendation" />
+          <label class="form-check-label" for="notRecommendedSDM">
+            {{ 'PAGES.COMMON.LABELS.REJECTION' | translate }}
+          </label>
+        </div>
+      </div>
+      <div *ngIf="isSubmitted && !requestObject.externalReviewWithdrawInfo.supportDepartmentManagerRecommendation"
+        class="invalid-feedback d-block">
+        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="justifications" class="col-md-2 col-form-label text-start">
+        {{ 'PAGES.REQUEST_DETAILS.LABELS.JUSTIFICATIONS' | translate }}
+        <span *ngIf="taskId && requestObject.serviceStep.stepCode.includes('_SDM_ERW_UNDER_REVIEW')"
+          class="text-danger">*</span>
+        <small class="text-danger ms-3">
+          ({{
+          'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+      </label>
+      <textarea id="supportDepartmentManagerRecommendationNotes" name="supportDepartmentManagerRecommendationNotes"
+        #supportDepartmentManagerRecommendationNotes="ngModel" required class="form-control col-md-12" rows="3"
+        placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+        (ngModelChange)="onTextChange(requestObject.externalReviewWithdrawInfo, 'supportDepartmentManagerRecommendationNotes', $event)"
+        [disabled]="taskId==null || !requestObject.serviceStep.stepCode.includes('_SDM_ERW_UNDER_REVIEW')"
+        [(ngModel)]="requestObject.externalReviewWithdrawInfo.supportDepartmentManagerRecommendationNotes"></textarea>
+
+      <div *ngIf="isSubmitted && supportDepartmentManagerRecommendationNotes?.invalid"
+        class="text-danger text-start mt-1">
+        <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<follow-up-request *ngIf="requestObject" [requestHistoryList]="requestObject.requestHistoryList"></follow-up-request>
+
+<div class="card shadow-sm" *ngIf="requestObject && 
+(requestObject.serviceStep.stepCode.includes('_UNDER_REVIEW') || 
+     requestObject.serviceStep.stepCode.includes('_UNDER_APPROVE'))">
+  <app-common-attachments [attachmentList]="requestObject.requestAttachmentList || []" [isEditMode]="this.taskId"
+    (attachmentAddEventEmitter)="addAttchment($event)"
+    (attachmentRemoveEventEmitter)="removeAttchment($event)"></app-common-attachments>
+</div>
+
+<external-reviewers-withdrawal-request-actions *ngIf="requestObject && taskId" (actionEventEmitter)="submit($event)"
+  (showErrorAndHideSpinner)="showValidationMessage($event)"
+  [requestObject]="requestObject"></external-reviewers-withdrawal-request-actions>
+
+<div class="card shadow-sm" *ngIf="!taskId">
+  <div class="card-body">
+    <div class="row">
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-outline-secondary"
+          [routerLink]="'/jawda/service-management/service-catalogue-list'">
+          {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

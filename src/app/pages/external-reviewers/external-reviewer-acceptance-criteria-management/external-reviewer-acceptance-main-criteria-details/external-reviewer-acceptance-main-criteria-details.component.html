@@ -1,0 +1,76 @@
+<div class="modal-content">
+    <form class="g-3" #submitForm="ngForm" (ngSubmit)="confirm()">
+        <div class="modal-header bg-primary-light p-3 d-flex justify-content-between align-items-center">
+            <h5 class="modal-title" id="exampleModalFullscreenXxlLabel">{{ title  | translate }}</h5>
+            <button type="button" class="btn-close m-0 p-0" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="activeModal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <div class="card shadow-sm">
+                <div class="card-header align-items-center justify-content-between d-flex">
+                    <h5 class="card-title mb-0">{{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.MAIN_CATEGORY_INFO' | translate }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="live-preview">
+                        <div class="row gy-4">
+                            <div class="col-6">
+                                <label for="criteriaNameAr" class="form-label">
+                                    {{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.MAIN_CATEGORY_NAME_AR' | translate }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="criteriaNameAr"
+                                        name="criteriaNameAr"
+                                        placeholder="{{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.MAIN_CATEGORY_NAME_AR' | translate }}"
+                                        required noWhitespace #criteriaNameArRef="ngModel"
+                                        [(ngModel)]="dto.nameAr"
+                                        [ngClass]="{'is-invalid': submitForm.submitted && criteriaNameArRef.invalid}">
+                                <div *ngIf="submitForm.submitted && criteriaNameArRef.invalid"
+                                        class="invalid-feedback">
+                                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <label for="criteriaNameEn" class="form-label">
+                                    {{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.MAIN_CATEGORY_NAME_EN' | translate }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="criteriaNameEn"
+                                        name="criteriaNameEn"
+                                        placeholder="{{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.MAIN_CATEGORY_NAME_EN' | translate }}"
+                                        required noWhitespace #criteriaNameEnRef="ngModel"
+                                        [(ngModel)]="dto.nameEn"
+                                        [ngClass]="{'is-invalid': submitForm.submitted && criteriaNameEnRef.invalid}">
+                                <div *ngIf="submitForm.submitted && criteriaNameEnRef.invalid"
+                                        class="invalid-feedback">
+                                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox"
+                                                id="criteriaStatus" name="criteriaStatus"
+                                                [(ngModel)]="isActive">
+                                        <label class="form-check-label" for="criteriaStatus">
+                                            {{ 'PAGES.COMMON.LABELS.STATUS' | translate }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer d-flex">
+            <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal"
+                    (click)="decline()">{{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+            </button>
+            <button type="submit" class="btn btn-primary">
+                {{ (criterionId ? 'PAGES.COMMON.LABELS.EDIT' : 'PAGES.COMMON.LABELS.ADD_TO_LIST') | translate }}
+            </button>
+        </div>
+    </form>
+</div>

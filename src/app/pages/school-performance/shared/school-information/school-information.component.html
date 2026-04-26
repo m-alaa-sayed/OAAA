@@ -1,0 +1,56 @@
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="card-title mb-0">{{ "PAGES.COMMON.LABELS.SCHOOL_INFORMATION"  | translate }}</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.COMMON.LABELS.SCHOOL_NAME' | translate }}</label>
+                <input id="SCHOOL_NAME" name="SCHOOL_NAME" type="text" class="form-control" [disabled]="true"
+                       [ngModel]="LanguageUtil.isArabic ? school?.nameAr : school?.nameEn">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.COMMON.LABELS.SCHOOL_CODE' | translate }}</label>
+                <input id="SCHOOL_CODE" name="SCHOOL_CODE" type="text" class="form-control" [disabled]="true"
+                       [ngModel]="school?.code">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.COMMON.LABELS.SCHOOL_TYPE' | translate }}</label>
+                <input id="SCHOOL_TYPE" name="SCHOOL_TYPE" type="text" class="form-control" [disabled]="true"
+                       [ngModel]="'PAGES.COMMON.LABELS.' + school?.type | translate">
+            </div>
+        </div>
+        <div class="row py-3">
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.COMMON.LABELS.SCHOOL_GENDER' | translate }}</label>
+                <input id="SCHOOL_GENDER" name="SCHOOL_GENDER" type="text" class="form-control" [disabled]="true"
+                       [ngModel]="'PAGES.COMMON.LABELS.' + school?.gender | translate">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.COMMON.LABELS.GOVERNORATE' | translate }}</label>
+                <input id="GOVERNORATE" name="GOVERNORATE" type="text" class="form-control" [disabled]="true"
+                       [ngModel]="LanguageUtil.isArabic ? school?.governorate?.nameAr : school?.governorate?.nameEn">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.COMMON.LABELS.WILAYAT' | translate }}</label>
+                <input id="WILAYAT" name="WILAYAT" type="text" class="form-control" [disabled]="true"
+                       [ngModel]="LanguageUtil.isArabic ? school?.wilayat?.nameAr : school?.wilayat?.nameEn">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <label class="form-label">{{ 'PAGES.COMMON.LABELS.SCHOOL_PRINCIPAL_NAME' | translate }}</label>
+                <input id="" name="" type="text" class="form-control" [disabled]="true" [ngModel]="school?.principalName">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.COMMON.LABELS.SCHOOL_PHONE' | translate }}</label>
+                <input id="phone" name="phone" type="text" class="form-control"
+                       [ngModel]="school?.phone" [disabled]="true">
+            </div>
+        </div>
+    </div>
+</div>

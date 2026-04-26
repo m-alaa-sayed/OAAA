@@ -1,0 +1,115 @@
+<page-title [title]="'MENUITEMS.MENU.SERVICES' | translate"
+  [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.SERVICES' | translate, active: true }]">
+</page-title>
+
+<!-- Filter Card -->
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="row align-items-end">
+      <!-- Service Name Filter -->
+      <div class="col-md-3">
+        <label class="form-label">{{ 'PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICES_NAME' | translate }}</label>
+        <input type="text" class="form-control" [(ngModel)]="filterObject.serviceName" name="serviceName" />
+      </div>
+
+      <!-- Internal / External Filters -->
+      <div class="col-md-5" *ngIf="!user.externalUser">
+        <label class="form-label d-block">{{ 'PAGES.SEVERVICE_MANAGEMENT.LABELS.FILTER_BY_TYPE' | translate }}</label>
+        <div class="d-flex gap-3 align-items-center">
+
+          <!-- External -->
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="externalCheck" [checked]="filterObject.showExternal"
+              (change)="selectServiceType('EXTERNAL')" />
+            <label class="form-check-label" for="externalCheck">
+              {{ 'PAGES.SEVERVICE_MANAGEMENT.LABELS.EXTERNAL_SERVICES' | translate }}
+            </label>
+          </div>
+
+          <!-- Internal -->
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="internalCheck" [checked]="filterObject.showInternal"
+              (change)="selectServiceType('INTERNAL')" />
+            <label class="form-check-label" for="internalCheck">
+              {{ 'PAGES.SEVERVICE_MANAGEMENT.LABELS.INTERNAL_SERVICES' | translate }}
+            </label>
+          </div>
+
+        </div>
+      </div>
+
+
+
+    </div>
+
+    <!-- Buttons aligned at bottom right -->
+    <div class="row mt-4">
+      <div class="col-12 d-flex justify-content-end">
+        <button class="btn btn-secondary me-3" (click)="reset()">
+          {{ 'PAGES.COMMON.LABELS.RESET' | translate }}
+        </button>
+        <button class="btn btn-primary" (click)="search()">
+          {{ 'PAGES.COMMON.LABELS.SEARCH' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Category Checkboxes Card -->
+<div class="card shadow mt-4 w-100">
+  <div class="card-body p-4">
+    <div class="row g-1">
+
+      <!-- 'All' Checkbox -->
+      <label class="col-12 col-md-6 col-lg-2 form-check-label p-4 fs-5 me-4 fw-bold shadow-sm bg-white rounded border">
+        <input class="form-check-input me-1" type="checkbox" [checked]="isAllCheckboxChecked"
+          (change)="selectAllCategories()" />
+        {{ 'PAGES.COMMON.LABELS.ALL' | translate }}
+      </label>
+
+      <!-- Exclusive (radio-like) category checkboxes -->
+      <label *ngFor="let category of serviceCategoryList"
+      class="col-12 col-md-6 col-lg-3 form-check-label p-4 fs-5 fw-bold me-4 shadow-sm bg-white rounded border">
+        <input class="form-check-input me-1" type="checkbox"
+          [checked]="filterObject.servicesCategoryIds.includes(category.id!)" (change)="onCategorySelected(category.id!)" />
+        <i class="mdi mdi-book-open-page-variant text-primary me-1"></i>
+        {{ currentLang === 'ar' ? category.categoryNameAr : category.categoryNameEn }}
+      </label>
+
+
+    </div>
+  </div>
+</div>
+
+<!-- Display Filtered Services -->
+<div class="card shadow-sm mt-3">
+  <div class="card-body">
+    <div class="row gy-3">
+      <div *ngFor="let service of displayedServices" class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+        <service-card [service]="service"></service-card>
+      </div>
+
+      <div class="text-center mt-3" *ngIf="hasMore()">
+        <button class="btn btn-primary" (click)="loadMore()">
+          {{ "PAGES.COMMON.LABELS.LOAD_MORE" | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div class="text-center mt-2" *ngIf="displayedServices.length > batchSize">
+      <button class="btn btn-outline-secondary" (click)="showLess()">
+        {{ "PAGES.COMMON.LABELS.SHOW_LESS" | translate }}
+      </button>
+    </div>
+
+    <div class="row gy-4 mt-4">
+      <div class="col-12">
+        <div *ngIf="!serviceList?.length" class="text-center py-3">
+          <p class="text-muted">{{ "PAGES.COMMON.MESSAGES.NO_DATA_FOUND" | translate }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

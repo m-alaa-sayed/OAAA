@@ -1,0 +1,244 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{ (isEditMode ? 'PAGES.COMMON.LABELS.EDIT' : 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ASSIGN_ROLE_TO_USER') | translate
+    }}
+  </h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="onCancel()"></button>
+</div>
+
+<div class="modal-body">
+  <!-- Basic Information Section -->
+  <div class="border rounded p-3 mb-3">
+    <app-user-basic-info [userFullData]="userFullData"></app-user-basic-info>
+  </div>
+
+  <!-- Role Settings Section -->
+  <div class="border rounded p-3 mb-3">
+    <h5 class="mb-3">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLE_SETTINGS' | translate }}</h5>
+
+    <form #assignForm="ngForm">
+      <!-- Row 1: Group -->
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="group" class="form-label">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.GROUP' | translate }}<span class="text-danger">*</span></label>
+          <select class="form-select" id="group" [(ngModel)]="selectedGroup" name="group"
+            [ngClass]="{'is-invalid': (assignForm?.controls?.['group']?.invalid && (assignForm?.controls?.['group']?.touched || isSubmitting))}"
+            required (ngModelChange)="onGroupChange()" [disabled]="isLoadingGroups || isEditMode">
+            <option [ngValue]="null" disabled>{{ 'PAGES.COMMON.LABELS.SELECT' | translate }}</option>
+            <option *ngFor="let group of groups" [ngValue]="group">
+              {{ translate.currentLang === 'ar' ? group.nameAr : group.nameEn }}
+            </option>
+          </select>
+          <div *ngIf="isSubmitting && (!selectedGroup || (assignForm?.controls?.['group']?.invalid))"
+            class="invalid-feedback d-block">
+            {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+          </div>
+        </div>
+
+        <!-- Row 2: Role Type (shown when group is selected) -->
+        <div class="col-md-4" *ngIf="selectedGroup">
+          <label for="roleType" class="form-label">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLE_TYPE' | translate
+            }}<span class="text-danger">*</span></label>
+          <select id="roleType" class="form-select" [(ngModel)]="selectedRoleType" name="roleType" required
+            [ngClass]="{'is-invalid': (assignForm?.controls?.['roleType']?.invalid && (assignForm?.controls?.['roleType']?.touched || isSubmitting))}"
+            (ngModelChange)="onRoleTypeChange()" [disabled]="isEditMode">
+            <option [ngValue]="''" disabled>{{ 'PAGES.COMMON.LABELS.SELECT' | translate }}</option>
+            <option [value]="'PROCEDURAL'">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.PROCEDURAL' | translate }}</option>
+            <option [value]="'WORKFLOW'">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.WORKFLOW' | translate }}</option>
+          </select>
+          <div *ngIf="isSubmitting && (!selectedRoleType || (assignForm?.controls?.['roleType']?.invalid))"
+            class="invalid-feedback d-block">
+            {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+          </div>
+        </div>
+
+        <!-- Row 3: Role Name (shown when role type is selected) -->
+        <div class="col-md-4" *ngIf="selectedRoleType">
+          <label for="roleName" class="form-label">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLE_NAME' | translate
+            }}<span class="text-danger">*</span></label>
+          <select class="form-select" id="roleName" [(ngModel)]="selectedRole" name="roleName"
+            [ngClass]="{'is-invalid': (assignForm?.controls?.['roleName']?.invalid && (assignForm?.controls?.['roleName']?.touched || isSubmitting))}"
+            required (ngModelChange)="onRoleChange()" [disabled]="isLoadingRoles || isEditMode">
+            <option [ngValue]="null" disabled>{{ 'PAGES.COMMON.LABELS.SELECT' | translate }}</option>
+            <option *ngFor="let role of filteredRoles" [ngValue]="role">
+              {{ translate.currentLang === 'ar' ? role.roleNameAr : role.roleNameEn }}
+            </option>
+          </select>
+          <div *ngIf="isSubmitting && (!selectedRole || (assignForm?.controls?.['roleName']?.invalid))"
+            class="invalid-feedback d-block">
+            {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 4: Description and Role System Status (shown when role is selected) -->
+      <div class="row mb-3" *ngIf="selectedRole">
+        <div class="col-md-8">
+          <label for="description" class="form-label">{{ 'PAGES.COMMON.LABELS.DESCRIPTION' | translate }}</label>
+          <textarea class="form-control" id="description" rows="2"
+            [value]="selectedRole ? (translate.currentLang === 'ar' ? selectedRole.roleDescriptionAr : selectedRole.roleDescriptionEn) : ''"
+            readonly>
+          </textarea>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLE_SYSTEM_STATUS' | translate }}</label>
+          <div class="form-check form-switch mt-2">
+            <input class="form-check-input" type="checkbox" role="switch" id="roleSystemStatus"
+              [checked]="selectedRole.isActive || false" disabled>
+            <label class="form-check-label" for="roleSystemStatus">
+              {{ (selectedRole.isActive || false) ? ('PAGES.COMMON.LABELS.ACTIVE' | translate) :
+              ('PAGES.COMMON.LABELS.INACTIVE' | translate) }}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 5: Status Settings (shown when role is selected) -->
+      <div class="row mb-3" *ngIf="selectedRole">
+        <div class="col-md-3">
+          <label class="form-label d-block">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLE_USER_STATUS' | translate
+            }}</label>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="roleUserStatus"
+              [(ngModel)]="roleUserStatus" name="roleUserStatus">
+            <label class="form-check-label" for="roleUserStatus">
+              {{ roleUserStatus ? ('PAGES.COMMON.LABELS.ACTIVE' | translate) : ('PAGES.COMMON.LABELS.INACTIVE' |
+              translate) }}
+            </label>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.GRANT_STATUS' | translate }}</label>
+          <div class="d-flex gap-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="isPermanent" id="permanent" [value]="true"
+                [(ngModel)]="isPermanent" (ngModelChange)="onIsPermanentChange($event)">
+              <label class="form-check-label" for="permanent">
+                {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.PERMANENT' | translate }}
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="isPermanent" id="temporary" [value]="false"
+                [(ngModel)]="isPermanent" (ngModelChange)="onIsPermanentChange($event)">
+              <label class="form-check-label" for="temporary">
+                {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.TEMPORARY' | translate }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <label for="validityStartDate" class="form-label">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.VALIDITY_START_DATE'
+            | translate }}<span class="text-danger">*</span></label>
+          <input type="date" class="form-control" id="validityStartDate" [(ngModel)]="validityStartDate"
+            name="validityStartDate"
+            [ngClass]="{'is-invalid': (assignForm?.controls?.['validityStartDate']?.invalid && (assignForm?.controls?.['validityStartDate']?.touched || isSubmitting))}"
+            required placeholder="mm/dd/yyyy">
+          <div *ngIf="isSubmitting && (!validityStartDate || (assignForm?.controls?.['validityStartDate']?.invalid))"
+            class="invalid-feedback d-block">
+            {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+          </div>
+        </div>
+
+        <div class="col-md-3" *ngIf="!isPermanent">
+          <label for="validityEndDate" class="form-label">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.VALIDITY_END_DATE' |
+            translate }}<span class="text-danger">*</span></label>
+          <input type="date" class="form-control" id="validityEndDate" [(ngModel)]="validityEndDate"
+            name="validityEndDate" [required]="!isPermanent"
+            [ngClass]="{'is-invalid': (!isPermanent && assignForm?.controls?.['validityEndDate']?.invalid && (assignForm?.controls?.['validityEndDate']?.touched || isSubmitting))}"
+            placeholder="mm/dd/yyyy">
+          <div
+            *ngIf="isSubmitting && (!isPermanent && (!validityEndDate || (assignForm?.controls?.['validityEndDate']?.invalid)))"
+            class="invalid-feedback d-block">
+            {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Role Permissions Section (Only for PROCEDURAL roles - Readonly) -->
+  <div class="border rounded p-3" *ngIf="selectedRole && isProceduralRole()">
+    <h5 class="mb-3">
+      {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLE_PERMISSIONS' | translate }}
+      <span class="text-muted fst-italic" style="font-size: 0.85em;">
+        {{ '( ' + getGroupName() + ' )' }}
+      </span>
+    </h5>
+
+    <div class="table-responsive" *ngIf="procedures && procedures.length > 0; else noProcedures">
+      <table class="table table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th style="width: 40%;">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.PROCEDURES' | translate }}</th>
+            <th style="width: 60%;">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.PROCEDURE_CONTENT' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let procedure of procedures; let i = index">
+            <td>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [id]="'procedure-' + i" [checked]="procedure.enabled"
+                  disabled>
+                <label class="form-check-label" [for]="'procedure-' + i">
+                  {{ procedure.label }}
+                </label>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex gap-3 flex-wrap">
+                <div class="form-check" *ngFor="let permission of procedure.permissions; let j = index">
+                  <input class="form-check-input" type="checkbox" [id]="'permission-' + i + '-' + j"
+                    [checked]="permission.checked" disabled>
+                  <label class="form-check-label" [for]="'permission-' + i + '-' + j">
+                    {{ permission.label }}
+                  </label>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noProcedures>
+      <div class="text-center text-muted py-4">
+        {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.NO_PROCEDURES' | translate }}
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Action Archive Section (Only for Edit Mode) -->
+  <div class="border rounded p-3 mt-3" *ngIf="isEditMode && historyData && historyData.length > 0">
+    <h5 class="mb-3">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.EDIT_HISTORY' | translate }}</h5>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th>{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ACTION_TYPE' | translate }}</th>
+            <th>{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.RESPONSIBLE_EMPLOYEE' | translate }}</th>
+            <th>{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.DATE_TIME' | translate }}</th>
+            <th>{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.NOTES' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let history of historyData">
+            <td>{{ getOperationTypeLabel(history.operationType) | translate }}</td>
+            <td>{{ history.employeeName }}</td>
+            <td>{{ formatDateTime(history.createdOn) }}</td>
+            <td>{{ history.notes || '' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+    {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+  </button>
+  <button type="button" class="btn btn-primary" (click)="onSave()" [disabled]="(isEditMode && assignForm?.pristine)">
+    {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+  </button>
+</div>

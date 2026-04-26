@@ -1,0 +1,54 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h5 class="mb-0 text-start">{{'PAGES.COMMON.LABELS.MAIN_DATA'|translate}}</h5>
+  </div>
+  <div class="card-body">
+    <div class="row text-center align-items-center mx-5">
+
+      <div class="col-md-4 d-flex">
+        <div class="image-col">
+          <span class="h-100"> <i class="ri-file-list-line fs-1 text-primary"></i></span>
+        </div>
+        <div>
+          <h4 class="text-muted fw-semibold fs-13 d-flex justify-content-start">
+            {{'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.DOCUMENT_NUMBER'|translate}}</h4>
+          <p class="fs-16 fw-bold text-dark">{{selfEvalMainData.documentNumber}}</p>
+        </div>
+      </div>
+
+
+
+
+      <!-- Request Date -->
+
+      <div class="col-md-4 d-flex">
+        <div class="image-col">
+          <span class="h-100"> <i class="ri-time-line fs-1 text-primary"></i></span>
+        </div>
+        <div>
+          <h4 class="text-muted fw-semibold fs-13 d-flex justify-content-start">
+            {{'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.SUBMISSION_DATE'|translate}}</h4>
+          <p class="fs-16 fw-bold text-dark">{{selfEvalMainData.submissionDate}}</p>
+        </div>
+      </div>
+
+
+
+      <!-- Status -->
+      <div class="col-md-4 d-flex">
+        <div class="image-col">
+          <span class="h-100"> <i class="ri-information-line fs-1 text-primary"></i></span>
+        </div>
+        <div>
+          <h4 class="text-muted fw-semibold fs-13 d-flex justify-content-start">
+            {{'PAGES.COMMON.LABELS.STATUS'|translate}}</h4>
+          <p class="fs-16 fw-bold text-dark">
+            {{'PAGES.COMMON.LABELS.'+selfEvalMainData.status |translate}}</p>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>

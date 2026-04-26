@@ -1,0 +1,23 @@
+<page-title [title]="'PAGES.ER_DELETION.LABELS.RECORD_DELETION_RESULTS' | translate" 
+[breadcrumbItems]="[{ label: 'PAGES.ER_DELETION.LABELS.RECORD_DELETION_RESULTS' | translate, active: true }]"></page-title>
+
+<div class="card shadow-sm">
+    <div *hasPermission="[permissionErDeletionRequestCreateRequest]" class="card-header">
+        <div class="d-flex justify-content-end align-items-end">
+            <button class="btn btn-primary" (click)="navigateToNewOrder()">
+                <i class="ri-add-line me-1"></i>
+                {{ 'PAGES.ER_DELETION.LABELS.ADD_REQUEST' | translate }}
+            </button>
+        </div>
+    </div>
+    
+    <div class="card-body">
+        <oaaaqa-ag-grid
+            [actions]="actions"
+            [dataList]="externalReviewerDeletionRequestList" 
+            [columns]="columns">
+        </oaaaqa-ag-grid>
+    </div>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

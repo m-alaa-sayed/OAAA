@@ -1,0 +1,519 @@
+<form novalidate>
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.PERSONAL_DATA' | translate }}</h4>
+    </div>
+    <div class="card-body">
+
+        <!-- Row 1: ID Type & Account Type -->
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="form-label">
+                    {{ "PAGES.EXTERNAL_REVIEWER.LABELS.ID_TYPE" | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <div class="d-flex gap-3">
+                    <div class="form-check form-radio-primary">
+                        <input class="form-check-input" type="radio" name="insideOman" id="insideOman"
+                            [disabled]="isDisabled" [value]="true" [(ngModel)]="user.insideOman"
+                            (ngModelChange)="onInsideOmanChange()">
+                        <label class="form-check-label" for="insideOman">
+                            {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.INSIDE_OMAN" | translate }}
+                        </label>
+                    </div>
+                    <div class="form-check form-radio-primary">
+                        <input class="form-check-input" type="radio" name="insideOman" id="outsideOman"
+                            [disabled]="isDisabled" [value]="false" [(ngModel)]="user.insideOman"
+                            (ngModelChange)="onInsideOmanChange()">
+                        <label class="form-check-label" for="outsideOman">
+                            {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.OUTSIDE_OMAN" | translate }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">
+                    {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.ACCOUNT_TYPE" | translate }}
+                    <span class="text-danger" *ngIf="!isEditMode">*</span>
+                </label>
+                <div *ngIf="!isEditMode" class="d-flex gap-3">
+                    <div class="form-check form-radio-primary">
+                        <input class="form-check-input" type="radio" name="accountType" id="authorityEmployee"
+                            [disabled]="isDisabled" [value]="false" [(ngModel)]="user.externalUser">
+                        <label class="form-check-label" for="authorityEmployee">
+                            {{ "PAGES.COMMON.LABELS.AUTHORITY_EMPLOYEE" | translate }}
+                        </label>
+                    </div>
+                    <div class="form-check form-radio-primary">
+                        <input class="form-check-input" type="radio" name="accountType" id="externalUser"
+                            [disabled]="isDisabled" [value]="true" [(ngModel)]="user.externalUser">
+                        <label class="form-check-label" for="externalUser">
+                            {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.EXTERNAL_USER" | translate }}
+                        </label>
+                    </div>
+                </div>
+                <div *ngIf="isEditMode">
+                    <input type="text" class="form-control" [value]="user.externalUser ? ('PAGES.PERMISSIONS_MANAGEMENT.LABELS.EXTERNAL_USER' | translate) : ('PAGES.COMMON.LABELS.AUTHORITY_EMPLOYEE' | translate)" disabled>
+                </div>
+            </div>
+            
+            <div class="col-md-4" *ngIf="isEditMode">
+                <label for="state" class="form-label d-block">{{ 'PAGES.COMMON.LABELS.STATUS' | translate }}</label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="state"
+                    [checked]="user.status == 'ACTIVE'" (change)="user.status = $any($event.target).checked ? 'ACTIVE' : 'INACTIVE'"
+                    name="status" [disabled]="isDisabled">
+                </div>
+            </div>
+        </div>
+        <!-- Row 2: Civil Number / Passport Number -->
+        <!-- Row 2: Civil Number / Passport Number / Title -->
+        <div class="row mb-3">
+            <div class="col-md-4" *ngIf="user.insideOman">
+                <label for="civilNo" class="form-label">
+                    {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.CIVIL_NO" | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" name="civilNo" id="civilNo" #civilNo="ngModel"
+                    [(ngModel)]="user.civilNo" [disabled]="isDisabled" required noWhitespace pattern="[0-9]*"
+                    (input)="onlyNumbers($event)" [ngClass]="{'is-invalid': isSubmitting && civilNo.invalid}">
+                <div *ngIf="isSubmitting && civilNo.invalid" class="invalid-feedback">
+                    {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                </div>
+            </div>
+
+            <div class="col-md-4" *ngIf="!user.insideOman">
+                <label for="passportNo" class="form-label">
+                    {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.PASSPORT_NO" | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" name="passportNo" id="passportNo" #passportNo="ngModel"
+                    [(ngModel)]="user.passportNo" [disabled]="isDisabled" required noWhitespace
+                    [ngClass]="{'is-invalid': isSubmitting && passportNo.invalid}">
+                <div *ngIf="isSubmitting && passportNo.invalid" class="invalid-feedback">
+                    {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                </div>
+            </div>
+
+            <!-- Title Field -->
+            <!-- Title/Prefix Field -->
+            <div class="col-md-4">
+                <label for="prefixId" class="form-label">
+                    {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.TITLE" | translate }}
+                </label>
+                <select class="form-select" name="prefixId" id="prefixId" [(ngModel)]="user.prefixId"
+                    (ngModelChange)="onPrefixChange($event)" [disabled]="isDisabled">
+                    <option [ngValue]="null" disabled selected hidden>
+                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                    </option>
+                    <option *ngFor="let prefix of prefixList" [value]="prefix.id">
+                        {{ translate.currentLang === 'ar' ? prefix.lookupValueAr : prefix.lookupValueEn }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-md-4" *ngIf="!user.insideOman">
+                <label for="passportCopy" class="form-label">
+                    {{ "PAGES.CREATE_ACCOUNT.LABELS.PASSPORT_COPY" | translate }}
+                </label>
+                <div class="input-group">
+                    <ng-container *ngIf="!selectedFileName && !isDisabled; else fileSelected">
+                        <input type="file" class="form-control" id="passportCopy" (change)="onFileSelected($event)"
+                            aria-label="Upload">
+                    </ng-container>
+                    <ng-template #fileSelected>
+                        <input type="text" class="form-control" [value]="selectedFileName" readonly
+                            [disabled]="isDisabled">
+                    </ng-template>
+                    <button *ngIf="selectedFileName" type="button" class="btn btn-outline-success"
+                        (click)="downloadUploadedFile(user.passportFileName, user.passportBucketName)">
+                        <i class="mdi mdi-download"></i>
+                        {{ "PAGES.COMMON.LABELS.DOWNLOAD" | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3: Residential Country, Governorate/Wilayat/City -->
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="countryId" class="form-label">
+                    {{ "PAGES.CREATE_ACCOUNT.LABELS.COUNTRY_OF_RESIDENCE" | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" name="residentialCountryId" id="residentialCountryId"
+                    #residentialCountryId="ngModel" [(ngModel)]="user.residentialCountryId" required
+                    [disabled]="isDisabled || !!user.insideOman"
+                    [ngClass]="{'is-invalid': isSubmitting && residentialCountryId.invalid}"
+                    (change)="onCountryChange($event)">
+                    <option [value]="undefined" disabled selected hidden>
+                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                    </option>
+                    <option *ngFor="let country of countryList" [value]="country.id">
+                        {{ translate.currentLang === 'ar' ? country.countryNameAr : country.countryNameEn }}
+                    </option>
+                </select>
+                <div *ngIf="isSubmitting && residentialCountryId.invalid" class="invalid-feedback">
+                    {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                </div>
+            </div>
+
+            <div class="col-md-4" *ngIf="user.insideOman">
+                <label for="governorateId" class="form-label">
+                    {{ "PAGES.CREATE_ACCOUNT.LABELS.GOVERNORATE" | translate }}
+                </label>
+                <select class="form-select" name="governorateId" id="governorateId" [(ngModel)]="user.governorateId"
+                    (ngModelChange)="onGovernorateChange($event)" [disabled]="isDisabled">
+                    <option [ngValue]="null" disabled selected hidden>
+                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                    </option>
+                    <option *ngFor="let g of governorateList" [ngValue]="g.id">
+                        {{ translate.currentLang === 'ar' ? g.nameAr : g.nameEn }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-md-4" *ngIf="user.insideOman">
+                <label for="wilayatId" class="form-label">
+                    {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.WILAYAH/DISTRICT" | translate }}
+                </label>
+                <select class="form-select" name="wilayatId" id="wilayatId" [(ngModel)]="user.wilayatId"
+                    [disabled]="isDisabled">
+                    <option [value]="undefined" disabled selected hidden>
+                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                    </option>
+                    <option *ngFor="let w of wilayatList" [ngValue]="w.id">
+                        {{ translate.currentLang === 'ar' ? w.nameAr : w.nameEn }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-md-4" *ngIf="!user.insideOman">
+                <label for="cityId" class="form-label">
+                    {{ "PAGES.CREATE_ACCOUNT.LABELS.CITY" | translate }}
+                </label>
+                <select class="form-select" name="cityId" id="cityId" #cityId="ngModel" [(ngModel)]="user.cityId"
+                    [disabled]="isDisabled">
+                    <option [value]="undefined" disabled selected hidden>
+                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                    </option>
+                    <option *ngFor="let city of cityList" [ngValue]="city.id">
+                        {{ translate.currentLang === 'ar' ? city.cityNameAr : city.cityNameEn }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Row 4: Full Name in Arabic -->
+        <div class="row mt-3">
+            <div class="col-3">
+                <div class="mb-3">
+                    <label>
+                        {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.FIRST_NAME" | translate }} - {{ 'PAGES.COMMON.LABELS.AR'
+                        |
+                        translate }}
+                        <span *ngIf="!isDisabled" class="text-danger">*</span>
+                    </label>
+                    <input type="text" class="form-control" name="firstNameAr" id="firstNameAr" #firstNameAr="ngModel"
+                        [(ngModel)]="user.firstNameAr" required noWhitespace [disabled]="isDisabled"
+                        [ngClass]="{'is-invalid': isSubmitting && firstNameAr.invalid}">
+                    <div *ngIf="isSubmitting && firstNameAr.invalid" class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mb-3">
+                    <label>
+                        {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.SECOND_NAME" | translate }} - {{
+                        'PAGES.COMMON.LABELS.AR' |
+                        translate }}
+                        <span *ngIf="!isDisabled" class="text-danger">*</span>
+                    </label>
+                    <input type="text" class="form-control" name="secondNameAr" id="secondNameAr"
+                        #secondNameAr="ngModel" [(ngModel)]="user.secondNameAr" required noWhitespace
+                        [disabled]="isDisabled" [ngClass]="{'is-invalid': isSubmitting && secondNameAr.invalid}">
+                    <div *ngIf="isSubmitting && secondNameAr.invalid" class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mb-3">
+                    <label>
+                        {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.THIRD_NAME" | translate }} - {{ 'PAGES.COMMON.LABELS.AR'
+                        |
+                        translate }}
+                        <span *ngIf="!isDisabled" class="text-danger">*</span>
+                    </label>
+                    <input type="text" class="form-control" name="thirdNameAr" id="thirdNameAr" #thirdNameAr="ngModel"
+                        [(ngModel)]="user.thirdNameAr" required noWhitespace [disabled]="isDisabled"
+                        [ngClass]="{'is-invalid': isSubmitting && thirdNameAr.invalid}">
+                    <div *ngIf="isSubmitting && thirdNameAr.invalid" class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mb-3">
+                    <label>
+                        {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.LAST_NAME" | translate }} - {{ 'PAGES.COMMON.LABELS.AR'
+                        |
+                        translate }}
+                        <span *ngIf="!isDisabled" class="text-danger">*</span>
+                    </label>
+                    <input type="text" class="form-control" name="lastNameAr" id="lastNameAr" #lastNameAr="ngModel"
+                        [(ngModel)]="user.lastNameAr" required noWhitespace [disabled]="isDisabled"
+                        [ngClass]="{'is-invalid': isSubmitting && lastNameAr.invalid}">
+                    <div *ngIf="isSubmitting && lastNameAr.invalid" class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 5: Full Name in English -->
+        <div class="row mt-3">
+            <div class="col-3">
+                <div class="mb-3">
+                    <label>
+                        {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.FIRST_NAME" | translate }} - {{ 'PAGES.COMMON.LABELS.EN'
+                        |
+                        translate }}
+                        <span *ngIf="!isDisabled" class="text-danger">*</span>
+                    </label>
+                    <input type="text" class="form-control" name="firstNameEn" id="firstNameEn" #firstNameEn="ngModel"
+                        [(ngModel)]="user.firstNameEn" required noWhitespace [disabled]="isDisabled"
+                        [ngClass]="{'is-invalid': isSubmitting && firstNameEn.invalid}">
+                    <div *ngIf="isSubmitting && firstNameEn.invalid" class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mb-3">
+                    <label>
+                        {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.SECOND_NAME" | translate }} - {{
+                        'PAGES.COMMON.LABELS.EN' |
+                        translate }}
+                        <span *ngIf="!isDisabled" class="text-danger">*</span>
+                    </label>
+                    <input type="text" class="form-control" name="secondName" id="secondNameEn" #secondNameEn="ngModel"
+                        [(ngModel)]="user.secondNameEn" required noWhitespace [disabled]="isDisabled"
+                        [ngClass]="{'is-invalid': isSubmitting && secondNameEn.invalid}">
+                    <div *ngIf="isSubmitting && secondNameEn.invalid" class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mb-3">
+                    <label>
+                        {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.THIRD_NAME" | translate }} - {{ 'PAGES.COMMON.LABELS.EN'
+                        |
+                        translate }}
+                        <span *ngIf="!isDisabled" class="text-danger">*</span>
+                    </label>
+                    <input type="text" class="form-control" name="thirdName" id="thirdNameEn" #thirdNameEn="ngModel"
+                        [(ngModel)]="user.thirdNameEn" required noWhitespace [disabled]="isDisabled"
+                        [ngClass]="{'is-invalid': isSubmitting && thirdNameEn.invalid}">
+                    <div *ngIf="isSubmitting && thirdNameEn.invalid" class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mb-3">
+                    <label>
+                        {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.LAST_NAME" | translate }} - {{ 'PAGES.COMMON.LABELS.EN'
+                        |
+                        translate }}
+                        <span *ngIf="!isDisabled" class="text-danger">*</span>
+                    </label>
+                    <input type="text" class="form-control" name="lastName" id="lastNameEn" #lastNameEn="ngModel"
+                        [(ngModel)]="user.lastNameEn" required noWhitespace [disabled]="isDisabled"
+                        [ngClass]="{'is-invalid': isSubmitting && lastNameEn.invalid}">
+                    <div *ngIf="isSubmitting && lastNameEn.invalid" class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 6: Gender, Birth Date, Nationality -->
+        <div class="row mb-3">
+
+            <div class="col-md-4">
+                <label for="birthDate" class="form-label">
+                    {{ "PAGES.EXTERNAL_REVIEWER.LABELS.BIRTH_DATE" | translate }}
+                </label>
+                <input type="date" class="form-control" name="birthDate" id="birthDate" #birthDate="ngModel"
+                    [(ngModel)]="user.birthDate" [disabled]="isDisabled" [max]="getTodayDate()">
+            </div>
+
+            <div class="col-md-4">
+                <label for="nationalityId" class="form-label">
+                    {{ "PAGES.EXTERNAL_REVIEWER.LABELS.NATIONALITY" | translate }}
+                </label>
+                <select class="form-select" name="nationalityId" id="nationalityId" #nationalityId="ngModel"
+                    [(ngModel)]="user.nationalityId" [disabled]="isDisabled">
+                    <option [value]="undefined" disabled selected hidden>
+                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                    </option>
+                    <option *ngFor="let country of countryList" [ngValue]="country.id">
+                        {{ translate.currentLang === 'ar' ? country.countryNameAr : country.countryNameEn }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">
+                    {{ "PAGES.PERMISSIONS_MANAGEMENT.LABELS.GENDER" | translate }}
+                </label>
+                <div class="d-flex gap-3">
+                    <div class="form-check form-radio-primary" *ngFor="let gender of genderList; let i = index">
+                        <input class="form-check-input" type="radio" name="genderId" [id]="'gender' + i"
+                            [(ngModel)]="user.genderId" [disabled]="isDisabled || isGenderDisabled" [value]="gender.id" />
+                        <label class="form-check-label" [for]="'gender' + i">
+                            {{ translate.currentLang == 'ar' ? gender.lookupValueAr : gender.lookupValueEn }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Row 7: Job Title, Center/Organization, Head of Business -->
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="jobTitle" class="form-label">
+                    {{ "PAGES.EXTERNAL_REVIEWER.LABELS.JOB_TITLE" | translate }}
+                </label>
+                <input type="text" class="form-control" name="jobTitle" id="jobTitle" #jobTitle="ngModel"
+                    [(ngModel)]="user.jobTitle" [disabled]="isDisabled">
+            </div>
+
+            <div class="col-md-4" *ngIf="!user.externalUser">
+                <label for="centerId" class="form-label">
+                    {{ "PAGES.COMMON.LABELS.CENTER" | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" name="centerId" id="centerId" #centerId="ngModel"
+                    [(ngModel)]="user.centerId" [disabled]="isDisabled" required
+                    [ngClass]="{'is-invalid': isSubmitting && centerId.invalid}">
+                    <option [value]="undefined" disabled selected hidden>
+                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                    </option>
+                    <option *ngFor="let center of centerList" [value]="center.id">
+                        {{ translate.currentLang === 'ar' ? center.nameAr : center.nameEn }}
+                    </option>
+                </select>
+                <div *ngIf="isSubmitting && centerId.invalid" class="invalid-feedback">
+                    {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                </div>
+            </div>
+
+            <div class="col-md-4" *ngIf="user.externalUser">
+                <label for="organizationId" class="form-label">
+                    {{ "PAGES.CREATE_ACCOUNT.LABELS.ORGANIZATION" | translate }}
+                </label>
+                <select class="form-select" name="organizationId" id="organizationId" #organizationId="ngModel"
+                    [(ngModel)]="user.organizationId" [disabled]="isDisabled">
+                    <option [ngValue]="undefined" disabled selected hidden>
+                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                    </option>
+                    <option *ngFor="let organization of organizationList" [ngValue]="organization.id">
+                        {{ translate.currentLang === 'ar' ? organization.lookupValueAr : organization.lookupValueEn }}
+                    </option>
+                </select>
+            </div>
+
+
+            <div class="col-md-4">
+                <label for="operationalStatus" class="form-label">
+                    {{ "PAGES.COMMON.LABELS.OPERATIONAL_STATUS" | translate }}
+                </label>
+                <select class="form-select" name="operationalStatus" id="operationalStatus" #operationalStatus="ngModel"
+                    [(ngModel)]="user.operationalStatus" [disabled]="isDisabled">
+                    <option [value]="undefined" disabled selected hidden>
+                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                    </option>
+                    <option value="RETIRED">
+                        {{ "PAGES.COMMON.LABELS.RETIRED" | translate }}
+                    </option>
+                    <option value="EMPLOYED">
+                        {{ "PAGES.COMMON.LABELS.EMPLOYED" | translate }}
+                    </option>
+                    <option value="RETIRED_PART_TIME">
+                        {{ "PAGES.COMMON.LABELS.RETIRED_PART_TIME" | translate }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Card 2: Contact & Communication -->
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.CONTACT_COMMUNICATION' | translate }}</h4>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="phoneNo" class="form-label">
+                    {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.PHONE_NUMBER' | translate }}
+                </label>
+                <div class="input-group">
+                    <select class="form-select" style="max-width: 92px; text-align: left;" name="phoneNoKeyId"
+                        id="phoneNoKeyId" [(ngModel)]="user.phoneNoKeyId" [disabled]="isDisabled" dir="ltr">
+                        <option [value]="undefined" disabled selected hidden>
+                            {{ "PAGES.COMMON.LABELS.CODE" | translate }}
+                        </option>
+                        <option *ngFor="let country of countryList" [value]="country.id" dir="ltr"
+                            style="text-align: left;">
+                            {{ country.countryCode }}
+                        </option>
+                    </select>
+                    <input type="text" class="form-control" name="phoneNo" id="phoneNo" #phoneNo="ngModel"
+                        [pattern]="PHONE_PATTERN" [disabled]="isDisabled" noWhitespaces (input)="onlyNumbers($event)"
+                        [(ngModel)]="user.phoneNo" [ngClass]="{'is-invalid': isSubmitting && phoneNo.invalid}">
+                    <div *ngIf="isSubmitting && phoneNo.invalid" class="invalid-feedback">
+                        {{ 'PAGES.COMMON.MESSAGES.INVALID_PHONE_NUMBER' | translate }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="mobileNo" class="form-label">
+                    {{ 'PAGES.CREATE_ACCOUNT.LABELS.MOBILE_NUMBER' | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                    <select class="form-select" style="max-width: 92px; text-align: left;" name="mobileNoKeyId"
+                        id="mobileNoKeyId" #mobileNoKeyId="ngModel" required [(ngModel)]="user.mobileNoKeyId"
+                        [disabled]="isDisabled" [ngClass]="{'invalid-code': isSubmitting && mobileNoKeyId.invalid}"
+                        dir="ltr">
+                        <option [value]="undefined" disabled selected hidden>
+                            {{ "PAGES.COMMON.LABELS.CODE" | translate }}
+                        </option>
+                        <option *ngFor="let country of countryList" [value]="country.id" dir="ltr"
+                            style="text-align: left;">
+                            {{ country.countryCode }}
+                        </option>
+                    </select>
+                    <input type="text" class="form-control" name="mobileNo" id="mobileNo" #mobileNo="ngModel"
+                        [(ngModel)]="user.mobileNo" [disabled]="isDisabled" required noWhitespace
+                        (input)="onlyNumbers($event)" [pattern]="MOBILE_PATTERN"
+                        [ngClass]="{'is-invalid': isSubmitting && mobileNo.invalid}">
+                    <div *ngIf="isSubmitting && (mobileNo.invalid || mobileNoKeyId.invalid)" class="invalid-feedback">
+                        {{ 'PAGES.COMMON.MESSAGES.INVALID_MOBILE_NUMBER' | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>

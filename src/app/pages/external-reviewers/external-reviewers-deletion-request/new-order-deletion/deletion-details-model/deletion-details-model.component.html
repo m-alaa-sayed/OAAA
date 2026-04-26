@@ -1,0 +1,124 @@
+<div class="modal-content">
+    <form #submitForm="ngForm" (ngSubmit)="submit()">
+        <!-- Modal Header -->
+        <div class="modal-header bg-primary-light p-3 d-flex justify-content-between align-items-center">
+            <h5 class="modal-title">{{ title | translate }}</h5>
+            <button type="button" class="btn-close m-0 p-0" (click)="cancel()"></button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body p-4">
+            <!-- Upper Section: Details Preview -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    <h5 class="text-start">{{ "PAGES.ER_DELETION.LABELS.REVIEWER_INFORMATION" | translate }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-start">
+                         <div class="col-md-6 mb-2">
+                            <span class="fw-bold">{{'PAGES.ER_DELETION.LABELS.REVIEWER_NAME' | translate }}</span>
+                            <span class="ms-2">{{ translate.currentLang == 'ar' ? rowData.user?.fullNameAr :
+                                rowData.user?.fullNameEn }}</span>
+                        </div>
+                    
+                        <div class="col-md-6 mb-2">
+                            <span class="fw-bold">{{'PAGES.COMMON.LABELS.CIVIL_ID_PASSPORT_NUMBER' | translate }}</span>
+                            <span class="ms-2">{{ rowData.user?.insideOman ? rowData.user?.civilNo :
+                                rowData.user?.passportNo }}</span>
+                        </div>
+
+                        <span class="col-md-6 mb-2">
+                            {{
+                            rowData.externalReviewersActiveRegistrationRequestInfo?.module === 'CSEQA'
+                            ? (
+                            rowData.externalReviewersActiveRegistrationRequestInfo?.qualification?.otherCseqaGeneralSpecialization
+                            ?? (
+                            translate.currentLang === 'ar'
+                            ?
+                            rowData.externalReviewersActiveRegistrationRequestInfo?.qualification?.cseqaGeneralSpecialization?.nameAr
+                            :
+                            rowData.externalReviewersActiveRegistrationRequestInfo?.qualification?.cseqaGeneralSpecialization?.nameEn
+                            )
+                            )
+                            : (
+                            rowData.externalReviewersActiveRegistrationRequestInfo?.qualification?.otherGeneralSpecialization
+                            ?? (
+                            translate.currentLang === 'ar'
+                            ?
+                            rowData.externalReviewersActiveRegistrationRequestInfo?.qualification?.specificSpecialization?.generalSpecialization?.nameAr
+                            :
+                            rowData.externalReviewersActiveRegistrationRequestInfo?.qualification?.specificSpecialization?.generalSpecialization?.nameEn
+                            )
+                            )
+                            }}
+                        </span>
+
+
+                        <div class="col-md-6 mb-2">
+                            <span class="fw-bold">{{'PAGES.CREATE_ACCOUNT.LABELS.PHONE_NUMBER' | translate }}</span>
+                            <span class="ms-2">{{ rowData.user?.phoneNo }}</span>
+                        </div>
+
+                        <div class="col-md-6 mb-2">
+                            <span class="fw-bold">{{'PAGES.COMMON.LABELS.EMAIL' | translate }}</span>
+                            <span class="ms-2">{{ rowData.user?.email }}</span>
+                        </div>
+
+                        <div class="col-md-6 mb-2">
+                            <span class="fw-bold">{{'PAGES.COMMON.LABELS.COUNTRY_OF_RESIDENCE' | translate }}</span>
+                            <span class="ms-2">{{ translate.currentLang == 'ar' ?
+                                rowData.user?.country?.countryNameAr :
+                                rowData.user?.country?.countryNameEn }}</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Lower Section: Training Management -->
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="text-start">{{ "PAGES.ER_DELETION.LABELS.DELETION_JUSTIFICATIONS" | translate }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+
+                        <!-- Notes -->
+                        <div class="col-md-12 mb-3">
+                            <div class="text-start">
+                                <label for="notes" class="form-label fw-bold d-block mb-2">
+                                    {{ "PAGES.COMMON.LABELS.JUSTIFICATIONS" | translate }}
+                                    <span class="text-danger">*</span>
+
+                                    <small class="text-danger ms-3">
+                                        ({{
+                                        'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                                </label>
+                                <textarea class="form-control" id="notes" name="notes" [(ngModel)]="notes" rows="4"
+                                    #notesField="ngModel" required title=""
+                                    [class.is-invalid]="(notesField.invalid && notesField.touched) || (isSubmitting && notesField.invalid)"
+                                    placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"  style="resize: none; text-align: right; min-height: 80px;"
+                                    (ngModelChange)="onTextChange()"></textarea>
+                                      <div class="invalid-feedback" *ngIf="(notesField.invalid && notesField.touched) || (isSubmitting && notesField.invalid)">
+                                                {{ "PAGES.COMMON.MESSAGES.FIELD_REQUIRED" | translate }}
+                                       </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer d-flex">
+            <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+                {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+            </button>
+            <button type="submit" class="btn btn-primary">
+                <!-- <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2"></span> -->
+                {{ 'PAGES.COMMON.LABELS.SUBMIT' | translate }}
+            </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,76 @@
+<form #submitForm="ngForm">
+    <div class="card m-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{
+                    "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SAFETY_AND_SECURITY" |
+                        translate
+                }}</h5>
+        </div>
+        <div class="card-body">
+            <div *ngIf="!schoolView" class="mx-4 mb-2 d-flex justify-content-end">
+                <button class="btn btn-primary" (click)="importForms(forms)" [disabled]="isLoadingForms">
+                    {{ 'PAGES.DOMAIN_SUMMARY.LABELS.IMPORT_FROM_FORMS' | translate }}
+                </button>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <label class="form-label">
+                        {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SAFETY_AND_SECURITY_NOTES' | translate }}
+                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                    </label>
+                    <app-custom-ckeditor name="editorAr" [language]="'ar'"
+                              [disabled]="!isEditMode"
+                              [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                              #safetyAndSecurityNotes="ngModel" id="safetyAndSecurityNotes"
+                              name="safetyAndSecurityNotes"
+                              required [(ngModel)]="visitReportSubmissionRequestInfo.safetyAndSecurityNotes">
+                    </app-custom-ckeditor>
+                    <div *ngIf="isSubmitting && safetyAndSecurityNotes?.invalid" class="text-danger text-start mt-1">
+                        <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+<ng-template #forms let-modal>
+    <div class="modal-body">
+        <table class="table table-sm table-bordered mb-3">
+            <thead>
+            <tr>
+                <th>{{ 'PAGES.DOMAIN_SUMMARY.LABELS.FORM_NUMBER' | translate }}</th>
+                <th>{{ 'PAGES.DOMAIN_SUMMARY.LABELS.FORM_SUBMITTER' | translate }}</th>
+                <th>{{ 'PAGES.DOMAIN_SUMMARY.LABELS.FORM_DATE' | translate }}</th>
+                <th>{{ 'PAGES.VISIT_FORM.LABELS.SUMMARY' | translate }}</th>
+                <th>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.LEARNING_ENV_QUALITY_STANDARD_DESCRIPTION' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let form of importedSafetyForms || []">
+                <td>{{ form.formCode }}</td>
+                <td>{{ this.translate.currentLang == 'ar' ? form.fullNameAr : form.fullNameEn }}</td>
+                <td *ngIf="LanguageUtil.isArabic">
+                    <span dir="ltr">{{ form.createdOn | date:'yyyy-MM-dd hh:mm a':'':'en' }}</span>
+                </td>
+                <td *ngIf="!LanguageUtil.isArabic">{{ form.createdOn | date:'dd-MM-yyyy hh:mm a' }}</td>
+                <td [innerHTML]="form.summary"></td>
+<!--                <td [innerHTML]="form.learningEnvironmentQualityDomain"></td>-->
+                <td class="multiline" [innerText]="form.learningEnvironmentQualityDomain"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
+            {{ 'PAGES.COMMON.LABELS.CLOSE' | translate }}
+        </button>
+    </div>
+</ng-template>
+
+<step-action-buttons *ngIf="showButtons" [showSubmitBtn]="false"
+                     (previousEvent)="previousEvent.emit()" (saveEvent)="save()" [showSaveBtn]="showSaveBtn"
+                     (cancelEvent)="cancelEvent.emit()" (nextEvent)="nextEvent.emit()"></step-action-buttons>

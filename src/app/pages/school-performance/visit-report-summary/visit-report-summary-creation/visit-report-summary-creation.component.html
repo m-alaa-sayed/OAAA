@@ -1,0 +1,10 @@
+<page-title [title]="'MENUITEMS.MENU.SUMMARY_EXTERNAL_REVIEW_VISIT_REPORT_INFORMATION' | translate"
+    [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.SUMMARY_EXTERNAL_REVIEW_VISIT_REPORTS' | translate, link: '/jawda/school-performance/visit-report-summary/list', active: true },
+{ label: 'MENUITEMS.MENU.SUMMARY_EXTERNAL_REVIEW_VISIT_REPORT_INFORMATION' | translate,  active: false }]"></page-title>
+
+
+
+<oaaaqa-management-wizard  *ngIf="summaryVisitReportSubmissionRequestInfo && showSteps"
+    [steps]="steps"></oaaaqa-management-wizard>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

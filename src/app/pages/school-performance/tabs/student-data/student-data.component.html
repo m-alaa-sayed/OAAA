@@ -1,0 +1,352 @@
+<div class="tab-content">
+  <!-- Header -->
+  <div class="tab-header">
+    <h2 class="page-title">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.TITLE' | translate }}</h2>
+  </div>
+  <div class="tab-body">
+    <div class="student-data-container">
+      <p class="page-description mb-3">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.DESCRIPTION' | translate }}</p>
+
+      <!-- Student Count by Gender Form -->
+      <div class="section-card mb-4">
+        <div class="no-print">
+          <div class="section-header">
+            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.STUDENT_COUNT_BY_GENDER' | translate }}
+            </h3>
+          </div>
+
+          <div class="gender-form">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.MALES' | translate }}
+                  <span class="text-danger">*</span>
+                </label>
+                <input type="number" class="form-control"
+                  [readonly]="!isEditable"
+                  [placeholder]="'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.ENTER_COUNT' | translate"
+                  [(ngModel)]="schoolInfo.studentCountByGender.males"
+                  (ngModelChange)="onGenderCountChange('males', $event)" min="0">
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.FEMALES' | translate }}
+                  <span class="text-danger">*</span>
+                </label>
+                <input type="number" class="form-control"
+                 [readonly]="!isEditable"
+                  [placeholder]="'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.ENTER_COUNT' | translate"
+                  [(ngModel)]="schoolInfo.studentCountByGender.females"
+                  (ngModelChange)="onGenderCountChange('females', $event)" min="0">
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.TOTAL' | translate }}</label>
+                <input type="number" class="form-control" [value]="schoolInfo.studentCountByGender.total" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <!-- Print Only Table -->
+        <div class="print-only">
+          <div class="section-header">
+            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.STUDENT_COUNT_BY_GENDER' | translate }}
+            </h3>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+              <tbody>
+                <tr>
+                  <td class="fw-bold" style="width: 30%;">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.MALES' | translate }}</td>
+                  <td>{{ schoolInfo.studentCountByGender.males || 0 }}</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.FEMALES' | translate }}</td>
+                  <td>{{ schoolInfo.studentCountByGender.females || 0 }}</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.TOTAL' | translate }}</td>
+                  <td>{{ schoolInfo.studentCountByGender.total || 0 }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Count by Educational Stage -->
+      <div class="section-card mb-4">
+        <div class="no-print">
+          <div class="section-header">
+            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.STUDENT_COUNT_BY_STAGE' | translate }}
+              <span class="text-danger">*</span>
+            </h3>
+          </div>
+
+          <div class="stage-form">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="stage-group stage-1-4">
+                <label class="stage-label">( 1 - 4 )</label>
+                <div class="stage-content">
+                  <input type="number" class="form-control stage-input"
+                    [placeholder]="'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.ENTER_COUNT' | translate"
+                    [(ngModel)]="schoolInfo.studentCountByStage.stage1to4"
+                     [readonly]="!isEditable"
+                    (ngModelChange)="onStageCountChange('stage1to4', $event)" min="0">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="stage-group stage-5-8">
+                <label class="stage-label">( 5 - 8 )</label>
+                <div class="stage-content">
+                  <input type="number" class="form-control stage-input"
+                    [placeholder]="'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.ENTER_COUNT' | translate"
+                    [(ngModel)]="schoolInfo.studentCountByStage.stage5to8"
+                     [readonly]="!isEditable"
+                    (ngModelChange)="onStageCountChange('stage5to8', $event)" min="0">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="stage-group stage-9-12">
+                <label class="stage-label">( 9 - 12 )</label>
+                <div class="stage-content">
+                  <input type="number" class="form-control stage-input"
+                    [placeholder]="'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.ENTER_COUNT' | translate"
+                    [(ngModel)]="schoolInfo.studentCountByStage.stage9to12"
+                     [readonly]="!isEditable"
+                    (ngModelChange)="onStageCountChange('stage9to12', $event)" min="0">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- add total  -->
+          <div class="row d-flex justify-content-end">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.TOTAL' | translate }}</label>
+                <input type="number" class="form-control" [disabled]="true"
+                  [value]="schoolInfo.studentCountByStage.stage1to4 + schoolInfo.studentCountByStage.stage5to8 +schoolInfo.studentCountByStage.stage9to12"
+                  readonly>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        </div>
+
+        <!-- Print Only Table -->
+        <div class="print-only avoid-page-break">
+          <div class="section-header">
+            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.STUDENT_COUNT_BY_STAGE' | translate }}
+            </h3>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+              <tbody>
+                <tr>
+                  <td class="fw-bold" style="width: 30%;">( 1 - 4 )</td>
+                  <td>{{ schoolInfo.studentCountByStage.stage1to4 || 0 }}</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">( 5 - 8 )</td>
+                  <td>{{ schoolInfo.studentCountByStage.stage5to8 || 0 }}</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">( 9 - 12 )</td>
+                  <td>{{ schoolInfo.studentCountByStage.stage9to12 || 0 }}</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.TOTAL' | translate }}</td>
+                  <td>{{ (schoolInfo.studentCountByStage.stage1to4 || 0) + (schoolInfo.studentCountByStage.stage5to8 || 0) + (schoolInfo.studentCountByStage.stage9to12 || 0) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Percentage by Educational Stage -->
+      <div class="section-card mb-4">
+        <div class="no-print">
+          <div class="section-header">
+            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.STUDENT_PERCENTAGE_BY_STAGE' | translate
+              }}</h3>
+            <p class="section-subtitle">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.PERCENTAGE_CALCULATION_SUBTITLE' |
+              translate }}</p>
+          </div>
+
+          <div class="percentage-form stage-form">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="stage-group stage-1-4">
+                <label class="stage-label">( 1 - 4 )</label>
+                <div class="stage-content">
+                  <input type="number" class="form-control stage-input" [value]="getStagePercentage('stage1to4')"
+                    [disabled]="true" step="0.1">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="stage-group stage-5-8">
+                <label class="stage-label">( 5 - 8 )</label>
+                <div class="stage-content">
+                  <input type="number" class="form-control stage-input" [value]="getStagePercentage('stage5to8')"
+                    [disabled]="true" step="0.1">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="stage-group stage-9-12">
+                <label class="stage-label">( 9 - 12 )</label>
+                <div class="stage-content">
+                  <input type="number" class="form-control stage-input" [value]="getStagePercentage('stage9to12')"
+                    [disabled]="true" step="0.1">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.AVERAGE_SCHOOL_DENSITY' | translate
+                  }} {{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.AVERAGE_SCHOOL_DENSITY_DESCRIPTION' | translate
+                  }}<span class="text-danger">*</span></label>
+                <input type="number" class="form-control" [(ngModel)]="schoolInfo.averageSchoolDensity"  step="0.1">
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <!-- Print Only Table -->
+        <div class="print-only avoid-page-break">
+          <div class="section-header">
+            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.STUDENT_PERCENTAGE_BY_STAGE' | translate }}</h3>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+              <tbody>
+                <tr>
+                  <td class="fw-bold" style="width: 30%;">( 1 - 4 )</td>
+                  <td>{{ getStagePercentage('stage1to4') || 0 }} %</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">( 5 - 8 )</td>
+                  <td>{{ getStagePercentage('stage5to8') || 0 }} %</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">( 9 - 12 )</td>
+                  <td>{{ getStagePercentage('stage9to12') || 0 }} %</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold small text-justify lh-base">
+                    {{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.AVERAGE_SCHOOL_DENSITY' | translate }}
+                    {{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.AVERAGE_SCHOOL_DENSITY_DESCRIPTION' | translate }}
+                  </td>
+                  <td>{{ schoolInfo.averageSchoolDensity || '-' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Ratios and Statistics -->
+      <div class="section-card mb-4">
+        <div class="no-print">
+          <div class="section-header">
+            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.RATIOS_AND_STATISTICS' | translate }}</h3>
+          </div>
+
+          <div class="ratios-form">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.OMANI_STUDENTS_RATIO' | translate
+                  }}
+                  <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input type="number" class="form-control"
+                    [placeholder]="'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.ENTER_RATIO' | translate"
+                    [(ngModel)]="schoolInfo.studentRatios.nonOmaniStudentsRatio"
+                     [readonly]="!isEditable"
+                    (ngModelChange)="onRatioChange('nonOmaniStudentsRatio', $event)" min="0" max="100" step="0.1">
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.NON_OMANI_STUDENTS_RATIO' |
+                  translate }}</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" [value]="getOmaniStudentsRatio()" readonly step="0.1">
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+        </div>
+
+        <!-- Print Only Table -->
+        <div class="print-only avoid-page-break">
+          <div class="section-header">
+            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.RATIOS_AND_STATISTICS' | translate }}</h3>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+              <tbody>
+                <tr>
+                  <td class="fw-bold" style="width: 30%;">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.OMANI_STUDENTS_RATIO' | translate }}</td>
+                  <td>{{ schoolInfo.studentRatios.nonOmaniStudentsRatio || 0 }} %</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.NON_OMANI_STUDENTS_RATIO' | translate }}</td>
+                  <td>{{ getOmaniStudentsRatio() || 0 }} %</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade-by-Grade Data Table -->
+      <div class="section-card mb-4 avoid-page-break">
+        <div class="section-header">
+          <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.STUDENT_DATA.GRADE_BREAKDOWN' | translate }}</h3>
+          <div class="section-actions">
+
+          </div>
+        </div>
+
+        <div class="table-container">
+            <oaaaqa-ag-grid [dataList]="schoolInfo.gradeData" [columns]="gradeColumns" [selectable]="false" [actions]="[]"
+              [pagination]="true" [paginationPageSize]="20" [paginationPageSizeSelector]="[10, 20, 50]"
+              (cellValueChanged)="onCellValueChanged($event)"
+              tableHeadColor="#E6F2F7">
+            </oaaaqa-ag-grid>
+        </div>
+      </div>
+    </div>

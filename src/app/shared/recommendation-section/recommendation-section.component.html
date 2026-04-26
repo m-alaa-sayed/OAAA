@@ -1,0 +1,78 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h5 class="card-title mb-0">
+      {{ 'PAGES.REQUEST_DETAILS.LABELS.RECOMMENDATION_SECTION_TITLE_PART1' | translate }}
+      {{ 'PAGES.COMMON.LABELS.' + module | translate }}
+      {{ 'PAGES.REQUEST_DETAILS.LABELS.RECOMMENDATION_SECTION_TITLE_PART2' | translate }}
+    </h5>
+  </div>
+  <div class="card-body">
+    <div class="mb-3 row align-items-center">
+      <p [ngClass]="{'text-success': acceptancePercentageMsg.exceeded, 'text-danger': !acceptancePercentageMsg.exceeded}">{{acceptancePercentageMsg.msg}}</p>
+      <label class="col-md-1 col-form-label text-start">
+        {{ 'PAGES.REQUEST_DETAILS.LABELS.RECOMMENDATION' | translate }}
+        <span *ngIf="isEditable" class="text-danger">*</span>
+      </label>
+      <div class="col-sm-10 d-flex gap-4">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="recommendation" id="recommended" value="MET"
+            [disabled]="!canEditMetAndNotMet"
+            [(ngModel)]="model.evaluationRecommendation" (ngModelChange)="onRecommendationChange()" />
+          <label class="form-check-label" for="recommended">
+            {{ 'PAGES.COMMON.LABELS.MET_INITIAL_CRITERIA' | translate }}
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="recommendation" id="notRecommended"
+            value="NOT_MET" [disabled]="!canEditMetAndNotMet" required
+            [(ngModel)]="model.evaluationRecommendation" (ngModelChange)="onRecommendationChange()" />
+          <label class="form-check-label" for="notRecommended">
+            {{ 'PAGES.COMMON.LABELS.NOT_MET' | translate }}
+          </label>
+        </div>
+      </div>
+      <div *ngIf="isSubmitted && !model.evaluationRecommendation" class="invalid-feedback d-block">
+        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+
+    <div class="mb-4">
+      <label for="evaluationRecommendationNotes" class="col-md-2 col-form-label text-start">
+        {{ 'PAGES.REQUEST_DETAILS.LABELS.JUSTIFICATIONS' | translate }}
+        <span *ngIf="isEditable" class="text-danger">*</span>
+        <small class="text-danger ms-3">({{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+      </label>
+      <textarea id="evaluationRecommendationNotes" class="form-control col-md-12" rows="3" placeholder=""
+        [disabled]="!isEditable" required #evaluationRecommendationNotes="ngModel"
+        name="evaluationRecommendationNotes"
+        [(ngModel)]="model.evaluationRecommendationNotes"
+        placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+        (ngModelChange)="onTextChange()"></textarea>
+
+      <div *ngIf="isSubmitted && evaluationRecommendationNotes.invalid" class="invalid-feedback d-block">
+        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <div class="mb-2" *ngIf="model.evaluationRecommendation === 'MET' && module === 'CHEQA'">
+      <div class="ms-4 mb-3 fw-bold">
+        {{ 'PAGES.REQUEST_DETAILS.LABELS.RECOMMENDATION_PARTICIPATION' | translate }}
+        <span *ngIf="isEditable" class="text-danger">*</span>
+      </div>
+
+      <div class="form-check mb-2 ms-4" *ngFor="let activity of erActivities; let i = index">
+        <input class="form-check-input" required type="checkbox" #checkbox [id]="'activity-' + activity.id"
+          [checked]="isChecked(activity.id)" [name]="'activity-' + activity.id" [disabled]="!isEditable"
+          (change)="toggleActivity(activity, checkbox.checked)" />
+        <label class="form-check-label" [for]="'activity-' + activity.id">
+          {{ translate.currentLang == 'en' ? activity.lookupValueEn : activity.lookupValueAr }}
+        </label>
+      </div>
+      <div *ngIf="isSubmitted && model.evaluationRecommendation === 'MET' && (!model.recommendedActivityList || model.recommendedActivityList.length == 0)"
+        class="invalid-feedback d-block">
+        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+      </div>
+    </div>
+  </div>
+</div>

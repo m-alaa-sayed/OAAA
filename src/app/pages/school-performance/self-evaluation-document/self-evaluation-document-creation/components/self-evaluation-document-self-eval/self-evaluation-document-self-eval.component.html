@@ -1,0 +1,146 @@
+<div class="no-print">
+    <form #submitForm="ngForm">
+        <div class="m-4">
+            <h6 class="mb-0 text-danger">{{'PAGES.SELF_EVALUATION_DOCUMENT.MESSAGES.SELF_EVALUATION_NOTE' | translate}}
+            </h6>
+        </div>
+
+
+        <div class="card mx-4" *ngFor="let domain of domains ; let i = index">
+
+            <div class="card-header">
+                <h5 class="card-title mb-0"> {{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.' +domain.domain| translate }}</h5>
+            </div>
+            <div *ngIf="domain" class="card-body">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            {{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.AREAS_OF_STRENGTH' | translate }}
+                            <span *ngIf="isEditable" class="text-danger">*</span>
+                        </label>
+                        <app-custom-ckeditor #strengths="ngModel" id="strengths-{{ i }}" name="strengths-{{ i }}" required
+                            [(ngModel)]="domain.strengths" [disabled]="!isEditable"
+                            [ngClass]="{ 'ckeditor-disabled': !isEditable }">
+                        </app-custom-ckeditor>
+                        <div *ngIf="isSubmitting && strengths?.invalid" class="text-danger text-start mt-1">
+                            <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            {{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.EVIDENCE' | translate }}
+                            <span *ngIf="isEditable" class="text-danger">*</span>
+                        </label>
+                        <app-custom-ckeditor #strengthsEvidence="ngModel" id="strengthsEvidence-{{ i }}"
+                            name="strengthsEvidence-{{ i }}" required [disabled]="!isEditable"
+                            [ngClass]="{ 'ckeditor-disabled': !isEditable }" [(ngModel)]="domain.strengthsEvidence">
+                        </app-custom-ckeditor>
+                        <div *ngIf="isSubmitting && strengthsEvidence?.invalid" class="text-danger text-start mt-1">
+                            <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row my-3">
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            {{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.AREAS_FOR_IMPROVEMENT' | translate }}
+                            <span *ngIf="isEditable" class="text-danger">*</span>
+                        </label>
+                        <app-custom-ckeditor #improvements="ngModel" id="improvements-{{ i }}" name="improvements-{{ i }}" required
+                            [disabled]="!isEditable" [ngClass]="{ 'ckeditor-disabled': !isEditable }"
+                            [(ngModel)]="domain.improvements">
+                        </app-custom-ckeditor>
+                        <div *ngIf="isSubmitting && improvements?.invalid" class="text-danger text-start mt-1">
+                            <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            {{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.EVIDENCE' | translate }}
+                            <span *ngIf="isEditable" class="text-danger">*</span>
+                        </label>
+                        <app-custom-ckeditor #improvementsEvidence="ngModel" id="improvementsEvidence-{{ i }}"
+                            name="improvementsEvidence-{{ i }}" required [disabled]="!isEditable"
+                            [ngClass]="{ 'ckeditor-disabled': !isEditable }" [(ngModel)]="domain.improvementsEvidence">
+                        </app-custom-ckeditor>
+                        <div *ngIf="isSubmitting && improvementsEvidence?.invalid" class="text-danger text-start mt-1">
+                            <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="print-only">
+    <div class="mt-4" *ngFor="let domain of domains; let i = index; let isLast = last" [class.page-break-after]="!isLast">
+        <h5 class="fw-bold" style="background-color: #05AAA7; margin: 0; padding: 10px; text-align: center; color: white;">{{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.' + domain.domain | translate }}</h5>
+        
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered table-striped" style="margin: 0;">
+                <thead style="background-color: #C0F0E8;">
+                    <tr>
+                        <th style="width: 50%;">{{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.AREAS_OF_STRENGTH' | translate }}</th>
+                        <th style="width: 50%;">{{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.EVIDENCE' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td [innerHTML]="domain.strengths || '-'"></td>
+                        <td [innerHTML]="domain.strengthsEvidence || '-'"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-bordered table-striped" style="margin: 0;">
+                <thead style="background-color: #C0F0E8;">
+                    <tr>
+                        <th style="width: 50%;">{{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.AREAS_FOR_IMPROVEMENT' | translate }}</th>
+                        <th style="width: 50%;">{{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.EVIDENCE' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td [innerHTML]="domain.improvements || '-'"></td>
+                        <td [innerHTML]="domain.improvementsEvidence || '-'"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- buttons -->
+<div *ngIf="showButtons" class="row mt-3 mx-3">
+    <div class="d-flex justify-content-between w-100">
+        <!-- Left side (start) -->
+        <div>
+            <button type="button" class="step-prev btn btn-primary" (click)="previousEvent.emit()">
+                {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+            </button>
+
+            <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancelEvent.emit()">
+                {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+            </button>
+        </div>
+
+        <!-- Right side (end) -->
+        <div>
+            <button type="button" class="btn btn-primary JU me-2" *ngIf="isEditable" (click)="saveEvent.emit()">
+                {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+            </button>
+
+            <button type="button" class="btn btn-primary" (click)="next()">
+                {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

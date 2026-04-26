@@ -1,0 +1,12 @@
+<page-title [title]="'MENUITEMS.MENU.SUMMARY_EXTERNAL_REVIEW_VISIT_REPORTS' | translate"
+    [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.SUMMARY_EXTERNAL_REVIEW_VISIT_REPORTS' | translate,  active: true }]">
+</page-title>
+
+
+<!-- grid table -->
+<div class="card shadow-sm p-3">
+    <oaaaqa-ag-grid [columns]="columns" [actions]="actions"
+        [dataList]="summaryVisitReportRequestsOverviewList"></oaaaqa-ag-grid>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

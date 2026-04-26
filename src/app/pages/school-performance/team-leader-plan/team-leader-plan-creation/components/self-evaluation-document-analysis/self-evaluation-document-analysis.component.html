@@ -1,0 +1,82 @@
+<div class="school-performance-layout">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar-nav">
+        <div class="nav-header">
+            <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.NAVIGATION.TITLE' | translate }}</h3>
+        </div>
+
+        <nav class="nav-tabs">
+            <button *ngFor="let tab of tabs" class="nav-tab" [class.active]="activeTab === tab.id"
+                (click)="selectTab(tab)">
+                <i class="ri-arrow-left-s-line tab-arrow"></i>
+                <span class="tab-label">{{ tab.label | translate }}</span>
+
+            </button>
+        </nav>
+    </div>
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- School Info Header -->
+        <div class="school-header" *ngIf="visitPlanRequestInfo.scheduledSchoolVisit">
+            <div class="school-details">
+                <h1 class="school-name">{{ visitPlanRequestInfo.scheduledSchoolVisit.school?.nameAr }}</h1>
+                <div class="school-meta">
+                    <span class="school-code">{{ 'MENUITEMS.MENU.SCHOOL_CODE' | translate }}: {{
+                        visitPlanRequestInfo.scheduledSchoolVisit.school?.code }}</span>
+                    <span class="divider">•</span>
+                    <span class="school-type">{{ 'PAGES.COMMON.LABELS.' +
+                        visitPlanRequestInfo.scheduledSchoolVisit.school?.type | translate }}</span>
+                    <span class="divider">•</span>
+                    <!-- <span class="location">{{ getGovernorateName() }} - {{ getWilayatName() }}</span> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content-area">
+            <div class="tab-content-area">
+
+                <app-mastery-rates *ngIf="visitPlanRequestInfo.editableSchoolInfo && activeTab === 'mastery-rates'"
+                    [isEditable]="false" [schoolInfo]="visitPlanRequestInfo.editableSchoolInfo">
+                </app-mastery-rates>
+                <app-achievement-distribution [isEditable]="false"
+                    *ngIf="visitPlanRequestInfo.editableSchoolInfo && activeTab === 'achievement-distribution'"
+                    [schoolInfo]="visitPlanRequestInfo.editableSchoolInfo">
+                </app-achievement-distribution>
+                <teamlead-cohort-tracking
+                    *ngIf="visitPlanRequestInfo.editableSchoolInfo && activeTab === 'teamlead-cohort-tracking'"
+                    [submitted]="submitted"
+                    [schoolInfo]="visitPlanRequestInfo.editableSchoolInfo" [isEditable]="isEditMode">
+                </teamlead-cohort-tracking>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- <div *ngIf="showButtons" class="pt-2 mx-3 d-flex justify-content-between">
+
+    <div class="d-flex justify-content-start rounded">
+        <button type="button" class="step-prev btn btn-primary" (click)="previousEvent.emit()">
+            {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+        </button>
+
+        <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancelEvent.emit()">
+            {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+
+    </div>
+
+    <div class="d-flex justify-content-end rounded w-25" (click)="nextEvent.emit()">
+        <button type="button" class="step-next btn btn-primary">
+            {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+        </button>
+    </div>
+</div> -->
+
+
+<step-action-buttons *ngIf="showButtons" [showSubmitBtn]="false" (nextEvent)="next()"
+    (previousEvent)="previousEvent.emit()" (saveEvent)="save()"
+    (cancelEvent)="cancelEvent.emit()"></step-action-buttons>

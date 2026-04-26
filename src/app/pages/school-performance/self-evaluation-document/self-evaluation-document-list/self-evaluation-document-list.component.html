@@ -1,0 +1,12 @@
+<page-title [title]="'MENUITEMS.MENU.SELF_EVALUATION_DOCUMENT' | translate"
+    [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.SELF_EVALUATION_DOCUMENT' | translate,  active: true }]"></page-title>
+
+
+
+
+<!-- grid table -->
+<div class="card shadow-sm p-3">
+    <oaaaqa-ag-grid [columns]="columns" [actions]="actions" [dataList]="selfEvaluationDocumentList"></oaaaqa-ag-grid>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

@@ -1,0 +1,317 @@
+<page-title [title]="pageTitleKey | translate"
+    [breadcrumbItems]="[{ label: pageTitleKey | translate, active: true }]"></page-title>
+<div class="card-header d-flex justify-content-between align-items-center py-3">
+    <h5 class="text-start">{{ "MENUITEMS.MENU.EXTERNAL_REVIEWERS" | translate }}</h5>
+    <button *hasPermission="[permissionErSendUpdateNotification]" class="btn btn-primary justify-content-end d-flex"
+        [disabled]="!selectedExternalReviewers || selectedExternalReviewers.length === 0"
+        (click)="setAction(0,'NOTIFICATIONS')">
+        <i class="ri-notification-3-line align-bottom me-1"></i>
+        {{ "PAGES.EXTERNAL_REVIEWER.LABELS.SEND_NOTIFICATION_FOR_SELECTED" | translate }}
+    </button>
+</div>
+<div class="card-body py-4">
+    <ng-container [ngSwitch]="module">
+        <oaaaqa-ag-grid *ngSwitchCase="'CHEQA'"
+            [actions]="actions"
+            [selectable]="true"
+            (selectedListChangeEvent)="OnExternalReviewersSelectChange($event)"
+            [dataList]="externalReviewersList"
+            [columns]="columns">
+        </oaaaqa-ag-grid>
+        <oaaaqa-ag-grid *ngSwitchCase="'CSEQA'"
+            [actions]="actions"
+            [selectable]="true"
+            (selectedListChangeEvent)="OnExternalReviewersSelectChange($event)"
+            [dataList]="externalReviewersList"
+            [columns]="columns"
+            [columnFilterOptions]="columnFilterOptions">
+        </oaaaqa-ag-grid>
+        <oaaaqa-ag-grid *ngSwitchCase="'OQF'"
+            [actions]="actions"
+            [selectable]="true"
+            (selectedListChangeEvent)="OnExternalReviewersSelectChange($event)"
+            [dataList]="externalReviewersList"
+            [columns]="columns">
+        </oaaaqa-ag-grid>
+        <!-- Fallback in case of unexpected module value -->
+        <oaaaqa-ag-grid *ngSwitchDefault
+            [actions]="actions"
+            [selectable]="true"
+            (selectedListChangeEvent)="OnExternalReviewersSelectChange($event)"
+            [dataList]="externalReviewersList"
+            [columns]="columns">
+        </oaaaqa-ag-grid>
+    </ng-container>
+
+    <ng-template #decision let-modal>
+        <div class="modal-content">
+            <div class="modal-header bg-primary-light d-flex justify-content-between align-items-center pb-3">
+                <h5 class="modal-title" id="exampleModalFullscreenXxlLabel">{{ title | translate }}</h5>
+                <button type="button" class="btn-close p-0 m-0" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closePopup()"></button>
+            </div>
+            <div class="modal-body">
+                <h4 *ngIf="action=='REMOVE'" class="modal-title">
+                    {{ "PAGES.EXTERNAL_REVIEWER.MESSAGES.REMOVE_EXTERNAL_REVIEWER_POP_TITLE" | translate }}
+                </h4>
+                <h4 *ngIf="action=='ACTIVE'" class="modal-title">
+                    {{ "PAGES.EXTERNAL_REVIEWER.MESSAGES.ACTIVE_EXTERNAL_REVIEWER_POP_TITLE" | translate }}
+                </h4>
+                <h4 *ngIf="action=='IN_ACTIVE'" class="modal-title">
+                    {{ "PAGES.EXTERNAL_REVIEWER.MESSAGES.IN_ACTIVE_EXTERNAL_REVIEWER_POP_TITLE" | translate }}
+                </h4>
+                <h4 *ngIf="action=='NOTIFICATIONS'" class="modal-title">
+                    {{ "PAGES.EXTERNAL_REVIEWER.MESSAGES.ALART_EXTERNAL_REVIEWERS_POP_TITLE" | translate }}
+                </h4>
+
+                <div class="tags-list my-5 d-flex flex-wrap gap-5" *ngIf="action=='NOTIFICATIONS'">
+                    <span class="badge bg-secondary px-3 py-2 fs-5" *ngFor="let item of selectedExternalReviewers">
+                        {{ translate.currentLang === 'ar' ? item.user.fullNameAr : item.user.fullNameEn }}
+                    </span>
+                </div>
+
+            </div>
+            <div class="mb-3 mx-2 row">
+                <div class="form-group col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <label *ngIf="action=='REMOVE'" class="form-label" for="formControlLg">{{
+                        "PAGES.EXTERNAL_REVIEWER.MESSAGES.REMOVE_EXTERNAL_REVIEWER_POP_NOTE" | translate }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <label *ngIf="action=='ACTIVE'" class="form-label" for="formControlLg">{{
+                        "PAGES.EXTERNAL_REVIEWER.MESSAGES.ACTIVE_EXTERNAL_REVIEWER_POP_NOTE" | translate }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <label *ngIf="action=='IN_ACTIVE'" class="form-label" for="formControlLg">{{
+                        "PAGES.EXTERNAL_REVIEWER.MESSAGES.IN_ACTIVE_EXTERNAL_REVIEWER_POP_NOTE" | translate }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <label *ngIf="action=='NOTIFICATIONS'" class="form-label" for="formControlLg">{{
+                        "PAGES.EXTERNAL_REVIEWER.MESSAGES.ALART_EXTERNAL_REVIEWER_POP_NOTE" | translate }}
+                        <small class="text-danger ms-3">
+                            ({{
+                            'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                    </label>
+                    <textarea rows="2" class="form-control form-control-md" [(ngModel)]="comment"
+                    placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                    (ngModelChange)="onTextChange()"
+                    >
+                              </textarea>
+                    <div *ngIf="submitted && action !='NOTIFICATIONS' &&(!comment || comment.trim() ==='')"
+                        class="invalid-feedback d-block">
+                        {{ "PAGES.COMMON.MESSAGES.FIELD_REQUIRED" | translate }}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button class="btn btn-outline-secondary" (click)="closePopup()">
+                    {{ 'PAGES.COMMON.LABELS.BACK' | translate }}
+                </button>
+                <button class="btn btn-primary" (click)="sendAction()">
+                    {{ 'PAGES.COMMON.LABELS.SUBMIT' | translate }}
+                </button>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+<!-- <div class="card shadow-sm">
+    <div  class="card-header d-flex justify-content-between align-items-center p-3">
+        <h5 class="text-start">{{ "MENUITEMS.MENU.EXTERNAL_REVIEWERS" | translate }}</h5>
+        <button class="btn btn-primary justify-content-endd-flex" (click)="setAction(0,'NOTIFICATIONS', decision)">
+            <i class="ri-notification-3-line align-bottom me-1"></i>
+            {{ "PAGES.EXTERNAL_REVIEWER.LABELS.SEND_NOTIFICATION_FOR_SELECTED" | translate }}
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-gridjs">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            <div class="form-check">
+                                <input 
+                                  class="form-check-input" 
+                                  type="checkbox" 
+                                  id="masterCheck" 
+                                  [(ngModel)]="masterSelected" 
+                                  (change)="selectAllRows()" 
+                                />
+                                <label class="form-check-label" for="masterCheck"></label>
+                            </div>  
+                        </th>
+                        <th class="text-center">#</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.NAME" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.ID_TYPE" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.NATIONALITY" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.CIVIL_ID_PASSPORT_NUMBER" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.COUNTRY_OF_RESIDENCE" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.CITY" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.HIGHEST_EDUCATIONAL_QUALIFICATION" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.MAIN_SPECIALIZATION_NAME" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.EMAIL" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.MOBILE" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.STATUS" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.IS_AVAILABLE" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.LAST_DATA_UPDATED_DATE" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.ACTIONS" | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of paginatedExternalReviewersList; let i = index" class="text-center">
+                        <td class="text-center">
+                            <div class="form-check">
+                                <input 
+                                  class="form-check-input" 
+                                  type="checkbox" 
+                                  id="check-{{i}}" 
+                                  [(ngModel)]="row.selected" 
+                                  (change)="checkIfAllSelected()" 
+                                />
+                                <label class="form-check-label" [attr.for]="'check-' + i"></label>
+                            </div>
+                        </td>
+                        <td class="text-center">{{ i + 1 }}</td>
+                        <td class="text-center">
+                            {{translate.currentLang === 'ar' ? row.user?.fullNameAr : row.user?.fullNameEn}}
+                        </td>
+                        <td class="text-center">
+                            {{ row.user.insideOman 
+                                ? ('PAGES.EXTERNAL_REVIEWERS_REQUEST_LIST.LABELS.INSIDE_OMAN' | translate) 
+                                : ('PAGES.EXTERNAL_REVIEWERS_REQUEST_LIST.LABELS.OUTSIDE_OMAN' | translate) }}
+                        </td>
+                        <td class="text-center">
+                            {{translate.currentLang === 'ar' ? row.user?.nationality?.countryNameAr : row.user?.nationality?.countryNameEn}}
+                        </td>
+                        <td class="text-center">
+                            {{ row.user.insideOman ? row.user?.civilNo : row.user?.passportNo }}
+                        </td>
+                        <td class="text-center">
+                            {{translate.currentLang === 'ar' ? row.user?.city?.country?.countryNameAr : row.user?.city?.country?.countryNameEn}}
+                        </td>
+    
+                        <td class="text-center">
+                            {{translate.currentLang === 'ar' ? row.user?.city?.cityNameAr : row.user?.city?.cityNameEn}}
+                        </td>
+    
+                        <td class="text-center">
+                            {{translate.currentLang === 'ar' ? row.externalReviewersActiveRegistrationRequestInfo?.qualification?.degreeObtained?.lookupValueAr : row.externalReviewersActiveRegistrationRequestInfo?.qualification?.degreeObtained?.lookupValueEn}}
+                        </td>
+                        <td class="text-center">
+                            {{translate.currentLang === 'ar' ? row.externalReviewersActiveRegistrationRequestInfo?.qualification?.specificSpecialization?.generalSpecialization?.nameAr : row.externalReviewersActiveRegistrationRequestInfo?.qualification?.specificSpecialization?.generalSpecialization?.nameEn}}
+                        </td>
+                        <td class="text-center">
+                            {{row.user?.email}}
+                        </td>
+                        <td class="text-center">
+                            {{row.user?.mobileNo}}
+                        </td>
+                        <td class="text-center">
+                            {{row.status}}
+                        </td>
+                        <td class="text-center">
+                            {{ row.isAvailable 
+                                ? ('PAGES.COMMON.LABELS.YES' | translate) 
+                                : ('PAGES.COMMON.LABELS.NO' | translate) }}
+                        </td>
+                        <td class="text-center" >
+                            {{row.lastDataUpdatedDate}}
+                        </td>
+                        <td class="text-center" style="min-width: 200px;">
+                            <button  type="button" class="btn btn-sm btn-light me-1"
+                                 title="Details" (click)="openDetails(row)">
+                               <i class="ri-eye-fill"></i>
+                            </button>
+                            <button *ngIf="row.status !='REMOVED'" type="button" class="btn btn-sm btn-light me-1"
+                                title="Remove" (click)="setAction(row.id,'REMOVE', decision)">
+                              <i class="ri-delete-bin-6-fill"></i>
+                            </button>
+                            <button *ngIf="row.status != 'ACTIVE' && row.status !='REMOVED'" type="button" class="btn btn-sm btn-light me-1"
+                              title="Activate" (click)="setAction(row.id,'ACTIVE', decision)">
+                              <i class="ri-checkbox-circle-fill text-success"></i>
+                            </button>
+                            <button *ngIf="row.status != 'IN_ACTIVE' && row.status !='WITHDRAW' && row.status !='REMOVED'" type="button" class="btn btn-sm btn-light me-1"
+                               title="Deactivate" (click)="setAction(row.id,'IN_ACTIVE', decision)">
+                              <i class="ri-close-circle-fill text-danger"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    
+            <div *ngIf="!externalReviewersList || externalReviewersList.length == 0 " class="text-center py-4 text-muted">
+                {{ "PAGES.COMMON.MESSAGES.NO_RESULT" | translate }}
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div class="text-sm-right float-end listjs-pagination">
+                <ngb-pagination
+                  [collectionSize]="totalItems"
+                  [(page)]="currentPage"
+                  [pageSize]="pageSize"
+                  [maxSize]="5"
+                  (pageChange)="onPageChange($event)">
+                </ngb-pagination>
+              </div>
+            </div>
+        </div>
+
+        <ng-template #decision let-modal>
+            <div class="modal-content">
+                <div class="modal-header bg-primary-light d-flex justify-content-between align-items-center pb-3">
+                    <h5 class="modal-title" id="exampleModalFullscreenXxlLabel">{{ title  | translate }}</h5>
+                    <button type="button" class="btn-close p-0 m-0" data-bs-dismiss="modal" aria-label="Close"
+                            (click)="closePopup()"></button>
+                </div>
+                <div class="modal-body">
+                    <h4 *ngIf="action=='REMOVE'" class="modal-title">
+                      {{ "PAGES.EXTERNAL_REVIEWER.MESSAGES.REMOVE_EXTERNAL_REVIEWER_POP_TITLE" | translate }}
+                    </h4>
+                    <h4 *ngIf="action=='ACTIVE'" class="modal-title">
+                      {{ "PAGES.EXTERNAL_REVIEWER.MESSAGES.ACTIVE_EXTERNAL_REVIEWER_POP_TITLE" | translate }}
+                    </h4>
+                    <h4 *ngIf="action=='IN_ACTIVE'" class="modal-title">
+                      {{ "PAGES.EXTERNAL_REVIEWER.MESSAGES.IN_ACTIVE_EXTERNAL_REVIEWER_POP_TITLE" | translate }}
+                    </h4>
+                    <h4 *ngIf="action=='NOTIFICATIONS'" class="modal-title">
+                        {{ "PAGES.EXTERNAL_REVIEWER.MESSAGES.ALART_EXTERNAL_REVIEWERS_POP_TITLE" | translate }}
+                    </h4>
+                </div>
+                <div class="mb-3 mx-2 row">
+                    <div class="form-group col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                      <label *ngIf="action=='REMOVE'" class="form-label" for="formControlLg">{{ "PAGES.EXTERNAL_REVIEWER.MESSAGES.REMOVE_EXTERNAL_REVIEWER_POP_NOTE" | translate }}
+                        <span class="text-danger">*</span>
+                      </label>
+                      <label *ngIf="action=='ACTIVE'" class="form-label" for="formControlLg">{{ "PAGES.EXTERNAL_REVIEWER.MESSAGES.ACTIVE_EXTERNAL_REVIEWER_POP_NOTE" | translate }}
+                        <span class="text-danger">*</span>
+                      </label>
+                      <label *ngIf="action=='IN_ACTIVE'" class="form-label" for="formControlLg">{{ "PAGES.EXTERNAL_REVIEWER.MESSAGES.IN_ACTIVE_EXTERNAL_REVIEWER_POP_NOTE" | translate }}
+                        <span class="text-danger">*</span>
+                      </label>
+                      <label *ngIf="action=='NOTIFICATIONS'" class="form-label" for="formControlLg">{{ "PAGES.EXTERNAL_REVIEWER.MESSAGES.ALART_EXTERNAL_REVIEWER_POP_NOTE" | translate }}
+                      </label>
+                      <textarea rows="2" class="form-control form-control-md" [(ngModel)]="comment">
+                                  </textarea>
+                      <div *ngIf="submitted && action !='NOTIFICATIONS' &&(!comment || comment.trim() ==='')" class="invalid-feedback d-block">
+                        {{ "PAGES.COMMON.MESSAGES.FIELD_REQUIRED" | translate }}
+                      </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                      <button class="btn btn-outline-secondary" (click)="closePopup()">
+                          {{ 'PAGES.COMMON.LABELS.BACK' | translate }}
+                      </button>
+                      <button class="btn btn-primary" (click)="sendAction()">
+                          {{ 'PAGES.COMMON.LABELS.SUBMIT' | translate }}
+                      </button>
+                </div>
+            </div>
+        </ng-template>
+    
+    </div>
+    
+
+</div> -->

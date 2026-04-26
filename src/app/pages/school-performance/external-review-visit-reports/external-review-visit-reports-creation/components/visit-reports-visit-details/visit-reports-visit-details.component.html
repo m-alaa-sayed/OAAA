@@ -1,0 +1,168 @@
+<div class="card m-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">{{ "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.VISIT_DETAILS" | translate }}</h5>
+    </div>
+    <div class="card-body">
+
+        <div class="row mx-2">
+            <div class="col-4 d-flex">
+                <h6 class="fw-bold text-dark fw-semibold mb-0">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHEDULE_NUMBER'|translate }} : </h6>
+                <p class="fs-6 text-muted mx-3">{{ visitReportSubmissionRequestInfo.scheduledSchoolVisit?.visitNumber }}
+                </p>
+            </div>
+
+            <div class="col-4 d-flex">
+                <h6 class="fw-bold text-dark fw-semibold mb-0">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SELF_EVALUATION_DOCUMENT_NUMBER'|translate }} : </h6>
+                <p class="fs-6 text-muted mx-3">{{
+                        visitReportSubmissionRequestInfo.selfEvaluationDocumentDto?.documentNumber
+                    }}</p>
+            </div>
+
+            <div class="col-4 d-flex">
+                <h6 class="fw-bold text-dark fw-semibold mb-0">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.PLAN_NUMBER'|translate }} : </h6>
+                <p class="fs-6 text-muted mx-3">{{ visitReportSubmissionRequestInfo.scheduledSchoolVisit?.planNumber }}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="row mx-2 py-3">
+            <div class="col-md-6">
+                <label class="form-label">{{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.VISIT_PERIOD_FROM'|translate
+                    }}</label>
+                <input type="date" class="form-control"
+                       [value]="visitReportSubmissionRequestInfo.scheduledSchoolVisit?.visitFrom" [disabled]="true">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.TO'|translate }}</label>
+                <input type="date" [value]="visitReportSubmissionRequestInfo.scheduledSchoolVisit?.visitTo"
+                       class="form-control" [disabled]="true">
+            </div>
+        </div>
+
+
+        <!-- school info card -->
+        <div class="card my-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">{{
+                        "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_INFORMATION" |
+                            translate
+                    }}</h5>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_NAME'|translate
+                            }}</label>
+                        <input type="text" class="form-control" [value]="translate.currentLang=='ar'?
+                         visitReportSubmissionRequestInfo.scheduledSchoolVisit?.school?.nameAr : 
+                         visitReportSubmissionRequestInfo.scheduledSchoolVisit?.school?.nameEn
+                         " [disabled]="true">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_CODE'|translate
+                            }}</label>
+                        <input type="text" class="form-control"
+                               [value]="visitReportSubmissionRequestInfo.scheduledSchoolVisit?.school?.code"
+                               [disabled]="true">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_TYPE'|translate
+                            }}</label>
+                        <input type="text" class="form-control"
+                               [value]="'PAGES.COMMON.LABELS.'+visitReportSubmissionRequestInfo.scheduledSchoolVisit?.school?.type |translate"
+                               [disabled]="true">
+                    </div>
+                </div>
+
+
+                <div class="row py-3">
+                    <div class="col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_GENDER'|translate
+                            }}</label>
+                        <input type="text" class="form-control"
+                               [value]="'PAGES.COMMON.LABELS.'+visitReportSubmissionRequestInfo.scheduledSchoolVisit?.school?.gender |translate"
+                               [disabled]="true">
+                    </div>
+
+                    <div class="col-md-8">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.GRADES'|translate
+                            }}</label>
+                        <input type="text" class="form-control"
+                               [value]="visitReportSubmissionRequestInfo.scheduledSchoolVisit?.school?.classes"
+                               [disabled]="true">
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.GOVERNORATE'|translate
+                            }}</label>
+                        <input type="text" class="form-control" [disabled]="true" [value]="translate.currentLang=='ar'?
+                         visitReportSubmissionRequestInfo.scheduledSchoolVisit?.school?.governorate?.nameAr : 
+                         visitReportSubmissionRequestInfo.scheduledSchoolVisit?.school?.governorate?.nameAr">
+                    </div>
+
+                    <div class=" col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.WILAYAT'|translate
+                            }}</label>
+                        <input type="text" class="form-control" [value]="translate.currentLang=='ar'?
+                         visitReportSubmissionRequestInfo.scheduledSchoolVisit?.school?.wilayat?.nameAr : 
+                         visitReportSubmissionRequestInfo.scheduledSchoolVisit?.school?.wilayat?.nameAr"
+                               [disabled]="true">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.GEOGRAPHIC_LOCATION'|translate
+                            }}</label>
+                        <input type="text" class="form-control" [disabled]="true">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">{{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.INTRODUCTION'|translate }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                </label>
+                <app-custom-ckeditor id="otherUpdates" name="otherUpdates" required
+                          #otherUpdates="ngModel"
+                          [language]="'ar'" [disabled]="!isEditMode"
+                          [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                          [(ngModel)]="visitReportSubmissionRequestInfo.otherUpdates">
+                </app-custom-ckeditor>
+                <div *ngIf="isSubmitting && otherUpdates?.invalid" class="text-danger text-start mt-1">
+                    <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                </div>
+            </div>
+            <div class="text-danger m-3">
+                <span>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.INTRODUCTION_NOTE'|translate }}</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<step-action-buttons *ngIf="showButtons" [showPreviousBtn]="false"
+                     [showSaveBtn]="showButtons && showSaveBtn"
+                     [showSubmitBtn]="false"
+                     (cancelEvent)="cancelEvent.emit()" (nextEvent)="next()" (saveEvent)="save()"></step-action-buttons>

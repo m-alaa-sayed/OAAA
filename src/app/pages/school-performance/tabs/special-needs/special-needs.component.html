@@ -1,0 +1,76 @@
+<div class="tab-content">
+  <div class="tab-header">
+    <h2>{{ 'PAGES.SCHOOL_PERFORMANCE.TABS.SPECIAL_EDUCATIONAL_NEEDS' | translate }}</h2>
+  </div>
+  
+  <div class="tab-body">
+    <div class="special-needs-container">
+      <div class="section-header">
+        <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.TABS.SPECIAL_EDUCATIONAL_NEEDS' | translate }}</h3>
+      </div>
+      
+      <!-- Main Table Section -->
+      <div class="table-section">
+        <div class="table-container">
+            <oaaaqa-ag-grid
+              [dataList]="schoolInfo.specialNeedsData"
+              [columns]="specialNeedsColumns"
+              [selectable]="false"
+              [actions]="specialNeedsGridActions"
+              [pinnedBottomRowData]="specialNeedsPinnedBottomRowData"
+              [parentComponent]="this"
+              [pagination]="true"
+              [paginationPageSize]="10"
+              [paginationPageSizeSelector]="[5, 10, 20, 50]"
+              (cellValueChanged)="onCellValueChanged($event)"
+              tableHeadColor="#E6F2F7">
+            </oaaaqa-ag-grid>
+        </div>
+      </div>
+
+      <!-- Chronic Diseases Table Section -->
+      <div class="table-section">
+        <div class="table-container">
+          <div class="section-header">
+            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.SPECIAL_NEEDS.CHRONIC_CONDITION' | translate }}</h3>
+          </div>
+            <oaaaqa-ag-grid
+              [dataList]="schoolInfo.chronicDiseasesData"
+              [columns]="chronicDiseasesColumns"
+              [selectable]="false"
+              [actions]="chronicDiseasesGridActions"
+              [pinnedBottomRowData]="chronicDiseasesPinnedBottomRowData"
+              [parentComponent]="this"
+              [pagination]="true"
+              [paginationPageSize]="10"
+              [paginationPageSizeSelector]="[5, 10, 20, 50]"
+              (cellValueChanged)="onChronicDiseasesCellValueChanged($event)"
+              tableHeadColor="#E6F2F7">
+            </oaaaqa-ag-grid>
+        </div>
+      </div>
+
+      <!-- Multiple Disabilities Table Section -->
+      <div class="table-section">
+        <div class="table-container">
+          <div class="section-header">
+            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.SPECIAL_NEEDS.DISABILITY_CATEGORY' | translate }}</h3>
+          </div>
+            <oaaaqa-ag-grid
+              [dataList]="schoolInfo.multipleDisabilitiesData"
+              [columns]="multipleDisabilitiesColumns"
+              [selectable]="false"
+              [actions]="multipleDisabilitiesGridActions"
+              [pinnedBottomRowData]="multipleDisabilitiesPinnedBottomRowData"
+              [parentComponent]="this"
+              [pagination]="true"
+              [paginationPageSize]="10"
+              [paginationPageSizeSelector]="[5, 10, 20, 50]"
+              (cellValueChanged)="onMultipleDisabilitiesCellValueChanged($event)"
+              tableHeadColor="#E6F2F7">
+            </oaaaqa-ag-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

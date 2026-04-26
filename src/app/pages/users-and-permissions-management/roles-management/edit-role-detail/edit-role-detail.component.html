@@ -1,0 +1,30 @@
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+<page-title [title]="title"
+    [breadcrumbItems]="breadCrumbItems"></page-title>
+
+<div (input)="markAsDirty()" (change)="markAsDirty()">
+    <app-role-basic-info-fields [roleData]="roleData" [mode]="mode" [groups]="groups" [roleTypes]="roleTypes"
+        [isSubmitting]="showValidationErrors" (groupChange)="onGroupChange($event)"></app-role-basic-info-fields>
+
+    <app-role-procedures-table [procedures]="procedures"
+        [selectedGroup]="roleData?.group" [mode]="mode" [isSubmitted]="showValidationErrors">
+    </app-role-procedures-table>
+</div>
+
+<app-edit-history-table [historyData]="historyData"></app-edit-history-table>
+
+
+<div class="mt-3 mb-5">
+    <ng-container>
+        <div class="d-flex justify-content-end gap-3">
+            <button class="btn btn-outline-secondary" (click)="cancelEdit()">
+                {{ 'PAGES.COMMON.LABELS.CANCEL' | translate}}
+            </button>
+            <button *ngIf="mode === 'edit'" class="btn btn-primary" (click)="save()" [disabled]="!isDirty || isLoading">
+                <i class="mdi mdi-content-save"></i>
+                {{'PAGES.COMMON.LABELS.SAVE' | translate }}
+            </button>
+        </div>
+    </ng-container>
+</div>

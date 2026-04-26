@@ -1,0 +1,8 @@
+<page-title [title]="'MENUITEMS.MENU.REPORTS_LIST' | translate"
+            [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.REPORTS_LIST' | translate,  active: true }]"></page-title>
+
+<div class="card shadow-sm p-3">
+    <oaaaqa-ag-grid [columns]="columns" [actions]="actions" [dataList]="dtoList"></oaaaqa-ag-grid>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

@@ -1,0 +1,8 @@
+<page-title [title]="'MENUITEMS.MENU.SELECT_SCHOOL' | translate" [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.TEAM_LEADER_PLAN' | translate, link: '/jawda/school-performance/team-leader-plan/list', active: true },
+{ label: 'MENUITEMS.MENU.SELECT_SCHOOL' | translate,  active: false }]"></page-title>
+<!-- grid table -->
+<div class="card shadow-sm p-3">
+    <oaaaqa-ag-grid [columns]="columns" [actions]="actions" [dataList]="scheduledSchoolVisitList"></oaaaqa-ag-grid>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

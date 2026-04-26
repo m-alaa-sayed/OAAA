@@ -1,0 +1,86 @@
+<div class="mx-4 mb-2 d-flex justify-content-end">
+    <button *hasPermission="[Permission.DOMAIN_SUMMARY_IMPORT_FROM_FORMS]" class="btn btn-primary" (click)="getFroms(forms)">
+        {{ 'PAGES.DOMAIN_SUMMARY.LABELS.IMPORT_FROM_FORMS' | translate }}
+    </button>
+</div>
+
+<div class="card mx-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0"> {{ 'PAGES.VISIT_FORM.LABELS.STRENGTHS_AND_IMPROVEMENT_ANALYSIS'| translate }}</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">
+                    {{ 'PAGES.DOMAIN_SUMMARY.LABELS.KEY_STRENGTHS' | translate }}
+                    <span *ngIf="editable" class="text-danger">*</span>
+                </label>
+                <app-custom-ckeditor id="strengthsAnalysis" name="strengthsAnalysis" required
+                          #strengthsAnalysis="ngModel"
+                          [language]="'ar'" [disabled]="!editable"
+                          [ngClass]="{ 'ckeditor-disabled': !editable }"
+                          [(ngModel)]="domainSummaryRequestInfo.strengthsAnalysis">
+                </app-custom-ckeditor>
+                <div *ngIf="isSubmitted && (strengthsAnalysis?.invalid || !domainSummaryRequestInfo.strengthsAnalysis || domainSummaryRequestInfo.strengthsAnalysis.trim() === '')"
+                     class="text-danger text-start mt-1">
+                    <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <label class="form-label">
+                    {{ 'PAGES.DOMAIN_SUMMARY.LABELS.KEY_AREAS_FOR_IMPROVEMENT' | translate }}
+                    <span *ngIf="editable" class="text-danger">*</span>
+                </label>
+                <app-custom-ckeditor id="improvementsAnalysis" name="improvementsAnalysis" required
+                          #improvementsAnalysis="ngModel"
+                          [language]="'ar'" [disabled]="!editable"
+                          [ngClass]="{ 'ckeditor-disabled': !editable }"
+                          [(ngModel)]="domainSummaryRequestInfo.improvementsAnalysis">
+                </app-custom-ckeditor>
+                <div *ngIf="isSubmitted && (improvementsAnalysis?.invalid || !domainSummaryRequestInfo.improvementsAnalysis || domainSummaryRequestInfo.improvementsAnalysis.trim() === '')"
+                     class="text-danger text-start mt-1">
+                    <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <label class="form-label">
+                    {{ 'PAGES.DOMAIN_SUMMARY.LABELS.DOMAIN_SUMMARY' | translate }}
+                    <span *ngIf="editable" class="text-danger">*</span>
+                </label>
+                <app-custom-ckeditor id="domainSummary" name="domainSummary" required
+                          #domainSummary="ngModel"
+                          [language]="'ar'" [disabled]="!editable"
+                          [ngClass]="{ 'ckeditor-disabled': !editable }"
+                          [(ngModel)]="domainSummaryRequestInfo.domainSummary">
+                </app-custom-ckeditor>
+                <div *ngIf="isSubmitted && (domainSummary?.invalid || !domainSummaryRequestInfo.domainSummary || domainSummaryRequestInfo.domainSummary.trim() === '')"
+                     class="text-danger text-start mt-1">
+                    <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #forms let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">{{ 'PAGES.DOMAIN_SUMMARY.LABELS.IMPORT_FROM_FORMS' | translate }}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+
+    <div class="modal-body m-3" style="overflow-x: auto">
+        <app-import-visit-forms [importVisitForms]="importVisitForms"></app-import-visit-forms>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
+            {{ 'PAGES.COMMON.LABELS.CLOSE' | translate }}
+        </button>
+    </div>
+</ng-template>

@@ -1,0 +1,197 @@
+<div class="modal-content">
+    <form class="g-3" #submitForm="ngForm" (ngSubmit)="confirm()">
+        <div class="modal-header bg-primary-light p-3 d-flex justify-content-between align-items-center">
+            <h5 class="modal-title" id="exampleModalFullscreenXxlLabel">{{
+                'PAGES.EXTERNAL_REVIEWERS_INTERVIEW_RESULT.LABELS.REGISTER_CANDIDATE_PERSONAL_INTERVIEWS_RESULT' |
+                translate }}</h5>
+            <button type="button" class="btn-close m-0 p-0" data-bs-dismiss="modal" aria-label="Close"
+                (click)="activeModal.close()"></button>
+        </div>
+        <div class="modal-body text-center p-5">
+            <div class="col-lg-12">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            {{ 'PAGES.EXTERNAL_REVIEWERS_INTERVIEW_RESULT.LABELS.CANDIDATE_INFORMATION' | translate }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 d-flex align-items-center mb-2">
+                                <div class="flex-shrink-0 w-50 d-flex justify-content-start">
+                                    <p class="text-muted mb-0">{{ 'PAGES.COMMON.LABELS.NAME' | translate }}</p>
+                                </div>
+                                <div class="flex-grow-1 ms-2 d-flex justify-content-start">
+                                    <h6 class="mb-0">{{ isArabic ? interviewRegistrationInfo.user?.fullNameAr :
+                                        interviewRegistrationInfo.user?.fullNameEn }}</h6>
+                                </div>
+                            </div>
+
+                            <div class="col-6 d-flex align-items-center mb-2">
+                                <div class="flex-shrink-0 w-50 d-flex justify-content-start">
+                                    <p class="text-muted mb-0">{{ 'PAGES.COMMON.LABELS.CIVIL_ID_PASSPORT_NUMBER' |
+                                        translate }}
+                                    </p>
+                                </div>
+                                <div class="flex-grow-1 ms-2 d-flex justify-content-start">
+                                    <h6 class="mb-0">{{ interviewRegistrationInfo.user?.civilNo ?
+                                        interviewRegistrationInfo.user?.civilNo :
+                                        interviewRegistrationInfo.user?.passportNo }}</h6>
+                                </div>
+                            </div>
+
+                            <div class="col-6 d-flex align-items-center mb-2">
+                                <div class="flex-shrink-0 w-50 d-flex justify-content-start">
+                                    <p class="text-muted mb-0">{{ 'PAGES.COMMON.LABELS.COUNTRY_OF_RESIDENCE' | translate
+                                        }}
+                                    </p>
+                                </div>
+                                <div class="flex-grow-1 ms-2 d-flex justify-content-start">
+                                    <h6 class="mb-0">{{ isArabic ?
+                                        interviewRegistrationInfo.user?.city?.country?.countryNameAr :
+                                        interviewRegistrationInfo.user?.city?.country?.countryNameEn }}</h6>
+                                </div>
+                            </div>
+
+                            <div class="col-6 d-flex align-items-center mb-2">
+                                <div class="flex-shrink-0 w-50 d-flex justify-content-start">
+                                    <p class="text-muted mb-0"> {{
+                                        'PAGES.EXTERNAL_REVIEWERS_INTERVIEW_RESULT.LABELS.MAIN_SPECIALIZATION' |
+                                        translate }}
+                                    </p>
+                                </div>
+                                <div class="flex-grow-1 ms-2 d-flex justify-content-start">
+                                    <h6 class="mb-0">{{ isArabic ? interviewRegistrationInfo.mainSpecializationAr :
+                                        interviewRegistrationInfo.mainSpecializationEn }}</h6>
+                                </div>
+                            </div>
+
+                            <div class="col-6 d-flex align-items-center mb-2">
+                                <div class="flex-shrink-0 w-50 d-flex justify-content-start">
+                                    <p class="text-muted mb-0">{{
+                                        'PAGES.EXTERNAL_REVIEWERS_INTERVIEW_RESULT.LABELS.REQUEST_TYPE' | translate }}
+                                    </p>
+                                </div>
+                                <div class="flex-grow-1 ms-2 d-flex justify-content-start">
+                                    <h6 class="mb-0">{{ ('PAGES.EXTERNAL_REVIEWERS_INTERVIEW_RESULT.LABELS.' +
+                                        interviewRegistrationInfo.requestType) | translate }}</h6>
+                                </div>
+                            </div>
+
+                            <div class="col-6 d-flex align-items-center mb-2">
+                                <div class="flex-shrink-0 w-50 d-flex justify-content-start">
+                                    <p class="text-muted mb-0">{{ 'PAGES.COMMON.LABELS.EMAIL' | translate }}</p>
+                                </div>
+                                <div class="flex-grow-1 ms-2 d-flex justify-content-start">
+                                    <h6 class="mb-0">{{ interviewRegistrationInfo.user?.email }}</h6>
+                                </div>
+                            </div>
+
+                            <div class="col-6 d-flex align-items-center">
+                                <div class="flex-shrink-0 w-50 d-flex justify-content-start">
+                                    <p class="text-muted mb-0">{{ 'PAGES.COMMON.LABELS.MOBILE' | translate }}</p>
+                                </div>
+                                <div class="flex-grow-1 ms-2 d-flex justify-content-start">
+                                    <h6 class="mb-0">{{ interviewRegistrationInfo.user?.mobileNo }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="card shadow-sm">
+                    <div class="card-header align-items-center justify-content-between d-flex">
+                        <h5 class="card-title mb-0">{{
+                            'PAGES.EXTERNAL_REVIEWERS_INTERVIEW_RESULT.LABELS.PERSONAL_INTERVIEW_RESULT' | translate }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="live-preview">
+                            <div class="row gy-4">
+                                <div class="col-6">
+                                    <label class="form-label d-flex justify-content-start">
+                                        {{ 'PAGES.EXTERNAL_REVIEWERS_INTERVIEW_RESULT.LABELS.INTERVIEW_STATUS' |
+                                        translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" id="interviewStatus" name="interviewStatus" required
+                                        noWhitespace #interviewStatusRef="ngModel" [(ngModel)]="dto.interviewStatus"
+                                        [disabled]="!!interviewRegistrationInfo.externalReviewInterviewResult.id"
+                                        [ngClass]="{'is-invalid': submitForm.submitted && interviewStatusRef.invalid}">
+                                        <option value=""></option>
+                                        <option [value]="'PASSED_INTERVIEW'">
+                                            {{ 'PAGES.EXTERNAL_REVIEWERS_INTERVIEW_RESULT.LABELS.PASSED_INTERVIEW'
+                                            |translate }}
+                                        </option>
+                                        <option [value]="'NOT_PASSED_INTERVIEW'">
+                                            {{ 'PAGES.EXTERNAL_REVIEWERS_INTERVIEW_RESULT.LABELS.NOT_PASSED_INTERVIEW'
+                                            |translate }}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitForm.submitted && interviewStatusRef.invalid"
+                                        class="invalid-feedback">
+                                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <label class="d-flex justify-content-start">{{ "PAGES.COMMON.LABELS.FILE" |
+                                        translate }}
+                                    </label>
+                                    <div class="input-group">
+                                        <ng-container
+                                            *ngIf="!dto.interviewResultFileName || dto.interviewResultFileName.trim() === ''; else fileSelected">
+                                            <input type="file" class="form-control" id="inputGroupFile02"
+                                                (change)="onFileSelected($event)"
+                                                [disabled]="!!interviewRegistrationInfo.externalReviewInterviewResult.id"
+                                                aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                        </ng-container>
+                                        <ng-template #fileSelected>
+                                            <input type="text" class="form-control"
+                                                [value]="dto.interviewResultFileName"
+                                                [disabled]="!!interviewRegistrationInfo.externalReviewInterviewResult.id"
+                                                readonly title="File selected">
+                                            <button type="button" class="btn btn-outline-success" type="button"
+                                                id="inputGroupFileAddon04"
+                                                (click)="downloadUploadedFile(interviewRegistrationInfo.externalReviewInterviewResult.interviewResultFileName, interviewRegistrationInfo.externalReviewInterviewResult.interviewResultBucketName)">
+                                                {{ "PAGES.COMMON.LABELS.DOWNLOAD" | translate }}
+                                            </button>
+                                        </ng-template>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div>
+                                        <label for="categoryDescAr" class="form-label d-flex justify-content-start">
+                                            {{ 'PAGES.COMMON.LABELS.NOTES' | translate }}
+                                            <small class="text-danger ms-3">
+                                                ({{
+                                                'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                                        </label>
+                                        <textarea class="form-control" id="categoryDescAr" name="categoryDescAr"
+                                            rows="3" 
+                                            [disabled]="!!interviewRegistrationInfo.externalReviewInterviewResult.id"
+                                            placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                                            (ngModelChange)="onTextChange()"
+                                            [(ngModel)]="dto.interviewNotes"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer d-flex">
+            <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal" (click)="decline()">{{
+                'PAGES.COMMON.LABELS.CANCEL' | translate }}
+            </button>
+            <button type="submit" class="btn btn-primary"
+                *ngIf="!interviewRegistrationInfo.externalReviewInterviewResult.id && hasSubmitPermission">
+                {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+            </button>
+        </div>
+    </form>
+</div>

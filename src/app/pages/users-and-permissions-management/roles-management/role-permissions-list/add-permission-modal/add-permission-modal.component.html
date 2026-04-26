@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ASSIGN_ROLE_PERMISSION' | translate }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+    <div class="mb-3">
+        <label class="form-label">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.PERMISSIONS' | translate }}</label>
+        <ng-select 
+            [items]="allPermissions" 
+            [multiple]="true"
+            [closeOnSelect]="false"
+            [searchable]="true"
+            [searchFn]="customSearchFn"
+            bindLabel="permissionNameEn" 
+            [(ngModel)]="selectedPermissions"
+            [placeholder]="'PAGES.COMMON.LABELS.SELECT_PLACEHOLDER' | translate"
+            [loading]="isLoading">
+            
+            <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                <span class="ng-value-label tag-custom">
+                    {{ translate.currentLang === 'ar' ? item.permissionNameAr : item.permissionNameEn }}
+                </span>
+                <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+            </ng-template>
+
+            <ng-template ng-option-tmp let-item="item">
+                {{ translate.currentLang === 'ar' ? item.permissionNameAr : item.permissionNameEn }}
+            </ng-template>
+        </ng-select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">{{ 'PAGES.COMMON.LABELS.NOTES' | translate }} <span class="text-danger">*</span></label>
+        <textarea class="form-control" rows="3" [(ngModel)]="notes" [placeholder]="'PAGES.COMMON.LABELS.NOTES' | translate"></textarea>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">
+        {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+    </button>
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="isSaving || !selectedPermissions || selectedPermissions.length === 0 || !notes || notes.trim() === ''">
+        {{ 'PAGES.COMMON.LABELS.ADD' | translate }}
+    </button>
+</div>

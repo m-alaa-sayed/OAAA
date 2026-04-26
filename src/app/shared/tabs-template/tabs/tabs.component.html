@@ -1,0 +1,31 @@
+<div class="row py-2">
+  <div class="col-xl-12">
+    <div class="card shadow-sm">
+
+      <div class="mb-3 row">
+        <div class="col-12">
+          <!-- Tab Header (Horizontal) -->
+          <ul class="nav nav-pills justify-content-center flex-row w-100">
+            <li class="nav-item" *ngFor="let t of tabs; let i = index">
+              <a
+                class="nav-link"
+                [ngClass]="{ 'active': currentTab === i + 1 }"
+                (click)="navigateToTab(i + 1)">
+                {{ LanguageUtil.isArabic ? t.labelAr : t.labelEn }}
+              </a>
+            </li>
+          </ul>
+
+          <!-- Tab Content -->
+          <div class="mb-3 row mt-4" style="text-align: start" *ngIf="tabs[currentTab - 1]">
+            <ng-container
+              class="pading-item-top-bottom"
+              *ngComponentOutlet="tabs[currentTab - 1].component; inputs: getComponentInputs(currentTab - 1)">
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

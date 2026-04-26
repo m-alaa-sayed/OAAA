@@ -1,0 +1,29 @@
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+<page-title [title]="'PAGES.PERMISSIONS_MANAGEMENT.TITLES.USER_ROLES' | translate"
+    [breadcrumbItems]="breadCrumbItems"></page-title>
+
+<!-- Card 1: Basic Information (Shared Component) -->
+<app-user-basic-info *ngIf="fullUserData" [userFullData]="fullUserData"></app-user-basic-info>
+
+<!-- Card 2: User Roles -->
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="card-title mb-0">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.USER_ROLES' | translate }}</h4>
+        <button type="button" class="btn btn-primary" (click)="assignRole()">
+            {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ASSIGN_ROLE_TO_USER' | translate }}
+        </button>
+    </div>
+    <div class="card-body">
+        <oaaaqa-ag-grid 
+            [dataList]="rolesList" 
+            [columns]="columns" 
+            [actions]="actions"
+            [pagination]="true"
+            [paginationPageSize]="10"
+            [paginationPageSizeSelector]="[5, 10, 20]"
+            [showRowNumbers]="true"
+            [actionsColumnWidth]="150">
+        </oaaaqa-ag-grid>
+    </div>
+</div>

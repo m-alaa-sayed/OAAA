@@ -1,0 +1,25 @@
+.is-invalid {
+  border: 2px solid rgb(250, 154, 154) !important;
+  background-color: #ffe6e6; /* light red background */
+}
+.comments-section {
+  margin-top: 10px;
+}
+
+.comment {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 12px;
+  background: #fff;
+}
+
+.reply {
+  border-left: 2px solid #007bff;
+  margin-bottom: 8px;
+  padding-left: 10px;
+}
+
+.replies {
+  margin-top: 8px;
+}

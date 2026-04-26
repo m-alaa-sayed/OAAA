@@ -1,0 +1,136 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.tabe-header {
+  background-color: #f0f0f0; 
+  padding: 5px; 
+  text-align: center; 
+  font-weight: bold; 
+  margin-bottom: 5px;
+}
+
+.tabe-header-row {
+  background-color: #58a9f0;
+}
+
+th, td {
+  border: 1px solid #444;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+
+.green {
+  background-color: #7bb43e;
+}
+
+.open-green {
+  background-color: #92D050;
+}
+
+.yellow {
+  background-color: #FFFF00;
+}
+
+.orange {
+  background-color: #FFC000;
+}
+
+.open-red {
+  background-color: #f17777;
+  color: white;
+}
+
+.red {
+  background-color: #FF0000;
+  color: white;
+}
+
+.header {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 20px 0 10px;
+}
+
+
+.stability-row{
+ background-color: #c9c5c5; 
+}
+
+.description-row{
+ background-color: #f0f0f0; 
+}
+
+
+#empty-cell {
+  padding: 10px;
+  border: none; /* removes all sides */
+  border-left: 1px solid #444;
+  border-right: 1px solid #444;
+}
+
+
+#last-cell {
+  padding: 10px;
+  border: none; /* removes all sides */
+  border-left: 1px solid #444;
+  border-right: 1px solid #444;
+  border-bottom: 1px solid #444;
+}
+
+
+.line-down {
+       position: absolute;
+        top: 5px;      /* distance from top */
+        bottom: 5px;   /* distance from bottom */
+        left: 50%;     /* center horizontally */
+        width: 2px;    /* thickness of the line */
+        background-color: red;
+        transform: translateX(-50%);
+}
+
+
+.line-down::after {
+  content: '';
+  position: absolute;
+  bottom: -10px; /* place arrow below line */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; 
+  height: 0; 
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 10px solid red; /* arrow color */
+}
+
+
+.line-up {
+    position: absolute;
+        top: 13px; /* leave space for arrow */
+        bottom: 5px;
+        left: 50%;
+        width: 2px;
+        background-color: rgb(59, 135, 229);
+        transform: translateX(-50%);
+}
+
+
+.line-up::before {
+  content: '';
+  position: absolute;
+  top: -10px; /* above the line */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; 
+  height: 0; 
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 10px solid rgb(59, 135, 229);; /* arrow pointing down */
+}

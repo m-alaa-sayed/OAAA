@@ -1,0 +1,36 @@
+.wide-select-cell {
+  width: 400px;
+}
+
+::ng-deep .ng-dropdown-panel {
+  z-index: 1050 !important; /* Bootstrap modals use 1050, so this puts it on top */
+}
+
+.is-invalid {
+  border: 1px solid #dc3545 !important;
+  border-radius: 0.25rem;
+}
+
+::ng-deep ng-select.ng-select-disabled .ng-select-container {
+  color: black !important;
+  background-color: #f8f9fa !important;
+}
+
+::ng-deep ng-select.ng-select-disabled .ng-value-label {
+  color: black !important;
+}
+
+.clickable-text {
+  cursor: pointer;         /* شكل الماوس يبقى يد */
+  color: #0d6efd;          /* زي لون اللينك */
+  text-decoration: underline; /* خط تحت النص */
+}
+
+.clickable-text:hover {
+  color: #0a58ca;          /* لون مختلف عند الـ hover */
+}
+
+td.text-center i {
+  display: block;
+  margin: 4px 0; // optional spacing between lines
+}

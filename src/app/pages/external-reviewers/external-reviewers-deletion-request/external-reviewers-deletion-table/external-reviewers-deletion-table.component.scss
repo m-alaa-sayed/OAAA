@@ -1,0 +1,34 @@
+.table-scroll-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.table-scroll-wrapper table {
+  min-width: 1500px; /* Increase if table has many columns */
+  white-space: nowrap;
+}
+
+
+.table-scroll-wrapper table td {
+  white-space: normal; 
+  
+  textarea {
+    width: 100%;
+    min-width: 200px; 
+    resize: none;
+  }
+  
+  
+  textarea.is-invalid {
+    border-color: #dc3545 !important;
+  }
+}
+
+.required-field {
+    border-left: 3px solid #dc3545 !important;
+}
+
+/* أو */
+.required-field {
+    border: 2px solid #dc3545 !important;
+}

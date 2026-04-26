@@ -1,0 +1,10 @@
+<page-title
+        [title]="'PAGES.QUALITY_ASSURANCE.LABELS.FOLLOW_UP_FORM_VISIT_DETAILS' | translate"
+        [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.EXTERNAL_REVIEW_QUALITY_ASSURANCE_FORMS' | translate, link: '/jawda/school-performance/quality-assurance-form/list', active: true },
+                { label: 'PAGES.QUALITY_ASSURANCE.LABELS.ADD_QUALITY_ASSURANCE_FOLLOW_UP_FORM' | translate,  link: '/jawda/school-performance/quality-assurance-form/select',active: true },
+                { label: 'PAGES.QUALITY_ASSURANCE.LABELS.FOLLOW_UP_FORM_VISIT_DETAILS' | translate,  active: false }]">
+</page-title>
+
+<oaaaqa-management-wizard *ngIf="showTabs" [steps]="steps"></oaaaqa-management-wizard>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

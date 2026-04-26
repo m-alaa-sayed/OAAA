@@ -1,0 +1,9 @@
+<ckeditor
+    [editor]="Editor"
+    [config]="editorConfig"
+    [(ngModel)]="editorData"
+    [disabled]="disabled"
+    (ngModelChange)="onEditorChange($event)"
+    (ready)="onEditorReady($event)"
+>
+</ckeditor>

@@ -1,0 +1,72 @@
+<page-title [title]="title" [breadcrumbItems]="[{ label: title, active: true }]"></page-title>
+
+<app-external-reviewer-registration-request-actions *ngIf="requestObject && taskId"
+    (actionEventEmitter)="submit($event)" (validationEventEmitter)="isSubmitted = $event"
+    [criterionList]="criterionList"
+    [requestObject]="requestObject"></app-external-reviewer-registration-request-actions>
+
+<request-main-data *ngIf="mainRequestData" [mainRequestData]="mainRequestData"></request-main-data>
+
+<request-user-details *ngIf="requestObject" [applicantData]="requestObject.applicantUser"></request-user-details>
+
+
+<!-- tabs -->
+<app-tabs *ngIf="requestObject && showTabs" [tabs]="tabs"></app-tabs>
+
+<div *ngIf="requestObject">
+    <user-registry-in-authority
+        *hasPermission="[Permission.CHEQA_ER_Request_VIEW_ALL, Permission.CSEQA_ER_Request_VIEW_ALL, Permission.OQF_ER_Request_VIEW_ALL]"
+        [userRegistryList]="externalReviewersHistory">
+    </user-registry-in-authority>
+</div>
+
+<external-reviewer-operations
+    *ngIf="isRejoinRequest && requestObject && requestObject.externalReviewersRegistrationRequestInfo"
+    [externalReviewerId]="requestObject.externalReviewersRegistrationRequestInfo?.externalReviewer?.id"></external-reviewer-operations>
+
+<div *ngIf="requestObject">
+    <div *hasPermission="[Permission.CHEQA_ER_Request_VIEW_ALL, Permission.CSEQA_ER_Request_VIEW_ALL, Permission.OQF_ER_Request_VIEW_ALL]">
+        <app-recommendation-section
+            [model]="requestObject.externalReviewersRegistrationRequestInfo"
+            [erActivities]="erActivities"
+            [module]="requestObject.oaaaService.module"
+            [isEditable]="taskId"
+            [canEditMetAndNotMet]="canEditMetAndNotMet"
+            [isSubmitted]="isSubmitted"
+            [acceptancePercentageMsg]="acceptancePercentageMsg"
+            (modelChange)="requestObject.externalReviewersRegistrationRequestInfo = $event">
+        </app-recommendation-section>
+    </div>
+</div>
+
+<follow-up-request *ngIf="requestObject" [requestHistoryList]="requestObject.requestHistoryList" [module]="module"></follow-up-request>
+
+<!-- attachments -->
+<div *ngIf="requestObject">
+    <div class="card shadow-sm"
+        *hasPermission="[Permission.CHEQA_ER_Request_VIEW_ALL, Permission.CSEQA_ER_Request_VIEW_ALL, Permission.OQF_ER_Request_VIEW_ALL]">
+        <app-common-attachments [attachmentList]="requestObject.requestAttachmentList || []" [isEditMode]="this.taskId"
+            (attachmentAddEventEmitter)="addAttchment($event)"
+            (attachmentRemoveEventEmitter)="removeAttchment($event)"></app-common-attachments>
+    </div>
+</div>
+
+<app-external-reviewer-registration-request-actions *ngIf="requestObject && taskId" [criterionList]="criterionList"
+    (actionEventEmitter)="submit($event)" (validationEventEmitter)="isSubmitted = $event"
+    [requestObject]="requestObject"></app-external-reviewer-registration-request-actions>
+
+<div class="card shadow-sm" *ngIf="!taskId">
+    <div class="card-body">
+        <div class="row">
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-outline-secondary"
+                    [routerLink]="'/jawda/service-management/service-catalogue-list'">
+                    {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

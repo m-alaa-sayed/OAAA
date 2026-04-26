@@ -1,0 +1,155 @@
+<div class="card">
+    <div class="card-body">
+<div class="table-scroll-wrapper">
+  <table class="table table-bordered table-gridjs w-auto">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">{{ "PAGES.USER_TASKS.LABELS.APPLICANT_USER" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.USER_TASKS.LABELS.APPLICATION_NO" | translate }}</th>
+                        <th class="px-4 py-2">{{ "PAGES.COMMON.LABELS.COUNTRY_OF_RESIDENCE" | translate }}</th>
+                        <th class="px-4 py-2">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.MAIN_SPECIALIZATION" | translate }}
+                        </th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.REQUEST_TYPE" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.EMAIL" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.CREATE_ACCOUNT.LABELS.PHONE_NUMBER" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.TRAINING_STATUS" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.FILE" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.NOTES" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.GM_TRAINING_STATUS" | translate }}</th>
+                        <th class="text-center">
+                            {{ "PAGES.EXTERNAL_REVIEWER.LABELS.JUSTIFICATIONS" | translate }}
+                            <!-- Asterisk shows when header is enabled: inverse of disabled (!isGMEditMode || !hasAnyJustificationEnabled()) -->
+                            <span *ngIf="isGMEditMode && hasAnyJustificationEnabled()" class="text-danger">*</span>
+                        </th>
+                        <!-- <th *ngIf="showJustificationsColumn" class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.JUSTIFICATIONS" | translate }}</th> -->
+                        <th *ngIf="isEditMode && canDelete" class="text-center">{{ "PAGES.COMMON.LABELS.ACTIONS" |
+                            translate }}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let row of externalReviewerTrainingResultList; let i = index" class="text-center">
+                        <td class="text-center">{{ i + 1 }}</td>
+                        <td class="text-center">
+                            {{row.externalReviewersRegistrationRequestInfo?.request?.applicantUser?.fullNameAr}}
+                        </td>
+                        <td class="text-center">
+                            {{row.externalReviewersRegistrationRequestInfo?.request?.applicationNo}}
+                        </td>
+                        <td class="px-2 py-2">
+                            {{row.externalReviewersRegistrationRequestInfo?.request?.applicantUser?.city?.country?.countryNameAr}}
+
+                        </td>
+                        <td class="px-2 py-2">
+                            {{
+                            row.externalReviewersRegistrationRequestInfo?.module === 'CSEQA'
+                            ? (
+                            row.externalReviewersRegistrationRequestInfo?.qualification?.otherCseqaGeneralSpecialization
+                            ?? (
+                            translate.currentLang === 'ar'
+                            ?
+                            row.externalReviewersRegistrationRequestInfo?.qualification?.cseqaGeneralSpecialization?.nameAr
+                            :
+                            row.externalReviewersRegistrationRequestInfo?.qualification?.cseqaGeneralSpecialization?.nameEn
+                            )
+                            )
+                            : (
+                            row.externalReviewersRegistrationRequestInfo?.qualification?.otherGeneralSpecialization
+                            ?? (
+                            translate.currentLang === 'ar'
+                            ?
+                            row.externalReviewersRegistrationRequestInfo?.qualification?.specificSpecialization?.generalSpecialization?.nameAr
+                            :
+                            row.externalReviewersRegistrationRequestInfo?.qualification?.specificSpecialization?.generalSpecialization?.nameEn
+                            )
+                            )
+                            }}
+                        </td>
+
+                        <td class="px-2 py-2">
+                            {{translate.currentLang === 'ar' ?
+                            row.externalReviewersRegistrationRequestInfo?.request?.oaaaService?.serviceNameAr
+                            : row.externalReviewersRegistrationRequestInfo?.request?.oaaaService?.serviceNameAr}}
+                        </td>
+
+                        <td class="px-2 py-2">
+                            {{row.externalReviewersRegistrationRequestInfo?.request?.applicantUser?.email}}
+                        </td>
+                        <td class="px-2 py-2">
+                            {{row.externalReviewersRegistrationRequestInfo?.request?.applicantUser?.phoneNo}}
+                        </td>
+                        <td class="text-center">
+                            <select class="form-select w-auto" id="trainingStatus" name="trainingStatus"
+                                [disabled]="!isEditMode" [(ngModel)]="row.trainingStatus" required
+                                #trainingStatusControl="ngModel">
+                                <option *ngFor="let option of currentTrainingStatusOptions" [value]="option.value">
+                                    {{'PAGES.TRAINING_RESULTS.LABELS.'+option.label | translate }}
+                                </option>
+                            </select>
+                        </td>
+                        <td class="text-center no-truncate">
+                            <ng-container *ngIf="isEditMode">
+                                <input  type="file" class="d-none" #fileInput id="inputGroupFile02"
+                                    (change)="onFileSelected(row , $event)" aria-describedby="inputGroupFileAddon04"
+                                    aria-label="Upload" />
+                                <button class="btn btn-outline-primary" type="button" (click)="fileInput.click()">
+                                    <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                                </button>
+                            </ng-container>
+                            <a class="truncate" style="cursor: pointer; text-decoration: underline;"
+                                (click)="downloadUploadedFile(row.trainingResultFileName , row.trainingResultBucketName)">
+                                {{row.trainingResultFileName}}
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <textarea rows="4" [disabled]="!isEditMode" [(ngModel)]="row.trainingNotes"
+                            placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                            (ngModelChange)="onTextChange(row.trainingNotes || '')"
+                            ></textarea>
+                        </td>
+                        <td class="text-center">
+                            <select class="form-select w-auto" id="gmTrainingStatus" name="gmTrainingStatus" 
+                                [disabled]="!isGMEditMode" [(ngModel)]="row.gmTrainingStatus" required
+                                #gmTrainingStatusControl="ngModel" 
+                                (ngModelChange)="onTrainingStatusChange(row, $event)">
+                                <option *ngFor="let option of currentTrainingStatusOptions" [value]="option.value">
+                                    {{'PAGES.TRAINING_RESULTS.LABELS.'+option.label | translate }}
+                                </option>
+                            </select>
+                        </td>
+                         <td class="text-center">
+                            <textarea
+                                rows="4"
+                                maxlength="250"
+                                [disabled]="!isGMEditMode || !isJustificationEnabledForRow(row)"
+                                [(ngModel)]="row.justification"
+                                [required]="isJustificationEnabledForRow(row)"
+                                [ngClass]="{'is-invalid': isJustificationEnabledForRow(row) && showJustificationErrors && !(row.justification && row.justification.trim())}"
+                                placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+                                (ngModelChange)="onTextChange(row.justification || '')"
+                            ></textarea>
+                            <small
+                                class="text-danger d-block mt-1"
+                                *ngIf="isJustificationEnabledForRow(row) && showJustificationErrors && !(row.justification && row.justification.trim())">
+                                {{ 'PAGES.COMMON.VALIDATION.REQUIRED' | translate }}
+                            </small>
+                        </td>
+                        <td *ngIf="isEditMode && canDelete" class="text-center no-truncate">
+                            <button class="btn" (click)="deleteResult(row)">
+                                <i class="ri-delete-bin-line text-danger"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- No Data Section -->
+            <div *ngIf="!externalReviewerTrainingResultList || externalReviewerTrainingResultList.length == 0 "
+                class="text-center py-4 text-muted">
+                {{ "PAGES.COMMON.MESSAGES.NO_RESULT" | translate }}
+            </div>
+        </div>
+
+    </div>
+</div>

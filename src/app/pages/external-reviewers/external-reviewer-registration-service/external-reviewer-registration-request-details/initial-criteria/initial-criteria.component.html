@@ -1,0 +1,160 @@
+<div class="mx-4">
+    <div class="card-body">
+
+        <div *ngIf="criterionList && criterionList.length > 0" class="row">
+            <div class="col-lg-3">
+                <div class="nav nav-pills flex-column nav-pills-tab custom-verti-nav-pills text-center" role="tablist"
+                    aria-orientation="vertical">
+                    <ul ngbNav #CustomVertical="ngbNav" [activeId]="activeTabId"
+                        class="nav nav-pills flex-column nav-pills-tab custom-verti-nav-pills text-center">
+                        <li *ngFor="let criterion of criterionList" [ngbNavItem]="criterion.currentVersion.id">
+                            <a ngbNavLink [class.bg-secondary]="CustomVertical.activeId === criterion.currentVersion.id"
+                                [class.text-white]="CustomVertical.activeId === criterion.currentVersion.id">
+                                {{ translate.currentLang == 'ar' ? criterion.currentVersion.nameAr :
+                                criterion.currentVersion.nameEn }}
+                            </a>
+                            <ng-template ngbNavContent>
+                                <!-- Nested Horizontal Tabs -->
+                                <div class="border">
+                                    <ul ngbNav #hTabs="ngbNav"
+                                        [activeId]="criterion.currentVersion.subCriteriaList[0].id"
+                                        class="nav nav-tabs mb-3">
+                                        <li *ngFor="let subCriteria of criterion.currentVersion.subCriteriaList"
+                                            [ngbNavItem]="subCriteria.id">
+                                            <a ngbNavLink>{{ translate.currentLang == 'ar' ? subCriteria.nameAr :
+                                                subCriteria.nameEn }}</a>
+                                            <ng-template ngbNavContent>
+                                                <div class="p-2">
+                                                    <!-- table  -->
+                                                    <div class="card-body">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-gridjs">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="text-center">#</th>
+                                                                        <th class="text-center">{{
+                                                                            "PAGES.EXTERNAL_REVIEWER.LABELS.ITEM" |
+                                                                            translate }}</th>
+                                                                        <th class="text-center">{{
+                                                                            "PAGES.EXTERNAL_REVIEWER.LABELS.TOTAL_GRADE"
+                                                                            |
+                                                                            translate }}</th>
+                                                                        <th class="px-4 py-2">{{
+                                                                            "PAGES.EXTERNAL_REVIEWER.LABELS.SCORE" |
+                                                                            translate
+                                                                            }}</th>
+                                                                        <th class="text-center">{{
+                                                                            "PAGES.COMMON.LABELS.NOTES" | translate }}
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+
+
+                                                                <tbody>
+                                                                    <tr *ngFor="let item of subCriteria.items; let i = index"
+                                                                        class="text-center">
+                                                                        <td class="text-center">{{ i + 1 }}</td>
+                                                                        <td class="text-center">
+                                                                            {{translate.currentLang == 'ar' ?
+                                                                            item.nameAr :
+                                                                            item.nameEn}}
+                                                                            <span *ngIf="item.required"
+                                                                                class="text-danger">*</span>
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            {{item.maxScore ? item.maxScore :
+                                                                            getMaxScore(item)}}
+                                                                        </td>
+                                                                        <td class="px-2 py-2">
+
+                                                                            <ng-container
+                                                                                *ngIf="item.type === 'NUMERIC'; else optionsSelect">
+                                                                                <input type="number"
+                                                                                    [disabled]="!isEditMode"
+                                                                                    class="form-control" required
+                                                                                    [ngClass]="{ 'is-invalid': isSubmitting && !item.currentValue && item.required}"
+                                                                                    #scoreInput
+                                                                                    [(ngModel)]="item.currentValue"
+                                                                                    (blur)="onInputChange(item, 'criteriaItemValue', scoreInput.value)"
+                                                                                    (wheel)="$event.preventDefault()"
+                                                                                    (keydown)="$event.key === 'ArrowUp' || $event.key === 'ArrowDown' ? $event.preventDefault() : null"
+                                                                                    noWhitespace />
+                                                                            </ng-container>
+
+                                                                            <!-- Options select dropdown -->
+                                                                            <ng-template #optionsSelect>
+                                                                                <select class="form-select" required
+                                                                                    [(ngModel)]="item.currentOptionId"
+                                                                                    [disabled]="!isEditMode"
+                                                                                    [ngClass]="{ 'is-invalid': isSubmitting && !item.currentOptionId && item.required}"
+                                                                                    (change)="onSelectChanged(item,'criteriaOptionId', $event)">
+                                                                                    <option [value]="undefined" disabled
+                                                                                        selected hidden>
+                                                                                        {{
+                                                                                        "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER"
+                                                                                        | translate }}
+                                                                                    </option>
+                                                                                    <option
+                                                                                        *ngFor="let option of item.options"
+                                                                                        [value]="option.id">
+                                                                                        {{ translate.currentLang=='ar' ?
+                                                                                        option.nameAr : option.nameEn}}
+                                                                                    </option>
+                                                                                </select>
+                                                                            </ng-template>
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            <textarea type="text" rows="3"
+                                                                                class="form-control"
+                                                                                placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" (ngModelChange)="onTextChange(item.currentNote || '')"
+                                                                                [disabled]="!isEditMode" #commentInput
+                                                                                [(ngModel)]="item.currentNote"
+                                                                                (blur)="onInputChange(item ,'criteriaItemNote', commentInput.value)"
+                                                                                noWhitespace>
+                                                                                     </textarea>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end tabele -->
+                                                </div>
+                                            </ng-template>
+                                        </li>
+                                    </ul>
+                                    <div [ngbNavOutlet]="hTabs"></div>
+                                </div>
+                            </ng-template>
+                        </li>
+                    </ul>
+
+                </div>
+            </div> <!-- end col-->
+            <div class="col-lg-9">
+                <div class="tab-content text-muted mt-3 mt-lg-0">
+                    <div [ngbNavOutlet]="CustomVertical"></div>
+                </div>
+            </div> <!-- end col-->
+        </div> <!-- end row-->
+
+
+
+
+        <div *ngIf="this.criterionList && this.criterionList.length" class="row mt-4 d-flex justify-content-end">
+            <div class="col-md-12 d-flex justify-content-end">
+                <label class="label mx-3">
+                    {{ "PAGES.REQUEST_DETAILS.LABELS.TOTAL_EVALUATION" | translate }}
+                </label>
+                <span class="value">{{ externalReviewersRegistrationRequestInfo.totalScore || 0}} / {{
+                    currentVersionTotalScores || 0}}</span>
+            </div>
+        </div>
+
+
+        <div *ngIf="!criterionList || criterionList.length == 0" class="justify-content-center d-flex">
+            <h5> {{ "PAGES.REQUEST_DETAILS.MESSAGES.NO_CRITERIAS" | translate }}</h5>
+        </div>
+
+    </div>
+</div>

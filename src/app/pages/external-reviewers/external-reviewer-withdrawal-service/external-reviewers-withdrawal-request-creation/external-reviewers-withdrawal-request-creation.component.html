@@ -1,0 +1,77 @@
+<page-title [title]="title" [breadcrumbItems]="[{ label: title, active: true }]"></page-title>
+
+<form #submitForm="ngForm">
+    <div class="card-body">
+        <div class="card shadow-sm my-5">
+            <div class="card-header">
+                <h5 class="mb-0 text-start">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.REQUEST_DATA'|translate}}</h5>
+            </div>
+            <div class="row mt-4 mx-2">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.COMMON.LABELS.JUSTIFICATIONS" | translate }}
+                            <span class="text-danger">*</span>
+                        <small class="text-danger ms-3">
+                            ({{
+                            'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                        </label>
+                        <textarea type="text" class="form-control" name="withdrawJustification" noWhitespace
+                            id="withdrawJustification" #withdrawJustification="ngModel" required
+                            [(ngModel)]="this.externalReviewWithdrawInfo.withdrawJustification"
+                            placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                            (ngModelChange)="onTextChange()"
+                            >
+                            </textarea>
+
+                        <div *ngIf="isSubmitted && 
+                        (withdrawJustification?.invalid  || !externalReviewWithdrawInfo.withdrawJustification.trim())" class="text-danger text-start mt-1">
+                            <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <app-common-attachments
+                [attachmentList]="externalReviewWithdrawInfo.externalReviewWithdrawAttachments || []"
+                (attachmentAddEventEmitter)="addAttchment($event)" [isEditMode]="true"
+                (attachmentRemoveEventEmitter)="removeAttchment($event)"></app-common-attachments>
+
+
+            <div class="m-3 d-flex justify-content-end">
+                <button type="button" class="btn btn-outline-secondary "
+                    [routerLink]="'/jawda/service-management/service-catalogue-list'">
+                    {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                </button>
+                <button [disabled]="" type="button" class="step-next btn btn-primary me-2 ms-2"
+                    (click)="validateForm(save)">
+                    {{ 'PAGES.COMMON.LABELS.SAVE_AND_SEND' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- buttons -->
+
+
+    <ng-template #save let-modal>
+        <div class="default-modal">
+            <div class="modal-body">
+                <div class="mb-3 row">
+                    <label class="col-12 col-form-label">
+                        {{ "PAGES.COMMON.MESSAGES.BASIC_CONFIRM_SAVE" | translate }}</label>
+                </div>
+            </div>
+            <div class="modal-footer d-flex">
+                <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                    {{ "PAGES.COMMON.LABELS.NO" | translate }}
+                </button>
+
+                <button class="btn btn-primary" type="button" (click)="submit()">
+                    {{ "PAGES.COMMON.LABELS.YES" | translate }}
+                </button>
+            </div>
+        </div>
+    </ng-template>
+</form>
+
+
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

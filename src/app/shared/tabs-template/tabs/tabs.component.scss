@@ -1,0 +1,55 @@
+:host ::ng-deep li.nav-item {
+  flex: 1 0 auto;
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+:host ::ng-deep a.nav-link {
+  position: relative !important;
+}
+
+/* Hover effect only if not active */
+:host ::ng-deep a.nav-link:not(.active):hover {
+  color: var(--vz-primary) !important;
+}
+
+/* Remove hover effect on active link */
+:host ::ng-deep a.nav-link.active:hover {
+  color: #fff !important;
+}
+
+/* Active tab styling */
+:host ::ng-deep li.nav-item .active {
+  background-color: var(--vz-primary) !important;
+  color: #fff !important;
+}
+
+/* Tab container styling */
+:host ::ng-deep ul.nav.nav-tabs {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  :host ::ng-deep ul.nav.nav-tabs {
+    display: flow !important;
+  }
+
+  :host ::ng-deep li.nav-item {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    width: 100% !important;
+  }
+
+  tab.active.tab-pane {
+    margin-left: 0rem !important;
+    margin-right: 0rem !important;
+  }
+
+  :host ::ng-deep .tab-content {
+    width: 100% !important;
+  }
+}

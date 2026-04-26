@@ -1,0 +1,206 @@
+<div class="modal-content">
+    <form class="g-3" #submitForm="ngForm" (ngSubmit)="confirm()">
+         <div class="modal-header bg-primary-light p-3 d-flex justify-content-between align-items-center">
+            <h5 class="modal-title">{{ title | translate }}</h5>
+            <button type="button" class="btn-close m-0 p-0" 
+            (click)="activeModal.dismiss('Cross click')"></button>
+        </div>
+
+        <div class="modal-body text-center p-5">
+            <div class="col-lg-12">
+                <div class="card shadow-sm">
+                    <div class="card-header d-flex align-items-center">
+                        <h5 class="card-title mb-0">
+                            {{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.ITEMS_INFO' | translate }}
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row gy-4">
+                            <div class="col-6">
+                                <label for="criteriaNameAr" class="form-label">
+                                    {{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.ITEM_NAME_AR' | translate }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="criteriaNameAr" name="criteriaNameAr"
+                                       required noWhitespace
+                                       placeholder="{{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.ITEM_NAME_AR' | translate }}"
+                                       #criteriaNameArRef="ngModel" [(ngModel)]="dto.nameAr" [disabled]="!isEditMode"
+                                       [ngClass]="{ 'is-invalid': submitForm.submitted && criteriaNameArRef.invalid }">
+                                <div *ngIf="submitForm.submitted && criteriaNameArRef.invalid" class="invalid-feedback">
+                                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <label for="criteriaNameEn" class="form-label">
+                                    {{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.ITEM_NAME_EN' | translate }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="criteriaNameEn" name="criteriaNameEn"
+                                       required noWhitespace
+                                       placeholder="{{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.ITEM_NAME_EN' | translate }}"
+                                       #criteriaNameEnRef="ngModel" [(ngModel)]="dto.nameEn" [disabled]="!isEditMode"
+                                       [ngClass]="{ 'is-invalid': submitForm.submitted && criteriaNameEnRef.invalid }">
+                                <div *ngIf="submitForm.submitted && criteriaNameEnRef.invalid" class="invalid-feedback">
+                                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-6"
+                                 [ngClass]="{ 'col-6': dto.type === 'NUMERIC' , 'col-12': dto.type === 'MULTIPLE_CHOICE'}">
+                                <label class="form-label">
+                                    {{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.FIELD_TYPE' | translate }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" name="fieldType" required noWhitespace
+                                        #fieldType="ngModel" [(ngModel)]="dto.type" [disabled]="!isEditMode">
+                                    <option value="NUMERIC">{{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.NUMERIC' | translate }}</option>
+                                    <option value="MULTIPLE_CHOICE">{{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.MULTIPLE_CHOICE' | translate }}</option>
+                                </select>
+                                <div *ngIf="submitForm.submitted && fieldType.invalid" class="invalid-feedback">
+                                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                                </div>
+                            </div>
+
+                            <div [ngClass]="{ 'col-6': dto.type === 'NUMERIC' , 'col-12': dto.type === 'MULTIPLE_CHOICE'}">
+                                <div *ngIf="dto.type === 'NUMERIC'">
+                                    <label for="maxScore" class="form-label">
+                                        {{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.FINAL_GRADE' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" id="maxScore" name="maxScore"
+                                           required noWhitespace
+                                           placeholder="{{'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.FINAL_GRADE' | translate}}"
+                                           #maxScore="ngModel" [(ngModel)]="dto.maxScore" [disabled]="!isEditMode"
+                                           [min]="1"
+                                           [ngClass]="{ 'is-invalid': submitForm.submitted && maxScore.invalid }">
+                                    <div *ngIf="submitForm.submitted && maxScore.invalid" class="invalid-feedback">
+                                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED_AND_GREATER_THAN_ZERO' | translate }}</span>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="dto.type === 'MULTIPLE_CHOICE'">
+                                    <div class="card shadow-sm">
+                                        <div class="card-header d-flex align-items-center">
+                                            <h5 class="card-title mb-0">
+                                                {{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.VALUES' | translate }}
+                                            </h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr class="bg-light text-muted">
+                                                        <th>{{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.VALUE_AR' | translate }}</th>
+                                                        <th>{{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.VALUE_EN' | translate }}</th>
+                                                        <th>{{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.EVALUATION_GRADE' | translate }}</th>
+                                                        <th *ngIf="isEditMode"></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr *ngFor="let obj of localOptions; let i = index">
+                                                        <td *ngIf="!obj.editable">{{ obj.nameAr }}</td>
+                                                        <td *ngIf="obj.editable">
+                                                            <input class="form-control" type="text"
+                                                                   [name]="'nameAr' + i" [(ngModel)]="obj.nameAr">
+                                                        </td>
+
+                                                        <td *ngIf="!obj.editable">{{ obj.nameEn }}</td>
+                                                        <td *ngIf="obj.editable">
+                                                            <input class="form-control" type="text"
+                                                                   [name]="'nameEn' + i" [(ngModel)]="obj.nameEn">
+                                                        </td>
+
+                                                        <td *ngIf="!obj.editable">{{ obj.score }}</td>
+                                                        <td *ngIf="obj.editable">
+                                                            <input class="form-control" type="number"
+                                                                   [name]="'score' + i" [(ngModel)]="obj.score">
+                                                        </td>
+
+                                                        <td *ngIf="isEditMode">
+                                                            <div class="d-flex gap-2">
+                                                                <ng-container *ngIf="!obj.editable; else editBlock">
+                                                                    <button type="button" class="btn btn-sm btn-primary"
+                                                                            (click)="enableEdit(i)">
+                                                                        <i class="ri-pencil-line"></i>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                                            (click)="removeOption(i)">
+                                                                        <i class="ri-delete-bin-line"></i>
+                                                                    </button>
+                                                                </ng-container>
+                                                                <ng-template #editBlock>
+                                                                    <button type="button" class="btn btn-sm btn-success"
+                                                                            (click)="saveEdit(i)">{{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+                                                                    </button>
+                                                                    <button type="button"
+                                                                            class="btn btn-sm btn-secondary"
+                                                                            (click)="cancelEdit(i)">{{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+                                                                    </button>
+                                                                </ng-template>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                    <tfoot *ngIf="isEditMode">
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" name="newNameAr" class="form-control"
+                                                                   [(ngModel)]="newOption.nameAr"/>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="newNameEn" class="form-control"
+                                                                   [(ngModel)]="newOption.nameEn"/>
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" name="newScore" class="form-control"
+                                                                   [(ngModel)]="newOption.score"/>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-sm btn-success"
+                                                                   [disabled]="!newOption.nameAr || !newOption.nameEn || !newOption.score"
+                                                                    (click)="addOption()">
+                                                                <i class="ri-menu-add-fill"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="criteriaRequired"
+                                           [(ngModel)]="dto.required" [disabled]="!isEditMode">
+                                    <label class="form-check-label">{{ 'required' | translate }}</label>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="criteriaStatus"
+                                           [(ngModel)]="isActive" [disabled]="!isEditMode">
+                                    <label class="form-check-label">{{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.ITEM_STATUS' | translate }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer d-flex">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+                    (click)="decline()">{{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+            </button>
+            <button type="submit" class="btn btn-primary" *ngIf="isEditMode">
+                {{ (dto.id ? 'PAGES.COMMON.LABELS.EDIT' : 'PAGES.COMMON.LABELS.ADD_TO_LIST') | translate }}
+            </button>
+        </div>
+    </form>
+</div>

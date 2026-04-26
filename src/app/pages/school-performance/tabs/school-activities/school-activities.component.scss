@@ -1,0 +1,141 @@
+@import '../general-data/general-data.component.scss';
+
+.tab-body {
+  .school-activities-container {
+    
+    .table-section {
+      margin-bottom: 40px;
+      border: 1px solid #e9ecef;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+      .table-container {
+        padding: 25px;
+        background: #fafbfc;
+
+        ::ng-deep {
+          .ag-theme-alpine {
+            --ag-header-height: 60px;
+            --ag-row-height: 70px;
+            --ag-header-background-color: #f8f9fa;
+            --ag-header-foreground-color: #1F487E;
+            --ag-border-color: #dee2e6;
+            --ag-row-border-color: #e9ecef;
+            
+            .ag-header {
+              font-weight: 600;
+              font-size: 1rem;
+            }
+
+            .ag-header-cell {
+              background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+              border-right: 2px solid #dee2e6;
+              
+              .ag-header-cell-text {
+                text-align: center;
+                padding: 8px 4px;
+                line-height: 1.3;
+              }
+            }
+
+            .ag-row {
+              &:nth-child(even) {
+                background-color: #f8f9fa;
+              }
+
+              &:hover {
+                background-color: #e8f4fd;
+              }
+            }
+
+            .ag-cell {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 10px 8px;
+              border-right: 1px solid #e9ecef;
+
+              .activity-type-cell {
+                width: 100%;
+                text-align: right;
+                padding: 8px;
+
+                .activity-type {
+                  color: #1F487E;
+                  font-weight: 600;
+                  font-size: 0.95rem;
+                }
+              }
+
+              .count-cell {
+                width: 100%;
+                text-align: center;
+
+                .count-value {
+                  background: #6f42c1;
+                  color: white;
+                  padding: 6px 12px;
+                  border-radius: 15px;
+                  font-weight: 600;
+                  font-size: 0.9rem;
+                  display: inline-block;
+                  min-width: 30px;
+                }
+              }
+
+              .notes-cell {
+                width: 100%;
+                text-align: right;
+                padding: 8px;
+
+                .notes-text {
+                  color: #495057;
+                  font-size: 0.85rem;
+                  line-height: 1.4;
+                  font-style: italic;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /* Use shared summary styles with specific variants */
+    .statistics-summary {
+      .summary-cards {
+        .summary-card {
+          &.total-activities {
+            border-left-color: #6f42c1;
+            .card-icon {
+              background: linear-gradient(135deg, #6f42c1, #5a379e);
+            }
+          }
+
+          &.active-activities {
+            border-left-color: #28a745;
+            .card-icon {
+              background: linear-gradient(135deg, #28a745, #1e7e34);
+            }
+          }
+
+          &.student-participation {
+            border-left-color: #17a2b8;
+            .card-icon {
+              background: linear-gradient(135deg, #17a2b8, #138496);
+            }
+          }
+
+          &.activity-effectiveness {
+            border-left-color: #ffc107;
+            .card-icon {
+              background: linear-gradient(135deg, #ffc107, #e0a800);
+            }
+          }
+        }
+      }
+    }
+  }
+} 

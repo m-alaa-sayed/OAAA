@@ -1,0 +1,486 @@
+<div class="card m-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">{{ "PAGES.TEAM_LEADER_PLAN.LABELS.SUMMARY_OF_DOMAIN_RESPONSIBILITIES" | translate }}
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-gridjs">
+                <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.RESPONSIBLE_PERSON' | translate }}
+                    </th>
+                    <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.ROLE' | translate }}
+                    </th>
+                    <th class="text-center wide-select-cell">{{
+                            'PAGES.TEAM_LEADER_PLAN.LABELS.DOMAIN' | translate
+                        }}  <span *ngIf="isEditMode" class="text-danger">*</span>
+                    </th>
+                    <th class="text-center wide-select-cell">{{
+                            'PAGES.TEAM_LEADER_PLAN.LABELS.SUBJECT' | translate
+                        }}   <span *ngIf="isEditMode" class="text-danger">*</span>
+                    </th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let domain of visitPlanRequestInfo.domainResponsibilities; let i = index">
+                    <!-- <tr *ngFor="let domain of teamLeaderPlanData; let i = index"> -->
+                    <td class="text-center">{{ i + 1 }}</td>
+                    <td class="text-center">{{
+                            translate.currentLang == 'ar' ? domain.memberNameAr :
+                                domain.memberNameEn
+                        }}
+                    </td>
+                    <td class="text-center">
+                        {{ 'PAGES.COMMON.LABELS.' + domain.role | translate }}
+                    </td>
+                    <td class="text-center">
+                        <ng-select id="selectedYear" name="selectedYear" [clearable]="false"
+                                   [(ngModel)]="domain.domains" [multiple]="true" [disabled]="!isEditMode"
+                                   class="w-100 form-control form-control-md bg-transparent mb-2 p-0"
+                                   [ngClass]="{'is-invalid': isSubmitted && domain.role !== 'LEADER' && (!domain.domains || domain.domains.length === 0)}"
+                                   [appendTo]="'body'"
+                                   required>
+                            <ng-option *ngFor="let domain of visitDomainOptions" [value]="domain">
+                                {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.' + domain | translate }}
+                            </ng-option>
+                        </ng-select>
+                    </td>
+                    <td class="text-center">
+                        <ng-select id="selectedYear" name="selectedYear" [clearable]="false"
+                                   [(ngModel)]="domain.subjects" [multiple]="true" [disabled]="!isEditMode"
+                                   (change)="onSubjectsChange($event,i)"
+                                   class="w-100 form-control form-control-md bg-transparent mb-2 p-0" required
+                                   [appendTo]="'body'"
+                                   [ngClass]="{'is-invalid': isSubmitted  && domain.role !== 'LEADER' && (!domain.subjects || domain.subjects.length === 0)}">
+                            <ng-option *ngFor="let subject of subjectOptions" [value]="subject">
+                                {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.' + subject | translate }}
+                            </ng-option>
+                        </ng-select>
+                        <ng-template #otherTemplate let-modal>
+                            <div class="modal-body">
+                                <h4 class="modal-title">{{ "PAGES.COMMON.LABELS.ADD_OTHER_SUBJECT" | translate }}</h4>
+
+                                <div class="mb-3">
+                                    <label>{{ "PAGES.COMMON.LABELS.OTHER_SUBJECT" | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" [(ngModel)]="otherSubject" required>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button class="btn btn-outline-secondary" (click)="closePop(modal)">
+                                    {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+                                </button>
+                                <button [disabled]="!otherSubject" class="btn btn-primary"
+                                        (click)="confirmOther(modal)">
+                                    {{ 'PAGES.COMMON.LABELS.CONFIRM' | translate }}
+                                </button>
+                            </div>
+                        </ng-template>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div
+                    *ngIf="!visitPlanRequestInfo.domainResponsibilities || visitPlanRequestInfo.domainResponsibilities.length == 0">
+                <p class="text-muted mb-0 text-center">{{
+                        'PAGES.COMMON.MESSAGES.NO_DATA_FOUND' |translate
+                    }}</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="card m-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">{{ "PAGES.TEAM_LEADER_PLAN.LABELS.TASK_PLAN_DETAILS" | translate }}</h5>
+    </div>
+    <div class="card-body">
+        <div class="card-body d-flex justify-content-end mx-0 px-0">
+            <button *ngIf="isEditMode" class="btn btn-primary" (click)="open(addMember)">
+                <i class="ri-add-line align-bottom me-1"></i> {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.ADD_MEMBER_AND_DATE_TO_TASKS' | translate }}
+            </button>
+
+            <button class="btn btn-primary ms-2 me-2" (click)="open(selectMembers)">
+                <i class="ri-download-line align-bottom me-1"></i> {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.EXPORT_TASK_PLAN_DETAILS' | translate }}
+            </button>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-gridjs">
+                <thead>
+                <tr>
+                    <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.NAME' | translate }}
+                    </th>
+                    <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.ROLE' | translate }}
+                    </th>
+                    <!-- <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.SPECIALIZATION' | translate }}
+                    </th> -->
+                    <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.DATE' | translate }}
+                    </th>
+                    <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.NUMBER_OF_TASKS' | translate }}
+                    </th>
+                    <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.BEFORE_ASSEMBLY' | translate }}
+                    </th>
+                    <th class="text-center">1</th>
+                    <th class="text-center">2</th>
+                    <th class="text-center">3</th>
+                    <th class="text-center">4</th>
+                    <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.BREAK' | translate }}
+                    </th>
+                    <th class="text-center">5</th>
+                    <th class="text-center">6</th>
+                    <th class="text-center">7</th>
+                    <th class="text-center">8</th>
+                    <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.DISMISSAL' | translate }}
+                    </th>
+
+                    <th *ngIf="isEditMode" class="text-center" style="width: 9%;">{{
+                            'PAGES.COMMON.LABELS.ACTIONS' |
+                                translate
+                        }}
+                    </th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let task of visitPlanRequestInfo.taskAssignments; let i = index">
+                    <td class="text-center">{{
+                            translate.currentLang == 'ar' ? task.memberNameAr : task.memberNameEn
+                        }}
+                    </td>
+                    <td class="text-center">
+                        {{ 'PAGES.COMMON.LABELS.' + task.role | translate }}
+                    </td>
+                    <!-- <td class="text-center"></td> -->
+                    <td class="text-center">{{ task.taskAssignmentDate | date: 'dd/MM/yyyy' }}</td>
+                    <td class="text-center">{{ task.memberTasks?.length || 0 }}</td>
+
+                    <!-- BEFORE_ASSEMBLY -->
+                    <td class="text-center">
+                        <i *ngIf="!(task.memberTasks || [] | hasPhaseTask:'BEFORE_ASSEMBLY')"
+                           (click)="openNewTask(addTask,'BEFORE_ASSEMBLY', task)"
+                           [ngClass]="'ri-add-box-line fs-24 text-secondary'">
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'BEFORE_ASSEMBLY') && (task.memberTasks || [] | taskType:'BEFORE_ASSEMBLY') != 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'BEFORE_ASSEMBLY', task)">
+                            {{
+                                'PAGES.TEAM_LEADER_PLAN.LABELS.' +
+                                (task.memberTasks || [] | taskType:'BEFORE_ASSEMBLY') |translate
+                            }}
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'BEFORE_ASSEMBLY') && (task.memberTasks || [] | taskType:'BEFORE_ASSEMBLY') === 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'BEFORE_ASSEMBLY', task)">
+                            {{ getActivityForSlot(task.memberTasks || [], 'BEFORE_ASSEMBLY') }}
+                        </i>
+                        <i class="ri-delete-bin-line text-danger"
+                           *ngIf="isEditMode && (task.memberTasks || [] | hasPhaseTask:'BEFORE_ASSEMBLY')"
+                           (click)="deleteTask(task, 'BEFORE_ASSEMBLY')"></i>
+                    </td>
+
+                    <!-- CLASS_1 -->
+                    <td class="text-center">
+                        <i *ngIf="!(task.memberTasks || [] | hasPhaseTask:'CLASS_1')"
+                           (click)="openNewTask(addTask,'CLASS_1',task)"
+                           [ngClass]="'ri-add-box-line fs-24 text-secondary'">
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_1') && (task.memberTasks || [] | taskType:'CLASS_1') != 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_1', task)">
+                            {{
+                                'PAGES.TEAM_LEADER_PLAN.LABELS.' +
+                                (task.memberTasks || [] | taskType:'CLASS_1') |translate
+                            }}
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_1') &&  (task.memberTasks || [] | taskType:'CLASS_1') === 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_1', task)">
+                            {{ getActivityForSlot(task.memberTasks || [], 'CLASS_1') }}
+                        </i>
+                        <i class="ri-delete-bin-line text-danger"
+                           *ngIf="isEditMode && (task.memberTasks || [] | hasPhaseTask:'CLASS_1')"
+                           (click)="deleteTask(task, 'CLASS_1')"></i>
+                    </td>
+
+                    <!-- CLASS_2 -->
+                    <td class="text-center">
+                        <i *ngIf="!(task.memberTasks || [] | hasPhaseTask:'CLASS_2')"
+                           (click)="openNewTask(addTask,'CLASS_2',task)"
+                           [ngClass]="'ri-add-box-line fs-24 text-secondary'">
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_2') && (task.memberTasks || [] | taskType:'CLASS_2') != 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_2', task)">
+                            {{
+                                'PAGES.TEAM_LEADER_PLAN.LABELS.' +
+                                (task.memberTasks || [] | taskType:'CLASS_2') |translate
+                            }}
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_2') &&  (task.memberTasks || [] | taskType:'CLASS_2') === 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_2', task)">
+                            {{ getActivityForSlot(task.memberTasks || [], 'CLASS_2') }}
+                        </i>
+                        <i class="ri-delete-bin-line text-danger"
+                           *ngIf="isEditMode && (task.memberTasks || [] | hasPhaseTask:'CLASS_2')"
+                           (click)="deleteTask(task, 'CLASS_2')"></i>
+                    </td>
+
+                    <!-- CLASS_3 -->
+                    <td class="text-center">
+                        <i *ngIf="!(task.memberTasks || [] | hasPhaseTask:'CLASS_3')"
+                           (click)="openNewTask(addTask,'CLASS_3',task)"
+                           [ngClass]="'ri-add-box-line fs-24 text-secondary'">
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_3') && (task.memberTasks || [] | taskType:'CLASS_3') != 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_3', task)">
+                            {{
+                                'PAGES.TEAM_LEADER_PLAN.LABELS.' +
+                                (task.memberTasks || [] | taskType:'CLASS_3') |translate
+                            }}
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_3') &&  (task.memberTasks || [] | taskType:'CLASS_3') === 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_3', task)">
+                            {{ getActivityForSlot(task.memberTasks || [], 'CLASS_3') }}
+                        </i>
+                        <i class="ri-delete-bin-line text-danger"
+                           *ngIf="isEditMode && (task.memberTasks || [] | hasPhaseTask:'CLASS_3')"
+                           (click)="deleteTask(task, 'CLASS_3')"></i>
+                    </td>
+
+                    <!-- CLASS_4 -->
+                    <td class="text-center">
+                        <i *ngIf="!(task.memberTasks || [] | hasPhaseTask:'CLASS_4')"
+                           (click)="openNewTask(addTask,'CLASS_4',task)"
+                           [ngClass]="'ri-add-box-line fs-24 text-secondary'">
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_4') && (task.memberTasks || [] | taskType:'CLASS_4') != 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_4', task)">
+                            {{
+                                'PAGES.TEAM_LEADER_PLAN.LABELS.' +
+                                (task.memberTasks || [] | taskType:'CLASS_4') |translate
+                            }}
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_4') &&  (task.memberTasks || [] | taskType:'CLASS_4') === 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_4', task)">
+                            {{ getActivityForSlot(task.memberTasks || [], 'CLASS_4') }}
+                        </i>
+                        <i class="ri-delete-bin-line text-danger"
+                           *ngIf="isEditMode && (task.memberTasks || [] | hasPhaseTask:'CLASS_4')"
+                           (click)="deleteTask(task, 'CLASS_4')"></i>
+                    </td>
+
+                    <!-- BREAK-->
+                    <td class="text-center">
+                        <i *ngIf="!(task.memberTasks || [] | hasPhaseTask:'BREAK')"
+                           (click)="openNewTask(addTask,'BREAK',task)"
+                           [ngClass]="'ri-add-box-line fs-24 text-secondary'">
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'BREAK') && (task.memberTasks || [] | taskType:'BREAK') != 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'BREAK', task)">
+                            {{
+                                'PAGES.TEAM_LEADER_PLAN.LABELS.' +
+                                (task.memberTasks || [] | taskType:'BREAK') |translate
+                            }}
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'BREAK') &&  (task.memberTasks || [] | taskType:'BREAK') === 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'BREAK', task)">
+                            {{ getActivityForSlot(task.memberTasks || [], 'BREAK') }}
+                        </i>
+                        <i class="ri-delete-bin-line text-danger"
+                           *ngIf="isEditMode && (task.memberTasks || [] | hasPhaseTask:'BREAK')"
+                           (click)="deleteTask(task, 'BREAK')"></i>
+                    </td>
+
+                    <!-- CLASS_5 -->
+                    <td class="text-center">
+                        <i *ngIf="!(task.memberTasks || [] | hasPhaseTask:'CLASS_5')"
+                           (click)="openNewTask(addTask,'CLASS_5',task)"
+                           [ngClass]="'ri-add-box-line fs-24 text-secondary'">
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_5') && (task.memberTasks || [] | taskType:'CLASS_5') != 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_5', task)">
+                            {{
+                                'PAGES.TEAM_LEADER_PLAN.LABELS.' +
+                                (task.memberTasks || [] | taskType:'CLASS_5') |translate
+                            }}
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_5') &&  (task.memberTasks || [] | taskType:'CLASS_5') === 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_5', task)">
+                            {{ getActivityForSlot(task.memberTasks || [], 'CLASS_5') }}
+                        </i>
+                        <i class="ri-delete-bin-line text-danger"
+                           *ngIf="isEditMode && (task.memberTasks || [] | hasPhaseTask:'CLASS_5')"
+                           (click)="deleteTask(task, 'CLASS_5')"></i>
+                    </td>
+
+                    <!-- CLASS_6 -->
+                    <td class="text-center">
+                        <i *ngIf="!(task.memberTasks || [] | hasPhaseTask:'CLASS_6')"
+                           (click)="openNewTask(addTask,'CLASS_6',task)"
+                           [ngClass]="'ri-add-box-line fs-24 text-secondary'">
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_6') && (task.memberTasks || [] | taskType:'CLASS_6') != 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_6', task)">
+                            {{
+                                'PAGES.TEAM_LEADER_PLAN.LABELS.' +
+                                (task.memberTasks || [] | taskType:'CLASS_6') |translate
+                            }}
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_6') &&  (task.memberTasks || [] | taskType:'CLASS_6') === 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_6', task)">
+                            {{ getActivityForSlot(task.memberTasks || [], 'CLASS_6') }}
+                        </i>
+                        <i class="ri-delete-bin-line text-danger"
+                           *ngIf="isEditMode && (task.memberTasks || [] | hasPhaseTask:'CLASS_6')"
+                           (click)="deleteTask(task, 'CLASS_6')"></i>
+                    </td>
+
+                    <!-- CLASS_7 -->
+                    <td class="text-center">
+                        <i *ngIf="!(task.memberTasks || [] | hasPhaseTask:'CLASS_7')"
+                           (click)="openNewTask(addTask,'CLASS_7',task)"
+                           [ngClass]="'ri-add-box-line fs-24 text-secondary'">
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_7') && (task.memberTasks || [] | taskType:'CLASS_7') != 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_7', task)">
+                            {{
+                                'PAGES.TEAM_LEADER_PLAN.LABELS.' +
+                                (task.memberTasks || [] | taskType:'CLASS_7') |translate
+                            }}
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_7') &&  (task.memberTasks || [] | taskType:'CLASS_7') === 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_7', task)">
+                            {{ getActivityForSlot(task.memberTasks || [], 'CLASS_7') }}
+                        </i>
+                        <i class="ri-delete-bin-line text-danger"
+                           *ngIf="isEditMode && (task.memberTasks || [] | hasPhaseTask:'CLASS_7')"
+                           (click)="deleteTask(task, 'CLASS_7')"></i>
+                    </td>
+
+                    <!-- CLASS_8 -->
+                    <td class="text-center">
+                        <i *ngIf="!(task.memberTasks || [] | hasPhaseTask:'CLASS_8')"
+                           (click)="openNewTask(addTask,'CLASS_8',task)"
+                           [ngClass]="'ri-add-box-line fs-24 text-secondary'">
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_8') && (task.memberTasks || [] | taskType:'CLASS_8') != 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_8', task)">
+                            {{
+                                'PAGES.TEAM_LEADER_PLAN.LABELS.' +
+                                (task.memberTasks || [] | taskType:'CLASS_8') |translate
+                            }}
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'CLASS_8') &&  (task.memberTasks || [] | taskType:'CLASS_8') === 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'CLASS_8', task)">
+                            {{ getActivityForSlot(task.memberTasks || [], 'CLASS_8') }}
+                        </i>
+                        <i class="ri-delete-bin-line text-danger"
+                           *ngIf="isEditMode && (task.memberTasks || [] | hasPhaseTask:'CLASS_8')"
+                           (click)="deleteTask(task, 'CLASS_8')"></i>
+                    </td>
+
+                    <!-- DISMISSAL -->
+                    <td class="text-center">
+                        <i *ngIf="!(task.memberTasks || [] | hasPhaseTask:'DISMISSAL')"
+                           (click)="openNewTask(addTask,'DISMISSAL',task)"
+                           [ngClass]="'ri-add-box-line fs-24 text-secondary'">
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'DISMISSAL') && (task.memberTasks || [] | taskType:'DISMISSAL') != 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'DISMISSAL', task)">
+                            {{
+                                'PAGES.TEAM_LEADER_PLAN.LABELS.' +
+                                (task.memberTasks || [] | taskType:'DISMISSAL') |translate
+                            }}
+                        </i>
+                        <i *ngIf="(task.memberTasks || [] | hasPhaseTask:'DISMISSAL') &&  (task.memberTasks || [] | taskType:'DISMISSAL') === 'OTHER' "
+                           class="clickable-text" (click)="openNewTask(addTask,'DISMISSAL', task)">
+                            {{ getActivityForSlot(task.memberTasks || [], 'DISMISSAL') }}
+                        </i>
+                        <i class="ri-delete-bin-line text-danger"
+                           *ngIf="isEditMode && (task.memberTasks || [] | hasPhaseTask:'DISMISSAL')"
+                           (click)="deleteTask(task, 'DISMISSAL')"></i>
+                    </td>
+
+                    <td *ngIf="isEditMode" class="text-center">
+                        <!-- <button class="btn">
+                            <i class="ri-edit-2-line text-primary"></i>
+                        </button> -->
+                        <button class="btn" (click)="removeTask(i)">
+                            <i class="ri-delete-bin-line text-danger"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+                <ng-template #addTask>
+
+                    <task-plan-task [isEditMode]="isEditMode" [editTaskObject]="editTaskObject"
+                                    [editMemberTask]="editMemberTask" [currentSlot]="currentSlot"
+                                    (onAddEvent)="updateTask($event)"
+                                    (onCloseEvent)="this.resetPopupData()"></task-plan-task>
+                </ng-template>
+            </table>
+            <div *ngIf="!visitPlanRequestInfo.taskAssignments || visitPlanRequestInfo.taskAssignments.length == 0">
+                <p class="text-muted mb-0 text-center">{{
+                        'PAGES.COMMON.MESSAGES.NO_DATA_FOUND' |translate
+                    }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<step-action-buttons *ngIf="showButtons" [showSubmitBtn]="false"
+                     (nextEvent)="next()"
+                     (previousEvent)="previousEvent.emit()" (saveEvent)="save()"
+                     (cancelEvent)="cancelEvent.emit()"></step-action-buttons>
+
+<ng-template #addMember>
+    <task-plan-member [reviewTeamAssignmentRequestInfoList]="reviewTeamAssignmentRequestInfoList"
+                      [visitLeaderPlanRequestInfoId]="visitPlanRequestInfo.id"
+                      [taskAssignmentList]="visitPlanRequestInfo.taskAssignments || []"
+                      [visitFrom]="visitPlanRequestInfo.scheduledSchoolVisit?.visitFrom || ''"
+                      [visitTo]="visitPlanRequestInfo.scheduledSchoolVisit?.visitTo || ''"
+                      (onAddEvent)="addNewMember($event)" (onCloseEvent)="this.close()"></task-plan-member>
+</ng-template>
+
+<ng-template #selectMembers>
+    <div class="default-modal">
+        <div class="modal-header d-flex justify-content-between align-items-center flex-row bg-primary-light p-3">
+            <h5 class="modal-title m-0">
+                {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.EXPORT_TASK_PLAN_DETAILS' | translate }}
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col-12">
+                        <label class="form-label">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.MEMBER_NAME'|translate }}
+                            <!--<span class="text-danger">*</span>-->
+                        </label>
+                        <ng-select id="reviewTeamAssignmentRequestInfoIds"
+                                   name="reviewTeamAssignmentRequestInfoIds"
+                                   [clearable]="false"
+                                   [multiple]="true"
+                                   [(ngModel)]="reviewTeamAssignmentRequestInfoIds"
+                                   class="w-100 form-control form-control-md bg-transparent mb-2 p-0">
+                            <ng-option *ngFor="let member of reviewTeamAssignmentRequestInfoList" [value]="member.id">
+                                {{ translate.currentLang == 'ar' ? member.user?.fullNameAr : member.user?.fullNameEn }}
+                                | {{ 'PAGES.COMMON.LABELS.' + member.role | translate }}
+                            </ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer d-flex">
+            <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+            </button>
+
+            <button class="btn btn-primary" type="button" (click)="downloadMemberTasksReport()">
+                {{ "PAGES.COMMON.LABELS.EXPORT" | translate }}
+            </button>
+        </div>
+    </div>
+</ng-template>

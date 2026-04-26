@@ -1,0 +1,28 @@
+.success-wrapper {
+  min-height: 75vh;
+  background-color: #f8f9fa; // Optional: light background
+  padding: 2rem;
+}
+.card {
+  min-height: 400px;
+}
+
+.application-no {
+  font-size: 1.25rem; // slightly larger text
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+.application-no .app-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #198754; // Bootstrap success green
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+
+@media (min-width: 576px) {
+  .w-sm-auto {
+    width: auto !important;
+  }
+}

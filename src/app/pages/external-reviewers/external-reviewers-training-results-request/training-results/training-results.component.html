@@ -1,0 +1,24 @@
+<page-title [title]="'PAGES.TRAINING_RESULTS.LABELS.RECORD_TRAINING_RESULTS' | translate" 
+[breadcrumbItems]="[{ label: 'PAGES.TRAINING_RESULTS.LABELS.RECORD_TRAINING_RESULTS' | translate, active: true }]"></page-title>
+
+<div class="card shadow-sm">
+    <div *hasPermission="[permissionErTrainingResultsRegistrationRequestCreateRequest]" class="card-header">
+        <div class="d-flex justify-content-end align-items-end">
+            <button class="btn btn-primary" (click)="navigateToNewOrder()">
+                <i class="ri-add-line me-1"></i>
+                {{ 'PAGES.TRAINING_RESULTS.LABELS.ADD_REQUEST' | translate }}
+            </button>
+        </div>
+    </div>
+    
+    <div class="card-body">
+        <oaaaqa-ag-grid
+            [actions]="actions"
+            [dataList]="externalReviewerTrainingResultRequestList" 
+            [columns]="columns"
+            [columnFilterOptions]="columnFilterOptions">
+        </oaaaqa-ag-grid>
+    </div>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

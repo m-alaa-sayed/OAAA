@@ -1,0 +1,42 @@
+<div class="auth-page-wrapper pt-5">
+    <!-- auth page content -->
+    <div class="auth-page-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card mt-4">
+                        <div class="card-body p-4 text-center">
+                            <div class="avatar-lg mx-auto mt-2">
+                                <div class="avatar-title bg-light text-success display-3 rounded-circle">
+                                    <i class="ri-checkbox-circle-fill"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-2">
+                                <h4 class="text-muted multi-line-text mx-4">{{message | translate}}</h4>
+                                <div *ngIf="isLogin"  class="mt-4">
+                                    <a routerLink="/auth/login" class="btn btn-success w-100">
+                                        {{"PAGES.LOGIN.LABELS.LOGIN" | translate}}
+                                    </a>
+                                </div>
+
+                                 <div *ngIf="!isLogin" class="mt-4">
+                                    <a routerLink="/" class="btn btn-success w-100">
+                                        {{"MENUITEMS.MENU.HOME" | translate}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card body -->
+                    </div>
+                    <!-- end card -->
+
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end auth page content -->
+
+</div>
+<!-- end auth-page-wrapper -->

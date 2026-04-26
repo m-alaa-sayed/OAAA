@@ -1,0 +1,69 @@
+<form #submitForm="ngForm">
+    <div class="mx-4">
+        <div class="card-body">
+            <!-- cheqa -->
+            <app-experience-information-cheqa #cheqaComp [isSubmitting]="isSubmitting" [isEditMode]="isEditMode"
+                *ngIf="externalReviewersRegistrationRequestInfo.module=='CHEQA'"
+                [externalReviewersRegistrationRequestInfo]="externalReviewersRegistrationRequestInfo"></app-experience-information-cheqa>
+
+            <app-experience-information-cseqa *ngIf="externalReviewersRegistrationRequestInfo.module=='CSEQA'"
+                #cseqaComp [isSubmitting]="isSubmitting" [isEditMode]="isEditMode"
+                [externalReviewersRegistrationRequestInfo]="externalReviewersRegistrationRequestInfo">
+            </app-experience-information-cseqa>
+
+            <app-experience-information-oqf *ngIf="externalReviewersRegistrationRequestInfo.module=='OQF'" #oqfComp
+                [isSubmitting]="isSubmitting" [isEditMode]="isEditMode"
+                [externalReviewersRegistrationRequestInfo]="externalReviewersRegistrationRequestInfo">
+            </app-experience-information-oqf>
+
+
+            <div *ngIf="externalReviewersRegistrationRequestInfo.module !='OQF'" class="row mt-4">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.COMMON.LABELS.NOTES" | translate }}
+                            <small class="text-danger ms-3">
+                                ({{
+                                'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                        </label>
+                        <textarea type="text" class="form-control" name="externalReviewerNotes" [disabled]="!isEditMode"
+                            id="externalReviewerNotes" #externalReviewerNotes="ngModel"
+                            [(ngModel)]="this.externalReviewersRegistrationRequestInfo.externalReviewerNotes"
+                            placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+                            (ngModelChange)="onTextChange()">
+                    </textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- attachments -->
+            <div class="card shadow-sm my-5">
+                <app-common-attachments [attachmentList]="externalReviewersRegistrationRequestInfo.attachmentList || []"
+                    (attachmentAddEventEmitter)="addAttchment($event)" [isEditMode]="isEditMode"
+                    (attachmentRemoveEventEmitter)="removeAttchment($event)"></app-common-attachments>
+            </div>
+
+
+            <!-- buttons -->
+            <div *ngIf="showButtons" class="pt-5 d-flex justify-content-between">
+
+                <div class="d-flex justify-content-start rounded">
+                    <button type="button" class="step-prev btn btn-primary" (click)="previousEvent.emit()">
+                        {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+                    </button>
+
+                    <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancelEvent.emit()">
+                        {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                    </button>
+
+                </div>
+
+
+                <div class="d-flex justify-content-end rounded" (click)="next()">
+                    <button type="button" class="step-next btn btn-primary">
+                        {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>

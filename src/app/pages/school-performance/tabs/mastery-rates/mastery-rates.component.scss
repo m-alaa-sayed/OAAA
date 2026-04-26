@@ -1,0 +1,1255 @@
+@import '../general-data/general-data.component.scss';
+
+.mastery-rates-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 24px 16px 32px 16px;
+  direction: rtl;
+  max-width: 1200px;
+  margin: 32px auto;
+
+  // English styles - LTR layout
+  &[dir="ltr"] {
+    direction: ltr;
+    
+    .top-row {
+      .title {
+        text-align: left;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      
+      .top-actions {
+        justify-content: flex-end;
+        
+        .btn {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+      }
+    }
+    
+    .grade-header {
+      justify-content: space-between;
+      text-align: left;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      
+      span {
+        text-align: left;
+      }
+      
+      i {
+        order: 2;
+      }
+    }
+    
+    .mastery-table {
+      th, td {
+        text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      
+      // First column (Subject) should be left-aligned in English
+      th:first-child,
+      td:first-child {
+        text-align: left;
+        padding-left: 12px;
+      }
+      
+      // Summary rows should be left-aligned for the first column
+      tr.summary-row {
+        td:first-child {
+          text-align: left;
+          padding-left: 12px;
+          font-weight: 600;
+        }
+      }
+    }
+    
+    .summary-cards {
+      .summary-card {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+      }
+    }
+    
+    .bottom-actions {
+      justify-content: space-between;
+      
+      .btn {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      
+      // In English, Save should be on the right, Exit on the left
+      .btn:first-child {
+        order: 1; // Exit button
+      }
+      
+      .btn:last-child {
+        order: 2; // Save button
+      }
+    }
+    
+    // English-specific responsive adjustments
+    @media (max-width: 768px) {
+      .top-row {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+        
+        .title {
+          font-size: 1.1rem;
+        }
+        
+        .top-actions {
+          width: 100%;
+          justify-content: space-between;
+        }
+      }
+      
+      .mastery-table {
+        font-size: 0.85rem;
+        
+        th, td {
+          padding: 8px 6px;
+        }
+        
+        th:first-child,
+        td:first-child {
+          padding-left: 8px;
+          font-size: 0.8rem;
+        }
+      }
+      
+      .bottom-actions {
+        flex-direction: row;
+        gap: 12px;
+        
+        .btn {
+          flex: 1;
+          min-width: auto;
+        }
+      }
+    }
+  }
+}
+
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #1F487E;
+}
+
+.top-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.top-actions .btn {
+  min-width: 110px;
+  font-size: 1rem;
+  border-radius: 6px;
+}
+
+.grade-panel {
+  border: 1px solid #e3e6ed;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  background: #fafbfc;
+  overflow: hidden;
+}
+
+.grade-header {
+  background: #f5f7fa;
+  padding: 16px 20px;
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: #1F487E;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e3e6ed;
+  transition: background 0.2s;
+
+  .grade-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    cursor: pointer;
+    
+    span {
+      flex: 1;
+    }
+  }
+
+  .not-applicable-checkbox {
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+
+    @media print {
+      margin: 0;
+    //   display: none !important;
+    }
+    
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #6c757d;
+      cursor: pointer;
+      margin: 0;
+    }
+  }
+
+  .grade-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .add-subject-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      
+      i {
+        margin-right: 0.5rem;
+        font-size: 1rem;
+      }
+      
+      &:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 165, 167, 0.3);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background-color: #6c757d;
+        border-color: #6c757d;
+      }
+    }
+  }
+}
+.grade-header:hover {
+  background: #e9f1fa;
+}
+.grade-header .grade-info i {
+  font-size: 1.4rem;
+  transition: transform 0.2s;
+}
+.grade-header .grade-info i.open {
+  transform: rotate(180deg);
+}
+
+.grade-body {
+  padding: 18px 10px 10px 10px;
+  background: #fff;
+
+  &.disabled-section {
+    opacity: 0.5;
+    pointer-events: none;
+    background: #f5f5f5;
+
+    .mastery-table {
+      background-color: #f5f5f5;
+
+      th {
+        background-color: #eeeeee !important;
+        color: #adb5bd !important;
+      }
+
+      td {
+        background-color: #f5f5f5 !important;
+        color: #adb5bd !important;
+
+        &:nth-child(even) {
+          background-color: #eeeeee !important;
+        }
+
+        .cell-input {
+          background-color: #f5f5f5 !important;
+          color: #adb5bd !important;
+          border-color: #dee2e6 !important;
+          cursor: not-allowed !important;
+        }
+
+        .delete-subject-btn {
+          background-color: #adb5bd !important;
+          color: #6c757d !important;
+          cursor: not-allowed !important;
+        }
+      }
+
+      .average-row {
+        td {
+          background-color: #eeeeee !important;
+          color: #adb5bd !important;
+        }
+      }
+
+      .other-subjects-row {
+        td {
+          background-color: #f0f0f0 !important;
+          color: #adb5bd !important;
+        }
+      }
+
+      .overall-judgment-row {
+        td {
+          background-color: #e8e8e8 !important;
+          color: #adb5bd !important;
+        }
+      }
+    }
+
+    @media print {
+      opacity: 0.5 !important;
+      background: #f5f5f5 !important;
+
+      .mastery-table {
+        background-color: #f5f5f5 !important;
+
+        th {
+          background-color: #eeeeee !important;
+          color: #adb5bd !important;
+        }
+
+        td {
+          background-color: #f5f5f5 !important;
+          color: #adb5bd !important;
+
+          &:nth-child(even) {
+            background-color: #eeeeee !important;
+          }
+        }
+
+        .average-row {
+          td {
+            background-color: #eeeeee !important;
+            color: #6c757d !important;
+          }
+        }
+
+        .other-subjects-row {
+          td {
+            background-color: #f0f0f0 !important;
+            color: #6c757d !important;
+          }
+        }
+
+        .overall-judgment-row {
+          td {
+            background-color: #e8e8e8 !important;
+            color: #6c757d !important;
+          }
+        }
+      }
+
+      .total-summary-table {
+        background-color: #f5f5f5 !important;
+        opacity: 0.5 !important;
+
+        th {
+          background-color: #eeeeee !important;
+          color: #6c757d !important;
+        }
+
+        td {
+          background-color: #f5f5f5 !important;
+          color: #6c757d !important;
+        }
+      }
+    }
+  }
+}
+
+.table-header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.table-header h3 {
+  color: #1F487E;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  
+  // Better scrollbar styling
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+    
+    &:hover {
+      background: #555;
+    }
+  }
+}
+
+.mastery-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 1rem;
+  
+  // Remove fixed min-width and let table adapt to screen
+  @media (max-width: 1200px) {
+    font-size: 0.9rem;
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 0.85rem;
+  }
+  
+  // Header Styling
+  thead {
+    .main-header {
+      th {
+        background: #f8f9fa;
+        color: #1F487E;
+        font-weight: bold;
+        border: 1px solid #dee2e6;
+        padding: 12px 8px;
+        text-align: center;
+        
+        &.subject-header {
+          background: #1F487E;
+          color: white;
+          font-weight: bold;
+          writing-mode: vertical-lr;
+          text-orientation: mixed;
+          width: 8%;
+          min-width: 50px;
+          
+          @media (max-width: 768px) {
+            min-width: 40px;
+          }
+        }
+        
+        &.total-students-header {
+          background: #016393;
+          color: white;
+          font-weight: bold;
+          width: 15%;
+          min-width: 80px;
+          
+          @media (max-width: 768px) {
+            min-width: 60px;
+          }
+        }
+        
+        &.above-75-header {
+          background: #00A5A7;
+          color: white;
+          font-weight: bold;
+          font-size: 0.9rem;
+          width: auto;
+        }
+        
+        &.judgment-header {
+          background: #f1f8ff;
+          color: #1F487E;
+          font-weight: bold;
+          width: 20%;
+          min-width: 70px;
+          
+          @media (max-width: 768px) {
+            min-width: 60px;
+          }
+        }
+        
+        &.actions-header {
+          background: #fff2f2;
+          color: #dc3545;
+          font-weight: bold;
+          width: 10%;
+          min-width: 70px;
+          text-align: center;
+          
+          @media (max-width: 768px) {
+            min-width: 50px;
+          }
+        }
+      }
+    }
+    
+    .sub-header {
+      th {
+        background: #e8f4f8;
+        color: #1F487E;
+        font-weight: 600;
+        border: 1px solid #dee2e6;
+        padding: 10px 8px;
+        text-align: center;
+        
+        &.count-header {
+          background: #f1f8ff;
+          color: #016393;
+          font-weight: 600;
+        }
+        
+        &.percentage-header {
+          background: #f8f9fa;
+          color: #666;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  
+  // Body Styling
+  tbody {
+    tr {
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background-color: #f8f9fa;
+      }
+      
+      &.average-row {
+        background-color: #e8f4f8;
+        border-top: 1px solid #00A5A7;
+        border-bottom: 1px solid #00A5A7;
+        
+        .subject-cell {
+          background: #016393;
+          color: white;
+          font-weight: bold;
+          font-style: italic;
+        }
+        
+        .total-students-cell,
+        .count-cell,
+        .percentage-cell,
+        .judgment-cell {
+          background: #e8f4f8;
+          font-weight: bold;
+          color: #016393;
+        }
+      }
+      
+      &.other-subjects-row {
+        background-color: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+        
+        .subject-cell {
+          background: #6c757d;
+          color: white;
+          font-weight: bold;
+        }
+        
+        .total-students-cell,
+        .count-cell,
+        .percentage-cell,
+        .judgment-cell {
+          background: #f8f9fa;
+          font-weight: 600;
+          color: #495057;
+        }
+      }
+      
+      &.overall-judgment-row {
+        background: linear-gradient(135deg, #e8f4f8 0%, #f1f8ff 100%);
+        border-top: 2px solid #016393;
+        border-bottom: 2px solid #016393;
+        
+        .subject-cell {
+          background: #016393;
+          color: white;
+          font-weight: bold;
+          font-size: 1.1rem;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .total-students-cell,
+        .count-cell,
+        .percentage-cell {
+          background: #e8f4f8;
+          color: #666;
+          font-style: italic;
+          text-align: center;
+          vertical-align: middle;
+        }
+        
+        .judgment-cell {
+          background: #016393;
+          color: white;
+          font-weight: bold;
+          font-size: 1.2rem;
+          text-align: center;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+      }
+      
+      td {
+        padding: 10px 8px;
+        text-align: center;
+        border: 1px solid #dee2e6;
+        color: #333;
+        
+        &.subject-cell {
+          background: #1F487E;
+          color: white;
+          font-weight: bold;
+          text-align: center;
+        }
+        
+        &.total-students-cell {
+          background: #e8f4f8;
+          font-weight: bold;
+          color: #016393;
+          font-size: 1.05rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        &.count-cell {
+          background: #ffffff;
+          font-weight: 600;
+          color: #333;
+        }
+        
+        &.percentage-cell {
+          background: #f8f9fa;
+          color: #666;
+          font-weight: 500;
+          font-size: 0.95rem;
+        }
+        
+        &.judgment-cell {
+          background: #f1f8ff;
+          color: #1F487E;
+          font-weight: bold;
+          font-size: 0.9rem;
+        }
+
+        &.actions-cell {
+          background: #fafbfc;
+          text-align: center;
+          vertical-align: middle;
+          width: 100px;
+          
+          .delete-subject-btn {
+            background: #dc3545;
+            border: none;
+            color: white;
+            padding: 0.375rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            
+            &:hover {
+              background: #c82333;
+              transform: scale(1.05);
+            }
+            
+            &:focus {
+              box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+            }
+            
+            i {
+              font-size: 1rem;
+            }
+          }
+        }
+
+        // Input styling within cells
+        .cell-input {
+          border: 2px solid transparent;
+          border-radius: 6px;
+          padding: 6px 8px;
+          font-size: 14px;
+          font-weight: 600;
+          text-align: center;
+          background: rgba(255, 255, 255, 0.9);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+          width: 100%;
+          min-width: 60px;
+          max-width: 100%;
+          
+          @media (max-width: 768px) {
+            padding: 4px 6px;
+            font-size: 12px;
+            min-width: 50px;
+          }
+
+          &:focus:not(:disabled) {
+            outline: none;
+            border-color: #007bff;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            transform: scale(1.02);
+          }
+
+          &:hover:not(:disabled) {
+            border-color: #6c757d;
+            background: white;
+          }
+
+          &:disabled,
+          &[readonly] {
+            background-color: #f8f9fa !important;
+            color: #6c757d !important;
+            border-color: #dee2e6 !important;
+            cursor: not-allowed !important;
+            opacity: 0.7;
+            
+            &:hover {
+              background-color: #f8f9fa !important;
+              border-color: #dee2e6 !important;
+            }
+          }
+
+          // Specific styling for different cell types
+          &[type="number"] {
+            text-align: center;
+          }
+
+          &[type="text"] {
+            text-align: center;
+          }
+        }
+
+        // Select dropdown styling
+        select.cell-input {
+          cursor: pointer;
+          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+          background-position: right 8px center;
+          background-repeat: no-repeat;
+          background-size: 16px 12px;
+          padding-right: 32px;
+
+          option {
+            padding: 8px;
+            font-weight: 600;
+            background: white;
+            color: #495057;
+          }
+        }
+
+        // Styling for span elements (non-editable cells)
+        span {
+          display: inline-block;
+          padding: 6px 8px;
+          font-size: 14px;
+          font-weight: 600;
+          min-height: 20px;
+          line-height: 1.4;
+        }
+      }
+    }
+    
+
+  }
+}
+
+// Print-specific styles for mastery table columns
+@media print {
+  .mastery-table {
+    thead {
+      .main-header {
+        th {
+          &.subject-header {
+            width: 15% !important;
+            min-width: 100px !important;
+          }
+          
+          &.total-students-header {
+            width: 12% !important;
+            min-width: 70px !important;
+          }
+        }
+      }
+    }
+  }
+  
+  .all-grades-table {
+    thead {
+      .main-header {
+        th {
+          &.subject-header {
+            width: 20% !important;
+            min-width: 120px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.bottom-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+  gap: 12px;
+}
+.bottom-actions .btn {
+  min-width: 120px;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  padding: 10px 0;
+}
+
+// Hide scrollbars for table-responsive on Mac
+.table-responsive::-webkit-scrollbar {
+  height: 6px;
+  background: #f5f7fa;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+  background: #e3e6ed;
+  border-radius: 3px;
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .mastery-rates-wrapper {
+    .mastery-table {
+      font-size: 0.9rem;
+      
+      th, td {
+        padding: 8px 6px;
+      }
+      
+      thead {
+        .main-header th.subject-header {
+          writing-mode: horizontal-tb;
+          text-orientation: initial;
+          min-width: 80px;
+        }
+      }
+    }
+    
+
+  }
+}
+
+@media (max-width: 768px) {
+  .mastery-rates-wrapper {
+    padding: 16px;
+    
+    .top-row {
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+      
+      .title {
+        font-size: 1.1rem;
+      }
+      
+      .top-actions {
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 0;
+      }
+    }
+    
+    .mastery-table {
+      font-size: 0.85rem;
+      
+      th, td {
+        padding: 6px 4px;
+      }
+      
+      thead {
+        .main-header th.subject-header {
+          writing-mode: horizontal-tb;
+          text-orientation: initial;
+          min-width: 70px;
+          font-size: 0.8rem;
+        }
+        
+        .main-header th.above-75-header {
+          font-size: 0.8rem;
+        }
+      }
+      
+      tbody td {
+        &.judgment-cell {
+          font-size: 0.8rem;
+        }
+      }
+    }
+    
+
+  }
+}
+
+// All Grades Combined Table Section
+.all-grades-section {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  
+  .all-grades-header {
+    background: linear-gradient(135deg, #00A5A7 0%, #016393 100%);
+    
+    padding: 1rem 1.5rem;
+    margin-bottom: 0;
+    border-radius: 8px 8px 0 0;
+    
+    h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: white;
+    }
+  }
+  
+  .all-grades-table {
+    margin-bottom: 0;
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
+    .main-header {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      
+      th {
+        border: 1px solid #dee2e6;
+        font-weight: 600;
+        color: #495057;
+        text-align: center;
+        vertical-align: middle;
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
+    }
+    
+    .sub-header {
+      background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+      
+      th {
+        border: 1px solid #dee2e6;
+        font-weight: 600;
+        color: #495057;
+        text-align: center;
+        vertical-align: middle;
+        padding: 0.5rem;
+        font-size: 0.85rem;
+      }
+    }
+    
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background-color: #f8f9fa;
+        }
+        
+        &:hover {
+          background-color: #e9ecef;
+        }
+        
+        &.average-row {
+          background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+          font-weight: 600;
+          
+          &:hover {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+          }
+        }
+        
+        &.other-subjects-row {
+          background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+          font-weight: 600;
+          
+          &:hover {
+            background: linear-gradient(135deg, #bee5eb 0%, #9fcddc 100%);
+          }
+        }
+        
+        &.overall-judgment-row {
+          background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+          font-weight: 700;
+          color: #155724;
+          
+          &:hover {
+            background: linear-gradient(135deg, #c3e6cb 0%, #a7d7b5 100%);
+          }
+        }
+        
+        td {
+          border: 1px solid #dee2e6;
+          padding: 0.75rem;
+          text-align: center;
+          vertical-align: middle;
+          font-size: 0.9rem;
+          
+          &.subject-cell {
+            text-align: right;
+            font-weight: 500;
+            min-width: 200px;
+          }
+          
+          &.judgment-cell {
+            font-weight: 600;
+            
+            // Color coding for judgments
+            &:contains('متميز') { color: #155724; }
+            &:contains('جيد') { color: #0c5460; }
+            &:contains('مقبول') { color: #856404; }
+            &:contains('غير ملائم') { color: #721c24; }
+            &:contains('يحتاج إلى تدخل سريع') { color: #721c24; }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Total Summary Section
+.total-summary-section {
+  margin-top: 32px;
+  padding: 24px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border: 2px solid #00A5A7;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 165, 167, 0.15);
+  
+  .total-summary-header {
+    text-align: center;
+    margin-bottom: 20px;
+    
+    h3 {
+      color: #1F487E;
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin: 0;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #00A5A7 0%, #016393 100%);
+      color: white;
+      border-radius: 8px;
+      display: inline-block;
+    }
+  }
+  
+  .total-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    
+    thead {
+      tr:first-child {
+        th {
+          background: #00A5A7;
+          color: white;
+          font-weight: bold;
+          border: 1px solid #008284;
+          padding: 16px 12px;
+          text-align: center;
+          font-size: 1.1rem;
+          
+          &.all-grades-header {
+            background: #1F487E;
+            color: white;
+            font-weight: bold;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            min-width: 80px;
+          }
+          
+          &.above-75-summary-header {
+            background: #00A5A7;
+            color: white;
+            font-weight: bold;
+          }
+          
+          &.overall-judgment-header {
+            background: #016393;
+            color: white;
+            font-weight: bold;
+            min-width: 200px;
+          }
+        }
+      }
+      
+      tr:last-child {
+        th {
+          background: #e8f4f8;
+          color: #1F487E;
+          font-weight: 600;
+          border: 1px solid #008284;
+          padding: 12px 8px;
+          text-align: center;
+          
+          &.count-summary-header {
+            background: #f1f8ff;
+            color: #016393;
+            font-weight: 600;
+          }
+          
+          &.percentage-summary-header {
+            background: #f8f9fa;
+            color: #666;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+    
+    tbody {
+      .total-summary-row {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        
+        td {
+          padding: 20px 12px;
+          text-align: center;
+          border: 1px solid #008284;
+          font-size: 1.2rem;
+          font-weight: bold;
+          
+          &.all-grades-cell {
+            background: #1F487E;
+            color: white;
+            font-weight: bold;
+            font-size: 1.3rem;
+          }
+          
+          &.total-count-cell {
+            background: #e8f4f8;
+            color: #016393;
+            font-size: 1.4rem;
+            font-weight: bold;
+          }
+          
+          &.total-percentage-cell {
+            background: #f1f8ff;
+            color: #00A5A7;
+            font-size: 1.4rem;
+            font-weight: bold;
+          }
+          
+          &.overall-judgment-cell {
+            background: #016393;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design for Total Summary
+@media (max-width: 768px) {
+  .total-summary-section {
+    padding: 16px;
+    margin-top: 24px;
+    
+    .total-summary-header h3 {
+      font-size: 1.2rem;
+      padding: 10px 20px;
+    }
+    
+    .total-summary-table {
+      font-size: 0.85rem;
+      
+      thead {
+        tr:first-child th {
+          padding: 12px 6px;
+          font-size: 0.9rem;
+          
+          &.all-grades-header {
+            writing-mode: horizontal-tb;
+            text-orientation: initial;
+            min-width: 60px;
+            font-size: 0.8rem;
+          }
+          
+          &.overall-judgment-header {
+            min-width: 150px;
+          }
+        }
+        
+        tr:last-child th {
+          padding: 8px 4px;
+          font-size: 0.8rem;
+        }
+      }
+      
+      tbody {
+        .total-summary-row td {
+          padding: 14px 6px;
+          font-size: 1rem;
+          
+          &.all-grades-cell {
+            font-size: 1.1rem;
+          }
+          
+          &.total-count-cell,
+          &.total-percentage-cell {
+            font-size: 1.2rem;
+          }
+          
+          &.overall-judgment-cell {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Custom Scrollbar
+.table-responsive::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: #00A5A7;
+  border-radius: 4px;
+  
+  &:hover {
+    background: #008284;
+  }
+}
+
+.bg-disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}

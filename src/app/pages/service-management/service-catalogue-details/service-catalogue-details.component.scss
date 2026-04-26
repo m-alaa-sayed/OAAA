@@ -1,0 +1,82 @@
+:host ::ng-deep {
+  .service-box {
+    background: #fff;
+    min-height: 96px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.03);
+    border-radius: 10px;
+    width: 100% !important;
+    padding: 24px;
+  }
+
+  .service-inner {
+    line-height: 24px;
+    color: #004c5d;
+  }
+
+  .service-inner-icon {
+    background-color: var(--vz-gray-100);
+    min-width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 4px;
+  }
+  
+
+  .service-inner-data .label-title {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--vz-dark);
+  }
+
+  .label-value {
+    color: #acadaf;
+  }
+
+  .label-title {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #004c5d;
+  }
+
+  .step-title {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #57585a;
+  }
+
+  .service-step-count {
+    background-color: var(--vz-light);
+    color: #57585a;
+    padding: 13px;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .service-label-box {
+    background-color: var(--vz-primary);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.03);
+    border-radius: 4px;
+    width: 100% !important;
+    min-height: 2.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+
+  .service-center {
+    display: table;
+    margin: 0 auto;
+  }
+}

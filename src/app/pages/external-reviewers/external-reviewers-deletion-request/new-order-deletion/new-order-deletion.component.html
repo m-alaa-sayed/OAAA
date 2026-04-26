@@ -1,0 +1,89 @@
+<page-title [title]="'PAGES.ER_DELETION.LABELS.REQUEST_FOR_APPROVAL_OF_ER_DELETION' | translate"
+    [breadcrumbItems]="[{ label: 'PAGES.ER_DELETION.LABELS.REQUEST_FOR_APPROVAL_OF_ER_DELETION' | translate, active: true }]"></page-title>
+
+<div class="card shadow-sm">
+
+    <external-reviewers-deletion-registration-table *ngIf="showGridTable" [serviceCode]="serviceCode"
+        [externalReviewersList]="externalReviewersList"
+        [module]="module"
+        [externalReviewerDeletionList]="externalReviewerDeletionList"
+        [filteredExternalReviewersList]="filteredExternalReviewersList"
+        (erDeletionObjectEventEmitter)="updateErDeletionResultList($event)"></external-reviewers-deletion-registration-table>
+
+
+    <div class="py-3 mx-3">
+        <external-reviewers-deletion-table
+        [module]="module"
+            [externalReviewerDeletionList]="externalReviewerDeletionList"
+            (deleteEventEmitter)="deleteDeletionResult($event)"></external-reviewers-deletion-table>
+    </div>
+</div>
+
+
+
+<div class="card shadow-sm mt-4">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <h5 class="text-start">{{ "PAGES.COMMON.LABELS.NOTES" | translate }}</h5>
+                <small class="text-danger ms-3">
+                    ({{
+                    'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <textarea class="form-control" id="generalNotes" name="generalNotes"
+                    [(ngModel)]="externalReviewerDeletionCreate.requestNotes" rows="6"
+                     style="resize: vertical; text-align: right;"
+                    placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                    (ngModelChange)="onTextChange()"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card shadow-sm my-5">
+    <app-common-attachments [attachmentList]="externalReviewerDeletionCreate.requestAttachmentList || []"
+        (attachmentAddEventEmitter)="addAttchment($event)" (attachmentRemoveEventEmitter)="removeAttchment($event)">
+    </app-common-attachments>
+</div>
+<div class="card shadow-sm">
+    <div class="card-header">
+        <div class="d-flex justify-content-end gap-3">
+            <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+                {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+            </button>
+            <button type="button" class="btn btn-primary" (click)="validateForm(save)"
+                [disabled]="!externalReviewerDeletionList || externalReviewerDeletionList.length == 0">
+                {{ 'PAGES.COMMON.LABELS.SAVE_AND_SEND' | translate }}
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #save let-modal>
+    <div class="default-modal">
+        <div class="modal-body">
+            <div class="mb-3 row">
+                <label class="col-12 col-form-label">
+                    {{ "PAGES.COMMON.MESSAGES.BASIC_CONFIRM_SAVE" | translate }}</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                {{ "PAGES.COMMON.LABELS.NO" | translate }}
+            </button>
+
+            <button class="btn btn-primary" type="button" (click)="createRequest()">
+                {{ "PAGES.COMMON.LABELS.YES" | translate }}
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

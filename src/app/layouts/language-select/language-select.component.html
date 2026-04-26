@@ -1,0 +1,17 @@
+<div class="language-selector">
+  <!-- Show Arabic option when current language is English -->
+  <a href="javascript:void(0)" 
+     *ngIf="currentLang === 'en'" 
+     (click)="setLanguage('ar')" 
+     class="text-black fw-bold fs-16 d-inline-block px-2 ff-medium">
+     عربي
+  </a>
+  
+  <!-- Show English option when current language is Arabic (default) -->
+  <a href="javascript:void(0)" 
+     *ngIf="currentLang === 'ar' || !currentLang" 
+     (click)="setLanguage('en')" 
+     class="text-black fw-bold fs-16 d-inline-block px-2 ff-medium">
+     English
+  </a>
+</div>

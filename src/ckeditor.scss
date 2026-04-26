@@ -1,0 +1,84 @@
+/* ===============================
+   🌐 CKEditor Global Styling Fixes
+   These rules fix layout, scrolling, and z-index issues
+   across all CKEditor instances in the app.
+   =============================== */
+
+/* Prevent unwanted horizontal scroll and ensure full width */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden !important;
+}
+
+/* Optional container styling (safe globally) */
+.container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+form {
+  overflow-x: visible;
+  max-width: 100%;
+}
+
+/* ===============================
+   📝 CKEditor editable area styling
+   =============================== */
+.ck-editor__editable_inline {
+  min-height: 200px;
+  max-height: 300px;   // Limit height of editor
+  overflow-y: auto;    // Enable scroll inside editor
+  overflow-x: hidden;
+}
+
+/* Ensure content fits and wraps properly */
+.ck-editor,
+.ck-content,
+.ck-editor__main {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box;
+  word-wrap: break-word;
+}
+
+/* Disabled editor state styling */
+.ckeditor-disabled .ck-editor__main {
+  background-color: #f5f5f5;
+  opacity: 0.6;
+  pointer-events: auto;
+}
+
+/* ===============================
+   ⚙️ Critical fixes for white screen issue
+   =============================== */
+
+/* Fix dropdown panels (toolbars, font selectors, etc.) */
+.ck.ck-reset.ck-dropdown__panel {
+  z-index: 9999 !important;
+  position: absolute !important;
+}
+
+/* Prevent CKEditor body wrapper from overlaying the screen */
+.ck-body-wrapper {
+  position: static !important;
+  z-index: auto !important;
+}
+
+/* Fix balloon panels visibility */
+.ck.ck-balloon-panel {
+  z-index: 9999 !important;
+}
+
+/* Ensure editor container is properly positioned and isolated */
+.ck-editor {
+  position: relative;
+  z-index: 1;
+  isolation: isolate; // Creates a new stacking context
+}
+
+/* Ensure proper scroll handling */
+.ck-editor__editable:not(.ck-editor__nested-editable) {
+  overflow: auto !important;
+}

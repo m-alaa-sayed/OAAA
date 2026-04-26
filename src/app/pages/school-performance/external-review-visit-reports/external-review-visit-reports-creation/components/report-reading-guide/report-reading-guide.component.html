@@ -1,0 +1,328 @@
+<div class="card m-4">
+    <div class="card-body">
+
+        <div class="header"> {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.FIRST_SCHOOL_AVG_DESC' | translate }}</div>
+
+        <!-- table 1 -->
+        <div class="tabe-header">
+            {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.TABLE_1_TITLE' | translate }}
+        </div>
+        <table>
+            <tr class="tabe-header-row">
+                <th></th>
+                <th> {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.DIFFERENCE' | translate }}</th>
+                <th></th>
+            </tr>
+
+
+            <tr class="green">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.MUCH_HIGHER_THAN_NATIONAL_AVERAGE' | translate }}
+                </td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.MORE_THAN_1_5_POSITIVE' | translate }}</td>
+                <td id="empty-cell" class="bg-white"></td>
+            </tr>
+            <tr class="open-green">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SLIGHTLY_HIGHER_THAN_NATIONAL_AVERAGE' | translate }}
+                </td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.LESS_THAN_1_5_POSITIVE' | translate }}</td>
+                <td id="empty-cell" class="bg-white" style="position: relative; width: 300px; height: 100px;">
+                    <div class="line-up"></div>
+                </td>
+            </tr>
+            <tr class="yellow">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SLIGHTLY_ABOVE_NATIONAL_AVERAGE' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.UP_TO_0_5_POSITIVE' | translate }}</td>
+                <td id="empty-cell" class="bg-white"></td>
+            </tr>
+            <tr class="yellow">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.IN_LINE_WITH_NATIONAL_AVERAGE' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.ZERO' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.AT_NATIONAL_AVERAGE' | translate }}</td>
+            </tr>
+            <tr class="yellow">
+                <th id="empty-cell" class="bg-white">
+                </th>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.UP_TO_0_5_NEGATIVE' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SLIGHTLY_BELOW_NATIONAL_AVERAGE' | translate }}</td>
+            </tr>
+            <tr class="open-red">
+                <th id="empty-cell" class="bg-white" style="position: relative; width: 300px; height: 100px;">
+                    <div class="line-down"></div>
+                </th>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.MORE_THAN_1_5_NEGATIVE' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.LOWER_THAN_NATIONAL_AVERAGE' | translate }}</td>
+            </tr>
+            <tr class="red">
+                <th id="last-cell" class="bg-white"></th>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.LESS_THAN_1_5_NEGATIVE' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.MUCH_LOWER_THAN_NATIONAL_AVERAGE' | translate }}</td>
+            </tr>
+        </table>
+
+
+        <!-- table 2 -->
+        <div class="header"> {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SECOND_EVAL_SCALE' | translate }}</div>
+        <div class="tabe-header">
+            {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.TABLE_2_TITLE' | translate }}
+        </div>
+        <table>
+            <tr>
+                <th class="tabe-header-row">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.CODE' | translate }}</th>
+                <th class="tabe-header-row">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.JUDGMENT' | translate }}</th>
+                <th class="tabe-header-row">{{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.MASTERY_RATE_DISTRIBUTION' |
+                            translate
+                    }}
+                </th>
+            </tr>
+            <tr class="green">
+                <td>1</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.EXCELLENT' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.PERCENT_70_OR_MORE' | translate }}</td>
+            </tr>
+            <tr class="open-green">
+                <td>2</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.GOOD' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.PERCENT_60_TO_70' | translate }}</td>
+            </tr>
+            <tr class="yellow">
+                <td>3</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.ADEQUATE' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.PERCENT_50_TO_60' | translate }}</td>
+            </tr>
+            <tr class="open-red">
+                <td>4</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.INADEQUATE' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.PERCENT_40_TO_50' | translate }}</td>
+            </tr>
+            <tr class="red">
+                <td>5</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.IMMEDIATE_INTERVENTION' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.PERCENT_LESS_THAN_40' | translate }}</td>
+            </tr>
+        </table>
+
+        <!-- table 3 -->
+        <div class="header"> {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.THIRD_COHORT_PROGRESS_DESC' | translate }}
+        </div>
+        <div class="tabe-header">
+            {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.TABLE_3_TITLE' | translate }}
+        </div>
+        <table>
+            <tr>
+                <th class="tabe-header-row">{{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.STABILITY_LEVEL' | translate
+                    }}
+                </th>
+                <th class="tabe-header-row">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.DESCRIPTION' | translate }}
+                </th>
+            </tr>
+            <tr>
+                <td class="stability-row">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.STRONG_PROGRESS' | translate }}
+                </td>
+                <td class="description-row"> {{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.INCREASE_OVER_15' |
+                            translate
+                    }}
+                </td>
+            </tr>
+            <tr>
+                <td class="stability-row">{{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SIGNIFICANT_PROGRESS' |
+                            translate
+                    }}
+                </td>
+                <td class="description-row"> {{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.INCREASE_10_TO_15' |
+                            translate
+                    }}
+                </td>
+            </tr>
+            <tr>
+                <td class="stability-row">{{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.MODERATE_PROGRESS' | translate
+                    }}
+                </td>
+                <td class="description-row"> {{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.INCREASE_5_TO_10' |
+                            translate
+                    }}
+                </td>
+            </tr>
+            <tr>
+                <td class="stability-row">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.STABLE' | translate }}</td>
+                <td class="description-row"> {{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.STABLE_WITHIN_5' | translate
+                    }}
+                </td>
+            </tr>
+            <tr>
+                <td class="stability-row">{{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.MODERATE_DECLINE' | translate
+                    }}
+                </td>
+                <td class="description-row"> {{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.DECREASE_5_TO_10' |
+                            translate
+                    }}
+                </td>
+            </tr>
+            <tr>
+                <td class="stability-row">{{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SIGNIFICANT_DECLINE' |
+                            translate
+                    }}
+                </td>
+                <td class="description-row"> {{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.DECREASE_10_TO_15' |
+                            translate
+                    }}
+                </td>
+            </tr>
+            <tr>
+                <td class="stability-row">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.STRONG_DECLINE' | translate }}
+                </td>
+                <td class="description-row"> {{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.DECREASE_OVER_15' |
+                            translate
+                    }}
+                </td>
+            </tr>
+        </table>
+
+        <!-- table 4 -->
+        <div class="header"> {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.FOURTH_EVALUATIVE_TERMS' | translate }}
+        </div>
+        <div class="tabe-header">
+            {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.TABLE_4_TITLE' | translate }}
+        </div>
+        <table>
+            <tr>
+                <th class="tabe-header-row">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.JUDGMENT' | translate }}</th>
+                <th class="tabe-header-row">{{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.PRACTICE_SPREAD_DESCRIPTION'
+                            | translate
+                    }}
+                </th>
+                <th class="tabe-header-row">{{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.PRACTICE_QUALITY_DESCRIPTION'
+                            | translate
+                    }}
+                </th>
+            </tr>
+            <tr class="green">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.EXCELLENT' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.ALL_ALMOST_ALL_VAST_MAJORITY' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.EVALUATION_ROLE_MODEL' | translate }}</td>
+            </tr>
+            <tr class="open-green">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.GOOD' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.MOST_MORE' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.EVALUATION_FUNCTIONAL_GOOD' | translate }}</td>
+            </tr>
+            <tr class="yellow">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.ADEQUATE' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.MAJORITY_MOST' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.EVALUATION_ACCEPTABLE' | translate }}</td>
+            </tr>
+            <tr class="open-red">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.INADEQUATE' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.FEW_LIMITED_NUMBER' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.EVALUATION_UNACCEPTABLE_LIMITED' | translate }}</td>
+            </tr>
+            <tr class="red">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.REQUIRES_IMMEDIATE_INTERVENTION' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.MINORITY_RARE_VERY_FEW_NONE' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.EVALUATION_NONEXISTENT' | translate }}</td>
+            </tr>
+        </table>
+
+        <!-- table 5 -->
+        <div class="header"> {{
+                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.FIFTH_JUDGMENT_STUDENT_ATTENDANCE' |
+                    translate
+            }}
+        </div>
+        <div class="tabe-header">
+            {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.TABLE_5_TITLE' | translate }}
+        </div>
+        <table>
+            <tr>
+                <th>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.JUDGMENT' | translate }}</th>
+                <th>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.PERCENTAGE' | translate }}</th>
+            </tr>
+            <tr class="green">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.EXCELLENT' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.ABOVE_96' | translate }}</td>
+            </tr>
+            <tr class="open-green">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.GOOD' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.FROM_94_TO_BELOW_96' | translate }}</td>
+            </tr>
+            <tr class="yellow">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.ADEQUATE' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.FROM_92_TO_BELOW_94' | translate }}</td>
+            </tr>
+            <tr class="open-red">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.INADEQUATE' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.FROM_90_TO_BELOW_92' | translate }}</td>
+            </tr>
+            <tr class="red">
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.REQUIRES_IMMEDIATE_INTERVENTION' | translate }}</td>
+                <td>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.BELOW_90' | translate }}</td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>
+
+
+<!-- <div *ngIf="showButtons" class="pt-2 mx-3 d-flex justify-content-between">
+
+    <div class="d-flex justify-content-start rounded">
+        <button type="button" class="step-prev btn btn-primary" (click)="previousEvent.emit()">
+            {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+        </button>
+
+        <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancelEvent.emit()">
+            {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+    </div>
+
+
+    <div class="d-flex justify-content-end rounded">
+        <button type="button" class="step-next btn btn-primary" (click)="open(save)">
+            {{ 'PAGES.COMMON.LABELS.SAVE_AND_SEND' | translate }}
+        </button>
+    </div>
+
+</div> -->
+
+<step-action-buttons *ngIf="showButtons" [showSaveBtn]="showSaveBtn" [showNextBtn]="false"
+                     [showSubmitBtn]="!visitReportSubmissionRequestInfo.request?.id"
+                     (previousEvent)="previousEvent.emit()" (submitEvent)="validate(save)"
+                     (saveEvent)="saveAction()"
+                     (cancelEvent)="cancelEvent.emit()">
+</step-action-buttons>
+
+
+<ng-template #save let-modal>
+    <div class="default-modal">
+        <div class="modal-body">
+            <div class="mb-3 row">
+                <label class="col-12 col-form-label">
+                    {{ "PAGES.COMMON.MESSAGES.BASIC_CONFIRM_SAVE" | translate }}</label>
+            </div>
+        </div>
+        <div class="modal-footer d-flex">
+            <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                {{ "PAGES.COMMON.LABELS.NO" | translate }}
+            </button>
+
+            <button class="btn btn-primary" type="button" (click)="submit()">
+                {{ "PAGES.COMMON.LABELS.YES" | translate }}
+            </button>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,75 @@
+<app-score-table
+        [scores]="qualityAssuranceFormInfo.teamLeaderEvaluationScores  ?? {}"
+        [labels]="labels" [editable]="editable">
+</app-score-table>
+
+<div class="row m-1">
+    <div class="col-md-12">
+        <label class="form-label">
+            {{ 'PAGES.QUALITY_ASSURANCE.LABELS.TEAM_LEADER_STRENGTHS'| translate }}
+            <span *ngIf="editable" class="text-danger">*</span>
+        </label>
+        <textarea class="form-control" id="strengthsAnalysis" name="strengthsAnalysis" rows="5" required
+                  #strengthsAnalysis="ngModel" [disabled]="!editable"
+                  [(ngModel)]="qualityAssuranceFormInfo.teamLeaderEvaluationScores!.strengthsAnalysis" rows="5"
+                  [ngClass]="{'is-invalid': isSubmitted && (strengthsAnalysis?.invalid || !qualityAssuranceFormInfo.teamLeaderEvaluationScores!.strengthsAnalysis || qualityAssuranceFormInfo.teamLeaderEvaluationScores!.strengthsAnalysis.trim() === '')}">
+        </textarea>
+        <div class="invalid-feedback"
+             *ngIf="isSubmitted && (strengthsAnalysis?.invalid || !qualityAssuranceFormInfo.teamLeaderEvaluationScores!.strengthsAnalysis || qualityAssuranceFormInfo.teamLeaderEvaluationScores!.strengthsAnalysis.trim() === '')">
+            <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="row m-1">
+    <div class="col-md-12">
+        <label class="form-label">
+            {{ 'PAGES.QUALITY_ASSURANCE.LABELS.TEAM_LEADER_IMPROVEMENTS'| translate }}
+            <span *ngIf="editable" class="text-danger">*</span>
+        </label>
+        <textarea class="form-control" id="improvementsAnalysis" name="improvementsAnalysis" rows="5" required
+                  #improvementsAnalysis="ngModel" [disabled]="!editable"
+                  [(ngModel)]="qualityAssuranceFormInfo.teamLeaderEvaluationScores!.improvementsAnalysis"
+                  [ngClass]="{'is-invalid': isSubmitted && (improvementsAnalysis?.invalid || !qualityAssuranceFormInfo.teamLeaderEvaluationScores!.improvementsAnalysis || qualityAssuranceFormInfo.teamLeaderEvaluationScores!.improvementsAnalysis.trim() === '')}">
+        </textarea>
+        <div class="invalid-feedback"
+             *ngIf="isSubmitted && (improvementsAnalysis?.invalid || !qualityAssuranceFormInfo.teamLeaderEvaluationScores!.improvementsAnalysis || qualityAssuranceFormInfo.teamLeaderEvaluationScores!.improvementsAnalysis.trim() === '')">
+            <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="row m-1">
+    <div class="col-md-12">
+        <label class="form-label">
+            {{ 'PAGES.QUALITY_ASSURANCE.LABELS.TEAM_LEADER_URGENT_NOTES'| translate }}
+            <span *ngIf="editable" class="text-danger">*</span>
+        </label>
+        <textarea class="form-control" id="notes" name="notes" rows="5" required
+                  #notes="ngModel" [disabled]="!editable"
+                  [(ngModel)]="qualityAssuranceFormInfo.teamLeaderEvaluationScores!.notes"
+                  [ngClass]="{'is-invalid': isSubmitted && (notes?.invalid || !qualityAssuranceFormInfo.teamLeaderEvaluationScores!.notes || qualityAssuranceFormInfo.teamLeaderEvaluationScores!.notes.trim() === '')}">
+        </textarea>
+        <div class="invalid-feedback"
+             *ngIf="isSubmitted && (notes?.invalid || !qualityAssuranceFormInfo.teamLeaderEvaluationScores!.notes || qualityAssuranceFormInfo.teamLeaderEvaluationScores!.notes.trim() === '')">
+            <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="pt-2 mx-3 d-flex justify-content-between">
+
+    <div class="d-flex justify-content-start rounded">
+        <button type="button" class="step-prev btn btn-primary" (click)="previous()">
+            {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+        </button>
+    </div>
+
+
+    <div class="d-flex justify-content-end rounded">
+        <button type="button" class="btn btn-primary" (click)="next()">
+            {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+        </button>
+    </div>
+
+</div>

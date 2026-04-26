@@ -1,0 +1,162 @@
+
+<page-title [title]="'PAGES.PERMISSIONS_MANAGEMENT.TITLES.ROLE_DETAILS' | translate"
+  [breadcrumbItems]="breadCrumbItems"></page-title>
+
+<div *ngIf="!isLoading">
+  <!-- User Basic Info Section -->
+  <app-user-basic-info *ngIf="userFullData" [userFullData]="userFullData"></app-user-basic-info>
+
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLE_SETTINGS' | translate }}</h5>
+    </div>
+    <div class="card-body">
+      <!-- Role Settings Section -->
+      <div class="border rounded p-3 mb-3" *ngIf="roleData">
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="form-label fw-bold">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.GROUP' | translate }}</label>
+            <p class="form-control-plaintext">{{ roleData.groupName }}</p>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-bold">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLE_TYPE' | translate
+              }}</label>
+            <p class="form-control-plaintext">
+              {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.' + roleData.roleType | translate }}
+            </p>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-bold">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLE_NAME' | translate
+              }}</label>
+            <p class="form-control-plaintext">{{ roleData.roleName }}</p>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-8">
+            <label class="form-label fw-bold">{{ 'PAGES.COMMON.LABELS.DESCRIPTION' | translate }}</label>
+            <p class="form-control-plaintext">{{ roleData.roleDescription }}</p>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLE_SYSTEM_STATUS' |
+              translate }}</label>
+            <p class="form-control-plaintext">
+              <span class="badge" [ngClass]="roleData.roleSystemStatus ? 'bg-success' : 'bg-danger'">
+                {{ (roleData.roleSystemStatus ? 'PAGES.COMMON.LABELS.ACTIVE' : 'PAGES.COMMON.LABELS.INACTIVE') |
+                translate }}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Editable fields -->
+        <div class="row mb-3">
+          <div class="col-md-3">
+            <label class="form-label fw-bold">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLE_USER_STATUS' | translate
+              }}</label>
+            <div *ngIf="isViewMode()">
+              <span class="badge" [ngClass]="roleData.roleUserStatus ? 'bg-success' : 'bg-danger'">
+                {{ (roleData.roleUserStatus ? 'PAGES.COMMON.LABELS.ACTIVE' : 'PAGES.COMMON.LABELS.INACTIVE') |
+                translate }}
+              </span>
+            </div>
+            <div *ngIf="isEditMode()">
+              <select class="form-select" [(ngModel)]="roleData.roleUserStatus" name="roleUserStatus">
+                <option [ngValue]="true">{{ 'PAGES.COMMON.LABELS.ACTIVE' | translate }}</option>
+                <option [ngValue]="false">{{ 'PAGES.COMMON.LABELS.INACTIVE' | translate }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label fw-bold">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.GRANT_STATUS' | translate
+              }}</label>
+            <div *ngIf="isViewMode()">
+              <p class="form-control-plaintext">
+                {{ (roleData.isPermanent ? 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.PERMANENT' :
+                'PAGES.PERMISSIONS_MANAGEMENT.LABELS.TEMPORARY') | translate }}
+              </p>
+            </div>
+            <div *ngIf="isEditMode()">
+              <div class="d-flex gap-3 mt-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="isPermanent" id="permanent" [value]="true"
+                    [(ngModel)]="roleData.isPermanent" (change)="onGrantStatusChange()">
+                  <label class="form-check-label" for="permanent">
+                    {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.PERMANENT' | translate }}
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="isPermanent" id="temporary" [value]="false"
+                    [(ngModel)]="roleData.isPermanent" (change)="onGrantStatusChange()">
+                  <label class="form-check-label" for="temporary">
+                    {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.TEMPORARY' | translate }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label fw-bold">
+              {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.VALIDITY_START_DATE' | translate }}
+              <span class="text-danger" *ngIf="isEditMode()">*</span>
+            </label>
+            <div *ngIf="isViewMode()">
+              <p class="form-control-plaintext">{{ roleData.validityStartDate || '-' }}</p>
+            </div>
+            <div *ngIf="isEditMode()">
+              <input type="date" class="form-control" [(ngModel)]="roleData.validityStartDate"
+                name="validityStartDate" required>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label fw-bold">
+              {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.VALIDITY_END_DATE' | translate }}
+              <span class="text-danger" *ngIf="isEditMode() && isTemporaryGrant()">*</span>
+            </label>
+            <div *ngIf="isViewMode()">
+              <p class="form-control-plaintext">{{ roleData.validityEndDate || '-' }}</p>
+            </div>
+            <div *ngIf="isEditMode()">
+              <input type="date" class="form-control" [(ngModel)]="roleData.validityEndDate" name="validityEndDate"
+                [required]="isTemporaryGrant()" [disabled]="!isTemporaryGrant()">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Role Permissions Section (Read-only) -->
+  <app-role-procedures-table [procedures]="procedures"
+    [selectedGroup]="selectedGroup" [mode]="'readOnly'" [isSubmitted]="false">
+  </app-role-procedures-table>
+  
+  <!-- Action Archive Section -->
+  <app-edit-history-table [historyData]="historyData"></app-edit-history-table>
+
+
+  <!-- Action Buttons -->
+  <div class="row my-4">
+    <div class="col-12 d-flex justify-content-end gap-3">
+      <button type="button" class="btn btn-outline-secondary" (click)="cancelEdit()"
+        [disabled]="isSaving">
+        {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+      </button>
+
+      <button type="button" class="btn btn-success" (click)="saveChanges()" *ngIf="isEditMode()"
+        [disabled]="isSaving">
+        <span *ngIf="!isSaving">{{ 'PAGES.COMMON.LABELS.SAVE' | translate }}</span>
+        <i class="ri-save-line align-bottom ms-1"></i>
+        <span *ngIf="isSaving">
+          {{ 'PAGES.COMMON.LABELS.SAVING' | translate }}
+          <span class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>

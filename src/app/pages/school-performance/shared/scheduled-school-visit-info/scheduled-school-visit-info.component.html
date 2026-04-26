@@ -1,0 +1,92 @@
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="mb-0 text-start">
+            {{ 'PAGES.VISIT_FORM.LABELS.VISIT_DETAILS' | translate }}
+        </h5>
+    </div>
+
+    <div class="card-body">
+        <!-- Section: Visit Identifiers -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="d-flex align-items-start">
+                    <i class="ri-team-line text-secondary fs-2 me-2"></i>
+                    <div>
+                        <small class="text-muted fw-semibold d-block">
+                            {{ 'PAGES.COMMON.LABELS.TEAM_LEADER_NAME' | translate }}
+                        </small>
+                        <span class="fw-bold text-dark">
+                            {{ LanguageUtil.isArabic ? scheduledSchoolVisit.teamLeaderInfo?.fullNameAr : scheduledSchoolVisit.teamLeaderInfo?.fullNameEn }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="d-flex align-items-start">
+                    <i class="ri-file-list-line fs-2 text-primary me-2"></i>
+                    <div>
+                        <small class="text-muted fw-semibold d-block">
+                            {{ 'PAGES.COMMON.LABELS.SCHEDULE_NUMBER' | translate }}
+                        </small>
+                        <span class="fw-bold text-dark">{{ scheduledSchoolVisit.visitNumber }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="d-flex align-items-start">
+                    <i class="ri-file-copy-2-line fs-2 text-warning me-2"></i>
+                    <div>
+                        <small class="text-muted fw-semibold d-block">
+                            {{ 'PAGES.COMMON.LABELS.SELF_EVALUATION_DOCUMENT_NUMBER' | translate }}
+                        </small>
+                        <span class="fw-bold text-dark">{{ scheduledSchoolVisit.selfEvaluationDocumentNumber }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="d-flex align-items-start">
+                    <i class="ri-file-copy-line fs-2 text-info me-2"></i>
+                    <div>
+                        <small class="text-muted fw-semibold d-block">
+                            {{ 'PAGES.COMMON.LABELS.PLAN_NUMBER' | translate }}
+                        </small>
+                        <span class="fw-bold text-dark">{{ scheduledSchoolVisit.planNumber }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Visit Period & Team Leader Name -->
+        <div class="row mb-4 align-items-end">
+            <div class="col-12 d-flex align-items-center mb-3">
+                <i class="ri-time-line fs-1 text-primary me-2"></i>
+                <h5 class="mb-0">
+                    {{ 'PAGES.COMMON.LABELS.REVIEW_VISIT_PERIOD' | translate }}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">
+                    {{ 'PAGES.COMMON.LABELS.FROM' | translate }}
+                </label>
+                <input
+                        type="date"
+                        class="form-control"
+                        [value]="scheduledSchoolVisit.visitFrom"
+                        disabled
+                />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">
+                    {{ 'PAGES.COMMON.LABELS.TO' | translate }}
+                </label>
+                <input
+                        type="date"
+                        class="form-control"
+                        [value]="scheduledSchoolVisit.visitTo"
+                        disabled
+                />
+            </div>
+        </div>
+
+    </div>
+</div>

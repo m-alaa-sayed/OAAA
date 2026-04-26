@@ -1,0 +1,61 @@
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="mb-0 text-start">{{title|translate}}</h5>
+    </div>
+    <div class="card-body">
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <div class="mb-1">
+                    <label>{{ "PAGES.EXTERNAL_REVIEWERS_INTERVIEW_RESULT.LABELS.INTERVIEW_STATUS" | translate }}
+                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                    </label>
+                    <select class="form-select" id="interviewStatus" name="interviewStatus" [disabled]="!isEditMode"
+                        [(ngModel)]="externalReviewInterviewResultInfo.interviewStatus" required
+                        #interviewStatus="ngModel">
+                        <option [value]="'PASSED_INTERVIEW'">
+                            {{ 'PAGES.EXTERNAL_REVIEWERS_INTERVIEW_RESULT.LABELS.PASSED_INTERVIEW' |translate }}
+                        </option>
+                        <option [value]="'NOT_PASSED_INTERVIEW'">
+                            {{ 'PAGES.EXTERNAL_REVIEWERS_INTERVIEW_RESULT.LABELS.NOT_PASSED_INTERVIEW' |translate }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label>{{ "PAGES.COMMON.LABELS.FILE" | translate }}
+                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+                        <ng-container #file>
+                            <input type="text" class="form-control m-0"
+                                [value]="externalReviewInterviewResultInfo.interviewResultFileName" readonly
+                                [disabled]="true" title="File selected">
+                        </ng-container>
+                        <button *ngIf="externalReviewInterviewResultInfo.interviewResultFileName" type="button"
+                            class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                            (click)="downloadUploadedFile(externalReviewInterviewResultInfo.interviewResultFileName  ,externalReviewInterviewResultInfo.interviewResultBucketName)">Download</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <label>{{ "PAGES.COMMON.LABELS.NOTES"|translate }}
+                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                        <small class="text-danger ms-3">
+                            ({{
+                            'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                    </label>
+                    <textarea type="text" class="form-control" name="interviewNotes" id="interviewNotes"
+                        #interviewNotes="ngModel" required [disabled]="!isEditMode"
+                        placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" (ngModelChange)="onTextChange()"
+                        [(ngModel)]="externalReviewInterviewResultInfo.interviewNotes">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

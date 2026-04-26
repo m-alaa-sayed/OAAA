@@ -1,0 +1,12 @@
+<page-title [title]="'MENUITEMS.MENU.SUBMIT_TEAM_LEADER_PLAN' | translate" [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.TEAM_LEADER_PLAN' | translate, 
+link: '/jawda/school-performance/team-leader-plan/list', active: true },
+{ label: 'MENUITEMS.MENU.SUBMIT_TEAM_LEADER_PLAN' | translate,  active: false }]"></page-title>
+
+
+<team-leader-plan-main-data
+        *ngIf="id && this.visitPlanRequestInfo.request && mainDataObject"
+        [mainDataObject]="mainDataObject"></team-leader-plan-main-data>
+
+<oaaaqa-management-wizard [steps]="steps"></oaaaqa-management-wizard>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

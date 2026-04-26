@@ -1,0 +1,249 @@
+<div class="tab-content">
+  <div class="tab-header">
+    <h2>{{ 'PAGES.SCHOOL_PERFORMANCE.TABS.MASTERY_RATES' | translate }}</h2>
+  </div>
+
+  <div class="mastery-rates-wrapper" [attr.dir]="translate.currentLang === 'en' ? 'ltr' : 'rtl'">
+    <!-- Top Action Row with Title -->
+    <div class="top-row">
+      <div class="title">
+        {{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.TITLE' | translate }}
+      </div>
+    </div>
+
+    <!-- Collapsible Panels for Grades -->
+    <div *ngFor="let grade of schoolInfo.itqanData; let i = index" class="grade-panel page-break-after">
+      <div class="grade-header">
+        <div class="grade-info" (click)="toggleGradePanel(i)">
+          <i class="ri-arrow-down-s-line" [class.open]="grade.open"></i>
+          <span>{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.GRADE' | translate }} {{ grade.name }}</span>
+          <div class="not-applicable-checkbox">
+            <input type="checkbox" [id]="'grade' + i + 'NotApplicable'" [(ngModel)]="grade.notApplicable"
+              class="form-check-input" (click)="$event.stopPropagation()">
+            <label [for]="'grade' + i + 'NotApplicable'" class="form-check-label">
+              {{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.NOT_APPLICABLE' | translate }}
+            </label>
+          </div>
+        </div>
+        <div *ngIf="isEditable" class="grade-actions">
+          <button class="btn btn-sm btn-primary add-subject-btn" (click)="onAddSubjectToGrade(i, $event)"
+            [title]="'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.ADD_SUBJECT' | translate" [disabled]="grade.notApplicable">
+            <i class="ri-add-line"></i>
+            {{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.ADD_SUBJECT' | translate }}
+          </button>
+        </div>
+      </div>
+      <div class="grade-body" [hidden]="!shouldShowGradeBody(grade)" [class.disabled-section]="grade.notApplicable">
+        <div class="table-responsive">
+          <table class="mastery-table">
+            <thead>
+              <tr class="main-header">
+                <th rowspan="2" class="subject-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.SUBJECT' | translate
+                  }}</th>
+                <th rowspan="2" class="total-students-header">{{
+                  'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.TOTAL_STUDENTS_IN_GRADE' | translate }}</th>
+                <th colspan="2" class="above-75-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.ABOVE_75_PERCENT' |
+                  translate }}</th>
+                <th rowspan="2" class="judgment-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.OVERALL_JUDGMENT' |
+                  translate }}</th>
+                <th *ngIf="isEditable" rowspan="2" class="actions-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.ACTIONS' | translate
+                  }}</th>
+              </tr>
+              <tr class="sub-header">
+                <th class="count-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.COUNT' | translate }}</th>
+                <th class="percentage-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.PERCENTAGE' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let subject of grade.subjects; let j = index" [class.average-row]="subject.averageRow"
+                [class.other-subjects-row]="subject.isOtherSubjects"
+                [class.overall-judgment-row]="subject.isOverallJudgmentRow">
+                <td class="subject-cell">{{ subject.name }}</td>
+
+                <!-- Total Students Cell -->
+                <td class="total-students-cell">
+                  <input *ngIf="!subject.isOverallJudgmentRow && !subject.averageRow" type="number"
+                    [ngClass]="{ 'bg-disabled': !isEditable }" class="form-control cell-input" [disabled]="!isEditable"
+                    [(ngModel)]="subject.totalStudents" 
+                        (blur)="onSubjectCompleted(grade, subject)"
+                    (ngModelChange)="onSubjectDataChange(grade, subject)" min="0"
+                    step="1" placeholder="0">
+                  <span *ngIf="subject.isOverallJudgmentRow || subject.averageRow">{{ subject.totalStudents || ''
+                    }}</span>
+                </td>
+
+                <!-- Above 75% Count Cell -->
+                <td class="count-cell">
+                  <input *ngIf="!subject.isOverallJudgmentRow && !subject.averageRow" type="number"
+                    class="form-control cell-input" [(ngModel)]="subject.above75Count" [disabled]="!isEditable"
+                    [ngClass]="{ 'bg-disabled': !isEditable }" (ngModelChange)="onSubjectDataChange(grade, subject)"
+                    (input)="onCountChange(grade, subject, $event)" min="0" [max]="subject.totalStudents || 999"
+                    step="1"
+                    placeholder="0">
+                  <span *ngIf="subject.isOverallJudgmentRow || subject.averageRow">{{ subject.above75Count || ''
+                    }}</span>
+                </td>
+
+                <!-- Percentage Cell -->
+                <td class="percentage-cell">
+                  <input *ngIf="!subject.isOverallJudgmentRow && !subject.averageRow" type="number"
+                    class="form-control cell-input" [(ngModel)]="subject.above75Percent" min="0" 
+                    max="100" step="0.01"
+                    placeholder="0.00" readonly disabled>
+                  <span *ngIf="subject.isOverallJudgmentRow || subject.averageRow">{{ subject.above75Percent || ''
+                    }}</span>
+                </td>
+
+                <!-- Judgment Cell -->
+                <td class="judgment-cell">
+                  <select *ngIf="!subject.isOverallJudgmentRow && !subject.averageRow" class="form-control cell-input"
+                    [(ngModel)]="subject.judgment" disabled readonly>
+                    <option
+                      value="{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES.EXCELLENT' | translate }}">{{
+                      'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES.EXCELLENT' | translate }}</option>
+                    <option value="{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES.GOOD' | translate }}">{{
+                      'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES.GOOD' | translate }}</option>
+                    <option
+                      value="{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES.ACCEPTABLE' | translate }}">{{
+                      'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES.ACCEPTABLE' | translate }}</option>
+                    <option
+                      value="{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES.INADEQUATE' | translate }}">{{
+                      'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES.INADEQUATE' | translate }}</option>
+                    <option
+                      value="{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES.NEEDS_URGENT_INTERVENTION' | translate }}">
+                      {{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES.NEEDS_URGENT_INTERVENTION' | translate
+                      }}</option>
+                  </select>
+                  <span *ngIf="subject.isOverallJudgmentRow">{{ getGradeOverallJudgment(grade) }}</span>
+                  <span *ngIf="subject.averageRow && !subject.isOverallJudgmentRow">{{ subject.judgment || ''
+                    }}</span>
+                </td>
+
+                <!-- Actions Cell -->
+                <td *ngIf="isEditable" class="actions-cell">
+                  <button *ngIf="canDeleteSubject(subject)" class="btn btn-sm btn-danger delete-subject-btn"
+                    (click)="onDeleteSubject(i, j, subject)"
+                    [title]="'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.DELETE_SUBJECT' | translate">
+                    <i class="ri-subtract-line"></i>
+                  </button>
+                  <span *ngIf="!canDeleteSubject(subject)"></span>
+                </td>
+              </tr>
+
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- total per grad -->
+        <div class="total-summary-section">
+          <div class="table-responsive">
+            <table class="total-summary-table">
+              <thead>
+                <tr>
+                  <th rowspan="2" class="all-grades-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.GRADE' |
+                    translate
+                    }} {{ grade.name }}</th>
+                  <th colspan="2" class="above-75-summary-header">{{
+                    'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.ABOVE_75_PERCENT' | translate }}</th>
+                  <th rowspan="2" class="overall-judgment-header">{{
+                    'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.OVERALL_JUDGMENT' | translate }}
+                    {{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.GRADE' |
+                    translate
+                    }} {{ grade.name }}</th>
+                </tr>
+                <tr>
+                  <th class="count-summary-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.COUNT' | translate }}</th>
+                  <th class="percentage-summary-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.PERCENTAGE' |
+                    translate
+                    }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="total-summary-row">
+                  <td class="all-grades-cell">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.TOTAL_OVERALL' | translate }}
+                  </td>
+                  <td class="total-count-cell">{{ getTotalAbove75ForGrade(grade) }}</td>
+                  <td class="total-percentage-cell">{{ getTotalPercentageForGrade(grade) }}%</td>
+                  <td class="overall-judgment-cell">{{ getOverallJudgmentForGrade(grade) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- All Grades Combined Table -->
+    <div class="all-grades-section">
+      <div class="all-grades-header">
+        <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.ALL_GRADES' | translate }}</h3>
+      </div>
+
+      <div class="table-responsive">
+        <table class="mastery-table all-grades-table">
+          <thead>
+            <tr class="main-header">
+              <th rowspan="2" class="subject-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.SUBJECT' | translate }}
+              </th>
+              <th colspan="2" class="above-75-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.ABOVE_75_PERCENT' |
+                translate }}</th>
+              <th rowspan="2" class="judgment-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.OVERALL_JUDGMENT' |
+                translate }}</th>
+            </tr>
+            <tr class="sub-header">
+              <th class="count-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.COUNT' | translate }}</th>
+              <th class="percentage-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.PERCENTAGE' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let subject of getAllGradesTotals1(); let j = index" [class.average-row]="subject.averageRow"
+              [class.other-subjects-row]="subject.isOtherSubjects"
+              [class.overall-judgment-row]="subject.isOverallJudgmentRow">
+              <td class="subject-cell">{{ subject.name }}</td>
+              <td class="count-cell">{{ subject.above75Count || '' }}</td>
+              <td class="percentage-cell">{{ subject.above75Percent || '' }}</td>
+              <td class="judgment-cell">{{ subject.judgment || '' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Total Summary Table for All Grades -->
+    <div class="total-summary-section avoid-page-break">
+      <div class="total-summary-header">
+        <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.CONTENT.OVERALL_PROFICIENCY_RATE' | translate }}</h3>
+      </div>
+
+      <div class="table-responsive">
+        <table class="total-summary-table">
+          <thead>
+            <tr>
+              <th rowspan="2" class="all-grades-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.ALL_GRADES' |
+                translate }}</th>
+              <th colspan="2" class="above-75-summary-header">{{
+                'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.ABOVE_75_PERCENT' | translate }}</th>
+              <th rowspan="2" class="overall-judgment-header">{{
+                'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.OVERALL_JUDGMENT_ALL_GRADES' | translate }}</th>
+            </tr>
+            <tr>
+              <th class="count-summary-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.COUNT' | translate }}</th>
+              <th class="percentage-summary-header">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.PERCENTAGE' | translate
+                }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="total-summary-row">
+              <td class="all-grades-cell">{{ 'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.TOTAL_OVERALL' | translate }}</td>
+              <td class="total-count-cell">{{ getTotalAbove75AllGrades() }}</td>
+              <td class="total-percentage-cell">{{ getTotalPercentageAllGrades() }}%</td>
+              <td class="overall-judgment-cell">{{ getOverallJudgmentAllGrades() }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

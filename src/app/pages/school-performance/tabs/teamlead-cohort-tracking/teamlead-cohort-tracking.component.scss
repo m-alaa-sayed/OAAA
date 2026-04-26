@@ -1,0 +1,633 @@
+@import '../general-data/general-data.component.scss';
+
+.cohort-tracking-container {
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-header {
+  margin-bottom: 20px;
+  
+  h3 {
+    color: #00A5A7;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .table-description {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+}
+
+// Grade Sections Styles
+.grade-sections {
+  margin-bottom: 30px;
+}
+
+.grade-section {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.grade-header {
+  background: linear-gradient(135deg, #00A5A7 0%, #009fa1 100%);
+  color: white;
+  padding: 15px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  &:hover {
+    background: linear-gradient(135deg, #009fa1 0%, #00959a 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 165, 167, 0.3);
+  }
+  
+  &.collapsed {
+    border-bottom: none;
+  }
+  
+  .grade-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    i {
+      font-size: 14px;
+      transition: transform 0.3s ease;
+      min-width: 16px;
+    }
+    
+    h4 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      flex: 1;
+    }
+    
+    .grade-badge {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+  }
+}
+
+.grade-content {
+  overflow: hidden;
+  transition: all 0.4s ease;
+  
+  &.expanded {
+    max-height: none;
+    opacity: 1;
+  }
+  
+  &.collapsed {
+    max-height: 0;
+    opacity: 0;
+  }
+}
+
+.grade-table-wrapper {
+  padding: 0;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Table Styles
+.grade-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  background: #fff;
+  
+  thead {
+    background: #f8f9fa;
+    
+    th {
+      padding: 12px 15px;
+      text-align: center;
+      font-weight: 600;
+      color: #495057;
+      border-bottom: 2px solid #dee2e6;
+      font-size: 0.9rem;
+    }
+  }
+  
+  tbody {
+    tr {
+      transition: background-color 0.2s ease;
+      
+      &:hover {
+        background-color: rgba(0, 165, 167, 0.05);
+      }
+      
+      td {
+        padding: 10px 15px;
+        border-bottom: 1px solid #e9ecef;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+.subject-cell {
+  text-align: right;
+  padding-right: 20px !important;
+  
+  .subject-name {
+    font-weight: 500;
+    color: #495057;
+  }
+}
+
+.include-avg-cell {
+  text-align: center;
+  width: 120px;
+  
+  .form-check-input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    
+    &:checked {
+      background-color: #00A5A7;
+      border-color: #00A5A7;
+    }
+    
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.data-cell {
+  text-align: center;
+  width: 120px;
+  
+  .grade-input {
+    width: 80px;
+    text-align: center;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    
+    &:focus {
+      border-color: #00A5A7;
+      box-shadow: 0 0 0 0.2rem rgba(0, 165, 167, 0.25);
+      outline: none;
+    }
+    
+    &:disabled {
+      background-color: #f8f9fa;
+      color: #6c757d;
+      border-color: #e9ecef;
+      cursor: not-allowed;
+    }
+    
+    &::placeholder {
+      color: #adb5bd;
+      font-style: italic;
+    }
+  }
+}
+
+// Subject Group Background Colors
+.subject-row {
+  &.math-group td {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-left: 3px solid #ffc107;
+  }
+  
+  &.science-group td {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-left: 3px solid #dc3545;
+  }
+  
+  &.social-group td {
+    background-color: rgba(25, 135, 84, 0.1);
+    border-left: 3px solid #198754;
+  }
+  
+  &.language-group td,
+  &.general-group td {
+    background-color: rgba(108, 117, 125, 0.05);
+    border-left: 3px solid #6c757d;
+  }
+}
+
+.average-row {
+  background: #f4ece1;
+  font-weight: 600;
+  
+  &.math-group td {
+    background-color: rgba(255, 193, 7, 0.2);
+    border-left: 4px solid #ffc107;
+  }
+  
+  &.science-group td {
+    background-color: rgba(220, 53, 69, 0.2);
+    border-left: 4px solid #dc3545;
+  }
+  
+  &.social-group td {
+    background-color: rgba(25, 135, 84, 0.2);
+    border-left: 4px solid #198754;
+  }
+  
+  &.language-group td,
+  &.general-group td {
+    background-color: rgba(108, 117, 125, 0.15);
+    border-left: 4px solid #6c757d;
+  }
+}
+
+.total-average-row td {
+  background-color: rgba(0, 165, 167, 0.15) !important;
+  border-left: 4px solid #00A5A7 !important;
+  font-weight: bold;
+  color: #00A5A7;
+  border-top: 2px solid rgba(0, 165, 167, 0.3) !important;
+}
+
+// Actions Section
+.actions-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0;
+  border-top: 1px solid #e9ecef;
+  margin-top: 20px;
+  
+  .btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    
+    i {
+      font-size: 14px;
+    }
+    
+    &.btn-secondary {
+      background-color: #6c757d;
+      border-color: #6c757d;
+      
+      &:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+        transform: translateY(-1px);
+      }
+    }
+    
+    &.btn-info {
+      background-color: #00A5A7;
+      border-color: #00A5A7;
+      
+      &:hover {
+        background-color: #009fa1;
+        border-color: #00959a;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 165, 167, 0.3);
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .cohort-tracking-container {
+    padding: 15px;
+  }
+  
+  .grade-header {
+    padding: 12px 15px;
+    
+    .grade-title {
+      h4 {
+        font-size: 1.1rem;
+      }
+      
+      .grade-badge {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+      }
+    }
+  }
+  
+  .grade-table {
+    font-size: 0.85rem;
+    
+    thead th {
+      padding: 8px 10px;
+      font-size: 0.8rem;
+    }
+    
+    tbody td {
+      padding: 8px 10px;
+    }
+  }
+  
+  .data-cell .grade-input {
+    width: 70px;
+    font-size: 0.8rem;
+  }
+  
+  .actions-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    
+    .btn {
+      justify-content: center;
+    }
+  }
+}
+
+
+// Animation for table load
+.cohort-tracking-table {
+  opacity: 0;
+  animation: fadeInTable 0.6s ease-in-out forwards;
+}
+
+@keyframes fadeInTable {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Hover effects for better UX
+.summary-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Custom scrollbar for table wrapper
+.table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #00A5A7;
+  border-radius: 4px;
+
+  &:hover {
+    background: #016393;
+  }
+}
+
+/* Print Styles for TeamLead Cohort Tracking */
+@media print {
+  .cohort-tracking-container {
+    padding: 0 !important;
+    box-shadow: none !important;
+    background: white !important;
+  }
+  
+  .table-header {
+    margin-bottom: 10px !important;
+    
+    h3 {
+      font-size: 16px !important;
+      color: black !important;
+    }
+    
+    .table-description {
+      font-size: 12px !important;
+      color: black !important;
+    }
+  }
+  
+  .grade-sections {
+    margin-bottom: 0 !important;
+  }
+  
+  .grade-section {
+    border: 1px solid #000 !important;
+    margin-bottom: 10px !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+  
+  .grade-header {
+    background: #f0f0f0 !important;
+    color: black !important;
+    padding: 8px 12px !important;
+    
+    &:hover {
+      background: #f0f0f0 !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    
+    .grade-title {
+      gap: 8px !important;
+      
+      i {
+        display: none !important; // Hide collapse/expand icons in print
+      }
+      
+      h4 {
+        font-size: 14px !important;
+        color: black !important;
+      }
+      
+      .grade-badge {
+        background: #e0e0e0 !important;
+        color: black !important;
+        font-size: 10px !important;
+        padding: 2px 8px !important;
+      }
+    }
+  }
+  
+  .grade-content {
+    // Force all sections to be expanded in print
+    max-height: none !important;
+    opacity: 1 !important;
+    
+    &.collapsed {
+      max-height: none !important;
+      opacity: 1 !important;
+    }
+  }
+  
+  .grade-table-wrapper {
+    padding: 0 !important;
+    animation: none !important;
+  }
+  
+  .grade-table {
+    width: 100% !important;
+    font-size: 10px !important;
+    
+    thead {
+      background: #f5f5f5 !important;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+      
+      th {
+        padding: 4px 6px !important;
+        font-size: 10px !important;
+        color: black !important;
+        border: 1px solid #000 !important;
+      }
+    }
+    
+    tbody {
+      tr {
+        background: white !important;
+        
+        &:nth-child(even) {
+          background: #f9f9f9 !important;
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        
+        &:hover {
+          background: transparent !important;
+        }
+        
+        td {
+          padding: 3px 6px !important;
+          border: 1px solid #000 !important;
+          font-size: 10px !important;
+          color: black !important;
+        }
+      }
+    }
+  }
+  
+  .subject-cell {
+    text-align: right !important;
+    
+    .subject-name {
+      color: black !important;
+    }
+  }
+  
+  .data-cell {
+    text-align: center !important;
+    
+    .grade-input {
+      width: auto !important;
+      border: none !important;
+      background: transparent !important;
+      color: black !important;
+      font-size: 10px !important;
+      padding: 0 !important;
+    }
+    
+    .average-value {
+      color: black !important;
+    }
+  }
+  
+  // Override all background colors for print
+  .subject-row,
+  .average-row,
+  .total-average-row {
+    &.math-group td,
+    &.science-group td,
+    &.social-group td,
+    &.language-group td,
+    &.general-group td {
+      background: transparent !important;
+      border-left: none !important;
+    }
+  }
+  
+  .average-row {
+    background: #f0f0f0 !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    
+    td {
+      background: #f0f0f0 !important;
+      color: black !important;
+    }
+  }
+  
+  .total-average-row td {
+    background: #e0e0e0 !important;
+    color: black !important;
+    font-weight: bold !important;
+    border-top: 2px solid black !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  // Hide actions section in print
+  .actions-section {
+    display: none !important;
+  }
+  
+  // Hide not applicable checkbox in print (if exists)
+  // .not-applicable-checkbox {
+  //   display: none !important;
+  // }
+  
+  // Print styles for progress textarea (specific to teamlead component)
+  .d-flex.align-items-center.gap-2.m-2 {
+    margin: 0 !important;
+    padding: 4px 8px !important;
+    
+    label {
+      font-size: 10px !important;
+      color: black !important;
+    }
+    
+    textarea {
+      font-size: 10px !important;
+      color: black !important;
+      border: 1px solid #000 !important;
+      background: white !important;
+      padding: 2px 4px !important;
+      resize: none !important;
+    }
+  }
+} 

@@ -1,0 +1,9 @@
+<visit-details *ngIf="visitData" [visitData]="visitData"></visit-details>
+
+<formation-of-review-visit-team
+        [qualityAssuranceInfo]="qualityAssuranceFormInfo"
+        [scheduledSchoolVisitId]="scheduledSchoolVisitId"
+        (cancelEvent)="cancel()" (nextEvent)="next()">
+</formation-of-review-visit-team>
+
+

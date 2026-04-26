@@ -1,0 +1,11 @@
+.radio-btn {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+
+.radio-btn:checked {
+  accent-color: #222222; /* very dark */
+  filter: brightness(0.7);
+  cursor: not-allowed;
+}

@@ -1,0 +1,729 @@
+<div class="tab-content">
+    <!-- Header -->
+    <div class="tab-header">
+        <h2 class="page-title">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.TITLE' | translate }}</h2>
+    </div>
+    <div class="tab-body">
+        <div class="general-data-container">
+            <p class="page-description mb-3 no-print">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.DESCRIPTION' | translate }}</p>
+            <!-- Basic School Information -->
+            <div class="section-card mb-4">
+                
+
+                <div class="no-print">
+                    <div class="section-header">
+                        <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.BASIC_INFO' | translate }}</h3>
+                    </div>
+
+                    <!-- Basic Info -->
+                    <div class="basic-info-form">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{
+                                            'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SCHOOL_NAME_AR' | translate
+                                        }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control"
+                                        [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_SCHOOL_NAME_AR' | translate"
+                                        [(ngModel)]="schoolInfo.basicInfo.arSchoolName" [readonly]="isReadonly">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{
+                                            'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SCHOOL_NAME_EN' | translate
+                                        }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control"
+                                        [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_SCHOOL_NAME_EN' | translate"
+                                        [(ngModel)]="schoolInfo.basicInfo.enSchoolName" [readonly]="isReadonly">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SCHOOL_CODE' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control"
+                                        [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_CODE' | translate"
+                                        [(ngModel)]="schoolInfo.basicInfo.schoolCode" [readonly]="isReadonly">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SCHOOL_TYPE' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" [(ngModel)]="schoolInfo.basicInfo.schoolType"
+                                            [disabled]="isReadonly">
+                                        <option *ngFor="let type of schoolTypes"
+                                                [value]="type.value">{{ type.label | translate }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{
+                                            'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.STUDENT_GENDER' | translate
+                                        }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" [(ngModel)]="schoolInfo.basicInfo.studentGender"
+                                            [disabled]="isReadonly">
+                                        <option *ngFor="let gender of studentGenders"
+                                                [value]="gender.value">{{ gender.label | translate }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.BUILD_DATE' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="date" class="form-control" [(ngModel)]="schoolInfo.basicInfo.buildDate"
+                                        [max]="getTodayDate()" [readonly]="isReadonly">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.GOVERNORATE' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" (change)="onGovernorateChange($event)"
+                                            [(ngModel)]="schoolInfo.basicInfo.governorate" [disabled]="isReadonly">
+                                        <option *ngFor="let g of governorates" [value]="g.id">
+                                            {{ translate.currentLang === 'ar' ? g.nameAr : g.nameEn }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.WILAYAT' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" [(ngModel)]="schoolInfo.basicInfo.wilayat"
+                                            [disabled]="isReadonly">
+                                        <option *ngFor="let wilayat of wilayats" [value]="wilayat.id">
+                                            {{ translate.currentLang === 'ar' ? wilayat.nameAr : wilayat.nameEn }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.VILLAGE' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control"
+                                        [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_VILLAGE' | translate"
+                                        [(ngModel)]="schoolInfo.basicInfo.village" [readonly]="isReadonly">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <!-- <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SCHOOL_START_YEAR' | translate }}</label>
+                                <input
+                                type="text"
+                                class="form-control"
+                                [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_YEAR' | translate"
+                                [(ngModel)]="schoolInfo.basicInfo.schoolStartYear"
+                                [readonly]="isReadonly">
+                            </div>
+                            </div>            -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.PHONE_NUMBER' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="tel" class="form-control"
+                                        [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_PHONE' | translate"
+                                        [(ngModel)]="schoolInfo.basicInfo.tel1" [readonly]="isReadonly">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.EMAIL' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="email" class="form-control"
+                                        [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_EMAIL' | translate"
+                                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                        #emailCtrl="ngModel"
+                                        [(ngModel)]="schoolInfo.basicInfo.email" [readonly]="isReadonly">
+                                    <div *ngIf="emailCtrl.hasError('pattern') && emailCtrl.touched" class="text-danger">
+                                        {{ 'PAGES.COMMON.VALIDATION.INVALID_EMAIL' | translate }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.WEBSITE' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea class="form-control"
+                                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_WEBSITE' | translate"
+                                            [(ngModel)]="schoolInfo.basicInfo.website" [readonly]="isReadonly">
+                </textarea>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SPECIAL_CLASS_AVAILABLE' | translate }}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea class="form-control" [(ngModel)]="schoolInfo.basicInfo.isSpecialClass"
+                                            [disabled]="isReadonly"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.GRADE_LEVELS' | translate }}</label>
+                                    <ng-select [disabled]="isReadonly" class="grade-multi-select" [items]="availableGrades"
+                                            bindLabel="label" bindValue="key" [multiple]="true" [clearable]="false"
+                                            [searchable]="false"
+                                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SELECT_GRADE_LEVELS' | translate"
+                                            [ngModel]="selectedGrades" (ngModelChange)="onGradesChanged($event)">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Principal Information -->
+                    <div class="section-card mb-4">
+                        <div class="section-header">
+                            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.PRINCIPAL_INFO' | translate }}</h3>
+                        </div>
+
+                        <div class="principal-info-form">
+                            <!-- Principal Information -->
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.PRINCIPAL_NAME' | translate
+                                            }}
+                                            <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control"
+                                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_NAME' | translate"
+                                            [(ngModel)]="schoolInfo.principalInfo.principalName" [readonly]="isReadonly">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.PRINCIPAL_PHONE' | translate
+                                            }}<span class="text-danger">*</span></label>
+                                        <input type="tel" class="form-control"
+                                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_PHONE' | translate"
+                                            [(ngModel)]="schoolInfo.principalInfo.principalPhone"
+                                            [readonly]="isReadonly">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.PRINCIPAL_EMAIL' | translate
+                                            }}<span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control"
+                                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_EMAIL' | translate"
+                                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                            #principalEmail="ngModel"
+                                            [(ngModel)]="schoolInfo.principalInfo.principalEmail"
+                                            [readonly]="isReadonly">
+                                        <div *ngIf="principalEmail.hasError('pattern') && principalEmail.touched"
+                                            class="text-danger">
+                                            {{ 'PAGES.COMMON.VALIDATION.INVALID_EMAIL' | translate }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Assistant Principal 1 Information -->
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ASSISTANT_PRINCIPAL_1' | translate
+                                            }}<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control"
+                                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_NAME' | translate"
+                                            [(ngModel)]="schoolInfo.principalInfo.assistantPrincipal1"
+                                            [readonly]="isReadonly">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ASSISTANT_PRINCIPAL_1_PHONE' |
+                                                    translate
+                                            }}<span class="text-danger">*</span></label>
+                                        <input type="tel" class="form-control"
+                                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_PHONE' | translate"
+                                            [(ngModel)]="schoolInfo.principalInfo.assistantPrincipal1Phone"
+                                            [readonly]="isReadonly">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ASSISTANT_PRINCIPAL_1_EMAIL' |
+                                                    translate
+                                            }}<span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control"
+                                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                            #principalEmail1="ngModel"
+                                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_EMAIL' | translate"
+                                            [(ngModel)]="schoolInfo.principalInfo.assistantPrincipal1Email"
+                                            [readonly]="isReadonly">
+                                        <div *ngIf="principalEmail1.hasError('pattern') && principalEmail1.touched"
+                                            class="text-danger">
+                                            {{ 'PAGES.COMMON.VALIDATION.INVALID_EMAIL' | translate }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Assistant Principal 2 Information -->
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ASSISTANT_PRINCIPAL_2' | translate
+                                            }}<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control"
+                                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_NAME' | translate"
+                                            [(ngModel)]="schoolInfo.principalInfo.assistantPrincipal2"
+                                            [readonly]="isReadonly">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ASSISTANT_PRINCIPAL_2_PHONE' |
+                                                    translate
+                                            }}<span class="text-danger">*</span></label>
+                                        <input type="tel" class="form-control"
+                                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_PHONE' | translate"
+                                            [(ngModel)]="schoolInfo.principalInfo.assistantPrincipal2Phone"
+                                            [readonly]="isReadonly">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ASSISTANT_PRINCIPAL_2_EMAIL' |
+                                                    translate
+                                            }}<span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control"
+                                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_EMAIL' | translate"
+                                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                            #principalEmail2="ngModel"
+                                            [(ngModel)]="schoolInfo.principalInfo.assistantPrincipal2Email"
+                                            [readonly]="isReadonly">
+                                        <div *ngIf="principalEmail2.hasError('pattern') && principalEmail2.touched"
+                                            class="text-danger">
+                                            {{ 'PAGES.COMMON.VALIDATION.INVALID_EMAIL' | translate }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Private School Information Section -->
+                    <div class="section-card mb-4"
+                        *ngIf="schoolInfo.basicInfo.schoolType == 'خاص' || schoolInfo.basicInfo?.schoolType?.toUpperCase() == 'PRIVATE'">
+                        <div class="section-header">
+                            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.PRIVATE_SCHOOL_INFO' | translate }}</h3>
+                        </div>
+
+                        <div class="private-info-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.OWNER_NAME' | translate }}</label>
+                                        <textarea class="form-control"
+                                                [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_OWNER_NAME' | translate"
+                                                [(ngModel)]="schoolInfo.privateSchoolInfo.ownerName"
+                                                [readonly]="isReadonly">
+                    </textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.OWNER_NUMBER' | translate
+                                            }}</label>
+                                        <input type="tel" class="form-control"
+                                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_OWNER_NUMBER' | translate"
+                                            [(ngModel)]="schoolInfo.privateSchoolInfo.ownerNumber"
+                                            [readonly]="isReadonly">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.APPLIED_CURRICULUM' | translate
+                                            }}</label>
+                                        <textarea class="form-control"
+                                                [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_APPLIED_CURRICULUM' | translate"
+                                                [(ngModel)]="schoolInfo.privateSchoolInfo.appliedCurriculum"
+                                                [readonly]="isReadonly">
+                    </textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.INTERNATIONAL_PROGRAM' | translate
+                                            }}</label>
+                                        <textarea class="form-control"
+                                                [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_INTERNATIONAL_PROGRAM' | translate"
+                                                [(ngModel)]="schoolInfo.privateSchoolInfo.internationalProgram"
+                                                [readonly]="isReadonly">
+                    </textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ACCREDITATION_BODY' | translate
+                                            }}</label>
+                                        <input type="text" class="form-control"
+                                            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_ACCREDITATION_BODY' | translate"
+                                            [(ngModel)]="schoolInfo.privateSchoolInfo.accreditationBody"
+                                            [readonly]="isReadonly">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                                                'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ACCREDITATION_DATE' | translate
+                                            }}</label>
+                                        <input type="date" class="form-control"
+                                            [(ngModel)]="schoolInfo.privateSchoolInfo.accreditationDate"
+                                            [max]="getTodayDate()" [readonly]="isReadonly">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- School Schedule -->
+                    <div class="section-card mb-4">
+                        <div class="section-header">
+                            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SCHOOL_SCHEDULE' | translate }}</h3>
+                        </div>
+
+                        <div class="schedule-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.START_TIME' | translate }}
+                                            <span class="text-danger">*</span></label>
+                                        <input type="time" class="form-control"
+                                            [(ngModel)]="schoolInfo.localSchoolSchedule.startTime"
+                                            [readonly]="isReadonly" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.END_TIME' | translate }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="time" class="form-control"
+                                            [(ngModel)]="schoolInfo.localSchoolSchedule.endTime"
+                                            [readonly]="isReadonly" required>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Print Only on table -->
+                <div class="print-only">
+                    <!-- Basic Info Data Table -->
+                    <div class="section-card mb-4">
+                        <div class="section-header">
+                            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.BASIC_INFO' | translate }}</h3>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SCHOOL_NAME_AR' | translate }}</td>
+                                        <td>{{ schoolInfo.basicInfo.arSchoolName || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SCHOOL_NAME_EN' | translate }}</td>
+                                        <td>{{ schoolInfo.basicInfo.enSchoolName || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SCHOOL_CODE' | translate }}</td>
+                                        <td>{{ schoolInfo.basicInfo.schoolCode || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SCHOOL_TYPE' | translate }}</td>
+                                        <td>{{ getSchoolTypeLabel(schoolInfo.basicInfo.schoolType) | translate }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.STUDENT_GENDER' | translate }}</td>
+                                        <td>{{ getStudentGenderLabel(schoolInfo.basicInfo.studentGender) | translate }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.BUILD_DATE' | translate }}</td>
+                                        <td>{{ schoolInfo.basicInfo.buildDate ? (schoolInfo.basicInfo.buildDate | date:'MM/dd/yyyy') : '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.GOVERNORATE' | translate }}</td>
+                                        <td>
+                                            <span *ngFor="let g of governorates">
+                                                <span *ngIf="g.id === +schoolInfo.basicInfo.governorate">
+                                                    {{ translate.currentLang === 'ar' ? g.nameAr : g.nameEn }}
+                                                </span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.WILAYAT' | translate }}</td>
+                                        <td>
+                                            <span *ngFor="let wilayat of wilayats">
+                                                <span *ngIf="wilayat.id === +schoolInfo.basicInfo.wilayat">
+                                                    {{ translate.currentLang === 'ar' ? wilayat.nameAr : wilayat.nameEn }}
+                                                </span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.VILLAGE' | translate }}</td>
+                                        <td>{{ schoolInfo.basicInfo.village || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.PHONE_NUMBER' | translate }}</td>
+                                        <td>{{ schoolInfo.basicInfo.tel1 || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.EMAIL' | translate }}</td>
+                                        <td>{{ schoolInfo.basicInfo.email || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.WEBSITE' | translate }}</td>
+                                        <td>{{ schoolInfo.basicInfo.website || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SPECIAL_CLASS_AVAILABLE' | translate }}</td>
+                                        <td>{{ schoolInfo.basicInfo.isSpecialClass || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.GRADE_LEVELS' | translate }}</td>
+                                        <td>
+                                            <span *ngFor="let grade of selectedGrades; let last = last">
+                                                <span *ngFor="let availGrade of availableGrades">
+                                                    <span *ngIf="availGrade.key === grade">{{ availGrade.label | translate }}</span>
+                                                </span>
+                                                <span *ngIf="!last">, </span>
+                                            </span>
+                                            <span *ngIf="!selectedGrades || selectedGrades.length === 0">-</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Principal Info Data Table -->
+                    <div class="section-card mb-4 avoid-page-break">
+                        <div class="section-header">
+                            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.PRINCIPAL_INFO' | translate }}</h3>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.PRINCIPAL_NAME' | translate }}</td>
+                                        <td>{{ schoolInfo.principalInfo.principalName || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.PRINCIPAL_PHONE' | translate }}</td>
+                                        <td>{{ schoolInfo.principalInfo.principalPhone || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.PRINCIPAL_EMAIL' | translate }}</td>
+                                        <td>{{ schoolInfo.principalInfo.principalEmail || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ASSISTANT_PRINCIPAL_1' | translate }}</td>
+                                        <td>{{ schoolInfo.principalInfo.assistantPrincipal1 || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ASSISTANT_PRINCIPAL_1_PHONE' | translate }}</td>
+                                        <td>{{ schoolInfo.principalInfo.assistantPrincipal1Phone || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ASSISTANT_PRINCIPAL_1_EMAIL' | translate }}</td>
+                                        <td>{{ schoolInfo.principalInfo.assistantPrincipal1Email || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ASSISTANT_PRINCIPAL_2' | translate }}</td>
+                                        <td>{{ schoolInfo.principalInfo.assistantPrincipal2 || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ASSISTANT_PRINCIPAL_2_PHONE' | translate }}</td>
+                                        <td>{{ schoolInfo.principalInfo.assistantPrincipal2Phone || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ASSISTANT_PRINCIPAL_2_EMAIL' | translate }}</td>
+                                        <td>{{ schoolInfo.principalInfo.assistantPrincipal2Email || '-' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Private School Info Data Table -->
+                    <div class="section-card mb-4 avoid-page-break"
+                        *ngIf="schoolInfo.basicInfo.schoolType == 'خاص' || schoolInfo.basicInfo?.schoolType?.toUpperCase() == 'PRIVATE'">
+                        <div class="section-header">
+                            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.PRIVATE_SCHOOL_INFO' | translate }}</h3>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.OWNER_NAME' | translate }}</td>
+                                        <td>{{ schoolInfo.privateSchoolInfo.ownerName || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.OWNER_NUMBER' | translate }}</td>
+                                        <td>{{ schoolInfo.privateSchoolInfo.ownerNumber || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.APPLIED_CURRICULUM' | translate }}</td>
+                                        <td>{{ schoolInfo.privateSchoolInfo.appliedCurriculum || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.INTERNATIONAL_PROGRAM' | translate }}</td>
+                                        <td>{{ schoolInfo.privateSchoolInfo.internationalProgram || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ACCREDITATION_BODY' | translate }}</td>
+                                        <td>{{ schoolInfo.privateSchoolInfo.accreditationBody || '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ACCREDITATION_DATE' | translate }}</td>
+                                        <td>{{ schoolInfo.privateSchoolInfo.accreditationDate ? (schoolInfo.privateSchoolInfo.accreditationDate | date:'MM/dd/yyyy') : '-' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- School Schedule Data Table -->
+                    <div class="section-card mb-4 avoid-page-break">
+                        <div class="section-header">
+                            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.SCHOOL_SCHEDULE' | translate }}</h3>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.START_TIME' | translate }}</td>
+                                        <td>{{ formatTime(schoolInfo.localSchoolSchedule.startTime) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.END_TIME' | translate }}</td>
+                                        <td>{{ formatTime(schoolInfo.localSchoolSchedule.endTime) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Details Table -->
+                <div class="section-card mb-4 avoid-page-break">
+                    <div class="section-header">
+                        <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.CONTACT_DETAILS' | translate }}</h3>
+                        <div class="section-actions">
+                            <button *ngIf="!isReadonly" type="button" class="btn btn-success btn-sm me-2"
+                                    (click)="addContactRow()">
+                                <i class="mdi mdi-plus"></i> {{ 'PAGES.COMMON.LABELS.ADD' | translate }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <oaaaqa-ag-grid #contactGrid [dataList]="schoolInfo.contactDetails" [columns]="contactColumns"
+                                        [selectable]="false" [actions]="gridActions"
+                                        (cellValueChanged)="onContactCellValueChanged($event)"
+                                        tableHeadColor="#E6F2F7">
+                        </oaaaqa-ag-grid>
+                    </div>
+                </div>
+                <!-- View Mode Indicator -->
+                <div *ngIf="isReadonly" class="alert alert-info m-0 no-print">
+                    <i class="mdi mdi-information"></i>
+                    {{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.VIEW_MODE_MESSAGE' | translate }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

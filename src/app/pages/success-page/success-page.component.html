@@ -1,0 +1,47 @@
+<div class="success-wrapper d-flex justify-content-center align-items-center">
+   <div class="container">
+      <div class="row justify-content-center">
+         <div class="col-md-10 col-lg-8 col-xl-8">
+            <div class="card shadow-lg">
+               <div class="card-body p-5 text-center">
+                  <div class="avatar-lg mx-auto mt-2">
+                     <div class="avatar-title bg-light text-success display-3 rounded-circle">
+                        <i class="ri-checkbox-circle-fill"></i>
+                     </div>
+                  </div>
+                  <div class="mt-4 pt-2">
+                      <h4 *ngIf="action == '' || action == 'SUBMIT'">
+                        {{ "PAGES.SUCCESS_PAGE.MESSAGES.SUCCESS_SUBMISSION" | translate }}
+                     </h4>
+                      <h4 *ngIf="action == 'SAVE' ">
+                          {{ "PAGES.SUCCESS_PAGE.MESSAGES.SUCCESS_SAVE" | translate }}
+                      </h4>
+                     <h4 *ngIf="action == 'APPROVE'">
+                        {{ "PAGES.SUCCESS_PAGE.MESSAGES.APPROVE" | translate }}
+                     </h4>
+                     <h4 *ngIf="action == 'RETURN_FOR_EDIT'">
+                        {{ "PAGES.SUCCESS_PAGE.MESSAGES.RETURN_FOR_EDIT" | translate }}
+                     </h4>
+                     @if (requestApplicationNo) {
+                     <p class="application-no">
+                        {{ "PAGES.SUCCESS_PAGE.LABELS.APPLICATION_NO" | translate }}:
+                        <span class="app-number">{{ requestApplicationNo }}</span>
+                     </p>
+                     }
+                     <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center mt-4">
+                        <a routerLink="/jawda/service-management/service-catalogue-list"
+                           class="btn btn-success w-100 w-sm-auto">
+                           {{ "PAGES.SUCCESS_PAGE.LABELS.SERVICE_CATALOGUE" | translate }}
+                        </a>
+                        <a routerLink="/jawda/user-tasks/user-tasks-list"
+                           class="btn btn-outline-success w-100 w-sm-auto">
+                           {{ "PAGES.SUCCESS_PAGE.LABELS.TASK_LIST" | translate }}
+                        </a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,13 @@
+<page-title [title]="title | translate" 
+[breadcrumbItems]="[{ label: breadcrumbTitle | translate, 
+link: '/jawda/school-performance/visit-form/'+type+'/list',
+ active: true },
+    { label: breadcrumb | translate, 
+link: '/jawda/school-performance/visit-form/'+type+'/management/'+visitFormRequestInfo.scheduledSchoolVisitId ,
+ active: true },
+{ label: title | translate,  active: false }]"></page-title>
+
+
+<oaaaqa-management-wizard *ngIf="showTabs" [steps]="steps"></oaaaqa-management-wizard>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

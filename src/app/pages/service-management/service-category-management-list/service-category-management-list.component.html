@@ -1,0 +1,65 @@
+<page-title [title]="'MENUITEMS.MENU.CATEGORY_MANAGEMENT' | translate"
+    [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.CATEGORY_MANAGEMENT' | translate,  active: true }]"></page-title>
+
+<!-- <div class="card shadow-sm">
+    <div class="card-body">
+        <form class="row d-flex align-items-end" #searchForm="ngForm" (ngSubmit)="search()">
+            <div class="col-md-1">
+                <label for="categoryName" class="form-label">{{ 'PAGES.SERVICE_CATEGORY_MANAGEMENT.LABELS.CATEGORY_NAME'
+                    | translate }}</label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="categoryName" name="categoryName"
+                    placeholder="{{'PAGES.SERVICE_CATEGORY_MANAGEMENT.LABELS.CATEGORY_NAME' | translate}}" ngModel>
+            </div>
+            <div class="col-md-1">
+                <label for="categoryStatus" class="form-label">{{
+                    'PAGES.SERVICE_CATEGORY_MANAGEMENT.LABELS.DISPLAYING_STATUS' | translate }}</label>
+            </div>
+
+            <div class="form-check col-md-3">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="displayStatusActive" name="displayStatusActive"
+                        [value]="true" ngModel>
+                    <label class="form-check-label" for="displayStatusActive">{{ 'PAGES.COMMON.LABELS.ACTIVE' |
+                        translate }}</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="displayStatusInactive"
+                        name="displayStatusInactive" [value]="false" ngModel>
+                    <label class="form-check-label" for="displayStatusInactive">{{ 'PAGES.COMMON.LABELS.INACTIVE' |
+                        translate }}</label>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 d-flex align-items-end justify-content-end">
+                <div class="d-flex justify-content-between align-items-center">
+                    <button type="reset" class="me-2 btn btn-secondary waves-effect waves-light" (click)="reset()">{{
+                        'PAGES.COMMON.LABELS.CANCEL' | translate }}
+                    </button>
+
+                    <button type="submit" class="btn btn-primary">{{ 'PAGES.COMMON.LABELS.SEARCH' | translate }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div> -->
+
+<div class="card shadow-sm p-3">
+    <div class="card-body d-flex justify-content-end mx-0 px-0">
+        <button *hasPermission="[Permission.ADD_SERVICE_CATEGORY]" class="btn btn-primary" (click)="addNewCategory()">
+            <i class="ri-add-line align-bottom me-1"></i> {{ 'PAGES.COMMON.LABELS.ADD' | translate }}
+        </button>
+    </div>
+    <!-- </div>
+
+
+
+    <div class="card shadow-sm"> -->
+    <oaaaqa-ag-grid [columns]="columns" [actions]="actions" [dataList]="categoryList" [enableDrage]="true"
+        [addPageUrl]="addPageUrl"></oaaaqa-ag-grid>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

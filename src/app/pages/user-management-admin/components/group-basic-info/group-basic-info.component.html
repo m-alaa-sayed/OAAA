@@ -1,0 +1,66 @@
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.GROUP_INFO' | translate }}</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.ID' | translate }} : </label>
+                <span class="mx-2">{{ groupData.id }}</span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.CODE' | translate }} : </label>
+                <span class="mx-2">{{ groupData.code }}</span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.IS_CLIENT_ACCESSIBLE' | translate }} : </label>
+                <span class="mx-2">
+                    <span class="badge" [ngClass]="groupData.isClientAccessible ? 'bg-success' : 'bg-danger'">
+                        {{ ( groupData.isClientAccessible ? 'PAGES.COMMON.LABELS.YES' : 'PAGES.COMMON.LABELS.NO' ) | translate }}
+                    </span>
+                </span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.NAME_AR' | translate }} : </label>
+                <span class="mx-2">{{ groupData.nameAr }}</span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.NAME_EN' | translate }} : </label>
+                <span class="mx-2">{{ groupData.nameEn }}</span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.CREATED_BY' | translate }} : </label>
+                <span class="mx-2">{{ groupData.createdBy }}</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.DESCRIPTION_AR' | translate }} : </label>
+                <span class="mx-2">{{ groupData.descriptionAr }}</span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.DESCRIPTION_EN' | translate }} : </label>
+                <span class="mx-2">{{ groupData.descriptionEn }}</span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.CREATED_ON' | translate }} : </label>
+                <span class="mx-2">{{ groupData.createdOn | date:'medium' }}</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.UPDATED_BY' | translate }} : </label>
+                <span class="mx-2">{{ groupData.updatedBy }}</span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.UPDATED_ON' | translate }} : </label>
+                <span class="mx-2">{{ groupData.updatedOn | date:'medium' }}</span>
+            </div>
+        </div>
+    </div>
+</div>

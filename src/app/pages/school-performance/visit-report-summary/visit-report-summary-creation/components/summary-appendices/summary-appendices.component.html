@@ -1,0 +1,78 @@
+<div class="school-performance-layout">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar-nav">
+        <div class="nav-header">
+            <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.NAVIGATION.TITLE' | translate }}</h3>
+        </div>
+
+        <nav class="nav-tabs">
+            <button *ngFor="let tab of tabs" class="nav-tab" [class.active]="activeTab === tab.id"
+                    (click)="selectTab(tab)">
+                <i class="ri-arrow-left-s-line tab-arrow"></i>
+                <span class="tab-label">{{ tab.label | translate }}</span>
+            </button>
+        </nav>
+    </div>
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- School Info Header -->
+        <div class="school-header" *ngIf="school">
+            <div class="school-details">
+                <h1 class="school-name">{{ school.nameAr }}</h1>
+                <div class="school-meta">
+                    <div>
+                        <span class="divider">•</span>
+                        <span class="school-code">{{ 'MENUITEMS.MENU.SCHOOL_CODE' | translate }}
+                            : {{ school.code }}</span>
+                    </div>
+                    <div>
+                        <span class="divider">•</span>
+                        <span class="school-type">{{ 'PAGES.COMMON.LABELS.' + school.type | translate }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content-area">
+            <div class="tab-content-area">
+
+                <app-general-data *ngIf="activeTab === 'general-data'"
+                                  [schoolInfo]="summaryVisitReportSubmissionRequestInfo.editableSchoolInfo || {}">
+                </app-general-data>
+                <app-student-data *ngIf="activeTab === 'student-data'"
+                                  [schoolInfo]="summaryVisitReportSubmissionRequestInfo.editableSchoolInfo || {}">
+                </app-student-data>
+                <app-staff-data *ngIf="activeTab === 'staff-data'"
+                                [schoolInfo]="summaryVisitReportSubmissionRequestInfo.editableSchoolInfo || {}">
+                </app-staff-data>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<step-action-buttons *ngIf="showButtons" [showSaveBtn]="showSaveBtn" [showNextBtn]="false"
+                     [showSubmitBtn]="!summaryVisitReportSubmissionRequestInfo.request?.id"
+                     (previousEvent)="previousEvent.emit()" (submitEvent)="validate(save)"
+                     (cancelEvent)="cancelEvent.emit()" (saveEvent)="saveTemp()"></step-action-buttons>
+
+<ng-template #save let-modal>
+    <div class="default-modal">
+        <div class="modal-body">
+            <div class="mb-3 row">
+                <label class="col-12 col-form-label">
+                    {{ "PAGES.COMMON.MESSAGES.BASIC_CONFIRM_SAVE" | translate }}</label>
+            </div>
+        </div>
+        <div class="modal-footer d-flex">
+            <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                {{ "PAGES.COMMON.LABELS.NO" | translate }}
+            </button>
+
+            <button class="btn btn-primary" type="button" (click)="submit()">
+                {{ "PAGES.COMMON.LABELS.YES" | translate }}
+            </button>
+        </div>
+    </div>
+</ng-template>

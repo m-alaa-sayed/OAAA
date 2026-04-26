@@ -1,0 +1,110 @@
+<div class="tab-content">
+    <div class="tab-header">
+        <h2>{{ 'PAGES.SCHOOL_PERFORMANCE.COHORT_TRACKING.TITLE' | translate }}</h2>
+    </div>
+
+    <div class="tab-body">
+        <div class="cohort-tracking-container">
+            <div class="table-header">
+                <p class="table-description">
+                    {{ 'PAGES.SCHOOL_PERFORMANCE.COHORT_TRACKING.STUDENTS_PERCENTAGE' | translate }}
+                </p>
+            </div>
+
+            <!-- Collapsible Grade Sections -->
+            <div class="grade-sections">
+                <ng-container *ngFor="let group of getGroupedCohortData()">
+                    <div class="grade-section">
+                        <!-- Grade Header (Collapsible) -->
+                        <div class="grade-header" (click)="toggleGradeExpansion(group.grade)"
+                             [class.collapsed]="!isGradeExpanded(group.grade)">
+                            <div class="grade-title">
+                                <i class="fas"
+                                   [ngClass]="isGradeExpanded(group.grade) ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+                                <h4>{{ getTranslatedGradeName(group.grade) | translate }}</h4>
+                                <span class="grade-badge">{{ group.data.length }} مواد</span>
+                            </div>
+                        </div>
+
+                        <!-- Grade Content (Collapsible) -->
+                        <div class="grade-content"
+                             [ngClass]="{'expanded': isGradeExpanded(group.grade), 'collapsed': !isGradeExpanded(group.grade)}">
+                            <div class="grade-table-wrapper" *ngIf="isGradeExpanded(group.grade)">
+                                <table class="grade-table">
+                                    <!-- Table Header for this grade -->
+                                    <thead>
+                                    <tr>
+                                        <th rowspan="2" class="subject-header align-middle">
+                                            {{ 'PAGES.SCHOOL_PERFORMANCE.COHORT_TRACKING.SUBJECT' | translate }}
+                                        </th>
+
+                                        <th [attr.colspan]="years.length" class="year-header text-center">
+                                            {{
+                                                'PAGES.SCHOOL_PERFORMANCE.COHORT_TRACKING.ACADEMIC_YEAR' | translate
+                                            }}
+                                        </th>
+
+                                    </tr>
+                                    <tr>
+                                        <th *ngFor="let year of years" class="text-center">
+                                            {{ year.replace('year', '') }}م
+                                        </th>
+                                    </tr>
+                                    </thead>
+
+                                    <!-- Table Body for this grade -->
+                                    <tbody>
+                                    <tr *ngFor="let row of group.data"
+                                        [ngClass]="row.isAverageRow ? 'average-row' : ''">
+                                        <td class="subject-cell">
+                                                <span class="subject-name">{{
+                                                        getTranslatedSubjectName(row.subject) |
+                                                            translate
+                                                    }}</span>
+                                        </td>
+                                        <td *ngFor="let year of years" class="data-cell">
+                                            <input *ngIf="!row.isAverageRow" type="number" [(ngModel)]="row[year]"
+                                                   (blur)="onBlur(row, year, $event)" [readOnly]="true"
+                                                   [disabled]="true"
+                                                   (ngModelChange)="onInputChange(row, year, $event)"
+                                                   class="form-control grade-input text-center"/>
+
+                                            <span class="average-value" *ngIf="row.isAverageRow">{{
+                                                    row[year] ||
+                                                    0
+                                                }}</span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2 m-2">
+                                <label for="progress" class="mb-0 flex-shrink-0">
+                                    {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.DESCRIPTION_PROGRESS_OVER_YEARS' | translate }}
+                                </label>
+
+                                <textarea id="progress" class="form-control flex-grow-1" rows="3"
+                                          [readOnly]="!isEditable || isGradeNotApplicable(group.grade)" [disabled]="!isEditable || isGradeNotApplicable(group.grade)"
+                                          [ngModel]="getGradeProgressText(group.grade)"
+                                          (ngModelChange)="onGradeProgressChange(group.grade, $event)"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+
+            <!-- Actions Section -->
+            <div class="actions-section">
+                <button class="btn btn-secondary btn-sm me-2" (click)="expandAllGrades()">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                    {{ 'PAGES.SCHOOL_PERFORMANCE.COHORT_TRACKING.ACTIONS.EXPAND_ALL' | translate }}
+                </button>
+                <button class="btn btn-secondary btn-sm me-3" (click)="collapseAllGrades()">
+                    <i class="fas fa-compress-arrows-alt"></i>
+                    {{ 'PAGES.SCHOOL_PERFORMANCE.COHORT_TRACKING.ACTIONS.COLLAPSE_ALL' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

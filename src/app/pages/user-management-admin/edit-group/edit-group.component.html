@@ -1,0 +1,33 @@
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+<page-title [title]="'PAGES.USER_MANAGEMENT_ADMIN.TITLES.EDIT_GROUP' | translate" [breadcrumbItems]="breadCrumbItems"></page-title>
+
+<!-- Basic Info -->
+<app-group-basic-info *ngIf="groupData" [groupData]="groupData"></app-group-basic-info>
+
+<!-- Procedures Grid -->
+<div class="card mt-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="card-title mb-0">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.PROCEDURES_LIST' | translate }}</h4>
+        <button type="button" class="btn btn-primary" (click)="addProcedure()">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.ADD_PROCEDURE' | translate }}</button>
+    </div>
+    <div class="card-body">        
+        <oaaaqa-ag-grid
+            [dataList]="proceduresList"
+            [columns]="columns"
+            [actions]="actions"
+            [pagination]="true"
+            [paginationPageSize]="10"
+            [paginationPageSizeSelector]="[5, 10, 20]"
+            [showRowNumbers]="true"
+            [actionsColumnWidth]="150">
+        </oaaaqa-ag-grid>
+    </div>
+</div>
+
+<!-- Back Button -->
+<div class="d-flex justify-content-end my-3">
+    <button type="button" class="btn btn-outline-secondary" (click)="goBack()">
+        {{ 'PAGES.COMMON.LABELS.BACK' | translate }}
+    </button>
+</div>
