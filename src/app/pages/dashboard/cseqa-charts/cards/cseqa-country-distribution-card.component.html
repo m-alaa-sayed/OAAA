@@ -1,0 +1,37 @@
+<div class="card dashboard-print-card">
+  <div class="card-header">
+    <h5 class="card-title">{{ 'PAGES.DASHBOARD.CSEQA.LABELS.CARD_COUNTRY_DISTRIBUTION' | translate }}</h5>
+  </div>
+  <div class="card-body">
+    <app-bar-chart
+      [series]="series"
+      [categories]="categories"
+      [horizontal]="true"
+      [dataLabelsEnabled]="true"
+      [colors]="colors"
+      [height]="380">
+    </app-bar-chart>
+
+    <div class="d-flex justify-content-end align-items-center mb-3 gap-2 dashboard-print-actions">
+      <button type="button" class="btn btn-primary btn-sm" (click)="exportPdf()" [disabled]="isExporting">
+        {{ !isExporting ? ('PAGES.DASHBOARD.CSEQA.LABELS.EXPORT_PDF' | translate) : ('PAGES.COMMON.LABELS.LOADING' | translate) }}
+      </button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="exportExcel()" [disabled]="isExporting">
+        {{ !isExporting ? ('PAGES.DASHBOARD.CSEQA.LABELS.EXPORT_EXCEL' | translate) : ('PAGES.COMMON.LABELS.LOADING' | translate) }}
+      </button>
+    </div>
+
+    <oaaaqa-ag-grid
+      [dataList]="tableData"
+      [columns]="columns"
+      [showRowNumbers]="false"
+      [enableColumnFilters]="false"
+      [sizeColumnsToFit]="true"
+      [pagination]="true"
+      [paginationPageSize]="pageSize"
+      [paginationPageSizeSelector]="pageSizeOptions"
+      (onPageChange)="onPageChange($any($event))"
+      (onPageSizeChange)="onPageSizeChange($any($event))">
+    </oaaaqa-ag-grid>
+  </div>
+</div>

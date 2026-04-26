@@ -1,0 +1,431 @@
+<div class="row no-print">
+
+   <div class="row">
+
+      <div class="col-12 p-0">
+         <div class="d-sm-flex align-items-start justify-content-between">
+            <h5 class="mb-sm-0">{{'MENUITEMS.MENU.DASHBOARD' | translate}}</h5>
+         </div>
+      </div>
+
+      <div class="row py-3">
+         <h3 class="fs-20 mb-1 p-0">{{'PAGES.COMMON.LABELS.WELCOME' | translate}} <span class="text-primary">{{
+               translate.currentLang === 'ar' ? user.fullNameAr : user.fullNameEn }}</span>
+         </h3>
+      </div>
+   </div>
+
+   <div class="row py-3">
+      <div class="alert alert-primary border-2 rounded-2 m-0 d-flex align-items-start mt-2" role="alert">
+         <!-- <i-feather name="alert-triangle" class="text-primary me-2 icon-sm"></i-feather> -->
+         <div class="flex-grow-1 text-truncate">
+            <label class="p-0 m-0">
+               {{'PAGES.COMMON.MESSAGES.UPDATE_ACCOUNT' | translate}}
+               <a [routerLink]="['/jawda/profile']"
+                  class="ms-1 text-primary text-decoration-underline">{{'PAGES.COMMON.LABELS.GO_TO_PROFILE' |
+                  translate}}</a>
+            </label>
+         </div>
+      </div>
+   </div>
+
+   <div class="col-xl-8">
+
+      <!-- <div class="row">
+         <div class="col-12 p-0">
+            <div class="justify-content-between d-flex align-items-center mt-3 mb-4">
+               <h5 class="mb-0 pb-1">Popular Service</h5>
+            </div>
+            <div class="row">
+               <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                  <div id="myCard" class="card card-body">
+                     <div class="d-flex mb-4 align-items-center">
+                        <div class="flex-shrink-0">
+                           <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-sm rounded-circle" />
+                        </div>
+                     </div>
+                     <h6 id="myCard-label" class="mb-1">School Performace Evaluation</h6>
+                     <p class="card-text text-primary">CSEQA</p>
+                     <a id="myCard-link" href="javascript:void(0)" class="btn btn-secondary">Apply for service</a>
+                  </div>
+               </div>
+
+               <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                  <div id="myCard" class="card card-body">
+                     <div class="d-flex mb-4 align-items-center">
+                        <div class="flex-shrink-0">
+                           <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-sm rounded-circle" />
+                        </div>
+                     </div>
+                     <h6 id="myCard-label" class="mb-1">School Performace Evaluation</h6>
+                     <p class="card-text text-primary">CSEQA</p>
+                     <a id="myCard-link" href="javascript:void(0)" class="btn btn-secondary">Apply for service</a>
+                  </div>
+               </div>
+
+               <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                  <div id="myCard" class="card card-body">
+                     <div class="d-flex mb-4 align-items-center">
+                        <div class="flex-shrink-0">
+                           <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-sm rounded-circle" />
+                        </div>
+                     </div>
+                     <h6 id="myCard-label" class="mb-1">School Performace Evaluation</h6>
+                     <p class="card-text text-primary">CSEQA</p>
+                     <a id="myCard-link" href="javascript:void(0)" class="btn btn-secondary">Apply for service</a>
+                  </div>
+               </div>
+
+            </div>
+
+
+         </div>
+      </div> -->
+
+      <!-- <div class="row">
+         <div class="card shadow-sm">
+            <div class="card-header align-items-center d-flex">
+               <h4 class="card-title mb-0 flex-grow-1">My Pending Requests</h4>
+            </div>
+            <div class="card-body">
+               <div class="table-responsive table-card">
+                  <table class="table table-hover table-nowrap align-middle mb-0">
+                     <thead class="table-light">
+                        <tr class="text-muted">
+                           <th scope="col">Name</th>
+                           <th scope="col">Last Update</th>
+                           <th scope="col">Account Manger</th>
+                           <th scope="col">Status</th>
+                        </tr>
+                     </thead>
+
+                     <tbody>
+                        <tr>
+                           <td>Request Name</td>
+                           <td>20 Sep, 2024</td>
+                           <td>
+                              <img src="assets/images/blog/img-2.jpg" alt="" class="me-2 rounded-img" height="40">
+                              <a href="#!" class="text-body fw-medium">Nancy Taher</a>
+                           </td>
+                           <td><span class="badge bg-warning-subtle text-warning p-2">Pending</span></td>
+                        </tr>
+
+                        <tr>
+                           <td>Request Name</td>
+                           <td>20 Sep, 2024</td>
+                           <td>
+                              <img src="assets/images/blog/img-2.jpg" alt="" class="me-2 rounded-img" height="40">
+                              <a href="#!" class="text-body fw-medium">Nancy Taher</a>
+                           </td>
+                           <td><span class="badge bg-warning-subtle text-warning p-2">Pending</span></td>
+                        </tr>
+
+                        <tr>
+                           <td>Request Name</td>
+                           <td>20 Sep, 2024</td>
+                           <td>
+                              <img src="assets/images/blog/img-2.jpg" alt="" class="me-2 rounded-img" height="40">
+                              <a href="#!" class="text-body fw-medium">Nancy Taher</a>
+                           </td>
+                           <td><span class="badge bg-warning-subtle text-warning p-2">Pending</span></td>
+                        </tr>
+
+                        <tr>
+                           <td>Request Name</td>
+                           <td>20 Sep, 2024</td>
+                           <td>
+                              <img src="assets/images/blog/img-2.jpg" alt="" class="me-2 rounded-img" height="40">
+                              <a href="#!" class="text-body fw-medium">Nancy Taher</a>
+                           </td>
+                           <td><span class="badge bg-warning-subtle text-warning p-2">Pending</span></td>
+                        </tr>
+
+                     </tbody>
+                  </table>
+               </div>
+
+            </div>
+         </div>
+      </div> -->
+
+      <!-- <div class="row">
+         <div class="card shadow-sm">
+            <div class="card-header align-items-center d-flex">
+               <h4 class="card-title mb-0 flex-grow-1">My Finished Requests</h4>
+            </div>
+            <div class="card-body">
+               <div class="table-responsive table-card">
+                  <table class="table table-hover table-nowrap align-middle mb-0">
+                     <thead class="table-light">
+                        <tr class="text-muted">
+                           <th scope="col">Name</th>
+                           <th scope="col">Last Update</th>
+                           <th scope="col">Account Manger</th>
+                           <th scope="col">Status</th>
+                        </tr>
+                     </thead>
+
+                     <tbody>
+                        <tr>
+                           <td>Request Name</td>
+                           <td>20 Sep, 2024</td>
+                           <td>
+                              <img src="assets/images/blog/img-2.jpg" alt="" class="me-2 rounded-img" height="40">
+                              <a href="#!" class="text-body fw-medium">Nancy Taher</a>
+                           </td>
+                           <td><span class="badge bg-success-subtle text-success p-2">Finished</span></td>
+                        </tr>
+
+                        <tr>
+                           <td>Request Name</td>
+                           <td>20 Sep, 2024</td>
+                           <td>
+                              <img src="assets/images/blog/img-2.jpg" alt="" class="me-2 rounded-img" height="40">
+                              <a href="#!" class="text-body fw-medium">Nancy Taher</a>
+                           </td>
+                           <td><span class="badge bg-success-subtle text-success p-2">Finished</span></td>
+                        </tr>
+
+                        <tr>
+                           <td>Request Name</td>
+                           <td>20 Sep, 2024</td>
+                           <td>
+                              <img src="assets/images/blog/img-2.jpg" alt="" class="me-2 rounded-img" height="40">
+                              <a href="#!" class="text-body fw-medium">Nancy Taher</a>
+                           </td>
+                           <td><span class="badge bg-success-subtle text-success p-2">Finished</span></td>
+                        </tr>
+
+                        <tr>
+                           <td>Request Name</td>
+                           <td>20 Sep, 2024</td>
+                           <td>
+                              <img src="assets/images/blog/img-2.jpg" alt="" class="me-2 rounded-img" height="40">
+                              <a href="#!" class="text-body fw-medium">Nancy Taher</a>
+                           </td>
+                           <td><span class="badge bg-success-subtle text-success p-2">Finished</span></td>
+                        </tr>
+
+                     </tbody><
+                  </table>
+               </div>
+
+            </div>
+         </div>
+      </div> -->
+   </div>
+   <!-- <div class="col-xl-4 mt-3">
+      <div class="row">
+
+         <div class="col-xxx-12">
+            <div class="card shadow-sm">
+               <div class="card-body bg-success">
+                  <div class="text-center text-light">
+                     <h3 class="mb-3 fw-semaibold text-start text-light">Need help or support</h3>
+                     <p class="mb-3 ff-secondary text-start text-light">Jawda team is always to support</p>
+                  </div>
+                  <div class="text-start">
+                     <a href="javascript:void(0);" class="btn btn-light fw-semibold text-success">Contact Us</a>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="col-xxl-12">
+            <div class="card shadow-sm">
+               <div class="card-header align-items-center d-flex">
+                  <h5 class="card-title mb-0 flex-grow-1">Latest News</h5>
+                  <div class="float-end">
+                     <div class="dropdown" ngbDropdown>
+                        <a class="text-reset arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                           <span class="text-muted fs-18"><i class="mdi mdi-dots-vertical"></i></span>
+                        </a>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="card-body">
+                  <div class="d-flex align-middle mb-3">
+                     <div class="flex-shrink-0">
+                        <img src="assets/images/blog/img-2.jpg" class="rounded img-fluid" style="height: 60px;" alt="">
+                     </div>
+                     <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-1 lh-base"><a href="javascript:void(0);" class="text-reset">
+                              Jawda Launches to Revolutionize Education Monitoring in Oman
+                           </a></h6>
+                        <p class="text-muted fs-12 mb-0">Dec 12 , 2024 <i
+                              class="mdi mdi-circle-medium align-middle mx-1"></i>9:22 AM</p>
+                     </div>
+                  </div>
+
+                  <div class="d-flex align-middle mb-3">
+                     <div class="flex-shrink-0">
+                        <img src="assets/images/blog/img-2.jpg" class="rounded img-fluid" style="height: 60px;" alt="">
+                     </div>
+                     <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-1 lh-base"><a href="javascript:void(0);" class="text-reset">
+                              Jawda Launches to Revolutionize Education Monitoring in Oman
+                           </a></h6>
+                        <p class="text-muted fs-12 mb-0">Dec 12 , 2024 <i
+                              class="mdi mdi-circle-medium align-middle mx-1"></i>9:22 AM</p>
+                     </div>
+                  </div>
+
+                  <div class="d-flex align-middle mb-3">
+                     <div class="flex-shrink-0">
+                        <img src="assets/images/blog/img-2.jpg" class="rounded img-fluid" style="height: 60px;" alt="">
+                     </div>
+                     <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-1 lh-base"><a href="javascript:void(0);" class="text-reset">
+                              Jawda Launches to Revolutionize Education Monitoring in Oman
+                           </a></h6>
+                        <p class="text-muted fs-12 mb-0">Dec 12 , 2024 <i
+                              class="mdi mdi-circle-medium align-middle mx-1"></i>9:22 AM</p>
+                     </div>
+                  </div>
+
+                  <div class="d-flex align-middle mb-3">
+                     <div class="flex-shrink-0">
+                        <img src="assets/images/blog/img-2.jpg" class="rounded img-fluid" style="height: 60px;" alt="">
+                     </div>
+                     <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-1 lh-base"><a href="javascript:void(0);" class="text-reset">
+                              Jawda Launches to Revolutionize Education Monitoring in Oman
+                           </a></h6>
+                        <p class="text-muted fs-12 mb-0">Dec 12 , 2024 <i
+                              class="mdi mdi-circle-medium align-middle mx-1"></i>9:22 AM</p>
+                     </div>
+                  </div>
+                  <div class="mt-3 text-center">
+                     <a href="javascript:void(0);" class="text-muted text-decoration-underline">View all News</a>
+                  </div>
+
+               </div>
+            </div>
+         </div>
+
+
+
+         <div class="col-xxl-12">
+            <div class="card shadow-sm">
+               <div class="card-header align-items-center d-flex">
+                  <h4 class="card-title mb-0 flex-grow-1">Upcoming Events</h4>
+                  <div class="flex-shrink-0">
+                     <div class="dropdown card-header-dropdown" ngbDropdown>
+                        <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);"
+                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                           <span class="text-muted fs-18"><i class="mdi mdi-dots-vertical"></i></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                           <a class="dropdown-item" href="javascript:void(0);">Edit</a>
+                           <a class="dropdown-item" href="javascript:void(0);">Remove</a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="card-body pt-0">
+                  <ul class="list-group list-group-flush border-dashed">
+                     <li class="list-group-item ps-0">
+                        <div class="row align-items-center g-3">
+                           <div class="col-auto">
+                              <div class="avatar-sm p-1 py-2 h-auto bg-light rounded-3">
+                                 <div class="text-center">
+                                    <h5 class="card-title mb-0">25</h5>
+                                    <div class="text-muted">Tue</div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col">
+                              <h5 class="text-muted mt-0 mb-1 fs-13">12:00am - 03:30pm</h5>
+                              <a href="javascript:void(0);" class="text-reset fs-14 mb-0">Meeting for campaign with
+                                 sales team</a>
+                           </div>
+                        </div>
+                     </li>
+
+                     <li class="list-group-item ps-0">
+                        <div class="row align-items-center g-3">
+                           <div class="col-auto">
+                              <div class="avatar-sm p-1 py-2 h-auto bg-light rounded-3">
+                                 <div class="text-center">
+                                    <h5 class="card-title mb-0">25</h5>
+                                    <div class="text-muted">Tue</div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col">
+                              <h5 class="text-muted mt-0 mb-1 fs-13">12:00am - 03:30pm</h5>
+                              <a href="javascript:void(0);" class="text-reset fs-14 mb-0">Meeting for campaign with
+                                 sales team</a>
+                           </div>
+                        </div>
+                     </li>
+
+                     <li class="list-group-item ps-0">
+                        <div class="row align-items-center g-3">
+                           <div class="col-auto">
+                              <div class="avatar-sm p-1 py-2 h-auto bg-light rounded-3">
+                                 <div class="text-center">
+                                    <h5 class="card-title mb-0">25</h5>
+                                    <div class="text-muted">Tue</div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col">
+                              <h5 class="text-muted mt-0 mb-1 fs-13">12:00am - 03:30pm</h5>
+                              <a href="javascript:void(0);" class="text-reset fs-14 mb-0">Meeting for campaign with
+                                 sales team</a>
+                           </div>
+                        </div>
+                     </li>
+
+                     <div class="mt-3 text-center">
+                        <a href="javascript:void(0);" class="text-muted text-decoration-underline">View all News</a>
+                     </div>
+                  </ul>
+               </div>
+            </div>
+         </div>
+
+      </div>
+   </div> -->
+
+</div>
+
+
+
+<div class="card shadow mt-4 w-100 no-print">
+   <div class="card-body p-4">
+      <div class="row g-1">
+         <label
+            class="col-12 col-md-6 col-lg-3 form-check-label p-4 fs-5 fw-bold me-4 shadow-sm bg-white rounded border">
+            <input class="form-check-input me-1" type="radio" name="authorityType"
+               [checked]="selectedAuthority === 'CSEQA'" (change)="onAuthoritySelected('CSEQA')" />
+            <i class="mdi mdi-book-open-page-variant text-primary me-1"></i>
+            {{'PAGES.COMMON.LABELS.CSEQA' | translate}}
+         </label>
+
+         <label
+            class="col-12 col-md-6 col-lg-3 form-check-label p-4 fs-5 fw-bold me-4 shadow-sm bg-white rounded border">
+            <input class="form-check-input me-1" type="radio" name="authorityType"
+               [checked]="selectedAuthority === 'CHEQA'" (change)="onAuthoritySelected('CHEQA')" />
+            <i class="mdi mdi-book-open-page-variant text-primary me-1"></i>
+            {{'PAGES.COMMON.LABELS.CHEQA' | translate}}
+         </label>
+
+         <label
+            class="col-12 col-md-6 col-lg-3 form-check-label p-4 fs-5 fw-bold me-4 shadow-sm bg-white rounded border">
+            <input class="form-check-input me-1" type="radio" name="authorityType"
+               [checked]="selectedAuthority === 'OQF'" (change)="onAuthoritySelected('OQF')" />
+            <i class="mdi mdi-book-open-page-variant text-primary me-1"></i>
+            {{'PAGES.COMMON.LABELS.OQF' | translate}}
+         </label>
+      </div>
+   </div>
+</div>
+
+<!-- Charts -->
+<app-cseqa-charts *ngIf="selectedAuthority === 'CSEQA'"></app-cseqa-charts>
+<app-cheqa-charts *ngIf="selectedAuthority === 'CHEQA'"></app-cheqa-charts>
+<app-oqf-charts *ngIf="selectedAuthority === 'OQF'"></app-oqf-charts>

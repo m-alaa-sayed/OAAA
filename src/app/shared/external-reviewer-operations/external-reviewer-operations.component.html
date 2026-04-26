@@ -1,0 +1,63 @@
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="mb-0 text-start">{{'PAGES.EXTERNAL_REVIEWER.LABELS.ER_OPERATIONS'|translate}}</h5>
+    </div>
+  
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-gridjs">
+          <thead>
+            <tr>
+              <th class="text-center">#</th>
+              <th class="text-center">{{'PAGES.EXTERNAL_REVIEWER.LABELS.OPERATION_TYPE'|translate}}</th>
+              <th class="text-center">{{'PAGES.EXTERNAL_REVIEWER.LABELS.OPERATION_DATE'|translate}}</th>
+              <th class="text-center">{{'PAGES.EXTERNAL_REVIEWER.LABELS.RESPONSIBLE'|translate}}</th>
+              <th class="text-center">{{'PAGES.EXTERNAL_REVIEWER.LABELS.JOB'|translate}}</th>
+              <th class="text-center">{{'PAGES.COMMON.LABELS.ID_NUMBER'|translate}}</th>
+              <th class="text-center">{{'PAGES.COMMON.LABELS.EMAIL'|translate}}</th>
+              <th class="text-center">{{'PAGES.COMMON.LABELS.NOTES'|translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let log of paginatedAuditLogs; let i = index">
+              <td>{{ (auditPage - 1) * auditPageSize + i + 1 }}</td>
+              <td>
+                {{ ("PAGES.COMMON.LABELS." + log.action) | translate }}
+              </td>
+              <td>{{ log.actionTime | date:'short' }}</td>
+              <td>
+                {{ translate.currentLang === 'ar' ? log.parameters['fullNameAr'] :
+                log.parameters['fullNameEn'] }}
+              </td>
+              <td>
+                {{ log.parameters['jobTitle'] }}
+              </td>
+              <td>
+                {{ log.parameters['civilNumber']}}
+              </td>
+              <td>
+                {{ log.parameters['email']}}
+              </td>
+              <td>
+                {{ log.parameters['reasons']}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+          <!-- Pagination -->
+          <div class="col col-sm-12" *ngIf="auditLogs && auditLogs.length > 0">
+              <div class="text-sm-right float-end listjs-pagination">
+                  <ngb-pagination [collectionSize]="auditTotal" [(page)]="auditPage" [pageSize]="auditPageSize"
+                        (pageChange)="onAuditPageChange($event)">
+                  </ngb-pagination>
+              </div>
+          </div>
+          <!-- End Pagination -->
+          <ng-container *ngIf="!auditLogs || auditLogs.length == 0">
+              <p class="text-muted mb-0 text-center">{{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.NO_AUDIT_LOGS' |translate }}</p>
+          </ng-container>
+    </div>
+  
+</div>

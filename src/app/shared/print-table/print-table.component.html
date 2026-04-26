@@ -1,0 +1,47 @@
+<div class="print-table-container">
+  <!-- Table Title -->
+  <div class="table-header" *ngIf="title">
+    <h3 class="table-title">{{ title | translate }}</h3>
+  </div>
+
+
+
+  <!-- Single Print Table (All rows in one table) -->
+  <div class="table-pages">
+    <div class="table-page">
+      <!-- Data Table -->
+      <table class=" table table-bordered table-striped">
+        <thead>
+          <tr class="table-header-row">
+            <th *ngFor="let col of visibleColumns; let colIndex = index" 
+                class="table-header-cell"
+                [style.width]="getColumnWidth(colIndex)"
+                [style.max-width]="getColumnWidth(colIndex)"
+                [style.background-color]="tableHeadColor">
+              {{ getColumnHeader(col) }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of rowData; let rowIndex = index" 
+              class="table-data-row"
+              [class.even]="rowIndex % 2 === 0"
+              [class.odd]="rowIndex % 2 === 1">
+            <td *ngFor="let col of visibleColumns; let colIndex = index" 
+                class="table-data-cell"
+                [ngClass]="getSafeCellClass(row, col)"
+                [style.width]="getColumnWidth(colIndex)"
+                [style.max-width]="getColumnWidth(colIndex)">
+              {{ formatCellValue(getCellValue(row, col), col) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="rowData.length === 0">
+    <p class="no-data-message">لا يوجد صفوف</p>
+  </div>
+</div>

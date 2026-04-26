@@ -1,0 +1,64 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h5 class="mb-0 text-start">{{'PAGES.REQUEST_DETAILS.LABELS.REQ_CREATOR_INFO'|translate}}</h5>
+  </div>
+
+  <div class="card-body row text-center align-items-center mx-5">
+
+    <!-- Name -->
+    <div class="col-md-3 d-flex">
+      <div class="image-col">
+        <span class="h-100"> <i class="ri-user-line fs-1 text-primary"></i></span>
+      </div>
+      <div>
+        <h4 class="text-muted fw-semibold fs-13 d-flex justify-content-start">
+          {{'PAGES.REQUEST_DETAILS.LABELS.NAME'|translate}}</h4>
+        <p class="fs-16 fw-bold text-dark">{{ this.translate.currentLang == 'en' ? applicantData?.fullNameEn:applicantData?.fullNameAr }}</p>
+      </div>
+    </div>
+
+ 
+        <!-- job title -->
+    <div class="col-md-3 d-flex">
+      <div class="image-col">
+        <span class="h-100"> <i class="ri-account-circle-line fs-1 text-primary"></i>
+        </span>
+      </div>
+      <div>
+        <h4 class="text-muted fw-semibold fs-13 d-flex justify-content-start">
+          {{'PAGES.REQUEST_DETAILS.LABELS.JOB'|translate}}</h4>
+        <p class="fs-16 fw-bold text-dark">{{ applicantData?.jobTitle }}</p>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="col-md-3 d-flex">
+      <div class="image-col">
+        <span class="h-100"> <i class="ri-mail-line fs-1 text-primary"></i>
+        </span>
+      </div>
+      <div>
+        <h4 class="text-muted fw-semibold fs-13 d-flex justify-content-start">
+          {{'PAGES.REQUEST_DETAILS.LABELS.EMAIL'|translate}}</h4>
+        <p class="fs-16 fw-bold text-dark">{{ applicantData?.email }}</p>
+      </div>
+    </div>
+
+
+
+    <!-- Phone Number -->
+    <div class="col-md-3 d-flex">
+      <div class="image-col">
+        <span class="h-100"> <i class="ri-phone-line fs-1 text-primary"></i></span>
+      </div>
+      <div>
+        <h4 class="text-muted fw-semibold fs-13 d-flex justify-content-start">
+          {{'PAGES.REQUEST_DETAILS.LABELS.PHONE_NUMBER'|translate}}</h4>
+        <p class="fs-16 fw-bold text-dark">{{ applicantData?.mobileNo }}</p>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>

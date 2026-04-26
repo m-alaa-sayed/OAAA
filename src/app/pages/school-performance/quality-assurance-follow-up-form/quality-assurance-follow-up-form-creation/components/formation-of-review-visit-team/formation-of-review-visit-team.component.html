@@ -1,0 +1,90 @@
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="mb-0 text-start">{{ 'PAGES.QUALITY_ASSURANCE.LABELS.REVIEW_VISIT_TEAM_FORMATION'|translate }}</h5>
+    </div>
+    <div class="card-body">
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table align-middle table-nowrap mb-0">
+                        <thead class="table-light text-center">
+                        <tr>
+                            <th>#</th>
+                            <th>{{ 'PAGES.REQUEST_DETAILS.LABELS.NAME'|translate }}</th>
+                            <th>{{ 'PAGES.COMMON.LABELS.CIVIL_ID_PASSPORT_NUMBER'|translate }}</th>
+                            <th>{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.COUNTRY_OF_RESIDENCE'|translate }}</th>
+                            <th>{{ 'PAGES.VISIT_FORM.LABELS.GOVERNORATE'|translate }}</th>
+                            <th>{{ 'PAGES.VISIT_FORM.LABELS.WILAYAH'|translate }}</th>
+                            <th *ngIf="false">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.MAIN_SPECIALIZATION'|translate }}</th>
+                            <th>{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.EMAIL'|translate }}</th>
+                            <th>{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.PHONE_NUMBER'|translate }}</th>
+                            <th>{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.ROLE'|translate }}</th>
+                            <th>{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.PARTICIPATION_STATUS'|translate }}</th>
+                            <th>{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.CONFLICT_OF_INTEREST'|translate }}</th>
+                            <th>{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.DOMAIN_RESPONSIBLE_FOR'|translate }}</th>
+                            <th>{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.SUBJECT_RESPONSIBLE_FOR'|translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-center">
+                        <tr *ngFor="let item of list; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ this.translate.currentLang == 'ar' ? item.user.fullNameAr : item.user.fullNameEn }}</td>
+                            <td>{{ item.user.civilNo }}</td>
+                            <td>{{ this.translate.currentLang == 'ar' ? item.user.country?.countryNameAr : item.user.country?.countryNameEn }}</td>
+                            <td>{{ this.translate.currentLang == 'ar' ? item.user.city?.cityNameAr : item.user.city?.cityNameEn }}</td>
+                            <td>{{ this.translate.currentLang == 'ar' ? item.user.wilayat?.nameAr : item.user.wilayat?.nameEn }}</td>
+                            <td *ngIf="false">{{ item.mainSpecialization }}</td>
+                            <td>{{ item.user.email }}</td>
+                            <td>{{ item.user.mobileNo }}</td>
+                            <td>{{ 'PAGES.COMMON.LABELS._' + item.role |translate }}</td>
+                            <td>{{ ('PAGES.COMMON.LABELS.' + item.participationStatus) |translate }}</td>
+                            <td>
+                                <input type="checkbox" class="form-check-input" [checked]="item.hasConflict" disabled/>
+                            </td>
+                            <td>{{ item.domainsUpperTranslated }}</td>
+                            <td>{{ item.subjectsUpperTranslated }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row m-1">
+            <div class="col-md-12">
+                <label class="form-label">
+                    {{ 'PAGES.QUALITY_ASSURANCE.LABELS.QUALITY_ASSURER_OPINION_ON_REVIEW_TEAM_FORMATION'| translate }}
+                    <span *ngIf="editable" class="text-danger">*</span>
+                </label>
+                <textarea type="text" class="form-control" id="qaReviewTeamFeedback" name="qaReviewTeamFeedback"
+                          required #qaReviewTeamFeedback="ngModel" (ngModelChange)="onTextChange()"
+                          [disabled]="!editable" [(ngModel)]="qualityAssuranceInfo.qaReviewTeamFeedback" rows="5"
+                          [ngClass]="{'is-invalid': isSubmitted && (qaReviewTeamFeedback?.invalid || !qualityAssuranceInfo.qaReviewTeamFeedback || qualityAssuranceInfo.qaReviewTeamFeedback.trim() === '')}">
+                </textarea>
+                <div class="invalid-feedback"
+                     *ngIf="isSubmitted && (qaReviewTeamFeedback?.invalid || !qualityAssuranceInfo.qaReviewTeamFeedback || qualityAssuranceInfo.qaReviewTeamFeedback.trim() === '')">
+                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- buttons -->
+<div *ngIf="showButtons" class="row mt-3 mx-3">
+    <div class="d-flex justify-content-between rounded">
+        <button type="button" class="btn btn-outline-secondary" (click)="cancelEvent.emit()">
+            {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+
+        <div class="d-flex justify-content-end rounded">
+            <button type="button" class="btn btn-success fw-bold me-2 ms-2" (click)="save()">
+                {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+            </button>
+            <button type="button" class="btn btn-primary me-2 ms-2" (click)="nextEvent.emit()">
+                {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+            </button>
+        </div>
+    </div>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

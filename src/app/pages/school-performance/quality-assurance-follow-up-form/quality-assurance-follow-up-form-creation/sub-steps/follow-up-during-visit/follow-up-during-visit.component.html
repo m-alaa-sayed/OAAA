@@ -1,0 +1,61 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="row g-3 mb-3 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label">
+                    {{ 'PAGES.QUALITY_ASSURANCE.LABELS.FIELD_VISIT_DATE' | translate }}
+                    <span *ngIf="editable" class="text-danger">*</span>
+                </label>
+                <input type="date" class="form-control" id="fieldVisitDate" name="fieldVisitDate"
+                       #fieldVisitDate="ngModel" required
+                       [min]="visitFrom" [max]="visitTo"
+                       (ngModelChange)="updateDayNum($event)"
+                       [(ngModel)]="qualityAssuranceFormInfo.duringVisitFollowUpScores!.fieldVisitDate"
+                       [disabled]="!editable"
+                       [ngClass]="{'is-invalid': isSubmitted && (fieldVisitDate?.invalid || !qualityAssuranceFormInfo.duringVisitFollowUpScores!.fieldVisitDate || qualityAssuranceFormInfo.duringVisitFollowUpScores!.fieldVisitDate.trim() === '')}">
+                <div class="invalid-feedback"
+                     *ngIf="isSubmitted && (fieldVisitDate?.invalid || !qualityAssuranceFormInfo.duringVisitFollowUpScores!.fieldVisitDate || qualityAssuranceFormInfo.duringVisitFollowUpScores!.fieldVisitDate.trim() === '')">
+                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">
+                    {{ 'PAGES.QUALITY_ASSURANCE.LABELS.DAY' | translate }}
+                    <span *ngIf="editable" class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" id="fieldVisitDate" name="fieldVisitDate"
+                       #dayNum="ngModel" required
+                       [(ngModel)]="dayLabel"
+                       [disabled]="true">
+                <!--<select class="form-select" id="dayNum" name="dayNum" #dayNum="ngModel" required
+                        [disabled]="true" [(ngModel)]="qualityAssuranceFormInfo.duringVisitFollowUpScores!.dayNum"
+                        [ngClass]="{'is-invalid': isSubmitted && (dayNum?.invalid || !qualityAssuranceFormInfo.duringVisitFollowUpScores!.dayNum)}">
+                    <option value="">{{ 'PAGES.QUALITY_ASSURANCE.LABELS.SELECT_DAY' | translate }}</option>
+                    <option *ngFor="let day of days"
+                            [value]="day.code">{{ translate.currentLang == 'ar' ? day.valueAr : day.valueEn }}
+                    </option>
+                </select>-->
+                <div class="invalid-feedback"
+                     *ngIf="isSubmitted && (dayNum?.invalid || !qualityAssuranceFormInfo.duringVisitFollowUpScores!.dayNum)">
+                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                </div>
+            </div>
+        </div>
+
+        <app-score-table [scores]="qualityAssuranceFormInfo.duringVisitFollowUpScores ?? {}" [editable]="editable"
+                         [labels]="labels">
+        </app-score-table>
+
+        <div class="pt-2 mx-3 d-flex justify-content-between">
+            <div class="d-flex justify-content-start rounded">
+            </div>
+            <div class="d-flex justify-content-end rounded">
+                <button type="button" class="btn btn-primary" (click)="next()">
+                    {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>

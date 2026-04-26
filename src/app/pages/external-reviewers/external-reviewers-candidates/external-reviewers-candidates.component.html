@@ -1,0 +1,15 @@
+<page-title [title]="pageTitleKey | translate"
+            [breadcrumbItems]="[{ label: pageTitleKey | translate, active: true }]">
+</page-title>
+
+
+<div class="card shadow-sm p-3">
+    <oaaaqa-ag-grid
+            [actions]="actions"
+            [dataList]="requestList"
+            [columns]="columns"
+            [columnFilterOptions]="columnFilterOptions">
+    </oaaaqa-ag-grid>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

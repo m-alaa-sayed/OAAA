@@ -1,0 +1,32 @@
+<div class="ag-grid-container">
+    <!-- Screen version (interactive ag-grid) -->
+    <div class="no-print">
+        <ag-grid-angular class="ag-theme-quartz" [rowData]="dataList" [columnDefs]="columnDefs"
+                    [pagination]="pagination"
+                    [paginationPageSize]="paginationPageSize"
+                    [paginationPageSizeSelector]="paginationPageSizeSelector"
+                    [pinnedBottomRowData]="pinnedBottomRowData"
+                    [domLayout]="'autoHeight'" [gridOptions]="gridOptions" [enableRtl]="enableRTL"
+                    [rowMultiSelectWithClick]="selectable"
+                    (selectionChanged)="onSelectionChanged($event)"
+                    [defaultColDef]="defaultColDef"
+                    (rowDragEnd)="onRowDragEnd($event)"
+                    (cellValueChanged)="onCellValueChanged($event)"
+                    (filterChanged)="onFilterChanged($event)"
+                    (gridReady)="onGridReady($event)"
+                    (gridSizeChanged)="onGridSizeChanged()"></ag-grid-angular>
+    </div>
+
+    <!-- Print version (static table) -->
+    <div class="print-only" *ngIf="enablePrintMode">
+        <app-print-table
+            [columnDefs]="printableColumnDefs"
+            [rowData]="printableRowData"
+            [title]="printTitle"
+            [showSummary]="showPrintSummary"
+            [maxRowsPerPage]="printMaxRowsPerPage"
+            [tableHeadColor]="tableHeadColor">
+        </app-print-table>
+    </div>
+</div>
+        

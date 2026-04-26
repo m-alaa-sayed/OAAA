@@ -1,0 +1,144 @@
+<!-- auth-page wrapper -->
+<div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
+    <div class="bg-overlay"></div>
+    <!-- auth-page content -->
+    <div class="auth-page-content overflow-hidden pt-lg-5">
+        <div class="container">
+            <div class="row justify-content-center d-flex align-items-stretch p-5">
+                <div class="col-md-6 col-lg-6 col-xl-6 p-0">
+                    <div class="card  h-100">
+                        <img src="./assets/images/jawda-images/about-us-1.png" alt="jawda" class="img-fluid h-100"/>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6 col-lg-6 col-xl-6 p-0">
+                    <div class="card p-lg-5 p-4 h-100">
+                        <h5 class="text-primary">{{ 'PAGES.CREATE_PASSWORD.LABELS.CREATE_NEW_PASSWORD' | translate }}</h5>
+                        <p class="text-muted">{{ 'PAGES.CREATE_PASSWORD.MESSAGES.CREATE_NEW_PASSWORD_MESSAGE' | translate }}</p>
+
+                        <div class="p-2">
+                            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                                <div class="mb-3">
+                                    <label class="form-label" for="password-input">{{
+                                            'PAGES.LOGIN.LABELS.PASSWORD' | translate
+                                        }}</label>
+                                    <div class="position-relative auth-pass-inputgroup">
+                                        <input
+                                                [type]="passwordField ? 'text' : 'password'"
+                                                class="form-control pe-5 password-input"
+                                                placeholder="{{'PAGES.LOGIN.LABELS.PASSWORD' | translate }}"
+                                                id="password-input"
+                                                aria-describedby="passwordInput"
+                                                [pattern]="PASSWORD_PATTERN" required
+                                                formControlName="password"
+                                                [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+                                        >
+                                        <button
+                                                class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
+                                                type="button" id="password-addon"
+                                        >
+                                            <i class="ri-eye-fill align-middle"
+                                               [ngClass]="{'mdi-eye-off-outline': !passwordField, 'mdi-eye-outline': passwordField}"
+                                               (click)="togglepasswordField()"
+                                            ></i>
+                                        </button>
+
+                                        @if (submitted && f['password'].errors) {
+                                            <div class="invalid-feedback">
+                                                @if (f['password'].errors['required']) {
+                                                    <span>{{ 'PAGES.LOGIN.MESSAGES.PASSWORD_IS_REQUIRED' | translate }}</span>
+                                                }
+                                            </div>
+                                        }
+
+                                    </div>
+
+                                    <div id="passwordInput" class="form-text">
+                                        {{ 'PAGES.CREATE_PASSWORD.MESSAGES.PASSWORD_VALIDATION_MESSAGE' |translate }}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="confirm-password-input">
+                                        {{ 'PAGES.CREATE_PASSWORD.LABELS.CONFIRM_PASSWORD' | translate }}
+                                    </label>
+                                    <div class="position-relative auth-pass-inputgroup mb-3">
+                                        <input
+                                                [type]="confirmField ? 'text' : 'password'"
+                                                class="form-control pe-5 password-input"
+                                                placeholder="{{'PAGES.CREATE_PASSWORD.LABELS.CONFIRM_PASSWORD' | translate }}"
+                                                [pattern]="PASSWORD_PATTERN" id="confirm-password-input"
+                                                required formControlName="cpassword"
+                                                [ngClass]="{ 'is-invalid': submitted && f['cpassword'].errors }"
+                                        >
+                                        <button
+                                                class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
+                                                type="button" id="confirm-password-toggle"
+                                        ><i
+                                                class="ri-eye-fill align-middle"
+                                                [ngClass]="{'mdi-eye-off-outline': !passwordField, 'mdi-eye-outline': passwordField}"
+                                                (click)="toggleconfirmField()"
+                                        ></i>
+                                        </button>
+
+                                        @if (submitted && f['cpassword'].errors) {
+                                            <div class="invalid-feedback">
+                                                @if (f['cpassword'].errors['required']) {
+                                                    <span>{{ 'PAGES.CREATE_PASSWORD.MESSAGES.CONFIRM_PASSWORD_IS_REQUIRED' | translate }}</span>
+                                                }
+                                            </div>
+                                        }
+
+                                        @if (submitted && loginForm.errors?.['passwordMismatch']) {
+                                            <div class="invalid-feedback d-block">
+                                                <span>{{ 'PAGES.CREATE_PASSWORD.MESSAGES.PASSWORDS_DO_NOT_MATCH' | translate }}</span>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+
+                                <div id="password-contain" class="p-3 bg-light mb-2 rounded">
+                                    <h5 class="fs-13">Password must contain:</h5>
+                                    <p id="pass-length" class="invalid fs-12 mb-2">Minimum <b>12 characters</b></p>
+                                    <p id="pass-lower" class="invalid fs-12 mb-2">At <b>lowercase</b> letter (a-z)</p>
+                                    <p id="pass-upper" class="invalid fs-12 mb-2">At least <b>uppercase</b> letter (A-Z)
+                                    </p>
+                                    <p id="pass-number" class="invalid fs-12 mb-0">A least <b>number</b> (0-9)</p>
+                                </div>
+
+                                <div class="mt-4">
+                                    <button class="btn btn-secondary w-100" type="submit">
+                                        {{ "PAGES.CREATE_PASSWORD.LABELS.CREATE_PASSWORD" | translate }}
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <div class="mt-5 text-center">
+                            <p class="mb-0">
+                                {{ "PAGES.CREATE_PASSWORD.MESSAGES.I_REMEBER_MY_PASSWORD" | translate }} <br />
+                                <a routerLink="/auth/login" class="fw-semibold text-primary text-decoration-underline">
+                                    {{ "PAGES.COMMON.LABELS.CLICK_HERE" | translate }}
+                                </a>
+                            </p>
+                        </div>
+
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end col -->
+
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</div>
+<!-- end auth page content -->
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

@@ -1,0 +1,16 @@
+.table-bordered {
+    border: 1px solid #e9ebec;
+    
+    th, td {
+        border: 1px solid #e9ebec;
+        vertical-align: middle;
+        padding: 0.75rem;
+    }
+
+    thead th {
+        background-color: #f3f6f9;
+        font-weight: 600;
+        color: #495057;
+        white-space: nowrap;
+    }
+}

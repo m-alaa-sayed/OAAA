@@ -1,0 +1,45 @@
+<div class="tab-content">
+  <div class="tab-header">
+    <h2>{{ 'PAGES.SCHOOL_PERFORMANCE.INTERNATIONAL_TESTS.TITLE' | translate }}</h2>
+  </div>
+
+  <div class="tab-body">
+    <div class="academic-achievement-container">
+
+      <!-- International Tests Section -->
+      <div class="international-tests-section">
+        <div class="section-header no-print-header">
+          <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.INTERNATIONAL_TESTS.TITLE' | translate }}</h3>
+          <!-- Not Applicable Checkbox -->
+          <div class="not-applicable-checkbox d-flex justify-content-end">
+            <input type="checkbox" id="internationalTestsNotApplicable" [disabled]="!isEditable"
+              [(ngModel)]="schoolInfo.internationalTestsNotApplicable" class="form-check-input">
+            <label for="internationalTestsNotApplicable" class="form-check-label">
+              {{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.NOT_APPLICABLE' | translate }}
+            </label>
+          </div>
+        </div>
+
+        <div class="international-tests-header p-3 print-only">
+          <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.INTERNATIONAL_TESTS.TITLE' | translate }}</h3>
+          <!-- Not Applicable Checkbox -->
+          <div class="d-flex align-items-center gap-2">
+            <input type="checkbox" [(ngModel)]="schoolInfo.internationalTestsNotApplicable">
+            <span>
+              {{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.NOT_APPLICABLE' | translate }}
+            </span>
+          </div>
+        </div>
+
+        <div class="tests-grid-container" [class.disabled-section]="schoolInfo.internationalTestsNotApplicable">
+            <oaaaqa-ag-grid [dataList]="schoolInfo.internationalTestsData" [columns]="internationalTestsColumns"
+              [selectable]="false" [actions]="gridActions" [pinnedBottomRowData]="pinnedBottomRowData"
+              [parentComponent]="this" [pagination]="true" [paginationPageSizeSelector]="[10, 20, 50]"
+              (cellValueChanged)="onCellValueChanged($event)"
+              tableHeadColor="#C0F0E8">
+            </oaaaqa-ag-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

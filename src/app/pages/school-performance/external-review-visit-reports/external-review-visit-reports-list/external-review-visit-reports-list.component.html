@@ -1,0 +1,17 @@
+<page-title [title]="'MENUITEMS.MENU.EXTERNAL_REVIEW_VISIT_REPORTS' | translate"
+    [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.EXTERNAL_REVIEW_VISIT_REPORTS' | translate,  active: true }]">
+</page-title>
+
+
+<!-- grid table -->
+<div class="card shadow-sm p-3">
+    <div class="card-body d-flex justify-content-end mx-0 px-0">
+        <button *hasPermission="[Permission.VISIT_REPORT_CREATE]" class="btn btn-primary" (click)="addNewReport()">
+            <i class="ri-add-line align-bottom me-1"></i> {{ 'PAGES.COMMON.LABELS.ADD' | translate }}
+        </button>
+    </div>
+    <oaaaqa-ag-grid [columns]="columns" [actions]="actions"
+        [dataList]="visitReportRequestsOverviewList"></oaaaqa-ag-grid>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

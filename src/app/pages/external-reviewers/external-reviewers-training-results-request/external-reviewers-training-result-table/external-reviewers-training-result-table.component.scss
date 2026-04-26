@@ -1,0 +1,48 @@
+.table-scroll-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.table-scroll-wrapper table {
+  min-width: 1500px; /* Increase if table has many columns */
+  /* Keep the table single-line layout to preserve horizontal scroll behavior. */
+  white-space: nowrap;
+}
+
+/* Truncate long content inside table header cells and body cells with ellipsis. */
+.table-scroll-wrapper table th,
+.table-scroll-wrapper table td {
+  max-width: 300px; /* adjust as needed */
+  min-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Allow textareas to remain multi-line inside cells. */
+.table-scroll-wrapper table td textarea {
+  white-space: normal;
+  overflow: auto;
+  max-width: 100%;
+}
+
+/* Cells that contain interactive controls should not be truncated. Add class="no-truncate" to the td/th. */
+.table-scroll-wrapper table td.no-truncate,
+.table-scroll-wrapper table th.no-truncate {
+  max-width: none;
+  overflow: visible;
+  text-overflow: initial;
+  white-space: normal;
+}
+
+/* Apply ellipsis to specific inline elements (e.g. long filenames). Use the .truncate class on the element. */
+.table-scroll-wrapper table a.truncate {
+  display: inline-block;
+  max-width: 160px; /* tweak as needed */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+

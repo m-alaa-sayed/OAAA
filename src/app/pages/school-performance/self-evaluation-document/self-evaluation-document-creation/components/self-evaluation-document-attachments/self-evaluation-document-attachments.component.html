@@ -1,0 +1,346 @@
+<form class="no-print">
+
+    <div class="card mx-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.REQUIRED_DOCUMENTS" | translate }}</h5>
+        </div>
+        <div class="card-body">
+            <!-- row 1 -->
+            <div class="row mt-4">
+
+                <!-- col 1  -->
+                <div class="col-6 mt-2">
+                    <label>{{ "PAGES.SELF_EVALUATION_DOCUMENT.LABELS.SCHOOL_PLAN"| translate }}
+                        <span *ngIf="isEditable" class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+
+                        <ng-container *ngIf="isEditable">
+                            <input type="file" class="d-none" #schoolPlanFileName
+                                (change)="onFileSelected($event,'schoolPlanFileName')" id="inputGroupFile01"
+                                aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                            <button class="btn btn-outline-primary" type="button" (click)="schoolPlanFileName.click()">
+                                <i class=" ri-upload-2-fill"></i>
+                            </button>
+                        </ng-container>
+
+                        <ng-container #fileSelected>
+                            <input type="text" class="form-control m-0"
+                                [value]="this.selfEvaluationDocument.selfEvaluationRequiredFiles?.schoolPlanFileName || ''"
+                                readonly [disabled]="true" title="File selected">
+                        </ng-container>
+                        <button *ngIf="this.selfEvaluationDocument.selfEvaluationRequiredFiles?.schoolPlanFileName"
+                            type="button" class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                            (click)="downloadUploadedFile(selfEvaluationDocument.selfEvaluationRequiredFiles?.schoolPlanFileName
+                             ,selfEvaluationDocument.selfEvaluationRequiredFiles?.schoolPlanBucketName)">{{
+                            'PAGES.COMMON.LABELS.DOWNLOAD' | translate }}</button>
+
+                    </div>
+                    <div *ngIf="isSubmitting && !selfEvaluationDocument.selfEvaluationRequiredFiles?.schoolPlanFileName"
+                        class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+
+                <!-- col 2  -->
+                <div class="col-6 mt-2">
+                    <label>{{ "PAGES.SELF_EVALUATION_DOCUMENT.LABELS.WEEKLY_TIMETABLE"| translate }}
+                        <span *ngIf="isEditable" class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+
+                        <ng-container *ngIf="isEditable">
+                            <input type="file" class="d-none" #weeklyScheduleFileName
+                                (change)="onFileSelected($event,'weeklyScheduleFileName')" id="inputGroupFile02"
+                                aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                            <button class="btn btn-outline-primary" type="button"
+                                (click)="weeklyScheduleFileName.click()">
+                                <i class=" ri-upload-2-fill"></i>
+                            </button>
+                        </ng-container>
+
+                        <ng-container #fileSelected>
+                            <input type="text" class="form-control m-0"
+                                [value]="this.selfEvaluationDocument.selfEvaluationRequiredFiles?.weeklyScheduleFileName || ''"
+                                readonly [disabled]="true" title="File selected">
+                        </ng-container>
+                        <button *ngIf="this.selfEvaluationDocument.selfEvaluationRequiredFiles?.weeklyScheduleFileName"
+                            type="button" class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                            (click)="downloadUploadedFile(selfEvaluationDocument.selfEvaluationRequiredFiles?.weeklyScheduleFileName
+                               ,selfEvaluationDocument.selfEvaluationRequiredFiles?.weeklyScheduleBucketName)">{{
+                            'PAGES.COMMON.LABELS.DOWNLOAD' | translate }}</button>
+
+                    </div>
+                    <div *ngIf="isSubmitting && !selfEvaluationDocument.selfEvaluationRequiredFiles?.weeklyScheduleFileName"
+                        class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <!-- row 2 -->
+            <div class="row mt-4">
+
+                <!-- col 1  -->
+                <div class="col-6 mt-2">
+                    <label>{{ "PAGES.SELF_EVALUATION_DOCUMENT.LABELS.BUILDING_LAYOUT"| translate }}
+                        <span *ngIf="isEditable" class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+
+                        <ng-container *ngIf="isEditable">
+                            <input type="file" class="d-none" #buildingLayoutFileName
+                                (change)="onFileSelected($event,'buildingLayoutFileName')" id="inputGroupFile03"
+                                aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                            <button class="btn btn-outline-primary" type="button"
+                                (click)="buildingLayoutFileName.click()">
+                                <i class=" ri-upload-2-fill"></i>
+                            </button>
+                        </ng-container>
+
+                        <ng-container #fileSelected>
+                            <input type="text" class="form-control m-0"
+                                [value]="this.selfEvaluationDocument.selfEvaluationRequiredFiles?.buildingLayoutFileName || ''"
+                                readonly [disabled]="true" title="File selected">
+                        </ng-container>
+                        <button *ngIf="this.selfEvaluationDocument.selfEvaluationRequiredFiles?.buildingLayoutFileName"
+                            type="button" class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                            (click)="downloadUploadedFile(selfEvaluationDocument.selfEvaluationRequiredFiles?.buildingLayoutFileName 
+                            ,selfEvaluationDocument.selfEvaluationRequiredFiles?.buildingLayoutBucketName)">{{
+                            'PAGES.COMMON.LABELS.DOWNLOAD' | translate }}</button>
+
+                    </div>
+                    <div *ngIf="isSubmitting && !selfEvaluationDocument.selfEvaluationRequiredFiles?.buildingLayoutFileName"
+                        class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+
+                <!-- col 2  -->
+                <div class="col-6 mt-2">
+                    <label>{{ "PAGES.SELF_EVALUATION_DOCUMENT.LABELS.DAY_SCHEDULE"| translate }}
+                        <span *ngIf="isEditable" class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+
+                        <ng-container *ngIf="isEditable">
+                            <input type="file" class="d-none" #dailyTimetableFileName
+                                (change)="onFileSelected($event,'dailyTimetableFileName')" id="inputGroupFile04"
+                                aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                            <button class="btn btn-outline-primary" type="button"
+                                (click)="dailyTimetableFileName.click()">
+                                <i class=" ri-upload-2-fill"></i>
+                            </button>
+                        </ng-container>
+
+                        <ng-container #fileSelected>
+                            <input type="text" class="form-control m-0"
+                                [value]="this.selfEvaluationDocument.selfEvaluationRequiredFiles?.dailyTimetableFileName || ''"
+                                readonly [disabled]="true" title="File selected">
+                        </ng-container>
+                        <button *ngIf="this.selfEvaluationDocument.selfEvaluationRequiredFiles?.dailyTimetableFileName"
+                            type="button" class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                            (click)="downloadUploadedFile(selfEvaluationDocument.selfEvaluationRequiredFiles?.dailyTimetableFileName
+                             ,selfEvaluationDocument.selfEvaluationRequiredFiles?.dailyTimetableBucketName)">{{
+                            'PAGES.COMMON.LABELS.DOWNLOAD' | translate }}</button>
+
+                    </div>
+                    <div *ngIf="isSubmitting && !selfEvaluationDocument.selfEvaluationRequiredFiles?.dailyTimetableFileName"
+                        class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- row 3 -->
+            <div class="row mt-4">
+
+                <!-- col 1  -->
+                <div class="col-6 mt-2">
+                    <label>{{ "PAGES.SELF_EVALUATION_DOCUMENT.LABELS.MOE_APPROVAL_INTERNATIONAL_PROGRAM"| translate }}
+                        <span *ngIf="selfEvaluationDocument.scheduledSchoolVisit?.school?.type == 'PRIVATE' && isEditable" class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+
+                        <ng-container *ngIf="isEditable">
+                            <input type="file" class="d-none" #moeApprovalFileName
+                                (change)="onFileSelected($event,'moeApprovalFileName')" id="inputGroupFile05"
+                                aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                            <button class="btn btn-outline-primary" type="button" (click)="moeApprovalFileName.click()">
+                                <i class=" ri-upload-2-fill"></i>
+                            </button>
+                        </ng-container>
+
+                        <ng-container #fileSelected>
+                            <input type="text" class="form-control m-0"
+                                [value]="this.selfEvaluationDocument.selfEvaluationRequiredFiles?.moeApprovalFileName || ''"
+                                readonly [disabled]="true" title="File selected">
+                        </ng-container>
+                        <button *ngIf="this.selfEvaluationDocument.selfEvaluationRequiredFiles?.moeApprovalFileName"
+                            type="button" class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                            (click)="downloadUploadedFile(selfEvaluationDocument.selfEvaluationRequiredFiles?.moeApprovalFileName
+                             ,selfEvaluationDocument.selfEvaluationRequiredFiles?.moeApprovalBucketName)">{{
+                            'PAGES.COMMON.LABELS.DOWNLOAD' | translate }}</button>
+
+                    </div>
+                    <div *ngIf="isSubmitting && !selfEvaluationDocument.selfEvaluationRequiredFiles?.moeApprovalFileName
+                    && selfEvaluationDocument.scheduledSchoolVisit?.school?.type == 'PRIVATE'"
+                        class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+
+                <!-- col 2  -->
+                <div class="col-6 mt-2">
+                    <label>{{ "PAGES.SELF_EVALUATION_DOCUMENT.LABELS.PRIVATE_SCHOOL_LICENSE"| translate }}
+                        <span *ngIf="selfEvaluationDocument.scheduledSchoolVisit?.school?.type == 'PRIVATE' && isEditable" class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+
+                        <ng-container *ngIf="isEditable">
+                            <input type="file" class="d-none" #privateLicenseFileName
+                                (change)="onFileSelected($event,'privateLicenseFileName')" id="inputGroupFile06"
+                                aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                            <button class="btn btn-outline-primary" type="button"
+                                (click)="privateLicenseFileName.click()">
+                                <i class=" ri-upload-2-fill"></i>
+                            </button>
+                        </ng-container>
+
+                        <ng-container #fileSelected>
+                            <input type="text" class="form-control m-0"
+                                [value]="this.selfEvaluationDocument.selfEvaluationRequiredFiles?.privateLicenseFileName || ''"
+                                readonly [disabled]="true" title="File selected">
+                        </ng-container>
+                        <button *ngIf="this.selfEvaluationDocument.selfEvaluationRequiredFiles?.privateLicenseFileName"
+                            type="button" class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                            (click)="downloadUploadedFile(selfEvaluationDocument.selfEvaluationRequiredFiles?.privateLicenseFileName
+                             ,selfEvaluationDocument.selfEvaluationRequiredFiles?.privateLicenseBucketName)">{{
+                            'PAGES.COMMON.LABELS.DOWNLOAD' | translate }}</button>
+
+                    </div>
+                    <div *ngIf="isSubmitting && !selfEvaluationDocument.selfEvaluationRequiredFiles?.privateLicenseFileName
+                    && selfEvaluationDocument.scheduledSchoolVisit?.school?.type == 'PRIVATE'"
+                        class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="card shadow-sm my-5">
+        <app-common-attachments [attachmentList]="selfEvaluationDocument.selfEvaluationAttachments || []"
+        [isEditMode]="isEditable"
+            (attachmentAddEventEmitter)="addAttchment($event)" (attachmentRemoveEventEmitter)="removeAttchment($event)">
+        </app-common-attachments>
+    </div>
+
+
+
+
+    <div *ngIf="showButtons" class="row mt-3 mx-3">
+        <div class="d-flex justify-content-between w-100">
+            <!-- Left side (start) -->
+            <div>
+                <button type="button" class="step-prev btn btn-primary" (click)="previousEvent.emit()">
+                    {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+                </button>
+
+                <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancelEvent.emit()">
+                    {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                </button>
+            </div>
+
+            <!-- Right side (end) -->
+            <div>
+                <button type="button" class="btn btn-primary JU me-2"
+                    *ngIf="isEditable"  (click)="saveEvent.emit()">
+                    {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+                </button>
+
+                <button type="button" class="step-next btn btn-primary"
+                *ngIf="isEditable"
+                (click)="validateForm(save)">
+                    {{ 'PAGES.COMMON.LABELS.SAVE_AND_SEND' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+<div class="print-only">
+    <div class="mt-4">
+        <h5 class="fw-bold" style="background-color: #05AAA7; margin: 0; padding: 10px; text-align: center; color: white;">
+            {{ 'PAGES.EXTERNAL_REVIEWER.LABELS.REQUIRED_DOCUMENTS' | translate }}
+        </h5>
+        
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" style="margin: 0;">
+                <thead style="background-color: #C0F0E8;">
+                    <tr>
+                        <th style="width: 50%;">{{ 'PAGES.COMMON.LABELS.DOCUMENT_NAME' | translate }}</th>
+                        <th style="width: 50%;">{{ 'PAGES.COMMON.LABELS.FILE_NAME' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.SCHOOL_PLAN' | translate }}</td>
+                        <td>{{ selfEvaluationDocument.selfEvaluationRequiredFiles?.schoolPlanFileName || '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.WEEKLY_TIMETABLE' | translate }}</td>
+                        <td>{{ selfEvaluationDocument.selfEvaluationRequiredFiles?.weeklyScheduleFileName || '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.BUILDING_LAYOUT' | translate }}</td>
+                        <td>{{ selfEvaluationDocument.selfEvaluationRequiredFiles?.buildingLayoutFileName || '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.DAY_SCHEDULE' | translate }}</td>
+                        <td>{{ selfEvaluationDocument.selfEvaluationRequiredFiles?.dailyTimetableFileName || '-' }}</td>
+                    </tr>
+                    <tr *ngIf="selfEvaluationDocument.scheduledSchoolVisit?.school?.type == 'PRIVATE'">
+                        <td>{{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.MOE_APPROVAL_INTERNATIONAL_PROGRAM' | translate }}</td>
+                        <td>{{ selfEvaluationDocument.selfEvaluationRequiredFiles?.moeApprovalFileName || '-' }}</td>
+                    </tr>
+                    <tr *ngIf="selfEvaluationDocument.scheduledSchoolVisit?.school?.type == 'PRIVATE'">
+                        <td>{{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.PRIVATE_SCHOOL_LICENSE' | translate }}</td>
+                        <td>{{ selfEvaluationDocument.selfEvaluationRequiredFiles?.privateLicenseFileName || '-' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #save let-modal>
+    <div class="default-modal">
+        <div class="modal-body">
+            <div class="mb-3 row">
+                <label class="col-12 col-form-label">
+                    {{ "PAGES.COMMON.MESSAGES.BASIC_CONFIRM_SAVE" | translate }}</label>
+            </div>
+        </div>
+        <div class="modal-footer d-flex">
+            <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                {{ "PAGES.COMMON.LABELS.NO" | translate }}
+            </button>
+
+            <button class="btn btn-primary" type="button" (click)="submit()">
+                {{ "PAGES.COMMON.LABELS.YES" | translate }}
+            </button>
+        </div>
+    </div>
+</ng-template>

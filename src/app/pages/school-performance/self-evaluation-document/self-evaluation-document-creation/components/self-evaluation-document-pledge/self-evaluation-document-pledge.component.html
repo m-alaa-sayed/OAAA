@@ -1,0 +1,59 @@
+<div class="card m-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">{{ "PAGES.SELF_EVALUATION_DOCUMENT.LABELS.INTRODUCTION" | translate }}</h5>
+    </div>
+    <div class="card-body">
+
+
+        <div class="row mx-5">
+
+            <div class="col-12 d-flex justify-content-start py-3"
+                [innerHTML]="translate.currentLang =='ar'?  selfEvaluationDocumentSetting.pledgeTextAr : selfEvaluationDocumentSetting.pledgeTextEn">
+            </div>
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-4">
+                <div class="mt-5 d-flex justify-content-start">
+                    <div class="form-check form-check-inline form-radio-primary mx-0">
+
+                        <input type="checkbox" class="form-check-input" name="pledgeAccepted" id="pledgeAccepted"
+                            #pledgeAccepted="ngModel" [disabled]="!showButtons"
+                            [(ngModel)]="selfEvaluationDocument.pledgeAccepted">
+                        <label class="form-check-label" for="pledgeAccepted">
+                            {{ "PAGES.SELF_EVALUATION_DOCUMENT.LABELS.CONFIRM_DATA" | translate }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+    </div>
+</div>
+
+
+<!-- buttons -->
+<div *ngIf="showButtons" class="row mt-3 mx-3">
+    <div class="d-flex justify-content-between w-100">
+        <!-- Left side (start) -->
+        <div>
+            <button type="button" class="btn btn-outline-secondary" (click)="cancelEvent.emit()">
+                {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+            </button>
+        </div>
+
+        <!-- Right side (end) -->
+        <div>
+            <button type="button" class="btn btn-primary JU me-2"
+                *ngIf="isEditable" (click)="saveEvent.emit()">
+                {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+            </button>
+
+            <button type="button" class="btn btn-primary" 
+                (click)="nextEvent.emit()">
+                {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

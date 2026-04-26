@@ -1,0 +1,7 @@
+::ng-deep .force-ltr * {
+    direction: ltr !important;
+}
+
+::ng-deep .ag-header-cell-label{
+    justify-content: center;
+}

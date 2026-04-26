@@ -1,0 +1,22 @@
+<div class="export-links">
+    <div class="export-group">
+        <!-- Word buttons -->
+        <button (click)="generateReportDocument({ format: 'word', type: 'main' })"
+                *ngIf="showGenerateReportDocumentButton()">
+            {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.EXPORT_REPORT_WORD' | translate }}
+        </button>
+        <button (click)="generateReportDocument({ format: 'word', type: 'summary' })"
+                *ngIf="showGenerateReportDocumentButton()">
+            {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SUMMARY_EXPORT_REPORT_WORD' | translate }}
+        </button>
+    </div>
+    <div class="export-group">
+        <!-- PDF buttons -->
+        <button (click)="generateReportDocument({ format: 'pdf', type: 'main' })" *ngIf="showGeneratePdfButton()">
+            {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.EXPORT_REPORT_PDF' | translate }}
+        </button>
+        <button (click)="generateReportDocument({ format: 'pdf', type: 'summary' })" *ngIf="showGeneratePdfButton()">
+            {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SUMMARY_EXPORT_REPORT_PDF' | translate }}
+        </button>
+    </div>
+</div>

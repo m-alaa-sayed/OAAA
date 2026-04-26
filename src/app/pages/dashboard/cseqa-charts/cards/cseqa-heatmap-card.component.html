@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">{{ 'PAGES.DASHBOARD.CSEQA.LABELS.CARD_HEATMAP' | translate }}</h5>
+  </div>
+  <div class="card-body">
+    <app-heatmap-chart [data]="heatmapData" [height]="450">
+    </app-heatmap-chart>
+
+    <div class="d-flex justify-content-end align-items-center mb-3 gap-2 dashboard-print-actions">
+      <button type="button" class="btn btn-primary btn-sm" (click)="exportPdf()" [disabled]="isExporting || !heatmapData.length">
+        {{ !isExporting ? ('PAGES.DASHBOARD.CSEQA.LABELS.EXPORT_PDF' | translate) : ('PAGES.COMMON.LABELS.LOADING' | translate) }}
+      </button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="exportExcel()" [disabled]="isExporting || !heatmapData.length">
+        {{ !isExporting ? ('PAGES.DASHBOARD.CSEQA.LABELS.EXPORT_EXCEL' | translate) : ('PAGES.COMMON.LABELS.LOADING' | translate) }}
+      </button>
+    </div>
+
+    <table class="table table-bordered print-only" *ngIf="heatmapData.length">
+      <thead>
+        <tr>
+          <th>{{ 'PAGES.SCHOOL_PERFORMANCE.COMMON.GOVERNORATE' | translate }}</th>
+          <th>{{ 'PAGES.SCHOOL_PERFORMANCE.COMMON.WILAYAT' | translate }}</th>
+          <th>{{ 'PAGES.DASHBOARD.COMMON.LABELS.REVIEWERS_COUNT' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of heatmapData">
+          <td>{{ row.group }}</td>
+          <td>{{ row.label }}</td>
+          <td>{{ row.value }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

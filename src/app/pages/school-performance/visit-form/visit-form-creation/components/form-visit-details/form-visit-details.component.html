@@ -1,0 +1,136 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="fw-bold mb-4">{{ 'PAGES.VISIT_FORM.LABELS.CLASSROOM_VISIT_DETAILS' | translate }}</h5>
+
+        <div class="row g-3 mb-3 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.ACTUAL_CLASSROOM_VISIT_DATE' | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="date" class="form-control" [min]="visitData?.visitFrom"
+                       [max]="visitData?.visitTo" [(ngModel)]="visitFormRequestInfo.actualClassVisitDate"
+                       onkeydown="return false"
+                       [disabled]="!editable">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.SUBJECT' | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" [(ngModel)]="visitFormRequestInfo.subject" [disabled]="!editable">
+                    <option value="">{{ 'PAGES.VISIT_FORM.LABELS.SELECT_SUBJECT' | translate }}</option>
+                    <option *ngFor="let sub of subjects"
+                            [value]="sub">{{ 'PAGES.VISIT_FORM.CLASSROOM_OBSERVATION.' + sub | translate }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-md-4" *ngIf="visitFormRequestInfo.subject === 'OTHER'">
+                <label class="form-label">{{ 'PAGES.COMMON.LABELS.OTHER_SUBJECT' | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" [(ngModel)]="visitFormRequestInfo.otherSubject" [disabled]="!editable">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.GRADE' | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" [(ngModel)]="visitFormRequestInfo.grade" [disabled]="!editable">
+                    <option value="">{{ 'PAGES.VISIT_FORM.LABELS.SELECT_GRADE' | translate }}</option>
+                    <option *ngFor="let grade of grades" [value]="grade">{{ grade }}</option>
+                </select>
+            </div>
+            <!--</div>
+
+            <div class="row g-3 mb-3">-->
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.SECTION' | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" [(ngModel)]="visitFormRequestInfo.className"
+                       [disabled]="!editable">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.CLASS_PERIOD' | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" [(ngModel)]="visitFormRequestInfo.sessionNumber" [disabled]="!editable">
+                    <option value="">{{ 'PAGES.VISIT_FORM.LABELS.SELECT_CLASS_PERIOD' | translate }}</option>
+                    <option *ngFor="let period of periods" [value]="period">{{ period }}</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.LESSON_TITLE' | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control" [(ngModel)]="visitFormRequestInfo.lessonTitle"
+                       [disabled]="!editable">
+            </div>
+            <!--</div>
+
+            <div class="row g-3">-->
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.TOTAL_NUMBER_OF_STUDENTS_IN_CLASS' | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="number" class="form-control"
+                       [(ngModel)]="visitFormRequestInfo.totalStudentsInClass" #totalStudentsInClass="ngModel"
+                       min="1" required
+                       (ngModelChange)="visitFormRequestInfo.attendanceCount = $event > 0 ?($event || 0) - (visitFormRequestInfo.absenceCount || 0) : 0"
+                       [disabled]="!editable">
+                <div *ngIf="totalStudentsInClass.invalid && (totalStudentsInClass.dirty || totalStudentsInClass.touched)"
+                     class="text-danger">
+                    <small *ngIf="totalStudentsInClass.errors?.['required']">{{ 'PAGES.VISIT_FORM.LABELS.THIS_FIELD_IS_REQUIRED' | translate }}</small>
+                    <small *ngIf="totalStudentsInClass.errors?.['min']">{{ 'PAGES.VISIT_FORM.LABELS.TOTAL_STUDENTS_MUST_BE_GREATER_THAN_0' | translate }}</small>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.NUMBER_OF_ATTENDEES' | translate }}
+                </label>
+                <input type="number" class="form-control" [disabled]="true"
+                       [(ngModel)]="visitFormRequestInfo.attendanceCount">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.NUMBER_OF_ABSENTEES' | translate }}
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="number" class="form-control"
+                       [(ngModel)]="visitFormRequestInfo.absenceCount" #absenceCount="ngModel" required
+                       min="0" [max]="visitFormRequestInfo.totalStudentsInClass || 0"
+                       (ngModelChange)="visitFormRequestInfo.attendanceCount = ($event >= 0 && $event < visitFormRequestInfo.totalStudentsInClass) ? (visitFormRequestInfo.totalStudentsInClass || 0) - ($event || 0):0"
+                       [disabled]="!editable">
+                <!-- Validation Messages -->
+                <div *ngIf="absenceCount.invalid && (absenceCount.dirty || absenceCount.touched)" class="text-danger">
+                    <small *ngIf="absenceCount.errors?.['required']">{{ 'PAGES.VISIT_FORM.LABELS.THIS_FIELD_IS_REQUIRED' | translate }}</small>
+                    <small *ngIf="absenceCount.errors?.['min']">{{ 'PAGES.VISIT_FORM.LABELS.ABSENCE_COUNT_CANNOT_BE_NEGATIVE' | translate }}</small>
+                    <small *ngIf="absenceCount.errors?.['max']">{{ 'PAGES.VISIT_FORM.LABELS.ABSENCE_COUNT_CANNOT_EXCEED_TOTAL_STUDENTS' | translate }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- buttons -->
+<div *ngIf="showButtons" class="row mt-3 mx-3">
+    <div class="d-flex justify-content-between rounded">
+        <button type="button" class="btn btn-outline-secondary" (click)="cancelEvent.emit()">
+            {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+        <div class="d-flex justify-content-end rounded">
+            <button type="button" class="btn btn-success fw-bold me-2 ms-2" (click)="save()">
+                {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+            </button>
+
+            <button type="button" class="btn btn-primary me-2 ms-2" [disabled]="!validateDetails"
+                    (click)="nextEvent.emit()">
+                {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

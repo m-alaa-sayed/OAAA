@@ -1,0 +1,1077 @@
+<form #submitForm="ngForm">
+    <div class="mx-4">
+        <div class="card-body">
+
+            <!-- section 1 title -->
+            <h6 *ngIf="!externalReviewersRegistrationRequestInfo.insideOman">{{
+                "PAGES.EXTERNAL_REVIEWER.LABELS.PASSPORT_INFO" | translate }}</h6>
+
+            <div *ngIf="!externalReviewersRegistrationRequestInfo.insideOman" class="row my-4">
+                <div class="col-4">
+                    <div class="d-flex justify-content-start">
+                        <div class="form-check form-check-inline form-radio-primary mx-0">
+                            <input class="form-check-input" type="checkbox" [(ngModel)]="editPasswordData"
+                                [disabled]="!isEditMode" id="editPasswordData" name="editPasswordData">
+                            <label class="form-check-label" for="editPasswordData">
+                                {{ "PAGES.EXTERNAL_REVIEWER.LABELS.UPDATE_MY_PASSPORT_INFORMATION" | translate }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!externalReviewersRegistrationRequestInfo.insideOman" class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.CURRENT_PASSPORT_NUMBER" | translate }}
+                            <span *ngIf="isEditMode" class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" name="passportNo" id="passportNo"
+                            [disabled]="!editPasswordData || !isEditMode" #passportNo="ngModel"
+                            [(ngModel)]="externalReviewersRegistrationRequestInfo.passportNo">
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.CURRENT_PASSPORT_COPY" | translate }}
+                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                    </label>
+
+                    <div class="input-group">
+                        <ng-container *ngIf="isEditMode && editPasswordData">
+                            <input type="file" class="d-none" #fileInput (change)="onFileSelected($event, true)"
+                                id="inputGroupFile02" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                            <button class="btn btn-outline-primary" type="button" (click)="fileInput.click()">
+                                <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                            </button>
+                        </ng-container>
+                        <ng-container #profileImgSelected>
+                            <input type="text" class="form-control m-0"
+                                [value]="externalReviewersRegistrationRequestInfo.passportFileName || ''" readonly
+                                [disabled]="true" title="File selected">
+                        </ng-container>
+                        <button *ngIf="externalReviewersRegistrationRequestInfo.passportFileName" type="button"
+                            class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                            (click)="downloadUploadedFile(externalReviewersRegistrationRequestInfo.passportFileName  ,externalReviewersRegistrationRequestInfo.passportBucketName)">Download</button>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- section 2 -->
+            <div class="py-4">
+                <h6>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.QUALIFICATIONS_AND_EXPERTISE" | translate }}</h6>
+                <!-- row 1 -->
+                <div class="row mt-4">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.HIGHEST_EDUCATIONAL_LEVEL" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <select class="form-select mb-3" name="degreeObtainedId" id="degreeObtainedId"
+                                #degreeObtainedId="ngModel" required [disabled]="!isEditMode"
+                                [(ngModel)]="this.externalReviewersRegistrationRequestInfo.qualification.degreeObtainedId"
+                                aria-label="Default select example">
+                                <option [value]="undefined" disabled selected hidden>
+                                    {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                </option>
+                                <option *ngFor="let higherEdu of higherEducationList" [value]="higherEdu.id">
+                                    {{ translate.currentLang === 'ar' ? higherEdu.lookupValueAr :
+                                    higherEdu.lookupValueEn }}
+                                </option>
+                            </select>
+                            <div *ngIf="isSubmitting && degreeObtainedId.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.YEAR_OF_QUALIFICATION" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <select class="form-select mb-3" name="graduationYear" id="graduationYear"
+                                #graduationYear="ngModel" required [disabled]="!isEditMode"
+                                [(ngModel)]="this.externalReviewersRegistrationRequestInfo.qualification.graduationYear"
+                                aria-label="Default select example">
+                                <option [value]="undefined" disabled selected hidden>
+                                    {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                </option>
+                                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                            </select>
+                            <div *ngIf="isSubmitting && graduationYear.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <!-- row 2  -->
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.AWARDING_INSTITUTION" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <select class="form-select mb-3" name="institutionId" id="institutionId"
+                                (change)="onInstitutionChange($event)" #institutionId="ngModel" required
+                                [disabled]="!isEditMode"
+                                [(ngModel)]="this.externalReviewersRegistrationRequestInfo.qualification.institutionId"
+                                aria-label="Default select example">
+                                <option [value]="undefined" disabled selected hidden>
+                                    {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                </option>
+                                <option *ngFor="let institution of institutionList" [value]="institution.id">
+                                    {{ translate.currentLang === 'ar' ? institution.lookupValueAr :
+                                    institution.lookupValueEn }}
+                                </option>
+                            </select>
+                            <div *ngIf="isSubmitting && institutionId.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6"
+                        *ngIf="this.externalReviewersRegistrationRequestInfo.qualification.institution?.lookupIdentifier == 'INSTITUTIONS_OTHER'">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.AWARDING_INSTITUTION_NAME" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" name="otherInstitutionName" required
+                                [disabled]="!isEditMode" id="otherInstitutionName" #otherInstitutionName="ngModel"
+                                [(ngModel)]="this.externalReviewersRegistrationRequestInfo.qualification.otherInstitutionName">
+
+                            <div *ngIf="isSubmitting && otherInstitutionName.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="row" *ngIf="this.externalReviewersRegistrationRequestInfo.module !== 'CSEQA'">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.MAIN_SPECIALIZATION" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <select class="form-select mb-3" name="generalSpecializationId" required
+                                (change)="onGeneralSpecializationChange($event)" id="generalSpecializationId"
+                                #generalSpecializationId="ngModel" [disabled]="!isEditMode"
+                                [(ngModel)]="externalReviewersRegistrationRequestInfo.qualification.generalSpecializationId"
+                                aria-label="Default select example">
+                                <option [value]="undefined" disabled selected hidden>
+                                    {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                </option>
+                                <option *ngFor="let generalSpecialization of generalSpecializationList"
+                                    [value]="generalSpecialization.id">
+                                    {{ translate.currentLang === 'ar' ? generalSpecialization.nameAr :
+                                    generalSpecialization.nameEn }}
+                                </option>
+                            </select>
+                            <div *ngIf="isSubmitting && generalSpecializationId.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6"
+                        *ngIf="this.generalCode == '14' || externalReviewersRegistrationRequestInfo.qualification.generalSpecializationId == 14">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.MAIN_SPECIALIZATION_NAME" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" name="otherGeneralSpecialization" required
+                                id="otherGeneralSpecialization" #otherGeneralSpecialization="ngModel"
+                                [disabled]="!isEditMode"
+                                [(ngModel)]="this.externalReviewersRegistrationRequestInfo.qualification.otherGeneralSpecialization">
+
+                            <div *ngIf="isSubmitting && otherGeneralSpecialization.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- if cheqa -->
+                <div class="row" *ngIf="this.externalReviewersRegistrationRequestInfo.module == 'CHEQA'">
+                    <div class="col-6"
+                        *ngIf="this.generalCode != '14' ||  externalReviewersRegistrationRequestInfo.qualification.generalSpecializationId != 14">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.NARROW_FIELD" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <select class="form-select mb-3" name="specificSpecializationId" required
+                                id="specificSpecializationId" #specificSpecializationId="ngModel"
+                                [disabled]="!isEditMode"
+                                [(ngModel)]="externalReviewersRegistrationRequestInfo.qualification.specificSpecializationId"
+                                aria-label="Default select example">
+                                <option [value]="undefined" disabled selected hidden>
+                                    {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                </option>
+                                <option *ngFor="let specificSpecialization of specificSpecializationList"
+                                    [value]="specificSpecialization.id">
+                                    {{ translate.currentLang === 'ar' ? specificSpecialization.nameAr :
+                                    specificSpecialization.nameEn }}
+                                </option>
+                            </select>
+                            <div *ngIf="isSubmitting && specificSpecializationId.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6"
+                        *ngIf="this.generalCode == '14' || externalReviewersRegistrationRequestInfo.qualification.generalSpecializationId == 14">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.NARROW_FIELD" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" name="otherSpecificSpecialization" required
+                                id="otherSpecificSpecialization" #otherSpecificSpecialization="ngModel"
+                                [disabled]="!isEditMode"
+                                [(ngModel)]="this.externalReviewersRegistrationRequestInfo.qualification.otherSpecificSpecialization">
+
+                            <div *ngIf="isSubmitting && otherSpecificSpecialization.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- end cheqa  -->
+
+                <div class="row" *ngIf="this.externalReviewersRegistrationRequestInfo.module === 'CSEQA'">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.MAIN_SPECIALIZATION" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <select class="form-select mb-3" name="cseqaGeneralSpecializationId" required
+                                (change)="onCseqaGeneralSpecializationChange($event)" id="cseqaGeneralSpecializationId"
+                                #cseqaGeneralSpecializationId="ngModel" [disabled]="!isEditMode"
+                                [(ngModel)]="this.externalReviewersRegistrationRequestInfo.qualification.cseqaGeneralSpecializationId"
+                                aria-label="Default select example">
+                                <option [value]="undefined" disabled selected hidden>
+                                    {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                </option>
+                                <option *ngFor="let cseqaGeneralSpecialization of cseqaGeneralSpecializationList"
+                                    [value]="cseqaGeneralSpecialization.id">
+                                    {{ translate.currentLang === 'ar' ? cseqaGeneralSpecialization.nameAr :
+                                    cseqaGeneralSpecialization.nameEn }}
+                                </option>
+                            </select>
+                            <div *ngIf="isSubmitting && cseqaGeneralSpecializationId.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.CSEQA_GENERAL_SPECIALIZATION_ERROR' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6"
+                        *ngIf="this.cseqaGeneralCode == '19' || this.externalReviewersRegistrationRequestInfo.qualification.cseqaGeneralSpecializationId==19">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.MAIN_SPECIALIZATION_NAME" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" name="otherCseqaGeneralSpecialization" required
+                                id="otherCseqaGeneralSpecialization" #otherCseqaGeneralSpecialization="ngModel"
+                                [disabled]="!isEditMode"
+                                [(ngModel)]="this.externalReviewersRegistrationRequestInfo.qualification.otherCseqaGeneralSpecialization">
+
+                            <div *ngIf="isSubmitting && otherCseqaGeneralSpecialization.invalid"
+                                class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="this.externalReviewersRegistrationRequestInfo.module === 'CSEQA'">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.SUB_SPECIALIZATION" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <select class="form-select mb-3" name="cseqaSpecificSpecializationId" required
+                                (change)="onCseqaSpecificSpecializationChange($event)"
+                                id="cseqaSpecificSpecializationId" #cseqaSpecificSpecializationId="ngModel"
+                                [disabled]="!isEditMode"
+                                [(ngModel)]="this.externalReviewersRegistrationRequestInfo.qualification.cseqaSpecificSpecializationId"
+                                aria-label="Default select example">
+                                <option [value]="undefined" disabled selected hidden>
+                                    {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                </option>
+                                <option *ngFor="let cseqaSpecificSpecialization of cseqaSpecificSpecializationList"
+                                    [value]="cseqaSpecificSpecialization.id">
+                                    {{ translate.currentLang === 'ar' ? cseqaSpecificSpecialization.nameAr :
+                                    cseqaSpecificSpecialization.nameEn }}
+                                </option>
+                            </select>
+                            <div *ngIf="isSubmitting && cseqaSpecificSpecializationId.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6"
+                        *ngIf="this.cseqaSpecificCode == '7' || this.externalReviewersRegistrationRequestInfo.qualification.cseqaSpecificSpecializationId==7">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.SPECIFIC_SPECIALIZATION_NAME" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" name="otherCseqaSpecificSpecialization" required
+                                id="otherCseqaSpecificSpecialization" #otherCseqaSpecificSpecialization="ngModel"
+                                [disabled]="!isEditMode"
+                                [(ngModel)]="this.externalReviewersRegistrationRequestInfo.qualification.otherCseqaSpecificSpecialization">
+
+                            <div *ngIf="isSubmitting && otherCseqaSpecificSpecialization.invalid"
+                                class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- section 3 not cseqa -->
+            <div class="py-4" *ngIf="this.externalReviewersRegistrationRequestInfo.module !== 'CSEQA'">
+                <div class="d-flex justify-content-between align-items-center px-3">
+                    <h5>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.AREA_OF_EXPERTISE" | translate }}</h5>
+
+                    <!-- AREA_OF_EXPERTISE table -->
+                    <div *ngIf="isEditMode" class="d-flex justify-content-end">
+                        <button class="btn btn-primary" (click)="open(addExpertise)">
+                            <i class="ri-add-line me-2"></i>
+                            {{ "PAGES.COMMON.LABELS.ADD" | translate }}
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-gridjs">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.BROAD_FIELD" | translate
+                                        }}</th>
+                                    <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.NARROW_FIELD" | translate
+                                        }}</th>
+                                    <th class="text-center">{{ "PAGES.COMMON.LABELS.NOTES" | translate }}</th>
+                                    <th *ngIf="isEditMode" class="text-center">{{ "PAGES.COMMON.LABELS.ACTIONS" |
+                                        translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of externalReviewersRegistrationRequestInfo.expertiseAreaList; let i = index"
+                                    class="text-center">
+                                    <td class="text-center">{{ i + 1 }}</td>
+                                    <td *ngIf="!row.boardField && row.otherNarrowFieldAr" class="text-center">
+                                        {{ translate.instant('PAGES.COMMON.LABELS.OTHER') }} -
+                                        {{row.otherNarrowFieldAr}}
+                                    </td>
+
+                                    <td *ngIf="row.boardField && row.narrowField" class="text-center">
+                                        {{translate.currentLang === 'ar' ?
+                                        row.boardField.nameAr : row.boardField.nameEn}} -
+                                        {{row.otherNarrowFieldAr}}
+                                    </td>
+                                    <td *ngIf="!row.boardField && row.narrowField" class="text-center">
+                                        {{translate.currentLang === 'ar' ?
+                                        row.narrowField.broadField?.nameAr : row.narrowField.broadField?.nameEn}}
+                                    </td>
+
+                                    <td class="text-center" *ngIf="row.narrowField?.id">
+                                        {{translate.currentLang === 'ar' ?
+                                        row.narrowField?.nameAr: row.narrowField?.nameEn}}
+                                    </td>
+
+                                    <td class="text-center" *ngIf="!row.narrowField?.id">
+                                        {{row.otherNarrowFieldEn}}
+                                    </td>
+
+                                    <td class="text-center">
+                                        {{row.notes}}
+                                    </td>
+                                    <td *ngIf="isEditMode" class="text-center">
+                                        <button class="btn" (click)="editExpertiseAreaItem(row, i, addExpertise)">
+                                            <i class="ri-edit-2-line text-primary"></i>
+                                        </button>
+                                        <button class="btn" (click)="removeExpertiseAreaItem(i)">
+                                            <i class="ri-delete-bin-line text-danger"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <ng-template #addExpertise>
+                            <div class="default-modal">
+                                <div
+                                    class="modal-header d-flex justify-content-between align-items-center flex-row bg-primary-light p-3">
+                                    <h5 class="modal-title m-0">
+                                        {{ editIndex === null
+                                        ? ('PAGES.EXTERNAL_REVIEWER.LABELS.ADD_AREA_OF_EXPERTISE' | translate)
+                                        : ('PAGES.EXTERNAL_REVIEWER.LABELS.EDIT_AREA_OF_EXPERTISE' | translate) }}
+
+                                    </h5>
+                                    <button type="button" class="btn-close p-0 m-0" data-bs-dismiss="modal"
+                                        aria-label="Close" (click)="cancelExpertise();close();"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <!-- row 1 -->
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.BROAD_FIELD" |
+                                                        translate
+                                                        }}
+                                                    </label>
+                                                    <select class="form-select mb-3" name="boardFieldId"
+                                                        id="boardFieldId" #boardFieldId="ngModel"
+                                                        [(ngModel)]="expertiseAreaObject.boardFieldId"
+                                                        (change)="onBoardFieldChange($event)"
+                                                        aria-label="Default select example">
+                                                        <option [value]="undefined" disabled selected hidden>
+                                                            {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                                        </option>
+                                                        <option *ngFor="let boardField of broadFieldList"
+                                                            [value]="boardField.id">
+                                                            {{ translate.currentLang === 'ar' ? boardField.nameAr :
+                                                            boardField.nameEn }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="this.boardCode!=='14'">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.NARROW_FIELD" | translate
+                                                        }}
+                                                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                                                    </label>
+                                                    <select class="form-select mb-3"
+                                                        (change)="onNarrowFieldChange($event)" name="narrowFieldId"
+                                                        id="narrowFieldId" #narrowFieldId="ngModel"
+                                                        [(ngModel)]="expertiseAreaObject.narrowFieldId"
+                                                        aria-label="Default select example">
+                                                        <option [value]="undefined" disabled selected hidden>
+                                                            {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                                        </option>
+                                                        <option *ngFor="let narrow of narrowFieldList"
+                                                            [value]="narrow.id">
+                                                            {{ translate.currentLang === 'ar' ? narrow.nameAr :
+                                                            narrow.nameEn }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" *ngIf="this.boardCode==='14'">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.BROAD_FIELD" |
+                                                        translate
+                                                        }}
+                                                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="text" class="form-control" name="otherNarrowFieldAr"
+                                                        required id="otherNarrowFieldAr" #otherNarrowFieldAr="ngModel"
+                                                        [disabled]="!isEditMode"
+                                                        [(ngModel)]="expertiseAreaObject.otherNarrowFieldAr">
+
+                                                    <div *ngIf="isSubmitting && otherNarrowFieldAr.invalid"
+                                                        class="invalid-feedback">
+                                                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate
+                                                            }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="this.boardCode==='14'">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.NARROW_FIELD" |
+                                                        translate
+                                                        }}
+                                                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="text" class="form-control" name="otherNarrowFieldEn"
+                                                        required id="otherNarrowFieldEn" #otherNarrowFieldEn="ngModel"
+                                                        [disabled]="!isEditMode"
+                                                        [(ngModel)]="expertiseAreaObject.otherNarrowFieldEn">
+
+                                                    <div *ngIf="isSubmitting && otherNarrowFieldEn.invalid"
+                                                        class="invalid-feedback">
+                                                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate
+                                                            }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- row 3 -->
+                                        <div class="row ">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label>{{ "PAGES.COMMON.LABELS.NOTES"
+                                                        |
+                                                        translate }}
+                                                        <small class="text-danger ms-3">
+                                                            ({{
+                                                            'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate
+                                                            }})</small>
+
+                                                    </label>
+                                                    <textarea type="text" class="form-control" name="notes" id="notes"
+                                                        #notes="ngModel" [(ngModel)]="expertiseAreaObject.notes"
+                                                        placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+                                                        (ngModelChange)="onTextChange(expertiseAreaObject, 'notes', $event)">
+                                         </textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="modal-footer d-flex">
+                                    <button type="button" class="btn btn-outline-secondary" (click)="cancelExpertise()">
+                                        {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                                    </button>
+
+                                    <button class="btn btn-primary" type="button" (click)="addExpertiseToList()"
+                                        [disabled]="isExpertiseAreaSaveDisabled()">
+                                        {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </ng-template>
+
+                        <!-- No Data Section -->
+                        <div *ngIf="!externalReviewersRegistrationRequestInfo.expertiseAreaList || externalReviewersRegistrationRequestInfo.expertiseAreaList.length == 0 "
+                            class="text-center py-4 text-muted">
+                            {{ "PAGES.COMMON.MESSAGES.NO_RESULT" | translate }}
+                        </div>
+                    </div>
+                    <!-- add pigination here -->
+                </div><!-- end card-body -->
+            </div>
+
+            <!-- section 3  cseqa -->
+            <div class="py-4" *ngIf="this.externalReviewersRegistrationRequestInfo.module == 'CSEQA'">
+                <div class="d-flex justify-content-between align-items-center px-3">
+                    <h5>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.YEARS_OF_EXPERTISE" | translate }}</h5>
+
+                    <!-- YEARS_OF_EXPERTISE table -->
+                    <div *ngIf="isEditMode" class="d-flex justify-content-end">
+                        <button class="btn btn-primary" (click)="open(addYearsExpertise)">
+                            <i class="ri-add-line me-2"></i>
+                            {{ "PAGES.COMMON.LABELS.ADD" | translate }}
+                        </button>
+                    </div>
+                </div>
+                <small class="text-danger ms-3">{{"PAGES.EXTERNAL_REVIEWER.LABELS.ADD_AT_LEAST_ONE_ROW" | translate
+                    }}</small>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-gridjs">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.EXP_JOB_TITLE" |
+                                        translate
+                                        }}</th>
+                                    <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.ACADEMIC_YEAR_FROM" |
+                                        translate
+                                        }}</th>
+                                    <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.ACADEMIC_YEAR_TO" |
+                                        translate
+                                        }}</th>
+                                    <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.DURATION" |
+                                        translate
+                                        }}</th>
+                                    <th *ngIf="isEditMode" class="text-center">{{ "PAGES.COMMON.LABELS.ACTIONS" |
+                                        translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of externalReviewersRegistrationRequestInfo.expertiseYearList; let i = index"
+                                    class="text-center">
+
+                                    <td class="text-center">{{ i + 1 }}</td>
+                                    <td class="text-center">
+                                        {{translate.currentLang =='ar' ?
+                                        row?.employee?.lookupValueAr : row?.employee?.lookupValueEn}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{row.academicYearFrom}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{row.academicYearTo}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{row.duration}}
+                                    </td>
+
+                                    <td *ngIf="isEditMode" class="text-center">
+                                        <button class="btn"
+                                            (click)="editYearsExpertiseAreaItem(row, i, addYearsExpertise)">
+                                            <i class="ri-edit-2-line text-primary"></i>
+                                        </button>
+                                        <button class="btn" (click)="removeYearsExpertiseAreaItem(i)">
+                                            <i class="ri-delete-bin-line text-danger"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <ng-template #addYearsExpertise>
+                            <div class="default-modal">
+                                <div
+                                    class="modal-header d-flex justify-content-between align-items-center flex-row bg-primary-light p-3">
+                                    <h5 class="modal-title m-0">
+                                        {{ 'PAGES.EXTERNAL_REVIEWER.LABELS.YEARS_OF_EXPERTISE' | translate}}
+
+                                    </h5>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <!-- row 1 -->
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.EXP_JOB_TITLE" |
+                                                        translate
+                                                        }}
+                                                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                                                    </label>
+                                                    <select class="form-select mb-3" name="boardFieldId"
+                                                        id="boardFieldId" #boardFieldId="ngModel"
+                                                        [(ngModel)]="expertiseYearsObject.employeeId"
+                                                        (change)="onEmlpyeeChanged($event)"
+                                                        aria-label="Default select example">
+                                                        <option [value]="undefined" disabled selected hidden>
+                                                            {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                                        </option>
+                                                        <option *ngFor="let exprtiesList of expertiseYearList"
+                                                            [value]="exprtiesList.id">
+                                                            {{ translate.currentLang === 'ar' ?
+                                                            exprtiesList.lookupValueAr :
+                                                            exprtiesList.lookupValueEn }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.ACADEMIC_YEAR_FROM" |
+                                                        translate }}
+                                                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="date" class="form-control" name="academicYearFrom"
+                                                        id="academicYearFrom" #academicYearFrom="ngModel"
+                                                        [(ngModel)]="expertiseYearsObject.academicYearFrom">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.ACADEMIC_YEAR_TO" |
+                                                        translate }}
+                                                        <span *ngIf="isEditMode" class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="date" class="form-control" name="academicYearTo"
+                                                        id="academicYearTo" #academicYearTo="ngModel"
+                                                        [(ngModel)]="expertiseYearsObject.academicYearTo">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+                                <div class="modal-footer d-flex">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        (click)="cancelYearsExpertise()">
+                                        {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                                    </button>
+
+                                    <button class="btn btn-primary" type="button" (click)="addYearsExpertiseToList()"
+                                        [disabled]="!expertiseYearsObject.academicYearTo || 
+                                        !expertiseYearsObject.academicYearFrom || !expertiseYearsObject.employeeId">
+                                        {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </ng-template>
+
+                        <!-- No Data Section -->
+                        <div *ngIf="!externalReviewersRegistrationRequestInfo.expertiseYearList 
+                        || externalReviewersRegistrationRequestInfo.expertiseYearList.length == 0 "
+                            class="text-center py-4 text-muted">
+                            {{ "PAGES.COMMON.MESSAGES.NO_RESULT" | translate }}
+                        </div>
+                    </div>
+                    <!-- add pigination here -->
+                </div><!-- end card-body -->
+            </div>
+
+            <!-- section 4 -->
+            <div class="py-4">
+                <h6>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.LANGUAGE_SKILLS" | translate }}</h6>
+                <!-- row 1 -->
+                <div class="row mt-4">
+
+                    <div class="col-4">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.ENGLISH_PROFICIENCY_LEVEL" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <select class="form-select mb-3" name="englishLanguageScore" id="englishLanguageScore"
+                                #englishLanguageScore="ngModel" required [disabled]="!isEditMode"
+                                [(ngModel)]="externalReviewersRegistrationRequestInfo.englishLanguageScore"
+                                aria-label="Default select example">
+                                <option [value]="undefined" disabled selected hidden>
+                                    {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                </option>
+                                <option *ngFor="let langDegree of languageDegreeList" [value]="langDegree.id">
+                                    {{ langDegree.id }} - {{ translate.currentLang === 'ar' ? langDegree.nameAr :
+                                    langDegree.nameEn }}
+                                </option>
+                            </select>
+                            <div *ngIf="isSubmitting && englishLanguageScore.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-4">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.ARABIC_PROFICIENCY_LEVEL" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <select class="form-select mb-3" name="arabicLanguageScore" id="arabicLanguageScore"
+                                #arabicLanguageScore="ngModel" required [disabled]="!isEditMode"
+                                [(ngModel)]="externalReviewersRegistrationRequestInfo.arabicLanguageScore"
+                                aria-label="Default select example">
+                                <option [value]="undefined" disabled selected hidden>
+                                    {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                </option>
+                                <option *ngFor="let langDegree of languageDegreeList" [value]="langDegree.id">
+                                    {{ langDegree.id }} - {{ translate.currentLang === 'ar' ? langDegree.nameAr :
+                                    langDegree.nameEn }}
+                                </option>
+                            </select>
+                            <div *ngIf="isSubmitting && arabicLanguageScore.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="isEditMode" class="col-4">
+                        <div class="mt-5 d-flex justify-content-start">
+                            <div class="form-check form-check-inline form-radio-primary mx-0">
+                                <input class="form-check-input" type="checkbox" id="addLang" name="addLang"
+                                    [disabled]="!isEditMode" [(ngModel)]="addMoreLanguage">
+                                <label class="form-check-label" for="addLang">
+                                    {{ "PAGES.EXTERNAL_REVIEWER.LABELS.I_WOULD_LIKE_TO_ADD_OTHER_LANGUAGES" | translate
+                                    }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- lang table -->
+                    <div class="row" *ngIf="addMoreLanguage || (externalReviewersRegistrationRequestInfo.languageSkillList
+                        && externalReviewersRegistrationRequestInfo.languageSkillList.length)">
+
+                        <div *ngIf="isEditMode" class="d-flex justify-content-end">
+                            <button class="add-btn justify-content-endd-flex" (click)="open(addLang)">
+                                {{ "PAGES.COMMON.LABELS.ADD" | translate }}
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-gridjs">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.LANGUAGE" |
+                                                translate }}
+                                            </th>
+                                            <th class="text-center">{{
+                                                "PAGES.EXTERNAL_REVIEWER.LABELS.PROFICIENCY_LEVEL" | translate }}
+                                            </th>
+                                            <th *ngIf="isEditMode" class="text-center">{{ "PAGES.COMMON.LABELS.ACTIONS"
+                                                | translate }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let row of externalReviewersRegistrationRequestInfo.languageSkillList; let i = index"
+                                            class="text-center">
+                                            <td class="text-center">{{ i + 1 }}</td>
+                                            <td class="text-center">
+                                                {{translate.currentLang =='ar' ?
+                                                row.language?.lookupValueAr : row.language?.lookupValueEn}}
+                                            </td>
+                                            <td class="text-center">
+                                                {{row.proficiencyScore}}
+                                            </td>
+                                            <td *ngIf="isEditMode" class="text-center">
+                                                <button class="btn" (click)="removeLangItem(i)">
+                                                    <i class="ri-delete-bin-line text-danger"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <ng-template #addLang>
+                                    <div class="default-modal">
+                                        <div
+                                            class="modal-header d-flex justify-content-between align-items-center flex-row">
+                                            <h5 class="modal-title m-0">
+                                                {{'PAGES.EXTERNAL_REVIEWER.LABELS.ADD_LANGUAGE' | translate }}
+                                            </h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3 row">
+                                                <!-- row 1 -->
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="mb-3">
+                                                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.LANGUAGE" |
+                                                                translate
+                                                                }}
+                                                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                                                            </label>
+                                                            <select class="form-select mb-3" name="languageId"
+                                                                id="languageId" #languageId="ngModel"
+                                                                (change)="onLangChange($event)"
+                                                                [(ngModel)]="languageSkillObject.languageId"
+                                                                aria-label="Default select example">
+                                                                <option [value]="undefined" disabled selected hidden>
+                                                                    {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" |
+                                                                    translate
+                                                                    }}
+                                                                </option>
+                                                                <option *ngFor="let lang of availableLanguages"
+                                                                    [value]="lang.id">
+                                                                    {{ translate.currentLang === 'ar' ?
+                                                                    lang.lookupValueAr :
+                                                                    lang.lookupValueEn
+                                                                    }}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="mb-3">
+                                                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.PROFICIENCY_LEVEL"
+                                                                |
+                                                                translate
+                                                                }}
+                                                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                                                            </label>
+                                                            <select class="form-select mb-3" name="proficiencyScore"
+                                                                id="proficiencyScore" #proficiencyScore="ngModel"
+                                                                [(ngModel)]="languageSkillObject.proficiencyScore"
+                                                                aria-label="Default select example">
+                                                                <option [value]="undefined" disabled selected hidden>
+                                                                    {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" |
+                                                                    translate
+                                                                    }}
+                                                                </option>
+                                                                <option *ngFor="let langDegree of languageDegreeList"
+                                                                    [value]="langDegree.id">
+                                                                    {{ langDegree.id
+                                                                    }} - {{ translate.currentLang === 'ar' ?
+                                                                    langDegree.nameAr : langDegree.nameEn }}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                (click)="cancelLang()">
+                                                {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                                            </button>
+
+                                            <button class="btn btn-primary" type="button"
+                                                [disabled]="!languageSkillObject.languageId || !languageSkillObject.proficiencyScore"
+                                                (click)="addLangToList()">
+                                                {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ng-template>
+
+                                <!-- No Data Section -->
+                                <div *ngIf="!externalReviewersRegistrationRequestInfo.languageSkillList || externalReviewersRegistrationRequestInfo.languageSkillList.length == 0 "
+                                    class="text-center py-4 text-muted">
+                                    {{ "PAGES.COMMON.MESSAGES.NO_RESULT" | translate }}
+                                </div>
+                            </div>
+                            <!-- add pigination here -->
+                        </div><!-- end card-body -->
+
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+            <!-- section 5 -->
+            <div class="py-4">
+                <h6>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.BIO" | translate }}</h6>
+
+                <!-- <div class="row mt-4">
+                <div class="text-right w-full">
+                    <p class="text-sm font-medium">صورتك</p>
+                    <p class="text-sm text-gray-500">سيتم عرض هذا على ملفك الشخصي.</p>
+                </div>
+            </div> -->
+                <div class="row">
+                    <div class="col-6">
+                        <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.PERSONAL_PHOTO" | translate }}
+                            <span *ngIf="isEditMode" class="text-danger">*</span>
+                        </label>
+                        <div class="d-flex align-items-start gap-3">
+                            <!-- Profile Picture Preview -->
+                            <div class="profile-picture-container" *ngIf="profileImagePreviewUrl">
+                                <img [src]="profileImagePreviewUrl" alt="Profile Picture"
+                                    class="profile-picture-preview img-thumbnail"
+                                    style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;">
+                            </div>
+                            <!-- Placeholder when no image -->
+                            <div class="profile-picture-placeholder d-flex align-items-center justify-content-center"
+                                *ngIf="!profileImagePreviewUrl"
+                                style="width: 120px; height: 120px; background-color: #f8f9fa; border: 2px dashed #dee2e6; border-radius: 8px;">
+                                <i class="ri-user-3-line" style="font-size: 48px; color: #6c757d;"></i>
+                            </div>
+
+                            <!-- Upload Controls -->
+                            <div class="flex-grow-1">
+                                <div class="input-group">
+                                    <ng-container *ngIf="isEditMode">
+                                        <input type="file" class="d-none" #fileInput
+                                            (change)="onFileSelected($event, false)" id="inputGroupFile02"
+                                            aria-describedby="inputGroupFileAddon04" accept="image/*"
+                                            aria-label="Upload" />
+                                        <button class="btn btn-outline-primary" type="button"
+                                            (click)="fileInput.click()">
+                                            <i class="ri-upload-2-fill"></i> {{ "PAGES.COMMON.LABELS.UPLOAD" | translate
+                                            }}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container #profileImgSelected>
+                                        <input type="text" class="form-control m-0"
+                                            [value]="externalReviewersRegistrationRequestInfo.profilePictureFileName || ''"
+                                            readonly [disabled]="true" title="File selected">
+                                    </ng-container>
+                                    <button *ngIf="externalReviewersRegistrationRequestInfo.profilePictureFileName"
+                                        type="button" class="btn btn-outline-success" type="button"
+                                        id="inputGroupFileAddon04"
+                                        (click)="downloadUploadedFile(externalReviewersRegistrationRequestInfo.profilePictureFileName, externalReviewersRegistrationRequestInfo.profilePictureBucketName)">
+                                        <i class="ri-download-line"></i> {{ "PAGES.COMMON.LABELS.DOWNLOAD" | translate
+                                        }}
+                                    </button>
+                                </div>
+                                <!-- <small class="text-muted mt-1 d-block">
+                                    {{ "PAGES.EXTERNAL_REVIEWER.LABELS.PROFILE_PICTURE_HINT" | translate }}
+                                </small> -->
+                            </div>
+                        </div>
+                        <div *ngIf="isSubmitting && !externalReviewersRegistrationRequestInfo.profilePictureFileName"
+                            class="invalid-feedback d-block">
+                            <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.BIO"
+                                |
+                                translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                                <small class="text-danger ms-3">
+                                    ({{
+                                    'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                            </label>
+                            <textarea type="text" class="form-control" name="resumeSummary" id="resumeSummary"
+                                #resumeSummary="ngModel" required [disabled]="!isEditMode"
+                                [(ngModel)]="externalReviewersRegistrationRequestInfo.resumeSummary"
+                                placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+                                (ngModelChange)="onTextChange(externalReviewersRegistrationRequestInfo, 'resumeSummary', $event)">
+                                         </textarea>
+                            <div *ngIf="isSubmitting && resumeSummary.invalid" class="invalid-feedback">
+                                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- buttons -->
+            <div *ngIf="showButtons" class="pt-5 d-flex justify-content-between">
+
+                <div class="d-flex justify-content-start rounded">
+                    <button type="button" class="step-prev btn btn-primary" (click)="previousEvent.emit()">
+                        {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+                    </button>
+
+                    <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancelEvent.emit()">
+                        {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                    </button>
+
+                </div>
+
+
+                <div class="d-flex justify-content-end rounded w-25" (click)="next()">
+                    <button type="button" class="step-next btn btn-primary">
+                        {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+                    </button>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+</form>

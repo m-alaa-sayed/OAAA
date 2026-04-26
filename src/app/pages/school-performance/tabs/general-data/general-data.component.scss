@@ -1,0 +1,825 @@
+/* Import AG-Grid styles locally */
+@import '~ag-grid-community/styles/ag-grid.css';
+@import '~ag-grid-community/styles/ag-theme-alpine.css';
+
+/* General Data Component Styles */
+.general-data-container {
+  padding: 24px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  min-height: 100vh;
+  .page-description {
+    text-align: center;
+    font-size: 1.1rem;
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  [dir="rtl"] & {
+    direction: rtl;
+    text-align: right;
+  }
+}
+
+/* Completion Progress */
+.completion-progress {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    .completion-text {
+      font-weight: 600;
+      color: #1F487E;
+    }
+
+    .completion-percentage {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #6f42c1;
+    }
+  }
+
+  .progress-bar {
+    background: #e9ecef;
+    border-radius: 20px;
+    height: 8px;
+    overflow: hidden;
+
+    .progress-fill {
+      background: linear-gradient(135deg, #6f42c1, #5a2d91);
+      height: 100%;
+      border-radius: 20px;
+      transition: width 0.3s ease;
+    }
+  }
+}
+
+/* Section Cards */
+.section-card {
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+
+  .section-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 20px 24px;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0;
+      color: #1F487E;
+    }
+
+    .section-actions {
+      display: flex;
+      gap: 8px;
+    }
+  }
+
+  .table-container {
+    padding: 0;
+    
+    .general-data-grid {
+      border: none;
+      font-family: 'Cairo', sans-serif;
+
+      [dir="rtl"] & {
+        direction: rtl;
+      }
+    }
+  }
+}
+
+/* Print/Screen Visibility Controls */
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+  
+  .no-print {
+    display: block !important;
+  }
+}
+
+/* Comprehensive Print Styles for General Data */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+  /* Remove all backgrounds and shadows */
+  .tab-content,
+  .tab-body,
+  .general-data-container,
+  .section-card,
+  .section-header {
+    background: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  /* Remove all horizontal padding and margins */
+  .tab-content,
+  .tab-body,
+  .general-data-container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Form containers - remove padding */
+  .basic-info-form,
+  .contact-info-form,
+  .principal-info-form,
+  .schedule-form,
+  .additional-info-form,
+  .private-info-form {
+    padding: 8px 0 !important; /* Only vertical padding */
+    margin: 0 !important;
+  }
+  
+  /* Section cards - no automatic page breaks */
+  .section-card {
+    margin-bottom: 8px !important;
+    padding: 0 !important;
+  }
+  
+  /* Section headers - compact */
+  .section-header {
+    padding: 4px 0 !important;
+    margin-bottom: 6px !important;
+    border-bottom: 1px solid #dee2e6 !important; /* Keep original border color */
+  }
+  
+  /* Typography - compact font sizes */
+  .page-title {
+    font-size: 14px !important;
+    margin: 0 0 8px 0 !important;
+    font-weight: bold !important;
+  }
+  
+  .section-title {
+    font-size: 11px !important;
+    margin: 0 !important;
+    font-weight: bold !important;
+    color: #1F487E !important; /* Keep original color */
+  }
+  
+  /* Form elements - very compact */
+  .form-group {
+    margin-bottom: 6px !important;
+  }
+  
+  .form-label {
+    font-size: 8px !important;
+    margin-bottom: 2px !important;
+    font-weight: 500 !important;
+    color: #1F487E !important; /* Keep original color */
+    display: block !important;
+  }
+  
+  .form-control {
+    font-size: 8px !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    line-height: 1.1 !important;
+    min-height: auto !important;
+    height: auto !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  
+  /* Simplified print styles for empty values - handled by directive */
+  
+  textarea.form-control {
+    font-size: 8px !important;
+    line-height: 1.1 !important;
+    min-height: auto !important;
+    resize: none !important;
+    border: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+  
+  select.form-control {
+    font-size: 8px !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+  
+  /* Bootstrap grid - add spacing between horizontal fields */
+  .row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 4px !important;
+  }
+  
+  [class*="col-"] {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+    margin-bottom: 6px !important; /* Add vertical spacing between columns */
+  }
+  
+  /* Page description */
+  .page-description {
+    font-size: 8px !important;
+    margin-bottom: 4px !important;
+    color: #6c757d !important; /* Keep original muted color */
+  }
+  
+  /* Remove any remaining spacing */
+  .mb-3, .mb-4 {
+    margin-bottom: 4px !important;
+  }
+  
+  /* Hide view mode messages and info boxes */
+  .alert,
+  .alert-info {
+    display: none !important;
+  }
+  
+  /* Hide action buttons */
+  .section-actions {
+    display: none !important;
+  }
+  
+  /* Table containers */
+  .table-container {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Multi-select and complex controls */
+  .grade-multi-select,
+  ng-select {
+    font-size: 8px !important;
+    min-height: 18px !important;
+  }
+  
+  /* Text danger spans */
+  .text-danger {
+    color: #e74c3c !important; /* Keep red color for required fields */
+  }
+}
+
+/* Form Styling */
+.basic-info-form,
+.contact-info-form,
+.principal-info-form,
+.schedule-form,
+.additional-info-form,
+.private-info-form {
+  padding: 24px;
+  page-break-inside: avoid;
+  // page-break-after: auto;
+  // page-break-before: auto;
+
+  .form-group {
+    margin-bottom: 24px;
+
+    .form-label {
+      font-weight: 600;
+      color: #1F487E;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .form-control {
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+
+      &:focus {
+        border-color: #6f42c1;
+        box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.15);
+      }
+
+      &[readonly] {
+        background-color: #f8f9fa;
+        cursor: not-allowed;
+      }
+    }
+
+    select.form-control {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px 12px;
+      padding-right: 40px;
+
+      [dir="rtl"] & {
+        background-position: left 12px center;
+        padding-right: 16px;
+        padding-left: 40px;
+      }
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 80px;
+    }
+  }
+
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.3s;
+      border-radius: 24px;
+
+      &:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.3s;
+        border-radius: 50%;
+      }
+    }
+
+    input:checked + .toggle-slider {
+      background-color: #6f42c1;
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+  }
+}
+
+/* Grade Levels Styling */
+.grade-levels-form {
+  padding: 24px;
+
+  .grades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+
+    .grade-item {
+      text-align: center;
+
+      .grade-checkbox {
+        cursor: pointer;
+        display: block;
+
+        input[type="checkbox"] {
+          display: none;
+        }
+
+        .grade-badge {
+          display: inline-block;
+          padding: 12px 16px;
+          border: 2px solid #e9ecef;
+          border-radius: 12px;
+          background: white;
+          color: #6c757d;
+          font-weight: 600;
+          font-size: 1.1rem;
+          transition: all 0.3s ease;
+          min-width: 60px;
+
+          &:hover {
+            border-color: #6f42c1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(111, 66, 193, 0.2);
+          }
+
+          &.selected {
+            background: linear-gradient(135deg, #6f42c1, #5a2d91);
+            border-color: #6f42c1;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(111, 66, 193, 0.3);
+          }
+        }
+      }
+    }
+  }
+
+  .grade-summary {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #dee2e6;
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .summary-label {
+        font-weight: 600;
+        color: #1F487E;
+      }
+
+      .summary-value {
+        font-weight: 700;
+        color: #6f42c1;
+        background: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        border: 1px solid #6f42c1;
+      }
+    }
+  }
+}
+
+// Basic ng-select styling to prevent UI issues
+::ng-deep .grade-multi-select {
+  .ng-select {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    min-height: 40px;
+    
+    .ng-select-container {
+      .ng-value-container {
+        padding: 8px 12px;
+        flex-wrap: wrap;
+        
+        .ng-value {
+          background: linear-gradient(135deg, #6f42c1, #5a2d91);
+          color: white;
+          border-radius: 12px;
+          padding: 4px 8px;
+          font-size: 0.85rem;
+          margin: 2px;
+          display: inline-flex;
+          align-items: center;
+          
+          .ng-value-icon {
+            margin-left: 4px;
+            cursor: pointer;
+            
+            &::before {
+              content: "×";
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Statistics Grid */
+.statistics-grid {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+
+  .stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .stat-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+
+      [dir="rtl"] & {
+        margin-right: 0;
+        margin-left: 16px;
+      }
+
+      i {
+        font-size: 28px;
+      }
+    }
+
+    .stat-info {
+      flex: 1;
+
+      .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0 0 4px 0;
+        color: #6f42c1;
+        line-height: 1.2;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin: 0;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+/* Guidelines Section */
+.guidelines-content {
+  padding: 24px;
+
+  .guideline-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    padding: 16px;
+    background: #f8fffe;
+    border-radius: 12px;
+    border: 1px solid #d4edda;
+
+    i {
+      margin-right: 12px;
+      margin-top: 2px;
+      font-size: 18px;
+      
+      [dir="rtl"] & {
+        margin-right: 0;
+        margin-left: 12px;
+      }
+    }
+
+    span {
+      font-size: 0.95rem;
+      color: #155724;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+  }
+}
+
+
+
+/* Form Validation Styles */
+.form-control {
+  &.ng-invalid.ng-touched {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.15);
+  }
+
+  &.ng-valid.ng-touched {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.15);
+  }
+}
+
+.validation-message {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .general-data-container {
+    padding: 16px;
+  }
+
+  .page-header {
+    padding: 20px 16px;
+    
+    .page-title {
+      font-size: 1.8rem;
+    }
+    
+    .page-description {
+      font-size: 1rem;
+    }
+  }
+
+  .completion-progress {
+    .progress-info {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .section-actions {
+      margin-top: 12px;
+      width: 100%;
+    }
+  }
+
+  .grades-grid {
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 12px;
+
+    .grade-badge {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      min-width: 50px;
+    }
+  }
+
+  .statistics-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+
+    .stat-card {
+      flex-direction: column;
+      text-align: center;
+
+      .stat-icon {
+        margin-right: 0;
+        margin-bottom: 12px;
+      }
+    }
+  }
+
+  .actions-section {
+    .btn {
+      display: block;
+      width: 100%;
+      margin-bottom: 12px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+
+/* RTL Specific Styles */
+[dir="rtl"] {
+  .general-data-container {
+    .section-header {
+      .section-title {
+        text-align: right;
+      }
+    }
+
+    .guidelines-content {
+      .guideline-item {
+        text-align: right;
+      }
+    }
+
+    .actions-section {
+      .btn i {
+        margin-right: 0;
+        margin-left: 8px;
+      }
+    }
+
+    .grade-levels-form {
+      .grade-summary {
+        .summary-item {
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  ::ng-deep .general-data-grid {
+    .ag-header,
+    .ag-row {
+      direction: rtl;
+    }
+
+    .ag-cell {
+      text-align: right;
+      
+      &.serial-cell {
+        text-align: center;
+      }
+    }
+  }
+}
+
+::ng-deep ng-select.ng-select-disabled .ng-select-container {
+  color: black !important;
+  background-color: #f8f9fa !important;
+}
+
+::ng-deep ng-select.ng-select-disabled .ng-value-label {
+  color: black !important;
+}
+
+/* Print Styles */
+// @media print {
+@media screen {
+
+  .general-data-container {
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  .completion-progress,
+  .section-card {
+    box-shadow: none !important;
+    background: #ffffff !important;
+    padding: 0 !important;
+    border: 1px solid #dee2e6;
+  }
+
+  .basic-info-form,
+  .contact-info-form,
+  .principal-info-form,
+  .schedule-form,
+  .additional-info-form,
+  .private-info-form,
+  .table-container {
+    padding: 10px !important;
+    background: #ffffff !important;
+  }
+
+  .form-control {
+    box-shadow: none !important;
+  }
+
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  textarea {
+      resize: none !important;
+  }
+}
+
+/* Print Table Styles */
+@media print {
+  .section-header {
+    background: #0175A9 !important;
+    background-color: #0175A9 !important;
+    padding: 10px 0 !important;
+    
+    .section-title {
+      color: white !important;
+      text-align: center;
+      width: 100%;
+    }
+  }
+
+  .table {
+    margin-top: 0 !important;
+    td.fw-bold {
+      background-color: #E6F2F7;
+      width: 30%;
+    }
+  }
+}

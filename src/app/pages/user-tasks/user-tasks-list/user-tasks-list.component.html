@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-12 p-0">
+        <div class="d-sm-flex align-items-start justify-content-between">
+            <h5 class="mb-sm-0">{{ "PAGES.USER_TASKS.LABELS.USER_TASKS" | translate }}</h5>
+        </div>
+    </div>
+</div>
+
+<div class="card-body py-4">
+    <oaaaqa-ag-grid
+    [actions]="actions"
+    [dataList]="requestList" [columns]="columns" ></oaaaqa-ag-grid>
+</div>

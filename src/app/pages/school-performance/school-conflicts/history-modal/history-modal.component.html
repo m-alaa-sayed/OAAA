@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.AUDIT_HISTORY' | translate }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="table-light">
+                <tr>
+                    <th>{{ 'PAGES.SCHOOL_PERFORMANCE.SCHOOL_CONFLICTS.LABELS.ACTION' | translate }}</th>
+                    <th>{{ 'PAGES.SCHOOL_PERFORMANCE.SCHOOL_CONFLICTS.LABELS.SCHOOL_NAME' | translate }}</th>
+                    <!-- <th>{{ 'PAGES.SCHOOL_PERFORMANCE.SCHOOL_CONFLICTS.LABELS.EMPLOYEE_NAME' | translate }}</th> -->
+                    <th>{{ 'PAGES.SCHOOL_PERFORMANCE.SCHOOL_CONFLICTS.LABELS.DATE_TIME' | translate }}</th>
+                    <th>{{ 'PAGES.SCHOOL_PERFORMANCE.SCHOOL_CONFLICTS.LABELS.JUSTIFICATIONS' | translate }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of paginatedData">
+                    <td>{{ ('PAGES.SCHOOL_PERFORMANCE.SCHOOL_CONFLICTS.LABELS.' + item.actionType )| translate }}</td>
+                    <td>{{ item.schoolName }}</td>
+                    <!-- <td>{{ item.employeeName }}</td> -->
+                    <td dir="ltr">{{ item.actionDate | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+                    <td>{{ item.notes }}</td>
+                </tr>
+                <tr *ngIf="historyData.length === 0">
+                    <td colspan="4" class="text-center">{{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.NO_AUDIT_LOGS' |
+                        translate }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Pagination -->
+    <div class="col col-sm-12" *ngIf="historyData.length > 0">
+        <div class="text-sm-right float-end listjs-pagination">
+            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                (pageChange)="onPageChange($event)">
+            </ngb-pagination>
+        </div>
+    </div>
+    <!-- End Pagination -->
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.close()">{{ 'PAGES.COMMON.LABELS.CLOSE' |
+        translate }}</button>
+</div>

@@ -1,0 +1,69 @@
+<div class="modal-header">
+  <h4 class="modal-title">إضافة مادة</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="onCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form #subjectForm="ngForm" (ngSubmit)="onSave()" novalidate>
+    <div class="row">
+      <!-- Arabic Subject Name -->
+      <div class="col-md-6 mb-3">
+        <label for="arabicName" class="form-label">مسمى المادة -العربية</label>
+        <input 
+          type="text" 
+          id="arabicName"
+          name="arabicName"
+          class="form-control"
+          [(ngModel)]="subject.arabicName"
+          #arabicName="ngModel"
+          required
+          [class.is-invalid]="arabicName.invalid && arabicName.touched"
+          placeholder="أدخل اسم المادة بالعربية">
+        <div class="invalid-feedback" *ngIf="arabicName.invalid && arabicName.touched">
+          {{ 'VALIDATION.REQUIRED' | translate }}
+        </div>
+      </div>
+
+      <!-- English Subject Name -->
+      <div class="col-md-6 mb-3">
+        <label for="englishName" class="form-label">مسمى المادة -الانجليزية</label>
+        <input 
+          type="text" 
+          id="englishName"
+          name="englishName"
+          class="form-control"
+          [(ngModel)]="subject.englishName"
+          #englishName="ngModel"
+          required
+          [class.is-invalid]="englishName.invalid && englishName.touched"
+          placeholder="Enter subject name in English">
+        <div class="invalid-feedback" *ngIf="englishName.invalid && englishName.touched">
+          {{ 'VALIDATION.REQUIRED' | translate }}
+        </div>
+      </div>
+    </div>
+
+    <div class="note-text">
+      <span class="text-danger">*</span>
+      نتبيه: يجب أن تكون المادة المُدرجة مادة أساسية في النظام التعليمي
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button 
+    type="button" 
+    class="btn btn-secondary" 
+    (click)="onCancel()">
+    خروج
+  </button>
+  <button 
+    type="button" 
+    class="btn btn-primary" 
+    (click)="onSave()"
+    [disabled]="!isValid()">
+    حفظ
+  </button>
+</div>

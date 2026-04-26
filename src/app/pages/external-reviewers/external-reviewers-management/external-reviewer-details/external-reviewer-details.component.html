@@ -1,0 +1,65 @@
+<page-title [title]="title" 
+[breadcrumbItems]="[
+  { label:erManagementTitle , link: erManagementURL, active: true },
+  { label: title, active: true }
+  ]"></page-title>
+
+<request-main-data *ngIf="mainRequestData" [mainRequestData]="mainRequestData"
+  [title]="'PAGES.EXTERNAL_REVIEWER.LABELS.REGISTRATION_REQUEST_MAIN_DATA'" [showRequestType]="true"
+  [showRequestStatus]="false">
+</request-main-data>
+
+<!-- tabs -->
+<app-tabs *ngIf="requestObject && showTabs" [tabs]="tabs"></app-tabs>
+
+<div>
+  <app-recommendation-section
+    [model]="requestObject.externalReviewersRegistrationRequestInfo"
+    [erActivities]="erActivities"
+    [module]="module">
+  </app-recommendation-section>
+</div>
+
+<app-interview-result *ngIf="
+externalReviewer.externalReviewersActiveRegistrationRequestInfo?.module =='CSEQA' && 
+externalReviewInterviewResultInfo"
+  [externalReviewInterviewResultInfo]="externalReviewInterviewResultInfo"></app-interview-result>
+
+<training-result *ngIf="trainingResultObj" [trainingResultObj]="trainingResultObj"></training-result>
+
+<div class="card shadow-sm"  *ngIf="module =='CHEQA'">
+    <div class="card-header">
+        <h5 class="mb-0 text-start">{{'PAGES.REQUEST_DETAILS.LABELS.CONTRIBUTIONS'|translate}}</h5>
+    </div>
+  
+    <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <label class="form-label">
+                  {{ 'PAGES.REQUEST_DETAILS.LABELS.CONTRIBUTION' | translate }}
+              </label>
+
+              <input type="text" class="form-control" [value]="externalReviewer.contribution" disabled/>
+           </div>
+          </div>
+          
+    </div>
+</div>
+
+<user-registry-in-authority *ngIf="showUserRegistryList" [userRegistryList]="externalReviewersHistory">
+</user-registry-in-authority>
+
+<external-reviewer-operations [externalReviewerId]="externalReviewerId"></external-reviewer-operations>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="row">
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-outline-secondary"
+          [routerLink]="'/jawda/external-reviewers/external-reviewers-management/' + this.externalReviewer.module">
+          {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

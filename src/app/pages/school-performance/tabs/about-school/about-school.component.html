@@ -1,0 +1,160 @@
+<div class="tab-content">
+  <div class="tab-header">
+    <h2>{{ 'PAGES.SCHOOL_PERFORMANCE.TABS.ABOUT_SCHOOL' | translate }}</h2>
+  </div>
+  
+  <div class="tab-body">
+    <div class="about-school-container">
+    
+      <!-- School Information Form -->
+      <div class="school-info-form no-print">
+        <form class="about-school-form">
+          
+          <!-- School Vision -->
+          <div class="form-group">
+            <label class="form-label" for="schoolVision">
+              {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.SCHOOL_VISION' | translate }}
+              <span class="text-danger">*</span>
+              <span class="word-count">({{ getVisionWordCount() }} {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.WORDS' | translate }})</span>
+            </label>
+            <textarea 
+              id="schoolVision"
+              class="form-textarea"
+              [disabled]="!isEditable"
+              [readOnly]="!isEditable"
+              [(ngModel)]="schoolInfo.schoolAboutData.vision"
+              (ngModelChange)="onFieldChange('vision', $event)"
+              [placeholder]="'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.VISION_PLACEHOLDER' | translate"
+              name="schoolVision"
+              rows="4"></textarea>
+          </div>
+
+          <!-- School Mission -->
+          <div class="form-group">
+            <label class="form-label" for="schoolMission">
+              {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.SCHOOL_MISSION' | translate }}
+              <span class="text-danger">*</span>
+              <span class="word-count">({{ getMissionWordCount() }} {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.WORDS' | translate }})</span>
+            </label>
+            <textarea 
+              id="schoolMission"
+              class="form-textarea"
+               [disabled]="!isEditable"
+              [readOnly]="!isEditable"
+              [(ngModel)]="schoolInfo.schoolAboutData.mission"
+              (ngModelChange)="onFieldChange('mission', $event)"
+              [placeholder]="'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.MISSION_PLACEHOLDER' | translate"
+              name="schoolMission"
+              rows="4"></textarea>
+          </div>
+
+          <!-- Strategic Goals -->
+          <div class="form-group">
+            <label class="form-label" for="strategicGoals">
+              {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.STRATEGIC_GOALS' | translate }}
+              <span class="text-danger">*</span>
+              <span class="word-count">({{ getStrategicGoalsWordCount() }} {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.WORDS' | translate }})</span>
+            </label>
+            <textarea 
+              id="strategicGoals"
+              class="form-textarea medium"
+               [disabled]="!isEditable"
+              [readOnly]="!isEditable"
+              [(ngModel)]="schoolInfo.schoolAboutData.strategicGoals"
+              (ngModelChange)="onFieldChange('strategicGoals', $event)"
+              [placeholder]="'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.STRATEGIC_GOALS_PLACEHOLDER' | translate"
+              name="strategicGoals"
+              rows="6"></textarea>
+          </div>
+
+          <!-- General Overview -->
+          <div class="form-group">
+            <label class="form-label" for="generalOverview">
+              {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.GENERAL_OVERVIEW' | translate }}
+              <span class="text-danger">*</span>
+              <span class="subtitle">{{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.GENERAL_OVERVIEW_SUBTITLE' | translate }}</span>
+              <span class="word-count">({{ getGeneralOverviewWordCount() }} {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.WORDS' | translate }})</span>
+            </label>
+            <textarea 
+              id="generalOverview"
+              class="form-textarea large"
+               [disabled]="!isEditable"
+              [readOnly]="!isEditable"
+              [(ngModel)]="schoolInfo.schoolAboutData.generalOverview"
+              (ngModelChange)="onFieldChange('generalOverview', $event)"
+              [placeholder]="'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.GENERAL_OVERVIEW_PLACEHOLDER' | translate"
+              name="generalOverview"
+              rows="12"></textarea>
+          </div>
+
+          <!-- Major Developments -->
+          <div class="form-group">
+            <label class="form-label" for="majorDevelopments">
+              {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.MAJOR_DEVELOPMENTS' | translate }}
+              <span class="text-danger">*</span>
+              <span class="subtitle">{{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.MAJOR_DEVELOPMENTS_SUBTITLE' | translate }}</span>
+              <span class="word-count">({{ getMajorDevelopmentsWordCount() }} {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.WORDS' | translate }})</span>
+            </label>
+            <textarea 
+              id="majorDevelopments"
+              class="form-textarea large"
+               [disabled]="!isEditable"
+              [readOnly]="!isEditable"
+              [(ngModel)]="schoolInfo.schoolAboutData.majorDevelopments"
+              (ngModelChange)="onFieldChange('majorDevelopments', $event)"
+              [placeholder]="'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.MAJOR_DEVELOPMENTS_PLACEHOLDER' | translate"
+              name="majorDevelopments"
+              rows="15"></textarea>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Print Only Section -->
+      <div class="print-only">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <tbody>
+              <tr>
+                <td class="fw-bold" style="width: 30%;">{{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.SCHOOL_VISION' | translate }}</td>
+                <td style="white-space: pre-wrap;">{{ schoolInfo.schoolAboutData.vision || '-' }}</td>
+              </tr>
+              <tr>
+                <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.SCHOOL_MISSION' | translate }}</td>
+                <td style="white-space: pre-wrap;">{{ schoolInfo.schoolAboutData.mission || '-' }}</td>
+              </tr>
+              <tr>
+                <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.STRATEGIC_GOALS' | translate }}</td>
+                <td style="white-space: pre-wrap;">{{ schoolInfo.schoolAboutData.strategicGoals || '-' }}</td>
+              </tr>
+              <tr>
+                <td class="fw-bold small text-justify lh-base">
+                  {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.GENERAL_OVERVIEW' | translate }}
+                  <br>
+                  <span class="text-muted small">{{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.GENERAL_OVERVIEW_SUBTITLE' | translate }}</span>
+                </td>
+                <td style="white-space: pre-wrap;">{{ schoolInfo.schoolAboutData.generalOverview || '-' }}</td>
+              </tr>
+              <tr>
+                <td class="fw-bold small text-justify lh-base">
+                  {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.MAJOR_DEVELOPMENTS' | translate }}
+                  <br>
+                  <span class="text-muted small">{{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.MAJOR_DEVELOPMENTS_SUBTITLE' | translate }}</span>
+                </td>
+                <td style="white-space: pre-wrap;">{{ schoolInfo.schoolAboutData.majorDevelopments || '-' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Actions Section -->
+      <!-- <div *ngIf="isEditable" class="actions-section">
+        <button class="btn btn-secondary" (click)="resetForm()">
+          <i class="ri-refresh-line"></i>
+          {{ 'PAGES.SCHOOL_PERFORMANCE.ABOUT_SCHOOL.RESET' | translate }}
+        </button>
+      </div> -->
+    </div>
+  </div>
+</div> 

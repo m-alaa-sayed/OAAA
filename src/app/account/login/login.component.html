@@ -1,0 +1,144 @@
+<div class="auth-page-wrapper" *ngIf="!showOtp">
+    <!-- auth page bg -->
+    <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
+        <!-- <div class="bg-overlay"></div> -->
+
+
+    </div>
+
+    <!-- auth page content -->
+    <div class="auth-page-content h-100 d-flex flex-column justify-content-center" >
+        <div class="container">
+
+            <div class="row justify-content-center d-flex align-items-stretch">
+                <div class="col-md-6 col-lg-6 col-xl-6 p-0">
+                    <div class="h-100 text-center w-100">
+                        <img src="./assets/images/jawda-images/login-image.webp" alt="jawda" class="login-image" />
+                    </div>
+                    
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-6 p-0">
+                    <div class="bg-white h-100">
+                        <div class="card-body p-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <a class="navbar-brand" routerLink="/">
+                                    <img src="assets/images/jawda-images/logo.svg" class="card-logo card-logo-dark"
+                                        alt="logo" />
+                                </a>
+                                <language-select></language-select>
+                            </div>
+                            <div class="mt-4">
+                                <h5 class="text-primary">{{ "PAGES.LOGIN.LABELS.WELCOME_BACK" | translate }} </h5>
+                            </div>
+                            <div class="p-2 mt-3">
+                                <form [formGroup]="loginForm">
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="username">{{ "PAGES.LOGIN.LABELS.USER_NAME" |
+                                            translate
+                                            }}</label>
+                                        <input type="email" class="form-control" id="username"
+                                            placeholder="{{ 'PAGES.LOGIN.LABELS.USER_NAME' | translate }}"
+                                            formControlName="username"
+                                            [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
+                                            [attr.dir]="translate.currentLang === 'ar' ? 'rtl' : 'ltr'">
+                                        @if(submitted && f['username'].errors){
+                                        <div class="invalid-feedback">
+                                            @if(f['username'].errors['required']){
+                                            <div>{{ 'PAGES.LOGIN.MESSAGES.USER_NAME_IS_REQUIRED' | translate }}</div>}
+                                            @if(f['username'].errors['email']){
+                                            <div>{{ 'PAGES.COMMON.MESSAGES.ENTER_VALID_USER_NAME_OR_EMAIL' | translate
+                                                }}
+                                            </div>}
+                                        </div>}
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="password-input">{{ "PAGES.LOGIN.LABELS.PASSWORD"
+                                            |
+                                            translate }}</label>
+                                        <div class="position-relative auth-pass-inputgroup mb-3">
+                                            <input [type]="fieldTextType ? 'text' : 'password'"
+                                                class="form-control pe-5"
+                                                placeholder="{{'PAGES.LOGIN.LABELS.PASSWORD' | translate }}"
+                                                id="password-input" formControlName="password"
+                                                [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+                                                [attr.dir]="translate.currentLang === 'ar' ? 'rtl' : 'ltr'">
+                                            <button
+                                                class="btn btn-link position-absolute text-decoration-none text-muted"
+                                                [ngClass]="translate.currentLang === 'ar' ? 'start-0 top-0' : 'end-0 top-0'"
+                                                type="button" id="password-addon"><i class="mdi align-middle" [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType
+                                          }" (click)="toggleFieldTextType()"></i></button>
+                                            @if(submitted && f['password'].errors){
+                                            <div class="invalid-feedback">
+                                                @if(f['password'].errors['required']){
+                                                <span>{{ 'PAGES.LOGIN.MESSAGES.PASSWORD_IS_REQUIRED' | translate
+                                                    }}</span>
+                                                }
+                                            </div>}
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value=""
+                                            id="auth-remember-check">
+                                        <label class="form-check-label" for="auth-remember-check">Remember me</label>
+                                    </div> -->
+
+                                    <div class="mt-4">
+                                        <button class="btn btn-primary w-100" (click)="onSubmit()">{{
+                                            "PAGES.LOGIN.LABELS.LOGIN" | translate }}</button>
+
+                                        <div class="mt-3">
+                                            <a routerLink="/auth/pass-reset/cover" class="text-warning">{{
+                                                "PAGES.LOGIN.LABELS.FORGET_PASSWORD" | translate }}</a>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="mt-3 text-center">
+                                        <div class="signin-other-title mx-5">
+                                            <h5 class="fs-13 mb-4 title">{{ "PAGES.COMMON.LABELS.OR" | translate }}</h5>
+                                        </div>
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <button class="btn bg-white w-100 border-1 border-secondary rounded-2"
+                                                type="submit">
+                                                <img class="mx-2" src="assets/images/login-id-icon.svg" />
+                                                {{ "PAGES.LOGIN.LABELS.ID_CARD" | translate }}</button>
+                                            <button class="btn bg-white w-100 border-1 border-secondary rounded-2"
+                                                type="submit">
+                                                <img class="mx-2" src="assets/images/login-mobile-icon.svg" />
+                                                {{ "PAGES.LOGIN.LABELS.MOBILE_NUMBER" | translate }}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="mt-4 text-center">
+                                <p class="mb-0">{{ "PAGES.LOGIN.LABELS.DONT_HAVE_ACCOUNT" | translate }} <a routerLink="/auth/create-account"
+                                        class="fw-semibold text-primary text-decoration-underline"> {{ "PAGES.LOGIN.LABELS.SIGNUP" | translate }} </a> </p>
+                            </div>
+                        </div>
+                        <!-- end card body -->
+                    </div>
+                    <!-- end card -->
+
+
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+        <app-layout-footer></app-layout-footer>
+    </div>
+    <!-- end auth page content -->
+
+</div>
+<!-- end auth-page-wrapper -->
+
+
+<!-- otp component  -->
+<app-otp *ngIf="showOtp" (resendOtpEventEmitter)="resendOtp()" (verifyOtpEventEmitter)="verifyOtp($event)"
+    (backToLoginEventEmitter)="backToLogin()" [resendActivationTimeInSecond]="resendActivationTimeInSecond"></app-otp>
+<!-- end otp -->
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

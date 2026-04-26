@@ -1,0 +1,1 @@
+export type FormMode = 'readOnly' | 'edit' | 'add';

@@ -1,0 +1,13 @@
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+<page-title [title]="'PAGES.USER_MANAGEMENT_ADMIN.TITLES.EDIT_PERMISSION' | translate" [breadcrumbItems]="breadCrumbItems"></page-title>
+
+<app-permission-basic-info [permissionData]="permissionData"></app-permission-basic-info>
+
+<!-- Back Button -->
+<div class="d-flex justify-content-end my-3">
+    <button type="button" class="btn btn-outline-secondary" (click)="goBack()">
+        {{ 'PAGES.COMMON.LABELS.BACK' | translate }}
+    </button>
+</div>

@@ -1,0 +1,28 @@
+<app-score-table
+        [scores]="qualityAssuranceFormInfo.preVisitFollowUpScores!"
+        [labels]="labels">
+</app-score-table>
+
+<div class="pt-2 mx-3 d-flex justify-content-between">
+    <div class="d-flex justify-content-start rounded">
+        <button type="button" class="step-prev btn btn-primary" (click)="previous()">
+            {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+        </button>
+
+        <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancel()">
+            {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+    </div>
+
+    <div class="d-flex justify-content-end rounded">
+
+        <button type="button" class="btn btn-success fw-bold me-2 ms-2" (click)="save()">
+            {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+        </button>
+
+        <button type="button" class="btn btn-primary me-2 ms-2" (click)="next()">
+            {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+        </button>
+    </div>
+</div>
+

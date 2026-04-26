@@ -1,0 +1,114 @@
+.wizard-container {
+  display: flex;
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+}
+
+.wizard-step {
+  position: relative;
+  flex: 1;
+  padding: 16px 24px;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: 500;
+  background-color: #f5f8fa; /* default for 'upcoming' */
+  color: #1e3a8a;
+  transition: all 0.3s ease;
+}
+
+.wizard-step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -16px;
+  width: 32px;
+  background-color: inherit;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  z-index: 2;
+}
+
+.wizard-step.active {
+  background-color: #1e3a8a;
+  color: white;
+}
+
+.wizard-step.completed {
+  background-color: #e2e8f0;
+}
+
+.wizard-step.active::before {
+  background-color: #1e3a8a;
+}
+
+.wizard-step.completed::before {
+  background-color: #e2e8f0;
+}
+
+.wizard-step:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.wizard-step:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* Print styles */
+.print-only {
+  display: none;
+}
+
+.screen-only {
+  display: block;
+}
+
+@media print {
+  .print-only {
+    display: block !important;
+  }
+  
+  .screen-only {
+    display: none !important;
+  }
+  
+  /* .print-step-section {
+    page-break-before: auto;
+    page-break-after: auto;
+    page-break-inside: auto;
+    margin-bottom: 40px;
+  }
+  
+  .print-step-section:first-child {
+    page-break-before: avoid;
+  } */
+  
+  .print-step-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding: 12px 15px;
+    background-color: #f8f9fa;
+    border-left: 5px solid #1e3a8a;
+    color: #1e3a8a;
+  }
+  
+  .print-step-title .step-number {
+    display: inline-block;
+    margin-right: 8px;
+    font-weight: 700;
+  }
+  
+  .print-step-content {
+    padding: 10px 0;
+  }
+  
+  /* Hide buttons and actions in print */
+  .print-step-content button,
+  .print-step-content .btn,
+  .print-step-content .no-print {
+    display: none !important;
+  }
+}

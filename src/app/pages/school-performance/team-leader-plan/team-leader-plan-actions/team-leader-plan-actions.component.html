@@ -1,0 +1,81 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="row">
+            <div  *ngIf="this.requestObject.serviceStep.stepCode == 'VISIT_PLAN_REVIEW'" class="col-12 d-flex justify-content-end flex-wrap gap-2">
+                <button class="btn btn-success fw-bold" (click)="setAction('APPROVE', decision)">
+                    {{ 'PAGES.COMMON.LABELS.APPROVE' | translate }}
+                </button>
+                <button class="btn btn-outline-secondary fw-bold" (click)="setAction('RETURN_FOR_EDIT', decision)">
+                    {{ 'PAGES.COMMON.LABELS.RETURN_FOR_EDIT' | translate }}
+                </button>
+                <button class="btn btn-outline-secondary" (click)="open(cancel)">
+                    {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+                </button>
+            </div>
+
+
+            <div *ngIf="this.requestObject.serviceStep.stepCode == 'VISIT_PLAN_RETURN_FOR_EDIT'" class="col-12 d-flex justify-content-end gap-2">
+                <button type="button" class="step-next btn btn-primary ms-2 me-2" (click)="saveBtn()">
+                    {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+                </button>
+                <button class="btn btn-primary fw-bold" (click)="setAction('SUBMIT', decision)">
+                    {{ 'PAGES.COMMON.LABELS.SUBMIT' | translate }}
+                </button>
+                <button class="btn btn-outline-secondary" (click)="open(cancel)">
+                    {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+                </button>
+            </div>
+
+
+            <ng-template #decision let-modal>
+                <div class="modal-body">
+                    <h4 *ngIf="action=='APPROVE'" class="modal-title">
+                        {{ "PAGES.COMMON.MESSAGES.ACCEPT_MESSAGE" | translate }}
+                    </h4>
+                    <h4 *ngIf="action=='RETURN_FOR_EDIT'" class="modal-title">
+                        {{ "PAGES.COMMON.MESSAGES.EDIT_MESSAGE" | translate }}
+                    </h4>
+                    <h4 *ngIf="action=='SUBMIT'" class="modal-title">
+                        {{ "PAGES.COMMON.MESSAGES.SUBMIT_MESSAGE" | translate }}
+                    </h4>
+                </div>
+                <div class="mb-3 mx-2 row">
+                    <div class="form-group col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <label class="form-label" for="formControlLg">{{ "PAGES.COMMON.LABELS.NOTES" | translate }}
+                            <span *ngIf="action=='RETURN_FOR_EDIT'" class="text-danger">*</span>
+                        </label>
+                        <textarea rows="2" class="form-control form-control-md" [(ngModel)]="comment"
+                            >
+                        </textarea>
+                        <div *ngIf="submitted && (action =='RETURN_FOR_EDIT')
+                                 && (!comment || comment.trim() ==='')" class="invalid-feedback d-block">
+                            {{ "PAGES.COMMON.MESSAGES.FIELD_REQUIRED" | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-end">
+                    <button class="btn btn-outline-secondary" (click)="closePopup()">
+                        {{ 'PAGES.COMMON.LABELS.BACK' | translate }}
+                    </button>
+                    <button class="btn btn-primary" (click)="sendAction()">
+                        {{ 'PAGES.COMMON.LABELS.SUBMIT' | translate }}
+                    </button>
+                </div>
+            </ng-template>
+
+            <ng-template #cancel let-modal>
+                <div class="modal-body">
+                    <p>{{ 'PAGES.COMMON.MESSAGES.CLOSE_MSG' | translate }}</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button class="btn btn-outline-secondary" (click)="close()">
+                        {{ 'PAGES.COMMON.LABELS.NO' | translate }}
+                    </button>
+                    <button class="btn btn-primary" (click)="returnToList()">
+                        {{ 'PAGES.COMMON.LABELS.YES' | translate }}
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

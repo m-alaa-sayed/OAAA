@@ -1,0 +1,605 @@
+<page-title [title]="'PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_DETAILS' | translate"></page-title>
+<form class="row  p-3" #submitForm="ngForm">
+
+    <!-- Service Details -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_DETAILS' | translate }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ 'PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_CODE' | translate }}</label>
+                        <input type="text" class="form-control" id="serviceCode" name="serviceCode" required
+                            noWhitespace #serviceCode="ngModel" [disabled]="true"
+                            [(ngModel)]="oaaaServiceDto.serviceCode">
+                    </div>
+                </div>
+
+
+                <div class="col-6">
+                    <label class="form-label d-block mb-2">{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_TYPE" |
+                        translate
+                        }}
+                    </label>
+
+
+                    <div class="form-check form-check-inline form-radio-primary">
+                        <input class="form-check-input" type="radio" name="externalService" id="external"
+                            [checked]="oaaaServiceDto.externalService" [disabled]="true"
+                            [value]="oaaaServiceDto.externalService">
+                        <label class="form-check-label" for="external">{{
+                            "PAGES.SEVERVICE_MANAGEMENT.LABELS.EXTERNAL_SERVICE" | translate }}</label>
+                    </div>
+
+                    <div class="form-check form-check-inline form-radio-primary">
+                        <input class="form-check-input" type="radio" name="externalService" id="internal"
+                            [disabled]="true" [checked]="!oaaaServiceDto.externalService"
+                            [value]="oaaaServiceDto.externalService">
+                        <label class="form-check-label" for="internal">{{
+                            "PAGES.SEVERVICE_MANAGEMENT.LABELS.INTERNAL_SERVICE" | translate }}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_NAME_AR" | translate }}</label>
+                        <input type="text" class="form-control" id="serviceNameAr" name="serviceNameAr" required
+                            noWhitespace #serviceNameAr="ngModel" [disabled]="true"
+                            [(ngModel)]="oaaaServiceDto.serviceNameAr">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_NAME_EN" | translate }}</label>
+                        <input type="text" class="form-control" id="serviceNameEn" name="serviceNameEn" required
+                            noWhitespace #serviceNameEn="ngModel" [disabled]="true"
+                            [(ngModel)]="oaaaServiceDto.serviceNameEn">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label d-block mb-2">
+                        {{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.CATEGORY" | translate }}
+                        <span *ngIf="isEdit" class="text-danger">*</span>
+                    </label>
+                    <select class="form-select mb-3" id="serviceCategoryId" name="serviceCategoryId" required
+                        noWhitespace #serviceCategoryId="ngModel" [disabled]="!isEdit"
+                        [(ngModel)]="oaaaServiceDto.serviceCategoryId" aria-label="Default select example">
+                        <option *ngFor="let category of categoryList" [value]="category.id">
+                            {{ translate.currentLang === 'ar' ? category.categoryNameAr : category.categoryNameEn }}
+                        </option>
+                    </select>
+
+                    <div *ngIf="isSubmitting && serviceCategoryId.invalid" class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_DESC_AR" | translate }}
+                            <span *ngIf="isEdit" class="text-danger">*</span>
+                            <small class="text-danger ms-3">
+                                ({{
+                                'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                        </label>
+                        <textarea type="text" class="form-control" id="serviceDescriptionAr" name="serviceDescriptionAr"
+                            required noWhitespace #serviceDescriptionAr="ngModel" [disabled]="!isEdit"
+                            [(ngModel)]="oaaaServiceDto.serviceDescriptionAr"
+                            placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                            (ngModelChange)="onTextChange(oaaaServiceDto, 'serviceDescriptionAr', $event)"
+                            [ngClass]="{'is-invalid': isSubmitting && serviceDescriptionAr.invalid}"></textarea>
+                        <div *ngIf="isSubmitting && serviceDescriptionAr.invalid" class="invalid-feedback">
+                            <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_DESC_EN" | translate }}
+                            <span *ngIf="isEdit" class="text-danger">*</span>
+                            <small class="text-danger ms-3">
+                                ({{
+                                'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                        </label>
+                        <textarea type="text" class="form-control" id="serviceDescriptionEn" name="serviceDescriptionEn"
+                            required noWhitespace #serviceDescriptionEn="ngModel" [disabled]="!isEdit"
+                            [(ngModel)]="oaaaServiceDto.serviceDescriptionEn"
+                            placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                            (ngModelChange)="onTextChange(oaaaServiceDto, 'serviceDescriptionEn', $event)"
+                            [ngClass]="{'is-invalid': isSubmitting && serviceDescriptionEn.invalid}"></textarea>
+                        <div *ngIf="isSubmitting && serviceDescriptionEn.invalid" class="invalid-feedback">
+                            <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Settings -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_SETTINGS' | translate }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-5 form-check form-switch form-switch-lg ms-4">
+                    <input type="checkbox" class="form-check-input" name="displayStatus" id="displayStatus"
+                        [disabled]="!isEdit" [checked]="oaaaServiceDto.displayStatus"
+                        [(ngModel)]="oaaaServiceDto.displayStatus">
+                    <label class="form-check-label"
+                        for="displayStatus">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.DISPLAYING_STATUS' | translate
+                        }}
+                        <span *ngIf="isEdit" class="text-danger">*</span>
+                    </label>
+                </div>
+                <div class="col-6 form-check form-switch form-switch-lg">
+                    <input type="checkbox" class="form-check-input" name="applyStatus" id="applyStatus"
+                        [disabled]="!isEdit" [checked]="oaaaServiceDto.applyStatus"
+                        [(ngModel)]="oaaaServiceDto.applyStatus">
+                    <label class="form-check-label"
+                        for="applyStatus">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.SUBMISSION_STATUS' | translate
+                        }}
+                        <span *ngIf="isEdit" class="text-danger">*</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Required documents -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.REQUIRED_DOCUMENT_DETAILS' | translate
+                }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="mb-3 d-flex justify-content-end">
+                    <button *ngIf="isEdit" type="button" class="btn btn-primary" (click)="addDocument()">
+                        <i class="ri-add-line me-2"></i>
+                        {{ "PAGES.COMMON.LABELS.ADD" | translate }}
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table align-middle table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.DOCUMENT_NAME_AR' | translate }}</th>
+                                <th>{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.DOCUMENT_NAME_EN' | translate }}</th>
+                                <th *ngIf="isEdit">{{'PAGES.COMMON.LABELS.ACTIONS' | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of oaaaServiceDto.oaaaServiceRequiredDocuments; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>
+                                    <input type="text" [disabled]="!isEdit" class="form-control"
+                                        [(ngModel)]="row.documentNameAr" name="documentNameAr{{i}}">
+                                </td>
+                                <td>
+                                    <input type="text" [disabled]="!isEdit" class="form-control"
+                                        [(ngModel)]="row.documentNameEn" name="documentNameEn{{i}}">
+                                </td>
+                                <td class="text-center" *ngIf="isEdit">
+                                    <button type="button" class="btn btn-lg  me-1" (click)="deleteDocument(i)"><i
+                                            class="ri-delete-bin-fill text-danger"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- conditions data -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.CONDITIONS_DATA' | translate }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="mb-3 d-flex justify-content-end">
+                    <button type="button" *ngIf="isEdit" class="btn btn-primary" (click)="addCondition()">
+                        <i class="ri-add-line me-2"></i>
+                        {{ "PAGES.COMMON.LABELS.ADD" | translate }}
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table align-middle table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.CONDITION_AR' | translate }}</th>
+                                <th>{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.CONDITION_EN' | translate }}</th>
+                                <th *ngIf="isEdit">{{'PAGES.COMMON.LABELS.ACTIONS' | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of oaaaServiceDto.oaaaServiceConditions; let j = index">
+                                <td>{{ j + 1 }}</td>
+                                <td>
+                                    <input type="text" [disabled]="!isEdit" class="form-control"
+                                        [(ngModel)]="row.conditionNameAr" name="conditionNameAr{{j}}">
+                                </td>
+                                <td>
+                                    <input type="text" [disabled]="!isEdit" class="form-control"
+                                        [(ngModel)]="row.conditionNameEn" name="conditionNameEn{{j}}">
+                                </td>
+                                <td class="text-center" *ngIf="isEdit">
+                                    <button type="button" class="btn btn-lg me-1" (click)="deleteCondition(j)"><i
+                                            class="ri-delete-bin-fill text-danger"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Service Stages Details -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_STAGES_DETAILS' | translate }}
+            </h5>
+        </div>
+        <div class="card-body">
+            <service-execution-steps [isEdit]="isEdit"
+                [stepsList]="oaaaServiceDto.oaaaServiceExecutionSteps"></service-execution-steps>
+        </div>
+    </div>
+
+    <!-- service fees -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_FEES' | translate }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_FEES_AR" | translate }}
+
+                            <small class="text-danger ms-3">
+                                ({{
+                                'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                        </label>
+                        <textarea type="text" class="form-control" name="feesDescAr" id="feesDescAr"
+                        placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                        (ngModelChange)="onTextChange(oaaaServiceDto, 'feesDescAr', $event)"
+                            [disabled]="!isEdit" #feesDescAr="ngModel" [(ngModel)]="oaaaServiceDto.feesDescAr">
+                        </textarea>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_FEES_EN" | translate }}
+                            <small class="text-danger ms-3">
+                                ({{
+                                'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                        </label>
+                        <textarea type="text" class="form-control" name="feesDescEn" id="feesDescEn"
+                        placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                        (ngModelChange)="onTextChange(oaaaServiceDto, 'feesDescEn', $event)"
+                            [disabled]="!isEdit" #feesDescEn="ngModel" [(ngModel)]="oaaaServiceDto.feesDescEn">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Average time to complete the task -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.AVERAGE_TIME' | translate }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.AVERAGE_TIME_AR" | translate }}
+                            <span *ngIf="isEdit" class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" name="serviceSlaAr" id="serviceSlaAr"
+                            [disabled]="!isEdit" #serviceSlaAr="ngModel" [(ngModel)]="oaaaServiceDto.serviceSlaAr"
+                            required [ngClass]="{'is-invalid': isSubmitting && serviceSlaAr.invalid}">
+                        <div *ngIf="isSubmitting && serviceSlaAr.invalid" class="invalid-feedback">
+                            <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.AVERAGE_TIME_EN" | translate }}
+                            <span *ngIf="isEdit" class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" name="serviceSlaEn" id="serviceSlaEn"
+                            [disabled]="!isEdit" #serviceSlaEn="ngModel" [(ngModel)]="oaaaServiceDto.serviceSlaEn"
+                            required [ngClass]="{'is-invalid': isSubmitting && serviceSlaEn.invalid}">
+                        <div *ngIf="isSubmitting && serviceSlaEn.invalid" class="invalid-feedback">
+                            <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Working times (call centre/customer services) -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.WORKING_TIMES' | translate }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.WORKING_TIMES_AR" | translate }}
+                            <span *ngIf="isEdit" class="text-danger">*</span>
+                        </label>
+                        <input type="text" [disabled]="!isEdit" class="form-control" name="customerServiceWorkingTimeAr"
+                            id="customerServiceWorkingTimeAr" [disabled]="!isEdit"
+                            #customerServiceWorkingTimeAr="ngModel"
+                            [(ngModel)]="oaaaServiceDto.customerServiceWorkingTimeAr" required
+                            [ngClass]="{'is-invalid': isSubmitting && customerServiceWorkingTimeAr.invalid}">
+                        <div *ngIf="isSubmitting && customerServiceWorkingTimeAr.invalid" class="invalid-feedback">
+                            <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.WORKING_TIMES_EN" | translate }}
+                            <span *ngIf="isEdit" class="text-danger">*</span>
+                        </label>
+                        <input type="text" [disabled]="!isEdit" class="form-control" name="customerServiceWorkingTimeEn"
+                            id="customerServiceWorkingTimeEn" [disabled]="!isEdit"
+                            #customerServiceWorkingTimeEn="ngModel"
+                            [(ngModel)]="oaaaServiceDto.customerServiceWorkingTimeEn" required
+                            [ngClass]="{'is-invalid': isSubmitting && customerServiceWorkingTimeEn.invalid}">
+                        <div *ngIf="isSubmitting && customerServiceWorkingTimeEn.invalid" class="invalid-feedback">
+                            <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.CUSTOMER_SERVICE_NUMBER" | translate }}
+                            <span *ngIf="isEdit" class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" name="customerServiceNumber" id="customerServiceNumber"
+                            [disabled]="!isEdit" #customerServiceNumber="ngModel" required
+                            [(ngModel)]="oaaaServiceDto.customerServiceNumber"
+                            [ngClass]="{'is-invalid': isSubmitting && customerServiceNumber.invalid}">
+                        <div *ngIf="isSubmitting && customerServiceNumber.invalid" class="invalid-feedback">
+                            <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- user manual -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.USER_MANUAL' | translate }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <div class="mb-3">
+                        <label>{{ 'PAGES.SEVERVICE_MANAGEMENT.LABELS.USER_MANUAL' | translate }}
+                        </label>
+                        <input type="text" class="form-control" name="userManualUrl" id="userManualUrl"
+                            [disabled]="!isEdit" #userManualUrl="ngModel" [(ngModel)]="oaaaServiceDto.userManualUrl">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <label>{{ 'PAGES.SEVERVICE_MANAGEMENT.LABELS.USER_MANUAL' | translate }}
+                        <span *ngIf="isEdit && oaaaServiceDto.showUserManual" class="text-danger">*</span>
+                    </label>
+
+                    <div class="input-group">
+
+                        <ng-container *ngIf="isEdit">
+                            <input type="file" class="d-none" #fileInput (change)="onFileSelected($event)"
+                                id="inputGroupFile02" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                            <button class="btn btn-outline-primary" type="button" (click)="fileInput.click()">
+                                <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                            </button>
+                        </ng-container>
+
+                        <ng-container #fileSelected>
+                            <input type="text" class="form-control m-0"
+                                [value]="this.oaaaServiceDto.userManualFileObjectName || ''" readonly [disabled]="true"
+                                >
+                        </ng-container>
+                        <button *ngIf="this.oaaaServiceDto.userManualFileObjectName" type="button"
+                            class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                            (click)="downloadUploadedFile(oaaaServiceDto.userManualFileObjectName,oaaaServiceDto.userManualFileBucketName)">Download</button>
+
+                    </div>
+                    <div *ngIf="isSubmitting && !oaaaServiceDto.userManualFileObjectName && oaaaServiceDto.showUserManual"
+                        class="invalid-feedback d-block">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+
+                </div>
+                <div class="col-4 mt-2">
+                    <label></label>
+                    <div class="mb-3 d-flex justify-content-center">
+                        <div class="col-6 form-check form-switch form-switch-lg">
+                            <input class="form-check-input" type="checkbox" role="switch" name="showUserManual"
+                                id="showUserManual" [disabled]="!isEdit" [checked]="oaaaServiceDto.showUserManual"
+                                [(ngModel)]="oaaaServiceDto.showUserManual">
+                            <label class="form-check-label" for="showUserManualToggle">{{
+                                'PAGES.SEVERVICE_MANAGEMENT.LABELS.SHOW_USER_MANUAL' | translate }}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- External Reviewers Policy - Only show for external reviewer services -->
+    <div class="card shadow-sm" *ngIf="shouldShowErPolicy()">
+        <div class="card-header">
+            <h5 class="card-title mb-0">{{'PAGES.SEVERVICE_MANAGEMENT.LABELS.ER_POLICY' | translate }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- ER Policy - Arabic Upload -->
+                <div class="col-4">
+                    <label>{{ 'PAGES.SEVERVICE_MANAGEMENT.LABELS.ER_POLICY_FILE_ARABIC' | translate }}
+                        <span *ngIf="isEdit" class="text-danger">*</span>
+                    </label>
+
+                    <div class="input-group">
+                        <ng-container *ngIf="isEdit">
+                            <input type="file" class="d-none" #erPolicyFileInputAr (change)="onErPolicyFileSelectedAr($event)"
+                                   id="erPolicyFileInputAr" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                            <button class="btn btn-outline-primary" type="button" (click)="erPolicyFileInputAr.click()">
+                                <i class=" ri-upload-2-fill"></i>
+                            </button>
+                        </ng-container>
+
+                        <ng-container #fileSelected>
+                            <input type="text" class="form-control m-0"
+                                [value]="this.oaaaServiceDto.externalReviewerPolicyArabicFileName || ''" readonly [disabled]="true"
+                                >
+                        </ng-container>
+                        <button *ngIf="this.oaaaServiceDto.externalReviewerPolicyArabicFileName" type="button"
+                                class="btn btn-outline-success" id="inputGroupFileAddon04"
+                                (click)="downloadUploadedFile(oaaaServiceDto.externalReviewerPolicyArabicFileName,oaaaServiceDto.externalReviewerPolicyArabicBucketName!)">Download</button>
+                    </div>
+                    <div *ngIf="isSubmitting && !oaaaServiceDto.externalReviewerPolicyArabicFileName"
+                         class="invalid-feedback d-block">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+                <!-- ER Policy - English Upload -->
+                <div class="col-4">
+                    <label>{{ 'PAGES.SEVERVICE_MANAGEMENT.LABELS.ER_POLICY_FILE_ENGLISH' | translate }}
+                        <span *ngIf="isEdit" class="text-danger">*</span>
+                    </label>
+
+                    <div class="input-group">
+                        <ng-container *ngIf="isEdit">
+                            <input type="file" class="d-none" #erPolicyFileInputEn (change)="onErPolicyFileSelectedEn($event)"
+                                   id="erPolicyFileInputEn" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                            <button class="btn btn-outline-primary" type="button" (click)="erPolicyFileInputEn.click()">
+                                <i class=" ri-upload-2-fill"></i>
+                            </button>
+                        </ng-container>
+
+                        <ng-container #fileSelected>
+                            <input type="text" class="form-control m-0"
+                                [value]="this.oaaaServiceDto.externalReviewerPolicyEnglishFileName || ''" readonly [disabled]="true"
+                                >
+                        </ng-container>
+                        <button *ngIf="this.oaaaServiceDto.externalReviewerPolicyEnglishFileName" type="button"
+                                class="btn btn-outline-success" id="inputGroupFileAddon04"
+                                (click)="downloadUploadedFile(oaaaServiceDto.externalReviewerPolicyEnglishFileName,oaaaServiceDto.externalReviewerPolicyEnglishBucketName!)">Download</button>
+                    </div>
+                    <div *ngIf="isSubmitting && !oaaaServiceDto.externalReviewerPolicyEnglishFileName"
+                         class="invalid-feedback d-block">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- action buttons -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="row">
+                <div class="d-flex justify-content-between rounded">
+                    <button type="button" *ngIf="isEdit" class="btn btn-outline-secondary  me-2 ms-2"
+                        (click)="open(cancelModal)">
+                        {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                    </button>
+
+                    <button type="button" *ngIf="!isEdit" class="btn btn-outline-secondary  me-2 ms-2"
+                        [routerLink]="['/jawda/service-management/service-management-list']">
+                        {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                    </button>
+
+                    <button type="button" *ngIf="isEdit" class="btn btn-primary" (click)="validateForm(save)">
+                        {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <ng-template #cancelModal let-modal>
+        <div class="error-modal">
+            <div class="modal-body">
+                <div class="mb-3 row">
+                    <label class="col-12 col-form-label">
+                        {{ "PAGES.COMMON.MESSAGES.CANCEL_MESSAGE" | translate }}</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                    {{ "PAGES.COMMON.LABELS.NO" | translate }}
+                </button>
+
+                <button type="button" class="btn btn-primary" (click)="close()"
+                    [routerLink]="['/jawda/service-management/service-management-list']">
+                    {{ "PAGES.COMMON.LABELS.YES" | translate }}
+                </button>
+            </div>
+        </div>
+    </ng-template>
+
+
+    <ng-template #save let-modal>
+        <div class="default-modal">
+            <div class="modal-body">
+                <div class="mb-3 row">
+                    <label class="col-12 col-form-label">
+                        {{ "PAGES.COMMON.MESSAGES.BASIC_CONFIRM_SAVE" | translate }}</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                    {{ "PAGES.COMMON.LABELS.NO" | translate }}
+                </button>
+
+                <button class="btn btn-primary" type="button" (click)="saveService()">
+                    {{ "PAGES.COMMON.LABELS.YES" | translate }}
+                </button>
+            </div>
+        </div>
+    </ng-template>
+</form>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

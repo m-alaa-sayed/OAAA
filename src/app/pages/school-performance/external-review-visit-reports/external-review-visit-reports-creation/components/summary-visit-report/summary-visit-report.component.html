@@ -1,0 +1,65 @@
+<div class="card m-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SUMMARY' | translate }}
+        </h5>
+    </div>
+
+    <div class="card-body">
+        <div class="row mt-3">
+            <div class="col-md-12 mb-3">
+                <label class="form-label">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SUMMARY_KEY_FINDINGS' | translate }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                </label>
+                <app-custom-ckeditor id="summaryKeyFindings" name="summaryKeyFindings"
+                          #summaryKeyFindings="ngModel"
+                          [language]="'ar'" [disabled]="!isEditMode"
+                          [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                          [required]="isEditMode"
+                          [(ngModel)]="visitReportSubmissionRequestInfo.summaryKeyFindings">
+                </app-custom-ckeditor>
+                <div *ngIf="isSubmitting && isEditMode && summaryKeyFindings?.invalid" class="text-danger text-start mt-1">
+                    <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                </div>
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label class="form-label">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SUMMARY_IMPROVEMENTS_SUGGESTIONS' | translate }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                </label>
+                <app-custom-ckeditor id="summaryImprovementsSuggestions" name="summaryImprovementsSuggestions"
+                          #summaryImprovementsSuggestions="ngModel"
+                          [language]="'ar'" [disabled]="!isEditMode"
+                          [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                          [required]="isEditMode"
+                          [(ngModel)]="visitReportSubmissionRequestInfo.summaryImprovementsSuggestions">
+                </app-custom-ckeditor>
+                <div *ngIf="isSubmitting && isEditMode && summaryImprovementsSuggestions?.invalid" class="text-danger text-start mt-1">
+                    <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SUMMARY_FUTURE_EVENTS' | translate }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                </label>
+                <app-custom-ckeditor id="summaryFutureEvents" name="summaryFutureEvents"
+                          #summaryFutureEvents="ngModel"
+                          [language]="'ar'" [disabled]="!isEditMode"
+                          [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                          [(ngModel)]="visitReportSubmissionRequestInfo.summaryFutureEvents">
+                </app-custom-ckeditor>
+                <div *ngIf="isSubmitting && summaryFutureEvents?.invalid" class="text-danger text-start mt-1">
+                    <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<step-action-buttons *ngIf="showButtons" [showSubmitBtn]="false" (previousEvent)="previousEvent.emit()"
+    (saveEvent)="save()" [showSaveBtn]="showSaveBtn" (cancelEvent)="cancelEvent.emit()"
+    (nextEvent)="nextEvent.emit()"></step-action-buttons>

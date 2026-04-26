@@ -1,0 +1,114 @@
+<div class="card m-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">{{ "PAGES.TEAM_LEADER_PLAN.LABELS.CONFLICT_DISCLOSURE_RESULT" | translate }}</h5>
+    </div>
+    <div class="card-body">
+
+        <div class="table-responsive">
+            <table class="table table-gridjs">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.NAME' | translate }}
+                        </th>
+                        <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.CIVIL_ID_OR_PASSPORT' | translate }}
+                        </th>
+                        <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.COUNTRY_OF_RESIDENCE' | translate }}
+                        </th>
+                        <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.CITY' | translate }}
+                        </th>
+                        <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.WILAYAT' | translate }}
+                        </th>
+                        <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.MAIN_SPECIALIZATION' | translate }}
+                        </th>
+                        <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.EMAIL' | translate }}
+                        </th>
+                        <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.MOBILE' | translate }}
+                        </th>
+                        <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.ROLE' | translate }}
+                        </th>
+                        <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.PARTICIPATION_STATUS' | translate }}
+                        </th>
+                        <th class="text-center">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.CONFLICT_OF_INTEREST' | translate }}
+                        </th>
+
+                        <th class="text-center w-25">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.REASONS' | translate }}
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let conflict of visitPlanRequestInfo.reviewTeamAssignments; let i = index">
+                        <td class="text-center">{{ i + 1 }}</td>
+                        <td class="text-center">{{translate.currentLang =='ar' ? conflict.user?.fullNameAr :
+                            conflict.user?.fullNameAr }}</td>
+                        <td class="text-center">{{ conflict.user?.civilNo || conflict.user?.passportNo}}</td>
+                        <!-- COUNTRY_OF_RESIDENCE -->
+                        <td class="text-center">{{ conflict.user?.country?.countryNameAr }}</td>
+                        <!-- CITY -->
+                        <td class="text-center">{{ conflict.user?.city?.cityNameAr }}</td>
+                        <!-- WILAYAT -->
+                        <td class="text-center">{{ conflict.user?.wilayat?.nameAr }}</td>
+                        <!-- MAIN_SPECIALIZATION -->
+                        <td class="text-center"></td>
+                        <td class="text-center">{{ conflict.user?.email }}</td>
+                        <td class="text-center">{{ conflict.user?.mobileNo }}</td>
+                        <td class="text-center">
+                             {{ 'PAGES.COMMON.LABELS.' + conflict.role | translate }}</td>
+                        <td class="text-center">
+                            {{ 'PAGES.COMMON.LABELS.' + conflict.participationStatus | translate }}</td>
+                        <td class="text-center">
+                            <input type="checkbox" class="form-check-input" [disabled]="!isEditMode"
+                                (change)="onCheckBoxChanged($event , conflict)" [(ngModel)]="conflict.hasConflict"
+                                [checked]="conflict.hasConflict" />
+                        </td>
+                        <td class="text-center  w-25">
+                            <div class="d-flex">
+                                <textarea class="form-control" rows="3" [value]="conflict.conflictReason"
+                                    [(ngModel)]="conflict.conflictReason"
+                                    [ngClass]="{'is-invalid': conflict.hasConflict && isSubmitted && (!conflict.conflictReason || conflict.conflictReason.trim() === '')}"
+                                    [disabled]="!conflict.hasConflict || !isEditMode"></textarea>
+                                <span *ngIf="conflict.hasConflict && isEditMode" class="text-danger ms-1">*</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div
+                *ngIf="!visitPlanRequestInfo.reviewTeamAssignments || visitPlanRequestInfo.reviewTeamAssignments.length == 0">
+                <p class="text-muted mb-0 text-center">{{ 'PAGES.COMMON.MESSAGES.NO_DATA_FOUND' |translate
+                    }}</p>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<!-- <div *ngIf="showButtons" class="pt-2 mx-3 d-flex justify-content-between">
+
+    <div class="d-flex justify-content-start rounded">
+        <button type="button" class="step-prev btn btn-primary" (click)="previousEvent.emit()">
+            {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+        </button>
+
+        <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancelEvent.emit()">
+            {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+
+    </div>
+
+    <div class="d-flex justify-content-end rounded w-25" (click)="next()">
+        <button type="button" class="step-next btn btn-primary">
+            {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+        </button>
+    </div>
+</div> -->
+
+
+<step-action-buttons *ngIf="showButtons" [showSubmitBtn]="false"
+     (nextEvent)="next()"
+     (previousEvent)="previousEvent.emit()" (saveEvent)="save()"
+    (cancelEvent)="cancelEvent.emit()"></step-action-buttons>

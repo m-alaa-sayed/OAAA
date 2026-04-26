@@ -1,0 +1,111 @@
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+<page-title [title]="pageTitleKey | translate"
+    [breadcrumbItems]="breadCrumbItems"></page-title>
+
+<!-- Card 1: Account Data -->
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ACCOUNT_DATA' | translate }}</h4>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="username" class="form-label">
+                        {{ 'PAGES.COMMON.LABELS.USERNAME' | translate }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" class="form-control" id="username" [(ngModel)]="user.username" name="username" required #username="ngModel"
+                        [disabled]="isDisabled" (ngModelChange)="disableSubmitting = false; usernameExistsError = false;"
+                        [ngClass]="{'is-invalid': (showValidationErrors && username.invalid) || usernameExistsError}">
+                     <div *ngIf="showValidationErrors && username.errors?.['required']" class="invalid-feedback">
+                        {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                    </div>
+                     <div *ngIf="usernameExistsError" class="invalid-feedback">
+                        {{ 'PAGES.COMMON.MESSAGES.USERNAME_ALREADY_EXISTS' | translate }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="email" class="form-label">
+                        {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.EMAIL' | translate }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="email" class="form-control" id="email" [(ngModel)]="user.email" name="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" #email="ngModel"
+                        [disabled]="isDisabled" (ngModelChange)="disableSubmitting = false; emailExistsError = false;"
+                        [ngClass]="{'is-invalid': (showValidationErrors && email.invalid) || emailExistsError}">
+                    <div *ngIf="showValidationErrors && email.errors?.['required']" class="invalid-feedback">
+                        {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+                    </div>
+                    <div *ngIf="showValidationErrors && email.errors?.['pattern']" class="invalid-feedback">
+                        {{ 'PAGES.COMMON.VALIDATION.INVALID_EMAIL' | translate }}
+                    </div>
+                    <div *ngIf="emailExistsError" class="invalid-feedback">
+                        {{ 'PAGES.COMMON.MESSAGES.EMAIL_ALREADY_EXISTS' | translate }}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Card 2: Personal Data -->
+<div>
+    <app-user-personal-info-fields [user]="user" [countryList]="countryList" [genderList]="genderList"
+        [governorateList]="governorateList" [organizationList]="organizationList" [centerList]="centerList"
+        [prefixList]="prefixList" [isDisabled]="isDisabled" [showButtons]="false" [isSubmitting]="showValidationErrors" [isEditMode]="true"
+        (formChanged)="disableSubmitting = false">
+    </app-user-personal-info-fields>
+</div>
+
+<!-- Card 3: Notifications Settings -->
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.NOTIFICATIONS_SETTINGS' | translate }}</h4>
+    </div>
+    <div class="card-body">
+
+        <form>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="smsNotifications"
+                            [(ngModel)]="userData.receiveSms" name="smsNotifications" [disabled]="isDisabled"
+                            (ngModelChange)="disableSubmitting = false">
+                        <label class="form-check-label" for="smsNotifications">
+                            {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.SMS_NOTIFICATIONS' | translate }}
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="emailNotifications"
+                            [(ngModel)]="userData.receiveEmails" name="emailNotifications" [disabled]="isDisabled"
+                            (ngModelChange)="disableSubmitting = false">
+                        <label class="form-check-label" for="emailNotifications">
+                            {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.EMAIL_NOTIFICATIONS' | translate }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Card 4: Edits History -->
+<div>
+    <app-edit-history-table [historyData]="historyData"></app-edit-history-table>
+</div>
+
+<!-- Action Buttons -->
+<div class="row mt-3 mb-3">
+    <div class="col-12 d-flex justify-content-end gap-3">
+        <button type="button" class="btn btn-outline-secondary" (click)="goBack()">
+            {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+        </button>
+        <button *ngIf="!isDisabled" type="button" class="btn btn-primary" (click)="save()"
+            [disabled]="disableSubmitting">
+            <i class="mdi mdi-content-save"></i> {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+        </button>
+    </div>
+</div>

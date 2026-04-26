@@ -1,0 +1,53 @@
+<!-- auth-page wrapper -->
+<div class="auth-page-wrapper auth-bg-cover-img py-5 d-flex justify-content-center align-items-center min-vh-100">
+    
+    <!-- auth-page content -->
+    <div class="auth-page-content overflow-hidden pt-lg-5">
+        <div class="container">
+            <div class="row justify-content-center d-flex align-items-stretch p-5">
+                <div class="col-md-6 col-lg-6 col-xl-6 p-0">
+                    <div class="card p-lg-5 p-4 h-100">
+                        <h5 class="text-primary text-center">{{ "PAGES.LOGIN.LABELS.FORGET_PASSWORD" | translate }}</h5>
+                        <div class="mt-2 text-center">
+                            <lord-icon src="https://cdn.lordicon.com/rhvddzym.json" trigger="loop"
+                                colors="primary:#00bd9d" class="avatar-xl">
+                            </lord-icon>
+                        </div>
+
+                        <div class="alert border-2 bg-body-secondary alert-warning text-center mb-2 mx-2" role="alert">
+                            {{ "PAGES.CREATE_PASSWORD.MESSAGES.FORGET_PASSWORD_MESSAGE" | translate }}
+                        </div>
+                        <div class="p-2">
+                            <form [formGroup]="passresetForm" (ngSubmit)="onSubmit()">
+                                <div class="mb-4">
+                                    <label class="form-label">{{ "PAGES.LOGIN.LABELS.USER_NAME" | translate }}</label>
+                                    <input type="email" class="form-control" id="email"
+                                        placeholder="{{ 'PAGES.LOGIN.LABELS.USER_NAME_OR_EMAIL' | translate }}" formControlName="email"
+                                        [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
+                                    @if(submitted && f['email'].errors){
+                                    <div class="invalid-feedback">
+                                        @if(f['email'].errors['required']){
+                                        <div>{{ 'PAGES.LOGIN.MESSAGES.USER_NAME_IS_REQUIRED' | translate }}</div>}
+                                    </div>}
+                                </div>
+
+                                <div class="text-center mt-4">
+                                    <button class="btn btn-primary w-100" type="submit">{{ "PAGES.LOGIN.LABELS.SEND_RESET_LINK" | translate }}</button>
+                                </div>
+                            </form><!-- end form -->
+                        </div>
+
+                        <div class="mt-5 text-center">
+                            <p class="mb-0"> {{ "PAGES.CREATE_PASSWORD.MESSAGES.I_REMEBER_MY_PASSWORD" | translate }} <br /> <a routerLink="/auth/login"
+                                    class="fw-semibold text-primary text-decoration-underline"> {{ "PAGES.COMMON.LABELS.CLICK_HERE" | translate }}
+                                </a> </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end auth page content -->
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

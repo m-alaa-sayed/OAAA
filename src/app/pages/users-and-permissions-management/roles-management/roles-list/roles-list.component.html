@@ -1,0 +1,18 @@
+<div class="card shadow-sm mx-3">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title mb-0">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLES_AND_PERMISSIONS_DATA' | translate }}
+        </h5>
+        <div class="d-flex gap-2">
+            <!-- <button *hasPermission="[Permission.ADMIN_ADD_ROLE]" class="btn btn-primary" (click)="addPermission()">{{   -->
+            <button  class="btn btn-primary" (click)="addPermission()">{{  
+                'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ADDING_PROCEDURAL_ROLE' | translate }}</button>
+            <button *ngIf="hasPortalAdminRole()" class="btn btn-primary" (click)="addWorkflowRole()">{{  
+                'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ADDING_WORKFLOW_ROLE' | translate }}</button>
+        </div>
+    </div>
+    <div class="card-body">
+        <oaaaqa-ag-grid [actionsColumnWidth]="180" [dataList]="rolesList" [columns]="columns"  [actions]="actions" [selectable]="false"
+            [pagination]="true" [paginationPageSize]="10" [paginationPageSizeSelector]="[5, 10, 20, 50]">
+        </oaaaqa-ag-grid>
+    </div>
+</div>

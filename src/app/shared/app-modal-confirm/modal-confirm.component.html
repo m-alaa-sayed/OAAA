@@ -1,0 +1,62 @@
+<div class="modal-content">
+    <div class="modal-header bg-primary-light d-flex justify-content-between align-items-center pb-3">
+        <h5 class="modal-title" id="exampleModalFullscreenXxlLabel">{{ title | translate }}</h5>
+        <button type="button" class="btn-close p-0 m-0" data-bs-dismiss="modal" aria-label="Close"
+                (click)="activeModal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body text-center p-5">
+        <lord-icon [src]="isAlert ? getAlertIcon() : 'https://cdn.lordicon.com/tdrtiskw.json'" 
+                   trigger="loop"
+                   [colors]="isAlert ? getAlertColors() : 'primary:#f7b84b,secondary:#405189'" 
+                   style="width:130px;height:130px"></lord-icon>
+        <div class="mt-4 pt-4">
+            <h4>{{ message | translate }}</h4>
+        </div>
+        
+        <!-- Notes textarea (shown when showNotes is true) -->
+        <div *ngIf="showNotes && !isAlert" class="mt-4 text-start">
+            <label for="confirmNotes" class="form-label fw-bold">
+                {{ notesLabel | translate }}
+                <span *ngIf="notesRequired" class="text-danger">*</span>
+                <span class="text-danger ms-2 fw-normal small">
+                    {{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}
+                </span>
+            </label>
+            <textarea 
+                class="form-control" 
+                id="confirmNotes" 
+                name="confirmNotes" 
+                [(ngModel)]="notes" 
+                rows="4"
+                [required]="notesRequired"
+                title=""
+                [placeholder]="notesPlaceholder | translate"
+                style="resize: none; min-height: 80px;"
+                [class.is-invalid]="notesRequired && !notes?.trim() && (notesTouched || submitAttempted)"
+                (blur)="notesTouched = true"
+                (focus)="notesTouched = true"></textarea>
+            <div class="invalid-feedback" *ngIf="notesRequired && !notes?.trim() && (notesTouched || submitAttempted)">
+                {{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer d-flex">
+        <!-- Alert mode: Single OK button -->
+        <ng-container *ngIf="isAlert">
+            <button type="button" class="btn btn-primary w-100" (click)="closeAlert()">
+                {{ 'PAGES.COMMON.LABELS.OK' | translate }}
+            </button>
+        </ng-container>
+        
+        <!-- Confirm mode: Yes/No buttons -->
+        <ng-container *ngIf="!isAlert">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+                    (click)="decline()">{{ 'PAGES.COMMON.LABELS.NO' | translate }}
+            </button>
+            <button type="submit" class="btn btn-success" (click)="confirm()" [disabled]="isConfirmDisabled()">
+                {{ 'PAGES.COMMON.LABELS.YES' | translate }}
+            </button>
+        </ng-container>
+    </div>
+</div>

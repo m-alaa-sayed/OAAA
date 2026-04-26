@@ -1,0 +1,85 @@
+<div class="card shadow-sm mx-3">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title mb-0">{{ 'PAGES.PERMISSIONS_MANAGEMENT.TITLES.USERS' | translate }}</h5>
+        <!-- <button *hasPermission="[Permission.ADMIN_ADD_USER]" class="btn btn-primary" (click)="addUser()">{{ 'PAGES.COMMON.LABELS.ADD' | translate }}</button> -->
+        <button class="btn btn-primary" (click)="addUser()">{{ 'PAGES.COMMON.LABELS.ADD_USER' | translate }}</button>
+    </div>
+    <div class="card-body">
+        <!-- AG Grid Table -->
+        <oaaaqa-ag-grid [actionsColumnWidth]="200" [dataList]="listData" [columns]="columns" [actions]="actions"
+            [selectable]="false" [pagination]="false" [enableServerSideFiltering]="true"
+            [suppressClientSideFiltering]="true" [enableColumnFilters]="true"
+            (serverSideFilterChanged)="onServerSideFilter($event)">
+        </oaaaqa-ag-grid>
+
+        <!-- Server-Side Pagination Controls -->
+        <div class="d-flex justify-content-end align-items-center gap-5 mt-3">
+            <!-- Page Size Selector (Left) -->
+            <div class="d-flex align-items-center gap-2">
+                <label class="mb-0 ">{{"PAGES.COMMON.PAGINATION.PAGE_SIZE" | translate}}</label>
+                <select class="form-select form-select-sm" style="width: 80px;" [(ngModel)]="pageSize"
+                    (change)="onPageSizeChange(pageSize)">
+                    <option [value]="5">5</option>
+                    <option [value]="10">10</option>
+                    <option [value]="20">20</option>
+                </select>
+            </div>
+
+            <!-- Center Info -->
+            <div class="d-flex align-items-center gap-4">
+                <!-- Range Display -->
+                <span class="">
+                    {{ (currentPage * pageSize) + 1 }}
+                    {{"PAGES.COMMON.PAGINATION.TO" | translate}}
+                    {{ Math.min((currentPage * pageSize) + listData.length, totalElements) }}
+                    {{"PAGES.COMMON.PAGINATION.OF" | translate}}
+                    {{ totalElements }}
+                </span>
+            </div>
+
+            <!-- Pagination Buttons (Right) -->
+            <nav style="margin: 0 16px;">
+                <ul class="pagination mb-0 d-flex align-items-center gap-2">
+                    <li class="page-item" [class.disabled]="isFirstPage">
+                        <div class="fs-5" [class.disabled]="isFirstPage" [style.opacity]="isFirstPage && 0.5"  (click)="!isFirstPage && onPageChange(0)"
+                            [style.cursor]="!isFirstPage ? 'pointer' : 'not-allowed'">
+                            <img style="width: 12px; height: 12px; margin-bottom: 6px;" *ngIf="translate.currentLang === 'ar'" src="assets/images/icon-skip-forward.png" alt="">
+                            <img style="width: 12px; height: 12px; margin-bottom: 6px;" *ngIf="translate.currentLang !== 'ar'" src="assets/images/icon-skip-backward.png" alt="">
+                            <!-- <i class="ri-skip-forward-mini-line" *ngIf="translate.currentLang === 'ar'"></i>
+                            <i class="ri-skip-back-mini-line" *ngIf="translate.currentLang !== 'ar'"></i> -->
+                        </div>
+                    </li>
+                    <li class="page-item" [class.disabled]="isFirstPage">
+                        <div class="fs-5" [class.disabled]="isFirstPage" [style.opacity]="isFirstPage && 0.5"
+                            (click)="!isFirstPage && onPageChange(currentPage - 1)"
+                            [style.cursor]="!isFirstPage ? 'pointer' : 'not-allowed'">
+                            <i class="ri-arrow-right-s-line" *ngIf="translate.currentLang === 'ar'"></i>
+                            <i class="ri-arrow-left-s-line" *ngIf="translate.currentLang !== 'ar'"></i>
+                        </div>
+                    </li>
+                    <!-- Page Display -->
+                    <span style="margin-bottom: 4px;">
+                        {{"PAGES.COMMON.PAGINATION.PAGE" | translate}}
+                        {{ currentPage + 1 }}
+                        {{"PAGES.COMMON.PAGINATION.OF" | translate}}
+                        {{ totalPages || 1 }}
+                    </span>
+                    <li class="page-item" [class.disabled]="isLastPage">
+                        <div class="fs-5" (click)="!isLastPage && onPageChange(currentPage + 1)" [class.text-muted]="isLastPage"
+                            [style.cursor]="!isLastPage ? 'pointer' : 'not-allowed'">
+                            <i class="ri-arrow-left-s-line" *ngIf="translate.currentLang === 'ar'"></i>
+                            <i class="ri-arrow-right-s-line" *ngIf="translate.currentLang !== 'ar'"></i>
+                        </div>
+                    </li>
+                    <li class="page-item" [class.disabled]="isLastPage">
+                        <div class="fs-5" (click)="!isLastPage && onPageChange(totalPages - 1)" [class.text-muted]="isLastPage"
+                            [style.cursor]="!isLastPage ? 'pointer' : 'not-allowed'">
+                            <img style="width: 12px; height: 12px; margin-bottom: 6px;" *ngIf="translate.currentLang !== 'ar'" src="assets/images/icon-skip-forward.png" alt="">
+                            <img style="width: 12px; height: 12px; margin-bottom: 6px;" *ngIf="translate.currentLang === 'ar'" src="assets/images/icon-skip-backward.png" alt="">
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

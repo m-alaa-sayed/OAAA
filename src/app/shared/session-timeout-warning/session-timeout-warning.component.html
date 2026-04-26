@@ -1,0 +1,8 @@
+<div class="session-timeout-overlay" *ngIf="visible" >
+    <div class="session-timeout-modal">
+        <h2>Session Timeout Warning</h2>
+        <p>You will be logged out in <span id="countdown">{{ countdown }}</span> seconds...</p>
+        <button class="bg-success" (click)="onStay()">Stay Logged In</button>
+    </div>
+</div>
+  

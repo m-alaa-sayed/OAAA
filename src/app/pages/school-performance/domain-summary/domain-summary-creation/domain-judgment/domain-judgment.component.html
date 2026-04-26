@@ -1,0 +1,34 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center" [ngStyle]="domainNgStyle">
+        <strong>{{ 'PAGES.COMMON.LABELS.' + domainSummaryRequestInfo.domain|translate }}</strong>
+        <span *ngIf="domainJudgment"
+              [ngStyle]="domainNgStyle">{{ 'PAGES.VISIT_FORM.LABELS.' + domainJudgment |translate }}</span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle mb-0">
+            <thead class="table-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{ 'PAGES.DOMAIN_SUMMARY.LABELS.STANDARD' | translate }}</th>
+                <th scope="col">{{ 'PAGES.DOMAIN_SUMMARY.LABELS.INDICATORS' | translate }}</th>
+                <th scope="col">{{ 'PAGES.DOMAIN_SUMMARY.LABELS.JUDGMENT' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of domainSummaryRequestInfo.domainSummaryEvaluations; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ this.translate.currentLang == 'ar' ? item.standard.titleAr : item.standard.titleEn }}</td>
+                <td>
+                    <ul class="list-unstyled mb-0 text-start">
+                        <li *ngFor="let indicator of item.standard.indicators" class="dotted-li">
+                            {{ this.translate.currentLang === 'ar' ? indicator.descriptionAr : indicator.descriptionEn }}
+                        </li>
+                    </ul>
+                </td>
+                <td>{{ item.judgment }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

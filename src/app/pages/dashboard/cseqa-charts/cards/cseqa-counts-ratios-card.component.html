@@ -1,0 +1,25 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">{{ 'PAGES.DASHBOARD.CSEQA.LABELS.CARD_COUNTS_RATIOS' | translate }}</h5>
+  </div>
+  <div class="card-body">
+    <app-donut-chart
+      [series]="countsRatiosSeries"
+      [labels]="chartLabels"
+      [colors]="chartColors"
+      [appendPercentToDataLabels]="appendPercentToDataLabels"
+      [totalLabel]="''"
+      [totalValue]="null">
+    </app-donut-chart>
+
+    <oaaaqa-ag-grid
+      *ngIf="countsRatiosTableData.length"
+      [dataList]="countsRatiosTableData"
+      [columns]="countsRatiosColumns"
+      [showRowNumbers]="false"
+      [enableColumnFilters]="false"
+      [sizeColumnsToFit]="true"
+      [pagination]="false">
+    </oaaaqa-ag-grid>
+  </div>
+</div>

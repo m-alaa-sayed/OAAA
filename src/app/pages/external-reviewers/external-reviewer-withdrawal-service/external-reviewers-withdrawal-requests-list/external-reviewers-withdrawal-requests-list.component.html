@@ -1,0 +1,15 @@
+<page-title [title]="pageTitleKey | translate"
+[breadcrumbItems]="[{ label: pageTitleKey | translate, active: true }]" 
+></page-title>
+<div  class="card-header d-flex justify-content-between align-items-center p-3">
+    <h5 class="text-start">{{ "PAGES.EXTERNAL_REVIEWERS_WITHDRAW.TITLE.WITHDRAW_REQUESTS" | translate }}</h5>
+</div>
+<div class="card-body py-4">
+    <oaaaqa-ag-grid  
+    [actions]="actions"
+    [dataList]="requestList" [columns]="columns" [columnFilterOptions]="columnFilterOptions"></oaaaqa-ag-grid>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+

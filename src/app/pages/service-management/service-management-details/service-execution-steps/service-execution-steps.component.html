@@ -1,0 +1,144 @@
+<div class="mb-3 d-flex justify-content-end">
+  <button *ngIf="isEdit" type="button" class="btn btn-primary" (click)="openModal('add')">
+    <i class="ri-add-line me-2"></i>
+    {{ "PAGES.COMMON.LABELS.ADD" | translate }}
+  </button>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-bordered align-middle">
+    <thead class="table-light">
+      <tr>
+        <th class="text-center">#</th>
+        <th class="text-center">{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.STEP_NAME_AR" | translate }}</th>
+        <th class="text-center">{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.STEP_NAME_EN" | translate }}</th>
+        <th class="text-center">{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.STEP_DESC_AR" | translate }}</th>
+        <th class="text-center">{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.STEP_DESC_EN" | translate }}</th>
+        <th *ngIf="isEdit" class="text-center">{{ "PAGES.COMMON.LABELS.ACTIONS" | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of stepsList; let i = index">
+        <td class="text-center">{{ i + 1 }}</td>
+        <td class="text-center">{{ row.stepNameAr }}</td>
+        <td class="text-center">{{ row.stepNameEn }}</td>
+        <td class="text-center" [innerHTML]="row.stepDescriptionAr"></td>
+        <td class="text-center" [innerHTML]="row.stepDescriptionEn"></td>
+        <td *ngIf="isEdit" class="text-center">
+          <button type="button" class="btn btn-lg" (click)="openModal('edit', row)">
+            <i class="ri-pencil-fill"></i>
+          </button>
+          <button type="button" class="btn btn-lg" (click)="openDeleteConfirmModal(deleteModal, i)">
+            <i class="ri-delete-bin-fill text-danger"></i>
+          </button>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #deleteModal let-modal>
+  <div class="modal-header d-flex justify-content-between align-items-center flex-row">
+    <h5 class="modal-title text-danger m-0">
+      {{ "PAGES.COMMON.LABELS.CONFIRM_DELETE_TITLE" | translate }}
+    </h5>
+    <button type="button" class="btn-close m-0 p-0" (click)="modal.dismiss()"></button>
+  </div>
+
+  <div class="modal-body">
+    <p>
+      {{ "PAGES.COMMON.MESSAGES.CONFIRM_DELETE_MESSAGE" | translate }}
+    </p>
+  </div>
+
+  <div class="modal-footer d-flex">
+    <button class="btn btn-outline-secondary" type="button" (click)="modal.dismiss()">
+      {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+    </button>
+    <button class="btn btn-danger" type="button" (click)="confirmDelete(modal)">
+      {{ "PAGES.COMMON.LABELS.DELETE" | translate }}
+    </button>
+
+  </div>
+</ng-template>
+
+
+<!-- Modal Template -->
+<ng-template #formModal let-modal>
+  <div class="modal-header d-flex justify-content-between align-items-center flex-row bg-primary-light p-3">
+    <h5 class="modal-title m-0">
+      {{ isPopupEdit ? ('PAGES.SEVERVICE_MANAGEMENT.LABELS.EDIT_TITLE' | translate) :
+      ('PAGES.SEVERVICE_MANAGEMENT.LABELS.ADD_TITLE' | translate) }}
+    </h5>
+    <button type="button" class="btn-close m-0 p-0" (click)="modal.dismiss()"></button>
+  </div>
+
+  <div class="modal-body"> <!-- Align text to the left in the body -->
+    <div class="mb-3">
+      <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.STEP_NAME_AR" | translate }}
+        <span class="text-danger">*</span>
+      </label>
+      <input type="text" class="form-control" [(ngModel)]="formData.stepNameAr" name="stepNameAr" required
+        id="stepNameAr" #stepNameAr="ngModel" [ngClass]="{'is-invalid': isSubmitting && stepNameAr.invalid}">
+      <div *ngIf="isSubmitting && stepNameAr.invalid" class="invalid-feedback">
+        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.STEP_NAME_EN" | translate }}
+        <span class="text-danger">*</span>
+      </label>
+      <input type="text" class="form-control" [(ngModel)]="formData.stepNameEn" name="stepNameEn" required
+        id="stepNameEn" #stepNameEn="ngModel" [ngClass]="{'is-invalid': isSubmitting && stepNameEn.invalid}">
+      <div *ngIf="isSubmitting && stepNameEn.invalid" class="invalid-feedback">
+        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.STEP_DESC_AR" | translate }}
+        <span class="text-danger">*</span>
+        <small class="text-danger ms-3">
+          ({{
+          'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+      </label>
+      <textarea class="form-control" [(ngModel)]="formData.stepDescriptionAr" name="stepDescriptionAr" required
+        id="stepDescriptionAr" #stepDescriptionAr="ngModel"
+        placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+        (ngModelChange)="onTextChange(formData, 'stepDescriptionAr', $event)"
+        [ngClass]="{'is-invalid': isSubmitting && stepDescriptionAr.invalid}"></textarea>
+      <div *ngIf="isSubmitting && stepDescriptionAr.invalid" class="invalid-feedback">
+        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.STEP_DESC_EN" | translate }}
+        <span class="text-danger">*</span>
+        <small class="text-danger ms-3">
+          ({{
+          'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+      </label>
+      <textarea class="form-control" [(ngModel)]="formData.stepDescriptionEn" name="stepDescriptionEn" required
+        id="stepDescriptionEn" #stepDescriptionEn="ngModel"
+        placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+        (ngModelChange)="onTextChange(formData, 'stepDescriptionEn', $event)"
+        [ngClass]="{'is-invalid': isSubmitting && stepDescriptionEn.invalid}"></textarea>
+      <div *ngIf="isSubmitting && stepDescriptionEn.invalid" class="invalid-feedback">
+        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer d-flex">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">
+      {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+    </button>
+    <button type="button" class="btn btn-primary" (click)="updateListAndCloseModal(modal)">
+      {{ isPopupEdit ? ('PAGES.COMMON.LABELS.UPDATE' | translate) : ('PAGES.COMMON.LABELS.ADD' | translate) }}
+    </button>
+
+  </div>
+</ng-template>

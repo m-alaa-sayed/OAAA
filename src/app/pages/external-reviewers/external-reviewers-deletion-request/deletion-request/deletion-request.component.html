@@ -1,0 +1,75 @@
+<page-title [title]="'PAGES.ER_DELETION.LABELS.REQUEST_FOR_APPROVAL_OF_ER_DELETION' | translate"
+    [breadcrumbItems]="[{ label: 'PAGES.ER_DELETION.LABELS.REQUEST_FOR_APPROVAL_OF_ER_DELETION' | translate, active: true }]"></page-title>
+
+<app-deletion-request-actions *ngIf="requestObject && showChildComponent && taskId"
+    (actionEventEmitter)="submit($event)" [requestObject]="requestObject"></app-deletion-request-actions>
+
+
+
+<request-main-data *ngIf="mainRequestData  && showChildComponent"
+    [mainRequestData]="mainRequestData"></request-main-data>
+<request-user-details *ngIf="requestObject  && showChildComponent"
+    [applicantData]="requestObject.applicantUser"></request-user-details>
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <h5 class="text-start">{{'PAGES.TRAINING_RESULTS.LABELS.REQUEST_INFO' | translate}}</h5>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="py-3 mx-3">
+        <external-reviewers-deletion-table *ngIf="requestObject  && showChildComponent" 
+        [module]="module"
+        [isEditMode]="['CHEQA_ERD_RETURN_FOR_EDIT', 'CSEQA_ERD_RETURN_FOR_EDIT', 'OQF_ERD_RETURN_FOR_EDIT']
+   .includes(requestObject.serviceStep?.stepCode || '') && taskId" [canDelete]="!taskId"
+   [isGMEditMode]="['CHEQA_ERD_UNDER_APPROVE', 'CSEQA_ERD_UNDER_APPROVE', 'OQF_ERD_UNDER_APPROVE'].includes(requestObject.serviceStep?.stepCode || '') && taskId" 
+            [externalReviewerDeletionList]="requestObject.externalReviewerDeletionList"></external-reviewers-deletion-table>
+
+    </div>
+</div>
+
+<div class="card shadow-sm mt-4">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <h5 class="text-start">{{ "PAGES.COMMON.LABELS.NOTES" | translate }}</h5>
+                <small class="text-danger ms-3">
+                    ({{
+                    'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <textarea class="form-control" id="notes" name="notes" [disabled]="['CHEQA_ERD_UNDER_APPROVE', 'CSEQA_ERD_UNDER_APPROVE', 'OQF_ERD_UNDER_APPROVE']
+   .includes(requestObject.serviceStep?.stepCode || '') || !taskId" [(ngModel)]="requestObject.notes" rows="6"
+                     style="resize: vertical; text-align: right;"
+                   placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                   (ngModelChange)="onTextChange()"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<follow-up-request *ngIf="requestObject  && showChildComponent"
+    [requestHistoryList]="requestObject.requestHistoryList || []"></follow-up-request>
+
+
+<div class="card shadow-sm my-5">
+    <app-common-attachments [attachmentList]="requestObject.requestAttachmentList || []" [isEditMode]="taskId"
+        (attachmentAddEventEmitter)="addAttchment($event)" (attachmentRemoveEventEmitter)="removeAttchment($event)">
+    </app-common-attachments>
+</div>
+
+<app-deletion-request-actions *ngIf="requestObject  && showChildComponent && taskId"
+    (actionEventEmitter)="submit($event)" [requestObject]="requestObject"></app-deletion-request-actions>
+
+
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

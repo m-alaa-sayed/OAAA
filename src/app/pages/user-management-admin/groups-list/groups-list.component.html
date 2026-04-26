@@ -1,0 +1,19 @@
+<page-title [title]="'PAGES.USER_MANAGEMENT_ADMIN.TITLES.USER_MANAGEMENT_ADMIN' | translate" [breadcrumbItems]="breadCrumbItems"></page-title>
+
+<div class="card shadow-sm">
+  <div class="card-header d-flex align-items-center justify-content-between">
+    <h5 class="card-title mb-0">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.GROUPS_LIST' | translate }}</h5>
+  </div>
+  <div class="card-body">    
+    <oaaaqa-ag-grid
+      [actionsColumnWidth]="120" 
+      [dataList]="groupsList" 
+      [columns]="columns"  
+      [actions]="actions" 
+      [selectable]="false"
+      [pagination]="true" 
+      [paginationPageSize]="10" 
+      [paginationPageSizeSelector]="[5, 10, 20, 50]">
+    </oaaaqa-ag-grid>
+  </div>
+</div>

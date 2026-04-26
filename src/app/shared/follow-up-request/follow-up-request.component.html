@@ -1,0 +1,60 @@
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="mb-0 text-start">{{ 'PAGES.REQUEST_DETAILS.LABELS.FOLLOW_UP_REQUEST'|translate }}</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-gridjs">
+                <thead>
+                <tr>
+                    <th class="text-center">{{ 'PAGES.REQUEST_DETAILS.LABELS.EMPLOYEE_NAME'|translate }}</th>
+                    <th class="text-center">{{ 'PAGES.REQUEST_DETAILS.LABELS.JOB'|translate }}</th>
+                    <th class="text-center">{{ 'PAGES.REQUEST_DETAILS.LABELS.DECISION'|translate }}</th>
+                    <th class="text-center">{{ 'PAGES.REQUEST_DETAILS.LABELS.DELIVERED_DATE_TIME'|translate }}</th>
+                    <th class="text-center">{{ 'PAGES.REQUEST_DETAILS.LABELS.NOTE'|translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let row of pagedFollowUpList">
+                    <td class="text-center">
+                        <span *ngIf="shouldShowJobTitle(row?.user?.id); else showFullName">
+                            {{ row?.user?.jobTitle }}
+                        </span>
+                        <ng-template #showFullName>
+                            {{ translate.currentLang === 'en' ? row?.user?.fullNameEn : row?.user?.fullNameAr }}
+                        </ng-template>
+                    </td>
+                    <td class="text-center">{{ row?.user?.jobTitle }}</td>
+                    <td class="text-center">{{ translate.currentLang === 'en' ? row.serviceStepAction.actionNameEn : row.serviceStepAction.actionNameAr }}</td>
+                    <td *ngIf="LanguageUtil.isArabic" class="text-center">
+                        <span dir="ltr">{{ row?.actionDate | date:'yyyy-MM-dd hh:mm a':'':'en' }}</span>
+                    </td>
+                    <td *ngIf="!LanguageUtil.isArabic"
+                        class="text-center">{{ row?.actionDate | date:'dd-MM-yyyy hh:mm a' }}
+                    </td>
+                    <td class="text-center">{{ row.dataComment }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- No Data Section -->
+            <div *ngIf="!pagedFollowUpList || pagedFollowUpList.length == 0 " class="text-center py-4 text-muted">
+                {{ "PAGES.COMMON.MESSAGES.NO_RESULT" | translate }}
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div class="text-sm-right float-end listjs-pagination">
+                    <ngb-pagination [collectionSize]="requestHistoryList.length" [(page)]="currentPage"
+                                    [pageSize]="pageSize"
+                                    [maxSize]="5" (pageChange)="onPageChange($event)">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Pagination -->
+
+</div>

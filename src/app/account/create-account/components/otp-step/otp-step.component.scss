@@ -1,0 +1,36 @@
+.no-style-button {
+    background: none;
+    border: none;
+    font-size: 16px; /* Optional: adjust text size */
+    cursor: pointer;
+    padding: 0; /* Optional: remove padding */
+  }
+
+  .no-style-button:hover {
+    text-decoration: underline; /* Optional: hover effect */
+  }
+
+  .no-style-button:disabled {
+    color: #aaa !important;
+    cursor: not-allowed !important; 
+    text-decoration: none !important; 
+  }
+
+  .ng-otp-input-wrapper[_ngcontent-ng-c1701526001] .otp-input[_ngcontent-ng-c1701526001]:last-child {
+    margin-right: 8px;
+  }
+
+
+  :host ::ng-deep ng-otp-input .otp-input {
+    text-align: center;
+    margin: 0 5px;
+    font-size: 20px;
+  }
+  
+  :host ::ng-deep ng-otp-input > div {
+    display: flex;
+    justify-content: center;
+  
+    // Dynamically reverse input order for RTL
+    direction: inherit;
+  }

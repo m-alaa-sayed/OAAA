@@ -1,0 +1,61 @@
+<!-- Roles Permissions Card -->
+<div class="card" *ngIf="selectedGroup">
+    <div class="card-header">
+        <h4 class="card-title mb-0">
+            {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ROLE_PERMISSIONS' | translate }}
+            - {{ '( ' + getGroupName() + ' )' }}
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive" *ngIf="procedures && procedures.length > 0; else noProcedures">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.PROCEDURES' | translate }}</th>
+                        <th>{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.PROCEDURE_CONTENT' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let procedure of procedures; let i = index"
+                        [class.table-danger-light]="isProcedureInvalid(procedure)">
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" [id]="'procedure-' + i"
+                                    [(ngModel)]="procedure.enabled" (change)="toggleProcedure(procedure, $event)"
+                                    [name]="'procedure-' + i" [disabled]="mode === 'readOnly'">
+                                <label class="form-check-label" [for]="'procedure-' + i">
+                                    {{ procedure.label }}
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column">
+                                <div class="d-flex gap-3 flex-wrap">
+                                    <div class="form-check"
+                                        *ngFor="let permission of procedure.permissions; let j = index">
+                                        <input class="form-check-input" type="checkbox" [id]="'action-' + i + '-' + j"
+                                            [(ngModel)]="permission.checked" (change)="toggleAction(permission, $event)"
+                                            [disabled]="mode === 'readOnly' || !procedure.enabled"
+                                            [name]="'action-' + i + '-' + j">
+                                        <label class="form-check-label" [for]="'action-' + i + '-' + j">
+                                            {{ permission.label }}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div *ngIf="isProcedureInvalid(procedure)" class="invalid-feedback d-block mt-1">
+                                    {{ 'PAGES.PERMISSIONS_MANAGEMENT.MESSAGES.AT_LEAST_ONE_PERMISSION_REQUIRED' |
+                                    translate }}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <ng-template #noProcedures>
+            <div class="text-center text-muted py-4">
+                {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.NO_PROCEDURES' | translate }}
+            </div>
+        </ng-template>
+    </div>`
+</div>

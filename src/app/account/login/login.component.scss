@@ -1,0 +1,48 @@
+// .btn-success{
+//     background-color:  #1f487e;
+// }
+
+// .btn-secondary {
+//     background-color:  #fff; 
+//     color: #000;
+// }
+
+label {
+    color: #1f487e;
+}
+
+/* RTL styles for Arabic language */
+[dir="rtl"] {
+  .form-control {
+    text-align: right;
+    direction: rtl;
+    
+    &::placeholder {
+      text-align: right;
+      direction: rtl;
+    }
+  }
+  
+  .form-label {
+    text-align: right;
+  }
+  
+  /* Adjust password visibility button for RTL */
+  .auth-pass-inputgroup {
+    .btn {
+      left: 0;
+      right: auto;
+    }
+  }
+}
+
+/* General placeholder styling */
+.form-control::placeholder {
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+/* Override is-invalid background position for password input */
+.auth-pass-inputgroup .form-control.is-invalid {
+  background-position: right calc(2.375em + 0.25rem) center;
+}

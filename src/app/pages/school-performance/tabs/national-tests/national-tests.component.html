@@ -1,0 +1,124 @@
+<div class="tab-content">
+  <div class="tab-header">
+    <h2>{{ 'PAGES.SCHOOL_PERFORMANCE.TABS.NATIONAL_TESTS' | translate }}</h2>
+  </div>
+
+  <div class="tab-body">
+    <div class="national-tests-container">
+
+      <!-- Grade 4 National Tests -->
+      <div class="grade-section">
+        <div class="section-header no-print">
+          <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.GRADE_4_TITLE' | translate }}</h3>
+          <div class="not-applicable-checkbox">
+            <input type="checkbox" id="grade4NotApplicable" [disabled]="!isEditable"
+              [(ngModel)]="schoolInfo.gradesComments.grade4NotApplicable" class="form-check-input">
+            <label for="grade4NotApplicable" class="form-check-label">
+              {{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.NOT_APPLICABLE' | translate }}
+            </label>
+          </div>
+        </div>
+        
+        <div class="grade-header p-3 print-only">
+          <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.GRADE_4_TITLE' | translate }}</h3>
+          <div class="d-flex align-items-center gap-2">
+            <input type="checkbox" [(ngModel)]="schoolInfo.gradesComments.grade4NotApplicable" class="form-check-input">
+            <span>{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.NOT_APPLICABLE' | translate }}</span>
+          </div>
+        </div>
+
+        <div class="test-grid-container" [class.disabled-section]="schoolInfo.gradesComments.grade4NotApplicable">
+            <oaaaqa-ag-grid [dataList]="schoolInfo.grade4TestsData" [columns]="grade4Columns" [selectable]="false"
+              [actions]="[]"
+              tableHeadColor="#C0F0E8">
+            </oaaaqa-ag-grid>
+        </div>
+
+        <div class="school-comments-section">
+          <label>{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.SCHOOL_COMMENTS' | translate }}</label>
+          <textarea class="form-control" rows="3"
+            placeholder="{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.COMMENTS_PLACEHOLDER' | translate }}"
+            [(ngModel)]="schoolInfo.gradesComments.grade4Comments"
+            [disabled]="schoolInfo.gradesComments.grade4NotApplicable || !isEditable">
+          </textarea>
+        </div>
+      </div>
+
+      <!-- Grade 7 National Tests -->
+      <div class="grade-section">
+        <div class="section-header no-print">
+          <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.GRADE_7_TITLE' | translate }}</h3>
+          <div class="not-applicable-checkbox">
+            <input type="checkbox" id="grade7NotApplicable" [disabled]="!isEditable"
+              [(ngModel)]="schoolInfo.gradesComments.grade7NotApplicable" class="form-check-input">
+            <label for="grade7NotApplicable" class="form-check-label">
+              {{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.NOT_APPLICABLE' | translate }}
+            </label>
+          </div>
+        </div>
+
+        <div class="grade-header p-3 print-only">
+          <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.GRADE_7_TITLE' | translate }}</h3>
+          <div class="d-flex align-items-center gap-2">
+            <input type="checkbox" [(ngModel)]="schoolInfo.gradesComments.grade7NotApplicable" class="form-check-input">
+            <span>{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.NOT_APPLICABLE' | translate }}</span>
+          </div>
+        </div>
+
+        <div class="test-grid-container" [class.disabled-section]="schoolInfo.gradesComments.grade7NotApplicable">
+            <oaaaqa-ag-grid [dataList]="schoolInfo.grade7TestsData" [columns]="grade7Columns" [selectable]="false"
+              [actions]="[]"
+              tableHeadColor="#C0F0E8">
+            </oaaaqa-ag-grid>
+        </div>
+
+        <div class="school-comments-section">
+          <label>{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.SCHOOL_COMMENTS' | translate }}</label>
+          <textarea class="form-control" rows="3"
+            placeholder="{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.COMMENTS_PLACEHOLDER' | translate }}"
+            [(ngModel)]="schoolInfo.gradesComments.grade7Comments"
+            [disabled]="schoolInfo.gradesComments.grade7NotApplicable || !isEditable">
+          </textarea>
+        </div>
+      </div>
+
+      <!-- Grade 10 National Tests -->
+      <div class="grade-section">
+        <div class="section-header no-print">
+          <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.GRADE_10_TITLE' | translate }}</h3>
+          <div class="not-applicable-checkbox">
+            <input type="checkbox" id="grade10NotApplicable" [disabled]="!isEditable"
+              [(ngModel)]="schoolInfo.gradesComments.grade10NotApplicable" class="form-check-input">
+            <label for="grade10NotApplicable" class="form-check-label">
+              {{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.NOT_APPLICABLE' | translate }}
+            </label>
+          </div>
+        </div>
+
+        <div class="grade-header p-3 print-only">
+          <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.GRADE_10_TITLE' | translate }}</h3>
+          <div class="d-flex align-items-center gap-2">
+            <input type="checkbox" [(ngModel)]="schoolInfo.gradesComments.grade10NotApplicable" class="form-check-input">
+            <span>{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.NOT_APPLICABLE' | translate }}</span>
+          </div>
+        </div>
+
+        <div class="test-grid-container" [class.disabled-section]="schoolInfo.gradesComments.grade10NotApplicable">
+            <oaaaqa-ag-grid [dataList]="schoolInfo.grade10TestsData" [columns]="grade10Columns" [selectable]="false"
+              [actions]="[]"
+              tableHeadColor="#C0F0E8">
+            </oaaaqa-ag-grid>
+        </div>
+
+        <div class="school-comments-section">
+          <label>{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.SCHOOL_COMMENTS' | translate }}</label>
+          <textarea class="form-control" rows="3"
+            placeholder="{{ 'PAGES.SCHOOL_PERFORMANCE.NATIONAL_TESTS.COMMENTS_PLACEHOLDER' | translate }}"
+            [(ngModel)]="schoolInfo.gradesComments.grade10Comments"
+            [disabled]="schoolInfo.gradesComments.grade10NotApplicable || !isEditable">
+          </textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

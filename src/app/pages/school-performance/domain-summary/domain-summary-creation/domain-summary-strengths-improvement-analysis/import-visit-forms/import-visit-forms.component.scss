@@ -1,0 +1,8 @@
+.dotted-li::before {
+  content: "• ";
+  margin-right: 4px;
+}
+
+.colum-form-width {
+  width: 20rem !important;
+}

@@ -1,0 +1,22 @@
+<div class="no-print">
+    <page-title [title]="'MENUITEMS.MENU.SUBMIT_SELF_EVALUATION_DOCUMENT' | translate" [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.SELF_EVALUATION_DOCUMENT' | translate, link: '/jawda/school-performance/self-evaluation-document/list', active: true },
+    { label: 'MENUITEMS.MENU.SUBMIT_SELF_EVALUATION_DOCUMENT' | translate,  active: false }]"></page-title>
+
+
+    <self-evaluation-document-main-data *ngIf="showTabs" [selfEvalMainData]="selfEvalMainData"></self-evaluation-document-main-data>
+
+    <div  class="card-body d-flex justify-content-end mx-0 px-0 mb-2">
+        <button class="btn btn-success ms-3" (click)="print()">
+            <i class="mdi mdi-printer"></i> {{ 'PAGES.SCHOOL_PERFORMANCE.BUTTONS.PRINT' | translate }}
+        </button>
+        <button class="btn btn-primary ms-3">
+            <audit-model
+                [documentId]="id">
+            </audit-model>
+        </button>
+    </div>
+</div>
+
+<oaaaqa-management-wizard *ngIf="showTabs" [steps]="steps"></oaaaqa-management-wizard>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

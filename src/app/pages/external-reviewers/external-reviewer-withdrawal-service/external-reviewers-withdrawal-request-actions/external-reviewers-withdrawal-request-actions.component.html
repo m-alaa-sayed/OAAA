@@ -1,0 +1,119 @@
+<div class="card shadow-sm">
+    <div class="card-body">
+      <div class="row">
+        <div *ngIf="['CHEQA_DME_ERW_UNDER_REVIEW', 'CSEQA_DME_ERW_UNDER_REVIEW', 'OQF_DME_ERW_UNDER_REVIEW'].includes(mode)"
+          class="col-12 d-flex justify-content-end flex-wrap gap-2">
+  
+          <button class="btn btn-success fw-bold" (click)="setAction('SUBMIT', decision)">
+            {{ 'PAGES.COMMON.LABELS.SUBMIT' | translate }}
+          </button>
+          <button class="btn btn-outline-secondary fw-bold" (click)="setAction('RETURN_FOR_EDIT', decision)">
+            {{ 'PAGES.COMMON.LABELS.RETURN_FOR_EDIT' | translate }}
+          </button>
+          <button class="btn btn-outline-secondary" (click)="open(cancel)">
+            {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+          </button>
+        </div>
+  
+        <div *ngIf="['CHEQA_ER_ERW_RETURN_FOR_EDIT', 'CSEQA_ER_ERW_RETURN_FOR_EDIT', 'OQF_ER_ERW_RETURN_FOR_EDIT'].includes(mode)"
+          class="col-12 d-flex justify-content-end gap-2">
+  
+          <button class="btn btn-primary fw-bold" (click)="setAction('SUBMIT', decision)">
+            {{ 'PAGES.COMMON.LABELS.SUBMIT' | translate }}
+          </button>
+          <button class="btn btn-outline-secondary" (click)="open(cancel)">
+            {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+          </button>
+        </div>
+
+        <div *ngIf="['CHEQA_SDM_ERW_UNDER_REVIEW', 'CSEQA_SDM_ERW_UNDER_REVIEW', 'OQF_SDM_ERW_UNDER_REVIEW'].includes(mode)"
+          class="col-12 d-flex justify-content-end gap-2">
+  
+          <button class="btn btn-success fw-bold" (click)="setAction('SUBMIT', decision)">
+            {{ 'PAGES.COMMON.LABELS.SUBMIT' | translate }}
+          </button>
+          <button class="btn btn-outline-secondary fw-bold" (click)="setAction('RETURN_FOR_EDIT', decision)">
+            {{ 'PAGES.COMMON.LABELS.RETURN_FOR_EDIT' | translate }}
+          </button>
+          <button class="btn btn-outline-secondary" (click)="open(cancel)">
+            {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+          </button>
+        </div>
+
+        <div *ngIf="['CHEQA_ERW_UNDER_APPROVE', 'CSEQA_ERW_UNDER_APPROVE', 'OQF_ERW_UNDER_APPROVE'].includes(mode)"
+          class="col-12 d-flex justify-content-end gap-2">
+  
+          <button class="btn btn-success fw-bold" (click)="setAction('APPROVE', decision)">
+            {{ 'PAGES.EXTERNAL_REVIEWERS_WITHDRAW.LABELS.WITHDRAW_APPROVE' | translate }}
+          </button>
+          <button class="btn btn-success fw-bold" (click)="setAction('REJECT', decision)">
+            {{ 'PAGES.EXTERNAL_REVIEWERS_WITHDRAW.LABELS.WITHDRAW_REJECT' | translate }}
+          </button>
+          <button class="btn btn-outline-secondary fw-bold" (click)="setAction('RETURN_FOR_EDIT', decision)">
+            {{ 'PAGES.COMMON.LABELS.RETURN_FOR_EDIT' | translate }}
+          </button>
+          <button class="btn btn-outline-secondary" (click)="open(cancel)">
+            {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+          </button>
+        </div>
+  
+  
+        <ng-template #decision let-modal>
+          <div class="modal-body">
+            <h4 *ngIf="action=='APPROVE'" class="modal-title">
+              {{ "PAGES.COMMON.MESSAGES.WITHDRAW_APPROVE" | translate }}
+            </h4>
+            <h4 *ngIf="action=='RETURN_FOR_EDIT'" class="modal-title">
+              {{ "PAGES.COMMON.MESSAGES.EDIT_MESSAGE" | translate }}
+            </h4>
+            <h4 *ngIf="action=='SUBMIT'" class="modal-title">
+              {{ "PAGES.COMMON.MESSAGES.SUBMIT_MESSAGE" | translate }}
+            </h4>
+            <h4 *ngIf="action=='REJECT'" class="modal-title">
+                {{ "PAGES.COMMON.MESSAGES.WITHDRAW_REJECT" | translate }}
+            </h4>
+          </div>
+          <div class="mb-3 mx-2 row">
+            <div class="form-group col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <label class="form-label" for="formControlLg">{{ "PAGES.COMMON.LABELS.NOTES" | translate }}
+                <span *ngIf="action=='RETURN_FOR_EDIT' || action =='REJECT'" class="text-danger">*</span>
+              <small class="text-danger ms-3">
+                            ({{
+                            'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+              </label>
+              <textarea rows="2" class="form-control form-control-md" [(ngModel)]="comment"
+              placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" (ngModelChange)="onTextChange()"
+              >
+                          </textarea>
+              <div *ngIf="submitted && (action =='RETURN_FOR_EDIT' ||action =='REJECT')
+                                   && (!comment || comment.trim() ==='')" class="invalid-feedback d-block">
+                {{ "PAGES.COMMON.MESSAGES.FIELD_REQUIRED" | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer d-flex justify-content-end">
+            <button class="btn btn-outline-secondary" (click)="closePopup()">
+              {{ 'PAGES.COMMON.LABELS.BACK' | translate }}
+            </button>
+            <button class="btn btn-primary" (click)="sendAction()">
+              {{ 'PAGES.COMMON.LABELS.SUBMIT' | translate }}
+            </button>
+          </div>
+        </ng-template>
+  
+        <ng-template #cancel let-modal>
+          <div class="modal-body">
+            <p>{{ 'PAGES.COMMON.MESSAGES.CLOSE_MSG' | translate }}</p>
+          </div>
+          <div class="modal-footer d-flex justify-content-between">
+            <button class="btn btn-outline-secondary" (click)="close()">
+              {{ 'PAGES.COMMON.LABELS.NO' | translate }}
+            </button>
+            <button class="btn btn-primary" (click)="returnToList()">
+              {{ 'PAGES.COMMON.LABELS.YES' | translate }}
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>

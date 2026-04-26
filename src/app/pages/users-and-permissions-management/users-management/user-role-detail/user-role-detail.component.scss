@@ -1,0 +1,28 @@
+.form-control-plaintext {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e9ecef;
+  min-height: 38px;
+}
+
+.badge {
+  font-size: 0.875rem;
+  padding: 0.35rem 0.65rem;
+}
+
+.table-bordered {
+  border: 1px solid #dee2e6;
+  
+  th, td {
+    vertical-align: middle;
+  }
+}
+
+.form-check-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.card {
+  padding: 0 !important;
+}
+

@@ -1,0 +1,45 @@
+<page-title [title]="'MENUITEMS.MENU.DOMAIN_SUMMARY' |translate"
+            [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.DOMAIN_SUMMARY'|translate, active: true }]"></page-title>
+
+<domain-summary-actions *ngIf="domainSummaryRequestInfo && requestObject && taskId"
+                        [taskId]="taskId" (actionEventEmitter)="submit($event)"
+                        (showErrorAndHideSpinner)="showValidationMessage($event)"
+                        [domainSummaryRequestInfo]="domainSummaryRequestInfo"
+                        [requestObject]="requestObject"></domain-summary-actions>
+
+<request-main-data *ngIf="mainRequestData" [mainRequestData]="mainRequestData"></request-main-data>
+
+<request-user-details *ngIf="requestObject" [applicantData]="requestObject.applicantUser"></request-user-details>
+
+<follow-up-request *ngIf="requestObject" [requestHistoryList]="requestObject.requestHistoryList"></follow-up-request>
+
+<domain-judgment *ngIf="domainSummaryRequestInfo"
+                 [domainSummaryRequestInfo]="domainSummaryRequestInfo"></domain-judgment>
+
+<domain-summary-strengths-improvement-analysis
+        *ngIf="domainSummaryRequestInfo"
+        [domainSummaryRequestInfo]="domainSummaryRequestInfo"
+        [editable]="!!taskId && mode!='DOMAIN_SUMMARIES_UNDER_REVIEW' && !isLeaderView" [isSubmitted]="isSubmitted">
+</domain-summary-strengths-improvement-analysis>
+
+<domain-summary-actions *ngIf="domainSummaryRequestInfo && requestObject && taskId && !isLeaderView"
+                        [taskId]="taskId" (actionEventEmitter)="submit($event)"
+                        (showErrorAndHideSpinner)="showValidationMessage($event)"
+                        [domainSummaryRequestInfo]="domainSummaryRequestInfo"
+                        [requestObject]="requestObject"></domain-summary-actions>
+
+<div class="card shadow-sm" *ngIf="!taskId">
+    <div class="card-body">
+        <div class="row">
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-outline-secondary"
+                        [routerLink]="'/jawda/school-performance/domain-summary/list'">
+                    {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

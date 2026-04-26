@@ -1,0 +1,13 @@
+<footer class="footer bg-secondary">
+    <div class="row mx-5 px-4">
+        <div class="col-sm-6 text-light">
+            {{year}} {{ 'FOOTER.COPYRIGHT' | translate }}
+        </div>
+        <div class="col-sm-6">
+            <div class="text-sm-end d-none d-sm-block">
+                <a href="javascript:void(0);" class="text-warning text-decoration-underline" (click)="downloadTermsAndConditions()">
+                     {{ 'FOOTER.POLICY_AND_TERMS' | translate }}</a>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,206 @@
+<div *ngFor="let domain of domains; let i = index">
+    <div ngbAccordion #acc="ngbAccordion" activeIds="static-1" [closeOthers]="true"
+         class="custom-accordionwithicon accordion-border-box my-2">
+        <div ngbAccordionItem [id]="'static-'+(i+1)">
+
+            <h2 ngbAccordionHeader class="accordion-header border-0 bg-transparent">
+                <button ngbAccordionButton
+                        class="d-flex align-items-center justify-content-between w-100 btn btn-link text-decoration-none border-0"
+                        [ngStyle]="domainJudgmentService.getJudgmentStyles(domain.professionalJudgment)">
+                    <span class="text-start" style="font-size: 1.3rem;">
+                        {{ 'PAGES.COMMON.LABELS.' + domain.domain | translate }}
+                    </span>
+                    <div class="d-flex align-items-center">
+                        <span *ngIf="domain.professionalJudgment !== undefined && domain.professionalJudgment !== null"
+                              class="fw-bold me-2" style="font-size: 1.15rem;">
+                            {{
+                                'PAGES.SCHOOL_PERFORMANCE.MASTERY_RATES.JUDGMENT_VALUES.' +
+                                domainJudgmentService.getJudgmentLabel(domain.professionalJudgment) | translate
+                            }}
+                        </span>
+                        <i class="fas fa-chevron-down accordion-arrow" style="font-size: 1.3rem;"></i>
+                    </div>
+                </button>
+            </h2>
+            <div ngbAccordionCollapse>
+                <div class="p-3">
+
+                    <div class="table-responsive">
+                        <table class="table table-gridjs">
+                            <thead>
+                            <tr>
+                                <th class="text-center">{{
+                                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.CODE' |
+                                            translate
+                                    }}
+                                </th>
+                                <th class="text-center">{{
+                                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.STANDARDS' |
+                                            translate
+                                    }}
+                                </th>
+                                <th class="text-center">{{
+                                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.INDICATORS' |
+                                            translate
+                                    }}
+                                </th>
+                                <th class="text-center">{{
+                                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SYSTEM_GENERATED_JUDGMENT' |
+                                            translate
+                                    }}
+                                </th>
+                                <th class="text-center wide-select-cell">{{
+                                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.PROFESSIONAL_JUDGMENT' | translate
+                                    }}
+                                </th>
+                                <th class="text-center wide-select-cell">{{
+                                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.JUDGMENT_CHANGE_JUSTIFICATIONS' |
+                                            translate
+                                    }}
+                                </th>
+
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr *ngFor="let standardEvaluation of domain.standardEvaluations; let i = index">
+                                <td class="text-center">{{ standardEvaluation.lkStandard.code }}</td>
+                                <td class="text-center">
+                                    {{ standardEvaluation.lkStandard.titleAr }}
+                                </td>
+                                <td class="text-center">
+                                    {{ 1 }}
+                                </td>
+                                <td class="text-center">
+                                    {{ standardEvaluation.systemJudgment }}
+                                </td>
+                                <td class="text-center">
+                                    <ng-select id="professionalJudgment" name="professionalJudgment"
+                                               #professionalJudgment="ngModel"
+                                               [disabled]="!canEditJudgmentAndJustification" [items]="judgmentCodeList"
+                                               bindLabel="label"
+                                               bindValue="value" [clearable]="false"
+                                               [required]="canEditJudgmentAndJustification"
+                                               [(ngModel)]="standardEvaluation.professionalJudgment"
+                                               (ngModelChange)="onStandardJudgmentChange(domain , standardEvaluation)"
+                                               [ngClass]="{ 'is-invalid': isSubmitting && canEditJudgmentAndJustification && professionalJudgment?.invalid }"
+                                               class="w-100 form-control form-control-md bg-transparent mb-2 p-0">
+                                    </ng-select>
+                                    <div *ngIf="isSubmitting && canEditJudgmentAndJustification && professionalJudgment?.invalid" class="text-danger text-start mt-1">
+                                        <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                                    </div>
+                                </td>
+                                <td class="text-center d-flex">
+                                        <textarea class="form-control w-90"
+                                                  #judgmentChangeJustification="ngModel"
+                                                  [disabled]="!canEditJudgmentAndJustification || standardEvaluation.professionalJudgment == standardEvaluation.systemJudgment"
+                                                  [(ngModel)]="standardEvaluation.judgmentChangeJustification"
+                                                  [required]="canEditJudgmentAndJustification && standardEvaluation.professionalJudgment != standardEvaluation.systemJudgment"
+                                                  [ngClass]="{
+                                                        'is-invalid':
+                                                            isSubmitting &&
+                                                            canEditJudgmentAndJustification &&
+                                                            standardEvaluation.professionalJudgment != standardEvaluation.systemJudgment &&
+                                                            judgmentChangeJustification?.invalid
+                                                        }" rows="3">
+                                        </textarea>
+                                    <span
+                                            *ngIf="standardEvaluation.professionalJudgment != standardEvaluation.systemJudgment && canEditJudgmentAndJustification"
+                                            class="text-danger ms-2">*</span>
+                                    <div *ngIf="isSubmitting && canEditJudgmentAndJustification && standardEvaluation.professionalJudgment != standardEvaluation.systemJudgment && judgmentChangeJustification?.invalid"
+                                         class="text-danger text-start mt-1 ms-2">
+                                        <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+                        <div *ngIf="!domain.standardEvaluations || domain.standardEvaluations.length == 0">
+                            <p class="text-muted mb-0 text-center">{{
+                                    'PAGES.COMMON.MESSAGES.NO_DATA_FOUND' |translate
+                                }}</p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="card m-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0"></h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                                                        <div class="col-md-6">
+                                <label class="form-label">
+                                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.KEY_STRENGTHS' | translate }}
+                                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                                </label>
+                                <app-custom-ckeditor name="editorAr" [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                                          #strengthsAnalysis="ngModel"
+                                          id="strengthsAnalysis-{{ i }}" name="strengthsAnalysis-{{ i }}"
+                                          [disabled]="!isEditMode" [required]="isEditMode" [(ngModel)]="domain.strengthsAnalysis">
+                                </app-custom-ckeditor>
+                                <div *ngIf="isSubmitting && isEditMode && strengthsAnalysis?.invalid"
+                                     class="text-danger text-start mt-1">
+                                    <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.KEY_IMPROVEMENT_AREAS' | translate }}
+                                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                                </label>
+                                <app-custom-ckeditor name="editorAr" [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                                          [disabled]="!isEditMode"
+                                          #improvementsAnalysis="ngModel" id="improvementsAnalysis-{{ i }}"
+                                          name="improvementsAnalysis-{{ i }}" [required]="isEditMode"
+                                          [(ngModel)]="domain.improvementsAnalysis">
+                                </app-custom-ckeditor>
+                                <div *ngIf="isSubmitting && isEditMode && improvementsAnalysis?.invalid"
+                                     class="text-danger text-start mt-1">
+                                    <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    {{ 'PAGES.DOMAIN_SUMMARY.LABELS.DOMAIN_SUMMARY' | translate }}
+                                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                                </label>
+                                <app-custom-ckeditor name="editorAr" [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                                          [disabled]="!isEditMode"
+                                          #recommendations="ngModel" id="recommendations-{{ i }}"
+                                          name="recommendations-{{ i }}" [required]="isEditMode" [(ngModel)]="domain.domainSummary">
+                                </app-custom-ckeditor>
+                                <div *ngIf="isSubmitting && isEditMode && recommendations?.invalid"
+                                     class="text-danger text-start mt-1">
+                                    <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENTS_ON_DOMAIN' | translate }}
+                                </label>
+                                <div class="small mb-1 school-comment-hint">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENT_FIELD_HINT' | translate }}</div>
+                                <app-custom-ckeditor
+                                        [ngClass]="{ 'ckeditor-disabled': !isSchoolCommentEditable }"
+                                        [disabled]="!isSchoolCommentEditable"
+                                        #schoolComment="ngModel"
+                                        id="schoolComment-{{ i }}"
+                                        name="schoolComment-{{ i }}"
+                                        [(ngModel)]="domain.schoolComments">
+                                </app-custom-ckeditor>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

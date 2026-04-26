@@ -1,0 +1,19 @@
+<table class="table table-bordered text-center">
+    <thead>
+    <tr>
+        <th>{{ 'PAGES.QUALITY_ASSURANCE.LABELS.FOLLOW_UP_ITEMS' |translate }}</th>
+        <th *ngFor="let i of ['OUTSTANDING', 'VERY_GOOD', 'GOOD', 'ADEQUATE', 'POOR']">{{ 'PAGES.QUALITY_ASSURANCE.LABELS.' + i |translate }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let key of scores | keyvalue: keepOrder; let i = index">
+        <ng-container *ngIf="labels[key.key] !== undefined">
+            <td>{{ 'PAGES.QUALITY_ASSURANCE.LABELS.' + labels[key.key]|translate }}</td>
+            <td *ngFor="let val of [1, 2, 3, 4, 5]">
+                <input  class="radio-btn" type="radio" [name]="key.key" [value]="val" [disabled]="!editable"
+                       [(ngModel)]="scores[key.key]"/>
+            </td>
+        </ng-container>
+    </tr>
+    </tbody>
+</table>

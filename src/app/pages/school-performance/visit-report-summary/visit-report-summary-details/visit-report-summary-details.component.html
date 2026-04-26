@@ -1,0 +1,26 @@
+<page-title [title]="'MENUITEMS.MENU.SUMMARY_EXTERNAL_REVIEW_VISIT_REPORT_INFORMATION' | translate"
+            [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.SUMMARY_EXTERNAL_REVIEW_VISIT_REPORT_INFORMATION' | translate, active: true }]"></page-title>
+
+
+<visit-report-summary-actions *ngIf="requestObject && taskId" (actionEventEmitter)="submit($event)"
+                              (validationEventEmitter)="isSubmitted = $event"
+                              [requestObject]="requestObject"></visit-report-summary-actions>
+
+
+<request-main-data *ngIf="requestObject" [mainRequestData]="mainRequestData "></request-main-data>
+
+<request-user-details *ngIf="requestObject" [applicantData]="requestObject.applicantUser"></request-user-details>
+
+<!-- tabs -->
+<app-tabs *ngIf="requestObject && showTabs" [tabs]="tabs"></app-tabs>
+
+
+<follow-up-request *ngIf="requestObject && !schoolView"
+                   [requestHistoryList]="requestObject.requestHistoryList"></follow-up-request>
+
+
+<visit-report-summary-actions *ngIf="requestObject && taskId" (actionEventEmitter)="submit($event)"
+                              (validationEventEmitter)="isSubmitted = $event"
+                              [requestObject]="requestObject"></visit-report-summary-actions>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

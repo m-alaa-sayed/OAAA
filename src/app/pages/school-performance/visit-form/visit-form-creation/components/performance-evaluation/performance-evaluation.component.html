@@ -1,0 +1,227 @@
+<div class="container-fluid mb-4" [dir]="translate.currentLang === 'ar' ? 'rtl' : 'ltr'">
+    <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle mb-0">
+            <thead>
+            <tr>
+                <th class="bg-secondary text-white">
+                    {{ 'PAGES.VISIT_FORM.LABELS.JUDGMENT' | translate }}
+                </th>
+                <th [ngStyle]="getDomainJudgmentNgStyle('EXCELLENT')">
+                    {{ 'PAGES.VISIT_FORM.LABELS.EXCELLENT' | translate }}
+                </th>
+                <th [ngStyle]="getDomainJudgmentNgStyle('GOOD')">
+                    {{ 'PAGES.VISIT_FORM.LABELS.GOOD' | translate }}
+                </th>
+                <th [ngStyle]="getDomainJudgmentNgStyle('ACCEPTABLE')">
+                    {{ 'PAGES.VISIT_FORM.LABELS.ACCEPTABLE' | translate }}
+                </th>
+                <th [ngStyle]="getDomainJudgmentNgStyle('UNACCEPTABLE')">
+                    {{ 'PAGES.VISIT_FORM.LABELS.UNACCEPTABLE' | translate }}
+                </th>
+                <th [ngStyle]="getDomainJudgmentNgStyle('CRITICAL')">
+                    {{ 'PAGES.VISIT_FORM.LABELS.CRITICAL' | translate }}
+                </th>
+            </tr>
+            <tr>
+                <td class="bg-secondary text-white">
+                    {{ 'PAGES.VISIT_FORM.LABELS.SYMBOL' | translate }}
+                </td>
+                <td [ngStyle]="getDomainJudgmentNgStyle('EXCELLENT')">1</td>
+                <td [ngStyle]="getDomainJudgmentNgStyle('GOOD')">2</td>
+                <td [ngStyle]="getDomainJudgmentNgStyle('ACCEPTABLE')">3</td>
+                <td [ngStyle]="getDomainJudgmentNgStyle('UNACCEPTABLE')">4</td>
+                <td [ngStyle]="getDomainJudgmentNgStyle('CRITICAL')">5</td>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="container-fluid" [dir]="translate.currentLang === 'ar' ? 'rtl' : 'ltr'">
+    <div *ngFor="let domain of domainList" class="card mb-4">
+        <!-- Domain Header -->
+        <div class="card-header bg-opacity-25 cursor-pointer" [ngStyle]="domainClassMap[domain.code]"
+             (click)="togglePartition(domain.code)">
+            <div class="d-flex justify-content-between align-items-center">
+                <strong>{{ translate.currentLang === 'ar' ? domain.valueAr : domain.valueEn }}</strong>
+                <span class="badge fs-6" [ngStyle]="domainClassMap[domain.code]" *ngIf="domainJudgmentMap[domain.code]">
+                    {{ 'PAGES.VISIT_FORM.LABELS.' + domainJudgmentMap[domain.code] |translate }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Standards Table -->
+        <div *ngIf="activePartitionCode === domain.code" class="table-responsive">
+            <table class="table table-bordered text-center align-middle mb-0">
+                <thead class="table-light">
+                <tr>
+                    <th style="width: 25px;">#</th>
+                    <th style="width: 50px;">{{ 'PAGES.VISIT_FORM.LABELS.CRITERION' | translate }}</th>
+                    <th style="width: 150px;">{{ 'PAGES.VISIT_FORM.LABELS.INDICATOR' | translate }}</th>
+                    <th style="width: 500px;">{{ 'PAGES.VISIT_FORM.LABELS.DESCRIPTION' | translate }}</th>
+                    <th style="width: 70px;">{{ 'PAGES.VISIT_FORM.LABELS.JUDGMENT' | translate }}</th>
+                    <th style="width: 50px;" *ngIf="viewComments">{{ 'PAGES.VISIT_FORM.LABELS.COMMENTS' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let std of getStandardsByDomain(domain.code); let si = index">
+                    <tr *ngFor="let ind of std.indicators; let ii = index">
+                        <td *ngIf="ii === 0" [attr.rowspan]="std.indicators.length">{{ si + 1 }}</td>
+                        <td *ngIf="ii === 0" [attr.rowspan]="std.indicators.length">
+                            {{ translate.currentLang === 'ar' ? std.titleAr : std.titleEn }}
+                        </td>
+                        <td>
+                            {{ translate.currentLang === 'ar' ? ind.descriptionAr : ind.descriptionEn }}
+                        </td>
+                        <td *ngIf="ii === 0" [attr.rowspan]="std.indicators.length">
+                            <textarea class="form-control" rows="7"
+                                      [(ngModel)]="getOrCreateEvaluation(std.id,std).notes"
+                                      [disabled]="!editable && getOrCreateEvaluation(std.id,std).needsUpdate === false">
+                            </textarea>
+                        </td>
+                        <td *ngIf="ii === 0" [attr.rowspan]="std.indicators.length">
+                            <select class="form-select"
+                                    [(ngModel)]="getOrCreateEvaluation(std.id,std).judgment"
+                                    [ngClass]="{ 'is-invalid': !getOrCreateEvaluation(std.id,std).judgment }"
+                                    (change)="onJudgmentChanged(std.domain)"
+                                    [disabled]="!editable && getOrCreateEvaluation(std.id,std).needsUpdate === false">
+                                <option [value]="0">
+                                    {{"PAGES.COMMON.LABELS.SELECT" | translate }}
+                                </option>
+                                <option *ngFor="let i of [1, 2, 3, 4, 5]" [value]="i">{{ i }}</option>
+                            </select>
+                        </td>
+                        <td *ngIf="ii === 0 && viewComments" [attr.rowspan]="std.indicators.length"
+                            class="text-center align-middle">
+                            <button
+                                    class="btn btn-link p-0"
+                                    type="button"
+                                    title="Comments"
+                                    (click)=" openCommentModal(getOrCreateEvaluation(std.id,std))"
+                                    [disabled]="disableCommentBtn(getOrCreateEvaluation(std.id,std))">
+                                <span style="font-size: 1.5rem;" [ngStyle]="{filter:getCommentNgStyle(std)}">💬</span>
+                            </button>
+                        </td>
+                    </tr>
+                </ng-container>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showButtons && visitFormRequestInfo.type === 'CLASSROOM_OBSERVATION'"
+     class="pt-2 mx-3 d-flex justify-content-between">
+
+    <div class="d-flex justify-content-start rounded">
+        <button type="button" class="step-prev btn btn-primary" (click)="previousEvent.emit()">
+            {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+        </button>
+
+        <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancelEvent.emit()">
+            {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+
+
+    </div>
+
+
+    <div class="d-flex justify-content-end rounded">
+        <button type="button" class="btn btn-success fw-bold me-2 ms-2" (click)="save()">
+            {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+        </button>
+        <button type="button" class="btn btn-primary me-2 ms-2" (click)="nextEvent.emit()">
+            {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+        </button>
+    </div>
+
+</div>
+
+<div *ngIf="showButtons && visitFormRequestInfo.type === 'GENERAL_EVIDENCE'"
+     class="pt-2 mx-3 d-flex justify-content-between">
+
+    <div class="d-flex justify-content-start rounded">
+        <button type="button" class="step-prev btn btn-primary" (click)="previousEvent.emit()">
+            {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+        </button>
+
+        <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancelEvent.emit()">
+            {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+    </div>
+
+    <div class="d-flex justify-content-end rounded">
+        <button type="button" class="btn btn-success fw-bold me-2 ms-2" (click)="save('SAVE')">
+            {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+        </button>
+        <button type="button" class="step-next btn btn-primary me-2 ms-2" (click)="validateForm('SUBMIT')">
+            {{ 'PAGES.COMMON.LABELS.SUBMIT' | translate }}
+        </button>
+    </div>
+
+</div>
+
+<ng-template #commentModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">{{ 'PAGES.VISIT_FORM.LABELS.COMMENTS' | translate }}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <div class="comments-section">
+            <div *ngFor="let c of currentEvaluation?.visitFormEvaluationComments || [] ; let i = index" class="comment">
+                <!-- التعليق الرئيسي -->
+                <div class="comment-body">
+                    <div class="d-flex justify-content-between">
+                        <strong> {{ c.user ? (translate.currentLang == 'ar' ? c.user.fullNameAr : c.user.fullNameEn) : ('PAGES.COMMON.LABELS.YOU' | translate) }}</strong>
+                        <small class="text-muted">{{ c.createdOn | date:'short' }}</small>
+                    </div>
+                    <p class="mb-1">{{ c.comment }}</p>
+                    <button class="btn btn-sm btn-link text-primary p-0" (click)="setReplyTo(c,i)">
+                        <i class="bi bi-reply"></i> {{ 'PAGES.VISIT_FORM.LABELS.REPLY' | translate }}
+                    </button>
+
+                    <!-- Reply comment input -->
+                    <div class="mb-3" *ngIf="replyingToCommentId === i">
+                        <label for="newComment"
+                               class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.NEW_COMMENT' | translate }}</label>
+                        <textarea id="newComment" class="form-control" rows="3" [(ngModel)]="newCommentText">
+                </textarea>
+                    </div>
+                </div>
+
+                <!-- الردود -->
+                <div class="replies ps-4 mt-2" *ngIf="c.visitFormEvaluationComments?.length">
+                    <div *ngFor="let reply of c.visitFormEvaluationComments" class="reply">
+                        <div class="d-flex justify-content-between">
+                            <strong>{{ reply.user ? (translate.currentLang == 'ar' ? reply.user.fullNameAr : reply.user.fullNameEn) : ('PAGES.COMMON.LABELS.YOU' | translate) }}</strong>
+                            <small class="text-muted">{{ reply.createdOn | date:'short' }}</small>
+                        </div>
+                        <p class="mb-1">{{ reply.comment }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- لا يوجد تعليقات -->
+            <div *ngIf="!(currentEvaluation?.visitFormEvaluationComments?.length)" class="text-center text-muted">
+                {{ 'PAGES.VISIT_FORM.LABELS.NO_COMMENTS' | translate }}
+            </div>
+        </div>
+        <!-- New comment input -->
+        <div class="mb-3" *ngIf="replyingToCommentId == null && !isTeamMember">
+            <label for="newComment" class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.NEW_COMMENT' | translate }}</label>
+            <textarea id="newComment" class="form-control" rows="3" [(ngModel)]="newCommentText">
+        </textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
+            {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+        </button>
+        <button type="button" class="btn btn-primary"
+                *ngIf="!isTeamMember || replyingToCommentId  !== null" (click)="addComment(modal)"
+                [disabled]="!newCommentText.trim()">
+            {{ 'PAGES.VISIT_FORM.LABELS.ADD_COMMENT' | translate }}
+        </button>
+    </div>
+</ng-template>

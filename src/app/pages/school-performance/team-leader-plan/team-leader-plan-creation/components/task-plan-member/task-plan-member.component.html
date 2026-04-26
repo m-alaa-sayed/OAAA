@@ -1,0 +1,92 @@
+<div class="default-modal">
+    <div class="modal-header d-flex justify-content-between align-items-center flex-row bg-primary-light p-3">
+        <h5 class="modal-title m-0">
+            {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.ADD_MEMBER_AND_DATE_TO_TASKS' | translate
+            }}
+
+        </h5>
+    </div>
+    <div class="modal-body">
+        <div class="mb-3">
+
+            <!--            visit date -->
+            <div class="row  py-3">
+                <div class="col-4">
+                    <h6 class="fw-bold text-dark fw-semibold mb-0">
+                        {{'PAGES.TEAM_LEADER_PLAN.LABELS.VISIT_PERIOD'|translate}}</h6>
+                </div>
+                <!--            </div>-->
+
+                <!--            <div class="row">-->
+                <div class="col-md-4">
+                    <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.FROM'|translate}}
+                    </label>
+                    <p>{{ visitDateFrom | date:'dd-MM-yyyy' }}</p>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.TO'|translate}}
+                    </label>
+                    <p>{{ visitDateTo | date:'dd-MM-yyyy' }}</p>
+                </div>
+            </div>
+            <!-- row 1 -->
+            <div class="row">
+                <div class="col-12">
+                    <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.MEMBER_NAME'|translate}}
+                         <span  class="text-danger">*</span>
+                    </label>
+
+                    <ng-select id="selectedYear" name="selectedYear" [clearable]="false" 
+                         [(ngModel)]="reviewTeamAssignmentRequestInfoId"
+                        class="w-100 form-control form-control-md bg-transparent mb-2 p-0" required>
+                        <ng-option *ngFor="let member of reviewTeamAssignmentRequestInfoList" [value]="member.id">
+                            {{translate.currentLang =='ar' ? member.user?.fullNameAr : member.user?.fullNameEn}} | 
+                            {{ 'PAGES.COMMON.LABELS.' + member.role | translate }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+
+
+
+
+            <div class="row py-3">
+                <div class="col-12">
+                    <h6 class="fw-bold text-dark fw-semibold mb-0">
+                        {{'PAGES.TEAM_LEADER_PLAN.LABELS.TASK_PERIOD'|translate}}
+                    </h6>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.FROM'|translate}}
+                        <span  class="text-danger">*</span>
+                    </label>
+                    <input type="date"  [min]="visitDateFrom | date:'yyyy-MM-dd'"
+                            [max]="visitDateTo | date:'yyyy-MM-dd'" [(ngModel)]="fromDate" class="form-control">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.TO'|translate}}
+                        <span  class="text-danger">*</span>
+                    </label>
+                    <input type="date"  [min]="fromDate | date:'yyyy-MM-dd'"  [max]="visitDateTo | date:'yyyy-MM-dd'" [(ngModel)]="toDate" class="form-control">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer d-flex">
+        <button type="button" class="btn btn-outline-secondary" (click)="onCloseEvent.emit()">
+            {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+
+        <button class="btn btn-primary" type="button" 
+        [disabled]="!fromDate || !toDate || !reviewTeamAssignmentRequestInfoId"
+        (click)="addMember()">
+            {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+        </button>
+    </div>
+</div>

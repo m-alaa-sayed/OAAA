@@ -1,0 +1,13 @@
+<strengths-improvement-analysis *ngIf="visitFormRequestInfo.type =='CLASSROOM_OBSERVATION'" 
+    [visitFormRequestInfo]="visitFormRequestInfo" 
+    [showButtons]="false" 
+    [editable]="canEdit">
+</strengths-improvement-analysis>
+
+
+<details-and-summary *ngIf="visitFormRequestInfo.type == 'GENERAL_EVIDENCE'"
+    [visitFormRequestInfo]="visitFormRequestInfo"
+    [showButtons]="false" 
+    [editable]="canEdit">
+</details-and-summary>
+

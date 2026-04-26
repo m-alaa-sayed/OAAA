@@ -1,0 +1,64 @@
+<!-- tabs -->
+<app-tabs *ngIf="externalReviewer.externalReviewersActiveRegistrationRequestInfo" 
+[currentTab]="currentTab"
+[tabs]="tabs"></app-tabs>
+
+
+
+<div class="row">
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-outline-secondary" (click)="open(cancelModal)">
+            {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+        </button>
+
+        <button type="button" class="btn btn-primary me-2 ms-2" (click)="validateForm(save)">
+            {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+        </button>
+    </div>
+</div>
+
+
+<ng-template #cancelModal let-modal>
+    <div class="error-modal">
+        <div class="modal-body">
+            <div class="mb-3 row">
+                <label class="col-12 col-form-label">
+                    {{ "PAGES.COMMON.MESSAGES.CANCEL_MESSAGE" | translate }}</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                {{ "PAGES.COMMON.LABELS.NO" | translate }}
+            </button>
+
+            <button type="button" class="btn btn-primary" (click)="close()"
+                [routerLink]="['/']">
+                {{ "PAGES.COMMON.LABELS.YES" | translate }}
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #save let-modal>
+    <div class="default-modal">
+        <div class="modal-body">
+            <div class="mb-3 row">
+                <label class="col-12 col-form-label">
+                    {{ "PAGES.COMMON.MESSAGES.BASIC_CONFIRM_SAVE" | translate }}</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                {{ "PAGES.COMMON.LABELS.NO" | translate }}
+            </button>
+
+            <button class="btn btn-primary" type="button" (click)="updateExternalReviewer()">
+                {{ "PAGES.COMMON.LABELS.YES" | translate }}
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

@@ -1,0 +1,33 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">{{ 'PAGES.DASHBOARD.OQF.LABELS.CARD_JOIN_REQUESTS' | translate }}</h5>
+  </div>
+  <div class="card-body">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <label class="mb-0">{{ 'PAGES.DASHBOARD.OQF.LABELS.YEAR' | translate }}</label>
+        <select class="form-select form-select-sm w-auto" [value]="selectedYear === null ? '' : selectedYear" (change)="onYearChange($any($event.target).value)">
+          <option *ngFor="let option of yearOptions" [value]="option.value === null ? '' : option.value">
+            {{ option.labelKey ? (option.labelKey | translate) : option.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <oaaaqa-ag-grid
+      [dataList]="tableData"
+      [columns]="columns"
+      [showRowNumbers]="false"
+      [enableColumnFilters]="false"
+      [sizeColumnsToFit]="true"
+      [pagination]="false">
+    </oaaaqa-ag-grid>
+
+    <app-stacked-bar-chart
+      [series]="series"
+      [categories]="categories"
+      [dataLabelsEnabled]="true"
+      [colors]="colors">
+    </app-stacked-bar-chart>
+  </div>
+</div>

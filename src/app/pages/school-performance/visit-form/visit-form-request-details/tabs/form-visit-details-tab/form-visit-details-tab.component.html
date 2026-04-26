@@ -1,0 +1,16 @@
+<visit-details *ngIf="visitData" [visitData]="visitData"></visit-details>
+
+<form-visit-details
+        *ngIf="visitFormRequestInfo&& visitFormRequestInfo.type == 'CLASSROOM_OBSERVATION'"
+        [visitFormRequestInfo]="visitFormRequestInfo"
+        [visitData]="visitData" [grades]="grades" [periods]="periods" [showButtons]="false"
+        [editable]="false">
+</form-visit-details>
+
+<general-evidence-visit-details
+        *ngIf="visitFormRequestInfo&& visitFormRequestInfo.type == 'GENERAL_EVIDENCE'"
+        [visitFormRequestInfo]="visitFormRequestInfo"
+        [visitData]="visitData" [showButtons]="false" [activityTypes]="activityTypes"
+        [editable]="false">
+</general-evidence-visit-details>
+

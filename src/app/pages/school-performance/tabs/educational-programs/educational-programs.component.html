@@ -1,0 +1,34 @@
+<div class="tab-content">
+  <div class="tab-header">
+    <h2>{{ 'PAGES.SCHOOL_PERFORMANCE.TABS.EDUCATIONAL_PROGRAMS' | translate }}</h2>
+  </div>
+  
+  <div class="tab-body">
+    <div class="educational-programs-container">
+      <div class="section-header">
+        <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.TABS.EDUCATIONAL_PROGRAMS' | translate }}</h3>
+      </div>
+      <!-- Main Table Section -->
+      <div class="table-section">
+        <div class="table-container">
+            <oaaaqa-ag-grid
+              [dataList]="schoolInfo.educationalProgramsData"
+              [columns]="educationalProgramsColumns"
+              [selectable]="false"
+              [actions]="gridActions"
+              [pinnedBottomRowData]="pinnedBottomRowData"
+              [parentComponent]="this"
+              [pagination]="true"
+              [paginationPageSize]="10"
+              [paginationPageSizeSelector]="[5, 10, 20, 50]"
+              (cellValueChanged)="onCellValueChanged($event)"
+              (downloadAttachments)="onDownloadAttachments($event)"
+              (gridReady)="onGridReady($event)"
+              tableHeadColor="#E6F2F7">
+            </oaaaqa-ag-grid>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div> 

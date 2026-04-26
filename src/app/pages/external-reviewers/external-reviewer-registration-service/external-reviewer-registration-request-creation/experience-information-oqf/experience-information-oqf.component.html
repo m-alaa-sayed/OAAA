@@ -1,0 +1,116 @@
+<form #oqfForm="ngForm">
+    <!-- section 1 title -->
+    <h6>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.RELEVANT_EXPERIENCE_AND_ATTACHMENTS" | translate }}</h6>
+    <!-- row 1 -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="mb-3">
+                <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.QUALIFICATIONS_ON_THE_OQF" | translate }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                    <small class="text-danger ms-3">
+                        ({{
+                        'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                </label>
+                <textarea type="text" class="form-control" name="qualificationReferencingExperience" required
+                    id="qualificationReferencingExperience" #qualificationReferencingExperience="ngModel"
+                    [disabled]="!isEditMode"
+                    [(ngModel)]="this.externalReviewersRegistrationRequestInfo.oqfExperience.qualificationReferencingExperience"
+                    placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+                    (ngModelChange)="onTextChange(externalReviewersRegistrationRequestInfo.oqfExperience, 'qualificationReferencingExperience', $event)">
+                    </textarea>
+                <div *ngIf="isSubmitting && qualificationReferencingExperience.invalid" class="invalid-feedback">
+                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- row 2 -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="mb-3">
+                <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.TRAINING_OR_EXPERIENCE"
+                    |
+                    translate }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                    <small class="text-danger ms-3">
+                        ({{
+                        'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                </label>
+                <textarea type="text" class="form-control" name="oqfTrainingOrParticipation" required
+                    id="oqfTrainingOrParticipation" #oqfTrainingOrParticipation="ngModel" [disabled]="!isEditMode"
+                    [(ngModel)]="this.externalReviewersRegistrationRequestInfo.oqfExperience.oqfTrainingOrParticipation"
+                    placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+                    (ngModelChange)="onTextChange(externalReviewersRegistrationRequestInfo.oqfExperience, 'oqfTrainingOrParticipation', $event)">
+                    </textarea>
+                <div *ngIf="isSubmitting && oqfTrainingOrParticipation.invalid" class="invalid-feedback">
+                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- row 3 -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="mb-3">
+                <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.HOW_YOU_MEET_THE_OQFER_CRITERIA" | translate
+                    }}
+                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                    <small class="text-danger ms-3">
+                        ({{
+                        'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                </label>
+                <textarea type="text" class="form-control" name="nationalCriteriaApplicationAbility" required
+                    id="nationalCriteriaApplicationAbility" #nationalCriteriaApplicationAbility="ngModel"
+                    [disabled]="!isEditMode"
+                    [(ngModel)]="this.externalReviewersRegistrationRequestInfo.oqfExperience.nationalCriteriaApplicationAbility"
+                    placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+                    (ngModelChange)="onTextChange(externalReviewersRegistrationRequestInfo.oqfExperience, 'nationalCriteriaApplicationAbility', $event)">
+                    </textarea>
+                <div *ngIf="isSubmitting && nationalCriteriaApplicationAbility.invalid" class="invalid-feedback">
+                    <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- section 2 title -->
+    <h6>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.REQUIRED_DOCUMENTS" | translate }}</h6>
+
+    <div class="row">
+        <div class="col-6 mt-2">
+            <label>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.CV" | translate }}
+                <span *ngIf="isEditMode" class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <ng-container *ngIf="isEditMode">
+                    <input type="file" class="d-none" #fileInput (change)="onFileSelected($event)" id="inputGroupFile02"
+                        aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+                    <button class="btn btn-outline-primary" type="button" (click)="fileInput.click()">
+                        <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                    </button>
+                </ng-container>
+
+                <ng-container #fileSelected>
+                    <input type="text" class="form-control m-0" [disabled]="true"
+                        [value]="externalReviewersRegistrationRequestInfo.oqfExperience.resumeFilePath || ''" readonly
+                        title="File selected">
+                </ng-container>
+                <button *ngIf="externalReviewersRegistrationRequestInfo.oqfExperience.resumeFilePath" type="button"
+                    class="btn btn-outline-success" type="button" id="inputGroupFileAddon04"
+                    (click)="downloadUploadedFile(this.externalReviewersRegistrationRequestInfo.oqfExperience.resumeFilePath ,this.externalReviewersRegistrationRequestInfo.oqfExperience.resumeBucketName)">Download</button>
+
+            </div>
+            <div *ngIf="isSubmitting && !externalReviewersRegistrationRequestInfo.oqfExperience.resumeBucketName"
+                class="invalid-feedback">
+                <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+            </div>
+        </div>
+    </div>
+
+
+</form>

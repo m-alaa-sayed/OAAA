@@ -1,0 +1,38 @@
+<div
+  class="page-top-section mb-3"
+  [ngStyle]="{ 'background-image': backgroundImage ? 'url(' + backgroundImage + ')' : 'none' }"
+>
+  <div class="row">
+    <div class="col-md-8">
+      <h1 class="m-0">
+        <span class="text-secondary fs-24 ff-bold">{{ title || '' }}</span>
+      </h1>
+
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item">
+            <a
+              href="javascript:void(0)"
+              class="d-flex align-items-center"
+              [routerLink]="['/']"
+              routerLinkActive="router-link-active"
+            >
+              <i class="ri-home-6-line me-2"></i>{{ 'MENUITEMS.MENU.HOME' | translate }}
+            </a>
+          </li>
+
+          @if (breadcrumbItems.length) {
+            @for (item of breadcrumbItems; track $index) {
+              <li class="breadcrumb-item" [class.active]="item.active">
+                <a href="javascript:void(0)" *ngIf="item.link" (click)="navigateWithState(item)">
+                  {{ item.label }}
+                </a>
+                <span *ngIf="!item.link">{{ item.label }}</span>
+              </li>
+            }
+          }
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>

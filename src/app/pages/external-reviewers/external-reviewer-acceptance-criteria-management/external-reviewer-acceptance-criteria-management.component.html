@@ -1,0 +1,37 @@
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<page-title [title]="pageTitle |translate" [breadcrumbItems]="[{ label: pageTitle |translate,  active: true }]"></page-title>
+<div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">{{ 'PAGES.EXTERNAL_REVIEWERS_ACCEPTANCE_CRITERIA_MANAGEMENT.LABELS.MAIN_CATEGORIES_INFO' | translate }}</h5>
+        <div class="d-flex">
+            <button (click)="changeDraggableState()" class="btn btn-outline-primary ms-3" *ngIf="!draggable">
+                <i class="ri-edit-line align-bottom me-1"></i> {{ 'PAGES.COMMON.LABELS.CHANGE_ORDER' | translate }}
+            </button>
+            <div class="d-flex" *ngIf="draggable">
+                <button (click)="saveNewOrder()" class="btn btn-outline-primary ms-3">
+                    <i class="ri-save-line align-bottom me-1"></i> {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+                </button>
+                <button (click)="cancelNewOrder()" class="btn btn-outline-primary ms-3">
+                    <i class="ri-close-line align-bottom me-1"></i> {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+                </button>
+            </div>
+            <button (click)="openMainCriteriaDetails(null, undefined)" class="btn btn-primary ms-3">
+                <i class="ri-add-line align-bottom me-1"></i> {{ 'PAGES.COMMON.LABELS.ADD' | translate }}
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <oaaaqa-ag-grid 
+            [enableDrage]="draggable" 
+            [columns]="columns" 
+            [actions]="actions" 
+            [dataList]="dtos"
+            (rowsOrderChanged)="receiveNewOrder($event)">
+        </oaaaqa-ag-grid>
+    </div>
+</div>
+<div class="card shadow-sm my-5">
+    <app-common-attachments [attachmentList]="attachments || []"
+            (attachmentAddEventEmitter)="addAttchment($event)" (attachmentRemoveEventEmitter)="removeAttchment($event)">
+    </app-common-attachments>
+</div>

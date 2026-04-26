@@ -1,0 +1,49 @@
+<div class="card dashboard-print-card">
+  <div class="card-header">
+    <h5 class="card-title">{{ 'PAGES.DASHBOARD.CSEQA.LABELS.CARD_YEAR_COMPARISON' | translate }}</h5>
+  </div>
+  <div class="card-body">
+   
+
+    <app-grouped-bar-chart
+      [series]="series"
+      [categories]="categories"
+      [dataLabelsEnabled]="true"
+      [colors]="colors">
+    </app-grouped-bar-chart>
+
+     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+      <div class="d-flex flex-wrap gap-2">
+        <select class="form-select form-select-sm w-auto" name="previousYear" [(ngModel)]="previousYear" (ngModelChange)="onPreviousYearChange($event)">
+          <option *ngFor="let year of yearOptions" [ngValue]="year">{{ year }}</option>
+        </select>
+        <select class="form-select form-select-sm w-auto" name="currentYear" [(ngModel)]="currentYear" (ngModelChange)="onCurrentYearChange($event)">
+          <option *ngFor="let year of yearOptions" [ngValue]="year">{{ year }}</option>
+        </select>
+        <select class="form-select form-select-sm w-auto" name="reviewerType" [(ngModel)]="reviewerType" (ngModelChange)="onReviewerTypeChange($event)">
+          <option *ngFor="let option of reviewerTypeOptions" [ngValue]="option.value">{{ option.labelKey | translate }}</option>
+        </select>
+        <select class="form-select form-select-sm w-auto" name="region" [(ngModel)]="region" (ngModelChange)="onRegionChange($event)">
+          <option *ngFor="let option of regionOptions" [ngValue]="option.value">{{ option.labelKey | translate }}</option>
+        </select>
+      </div>
+      <div class="d-flex gap-2 dashboard-print-actions">
+        <button type="button" class="btn btn-primary btn-sm" (click)="exportPdf()" [disabled]="isExporting">
+          {{ !isExporting ? ('PAGES.DASHBOARD.CSEQA.LABELS.EXPORT_PDF' | translate) : ('PAGES.COMMON.LABELS.LOADING' | translate) }}
+        </button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="exportExcel()" [disabled]="isExporting">
+          {{ !isExporting ? ('PAGES.DASHBOARD.CSEQA.LABELS.EXPORT_EXCEL' | translate) : ('PAGES.COMMON.LABELS.LOADING' | translate) }}
+        </button>
+      </div>
+    </div>
+
+    <oaaaqa-ag-grid
+      [dataList]="tableData"
+      [columns]="columns"
+      [showRowNumbers]="false"
+      [enableColumnFilters]="false"
+      [sizeColumnsToFit]="true"
+      [pagination]="false">
+    </oaaaqa-ag-grid>
+  </div>
+</div>

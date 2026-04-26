@@ -1,0 +1,45 @@
+<div class="card mx-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">{{'PAGES.CREATE_ACCOUNT.LABELS.EMAIL_INFO' | translate }}</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <div class="mb-3">
+                    <label>{{ "PAGES.CREATE_ACCOUNT.LABELS.EMAIL" | translate }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" class="form-control" name="email" id="email" 
+                        [pattern]="EMAIL_PATTERN" noWhitespace placeholder="{{ 'PAGES.CREATE_ACCOUNT.LABELS.EMAIL' | translate }}"
+                        #email="ngModel" [(ngModel)]="registrationCompletionRequestDto.email" required
+                        [ngClass]="{'is-invalid': isSubmitting && email.invalid}">
+                    <!-- <div *ngIf="isSubmitting && email.invalid" class="invalid-feedback">
+                        <span>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</span>
+                    </div> -->
+                </div>
+            </div>
+            <div class="col-12 mx-5">
+                <h6>{{ "PAGES.CREATE_ACCOUNT.MESSAGES.EMAIL_INFO_MESSAGE" | translate }}</h6>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="card mx-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="d-flex justify-content-between rounded">
+                <button type="button" (click)="cancel()" class="btn btn-outline-secondary mx-2">
+                    {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                </button>
+
+                <button type="button" [disabled]="email.invalid" (click)="next()"
+                    class="step-next btn btn-primary me-2">
+                    {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+                    <i [ngClass]="translate.currentLang=='ar'? 'ri-arrow-left-lines' : 'ri-arrow-right-line'"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">{{ cartTitle }}</h5>
+        <div class="d-flex">
+            <button (click)="changeDraggableState()" class="btn btn-outline-success ms-3" *ngIf="!draggable">
+                <i class="ri-edit-line align-bottom me-1"></i> {{ 'PAGES.COMMON.LABELS.CHANGE_ORDER' | translate }}
+            </button>
+            <div class="d-flex" *ngIf="draggable">
+                <button (click)="saveNewOrder()" class="btn btn-outline-success ms-3">
+                    <i class="ri-save-line align-bottom me-1"></i> {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+                </button>
+                <button (click)="cancelNewOrder()" class="btn btn-outline-success ms-3">
+                    <i class="ri-close-line align-bottom me-1"></i> {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+                </button>
+            </div>
+            <button *ngIf="isEditMode" (click)="openItemsDetails(null)" class="btn btn-success ms-3">
+                {{ 'PAGES.COMMON.LABELS.ADD' | translate }}
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <oaaaqa-ag-grid 
+            [enableDrage]="draggable" 
+            [columns]="columns" 
+            [actions]="actions" 
+            [dataList]="items"
+            (rowsOrderChanged)="receiveNewOrder($event)"></oaaaqa-ag-grid>
+    </div>
+</div>

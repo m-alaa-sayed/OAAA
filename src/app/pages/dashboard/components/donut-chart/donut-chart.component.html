@@ -1,0 +1,12 @@
+<div class="donut-chart-wrapper">
+  <h6 *ngIf="title" class="text-center mb-2">{{ title }}</h6>
+  <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [labels]="chartOptions.labels"
+    [colors]="chartOptions.colors"
+    [legend]="chartOptions.legend"
+    [dataLabels]="chartOptions.dataLabels"
+    [plotOptions]="chartOptions.plotOptions">
+  </apx-chart>
+</div>

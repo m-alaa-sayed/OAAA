@@ -1,0 +1,33 @@
+<div class="card dashboard-print-card">
+  <div class="card-header">
+    <h5 class="card-title mb-0">{{ 'PAGES.DASHBOARD.OQF.LABELS.CARD_SPECIALIZATION_DISTRIBUTION' | translate }}</h5>
+  </div>
+  <div class="card-body">
+    <app-stacked-bar-chart
+      [series]="series"
+      [categories]="categories"
+      [dataLabelsEnabled]="true"
+      [colors]="colors">
+    </app-stacked-bar-chart>
+
+    <div class="d-flex justify-content-end align-items-center mb-3 gap-2 dashboard-print-actions">
+      <button
+        type="button"
+        class="btn btn-primary btn-sm"
+        [disabled]="isExporting || !tableData.length"
+        (click)="exportPdf()">
+        <span *ngIf="isExporting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        {{ !isExporting ? ('PAGES.DASHBOARD.OQF.LABELS.EXPORT_PDF' | translate) : ('PAGES.COMMON.LABELS.LOADING' | translate) }}
+      </button>
+    </div>
+
+    <oaaaqa-ag-grid
+      [dataList]="tableData"
+      [columns]="columns"
+      [showRowNumbers]="false"
+      [enableColumnFilters]="false"
+      [sizeColumnsToFit]="true"
+      [pagination]="false">
+    </oaaaqa-ag-grid>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<page-title [title]="'MENUITEMS.MENU.EXTERNAL_REVIEW_VISIT_REPORTS' | translate"
+            [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.EXTERNAL_REVIEW_VISIT_REPORTS' | translate, active: true }]"></page-title>
+
+
+<external-review-visit-reports-actions *ngIf="requestObject && taskId" 
+                                       #actionsComponent
+                                       (actionEventEmitter)="submit($event)"
+                                       (validationEventEmitter)="isSubmitted = $event"
+                                       (validateBeforeOpenEmitter)="validateBeforeOpen($event, actionsComponent)"
+                                       [requestObject]="requestObject"></external-review-visit-reports-actions>
+
+<request-main-data *ngIf="requestObject" [mainRequestData]="mainRequestData "></request-main-data>
+
+<request-user-details *ngIf="requestObject" [applicantData]="requestObject.applicantUser"></request-user-details>
+
+<app-report-document-downloader *ngIf="requestObject && requestObject.visitReportSubmissionRequestInfoDto.id"
+                                (generateReport)="generateReportDocument($event)"
+                                [visitReportSubmissionRequestInfo]="requestObject.visitReportSubmissionRequestInfoDto">
+</app-report-document-downloader>
+
+<!-- tabs -->
+<app-tabs *ngIf=" requestObject && showTabs" [tabs]="tabs"></app-tabs>
+
+
+<follow-up-request *ngIf="requestObject && !schoolView"
+                   [requestHistoryList]="requestObject.requestHistoryList"></follow-up-request>
+
+
+<external-review-visit-reports-actions *ngIf="requestObject && taskId" 
+                                       #actionsComponent
+                                       (actionEventEmitter)="submit($event)"
+                                       (validationEventEmitter)="isSubmitted = $event"
+                                       (validateBeforeOpenEmitter)="validateBeforeOpen($event, actionsComponent)"
+                                       [requestObject]="requestObject"></external-review-visit-reports-actions>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

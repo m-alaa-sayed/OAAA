@@ -1,0 +1,68 @@
+<div class="card" *ngIf="procedureData">
+    <div class="card-header">
+        <h4 class="card-title mb-0">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.PROCEDURE_INFO' | translate }}</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.ID' | translate }} : </label>
+                <span class="mx-2">{{ procedureData.id }}</span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.CODE' | translate }} : </label>
+                <span class="mx-2">{{ procedureData.code }}</span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.CREATED_ON' | translate }} :
+                </label>
+                <span class="mx-2">{{ procedureData.createdOn | date: 'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.NAME_AR' | translate }} :
+                </label>
+                <span class="mx-2">{{ procedureData.nameAr }}</span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.NAME_EN' | translate }} :
+                </label>
+                <span class="mx-2">{{ procedureData.nameEn }}</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.DESCRIPTION_AR' | translate }}
+                    : </label>
+                <span class="mx-2">{{ procedureData.descriptionAr }}</span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.DESCRIPTION_EN' | translate }}
+                    : </label>
+                <span class="mx-2">{{ procedureData.descriptionEn }}</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.IS_CLIENT_ACCESSIBLE' |
+                    translate }} : </label>
+                <span class="mx-2">
+                    <span class="badge" [ngClass]="procedureData.isClientAccessible ? 'bg-success' : 'bg-danger'">
+                        {{ ( procedureData.isClientAccessible ? 'PAGES.COMMON.LABELS.YES' : 'PAGES.COMMON.LABELS.NO' ) | translate }}
+                    </span>
+                </span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">{{ 'PAGES.USER_MANAGEMENT_ADMIN.LABELS.ENABLED' | translate }} :
+                </label>
+                <span class="mx-2">
+                    <span class="badge" [ngClass]="procedureData.enabled ? 'bg-success' : 'bg-danger'">
+                        {{ ( procedureData.enabled ? 'PAGES.COMMON.LABELS.ACTIVE': 'PAGES.COMMON.LABELS.INACTIVE' ) | translate }}
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

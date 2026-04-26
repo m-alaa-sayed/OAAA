@@ -1,0 +1,214 @@
+<!-- section 1 title -->
+
+
+<!-- Button to open modal -->
+<div class="card-header d-flex justify-content-between align-items-center p-3">
+    <h5 class="text-start">{{ "PAGES.COMMON.LABELS.ATTACHMENTS" | translate }}</h5>
+    <button class="btn btn-primary justify-content-endd-flex" *ngIf="isEditMode" (click)="open(addFile)">
+        <i class="ri-add-line align-bottom me-1"></i>
+        {{ "PAGES.COMMON.LABELS.ADD" | translate }}
+    </button>
+</div>
+
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-gridjs">
+            <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">{{ "PAGES.COMMON.LABELS.FILE_NAME_AR" | translate }}</th>
+                    <th class="text-center">{{ "PAGES.COMMON.LABELS.FILE_NAME_EN" | translate }}</th>
+                    <th class="text-center" *ngIf="showResponsibleData">{{ "PAGES.COMMON.LABELS.JOB_TITLE" | translate }}</th>
+                    <th class="text-center" *ngIf="showResponsibleData">{{ "PAGES.COMMON.LABELS.EMPLOYEE_NAME" | translate }}</th>
+                    <th class="text-center">{{ "PAGES.COMMON.LABELS.ATTACHMENT_DATE_AND_TIME" | translate }}</th>
+                    <th class="text-center">{{ "PAGES.COMMON.LABELS.NOTES" | translate }}</th>
+                    <th class="text-center">{{ "PAGES.COMMON.LABELS.FILE" | translate }}</th>
+                    <th *ngIf="isEditMode" class="text-center">{{ "PAGES.COMMON.LABELS.ACTIONS" | translate }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of paginatedList; let i = index" class="text-center">
+                    <td class="text-center">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                    <td class="text-center">
+                        {{row.fileNameAr}}
+                    </td>
+                    <td class="text-center">
+                        {{row.fileNameEn}}
+                    </td>
+                    <td class="px-2 py-2" *ngIf="row.id && showResponsibleData">
+                        {{row.user?.jobTitle}}
+                    </td>
+                    <td class="px-2 py-2" *ngIf="row.id && showResponsibleData">
+                        {{translate.currentLang === 'ar' ? row.user?.fullNameAr : row.user?.fullNameEn}}
+                    </td>
+
+                    <td class="px-2 py-2" *ngIf="!row.id && showResponsibleData">
+                        {{currentUser.jobTitle}}
+                    </td>
+                    <td class="px-2 py-2" *ngIf="!row.id && showResponsibleData">
+                        {{translate.currentLang === 'ar' ? currentUser.fullNameAr : currentUser.fullNameEn}}
+                    </td>
+                    <td class="text-center">
+                        <span *ngIf="!row.createdOn">-</span>
+                        <span *ngIf="row.createdOn && translate.currentLang === 'ar'" dir="ltr">{{ row.createdOn | date:'yyyy-MM-dd hh:mm a':'':'en' }}</span>
+                        <span *ngIf="row.createdOn && translate.currentLang !== 'ar'">{{ row.createdOn | date:'dd-MM-yyyy hh:mm a' }}</span>
+                    </td>
+                    <td class="text-center">
+                        {{row.notes}}
+                    </td>
+                    <td class="text-center">
+                        <a (click)="downloadUploadedFile(row.fileName ,row.fileBucketName)"
+                            class="avatar-title bg-light text-primary fs-3 cursor-pointer">
+                            <i class="ri-download-fill"></i>
+                        </a>
+                    </td>
+                    <td *ngIf="isEditMode && (row.user == null || row.user?.id == this.currentUser.id)" class="text-center">
+                        <button class="btn" (click)="removeRow((currentPage - 1) * itemsPerPage + i)">
+                            <i class="ri-delete-bin-line text-danger"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- No Data Section -->
+        <div *ngIf="!attachmentList || attachmentList.length == 0 " class="text-center py-4 text-muted">
+            {{ "PAGES.COMMON.MESSAGES.NO_RESULT" | translate }}
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav *ngIf="attachmentList && attachmentList.length > 0" class="d-flex justify-content-end mt-3">
+        <ul class="pagination">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+                <button class="page-link" (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1">
+                    &laquo;
+                </button>
+            </li>
+
+            <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index"
+                [class.active]="currentPage === i + 1">
+                <button class="page-link" (click)="currentPage = i + 1">{{ i + 1 }}</button>
+            </li>
+
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <button class="page-link" (click)="currentPage = currentPage + 1"
+                    [disabled]="currentPage === totalPages">
+                    &raquo;
+                </button>
+            </li>
+        </ul>
+    </nav>
+    <!-- add pigination here -->
+</div><!-- end card-body -->
+
+<!-- <div class="row justify-content-md-between align-items-md-center"> -->
+<!-- <div class="col-sm-12 col-md-5">
+            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                Showing
+                {{service.startIndex}} to
+                {{service.endIndex}} of {{service.totalRecords}}
+                entries
+            </div>
+        </div> -->
+<!-- Pagination -->
+<!-- <div class="col-sm-12 col-md-5">
+            <div class="text-md-right float-md-end gridjs-pagination">
+                <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page"
+                    [pageSize]="service.pageSize">
+                </ngb-pagination>
+            </div>
+        </div> -->
+<!-- End Pagination -->
+<!-- </div> -->
+
+
+<ng-template #addFile>
+    <div class="default-modal">
+        <div class="modal-header d-flex justify-content-between align-items-center flex-row bg-primary-light p-3">
+            <h5 class="modal-title m-0">
+                {{'PAGES.COMMON.LABELS.ADD_ATTACHMENT' | translate }}
+            </h5>
+            <button type="button" class="btn-close p-0 m-0" data-bs-dismiss="modal" aria-label="Close"
+                (click)="close();"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <!-- row 1 -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.COMMON.LABELS.FILE_NAME_AR" | translate }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" name="fileNameAr" id="fileNameAr"
+                                #fileNameAr="ngModel" [(ngModel)]="attachmentObject.fileNameAr">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.COMMON.LABELS.FILE_NAME_EN" | translate }}
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" name="fileNameEn" id="fileNameEn"
+                                #fileNameEn="ngModel" [(ngModel)]="attachmentObject.fileNameEn">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rrow 2 -->
+                <div class="row">
+                    <div class="col-12 my-3">
+                        <label>{{ "PAGES.COMMON.LABELS.FILE" | translate }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
+                            <ng-container>
+                                <input type="file" class="form-control" id="inputGroupFile02"
+                                    (change)="onFileSelected($event)" aria-describedby="inputGroupFileAddon04"
+                                    aria-label="Upload">
+                            </ng-container>
+                            <ng-template #fileSelected>
+                                <input type="text" class="form-control" [value]="selectedFileName" readonly
+                                    title="File selected">
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- row 3 -->
+                <div class="row ">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label>{{ "PAGES.COMMON.LABELS.NOTES"
+                                |
+                                translate }}
+                                <small class="text-danger ms-3">
+                                    ({{
+                                    'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                            </label>
+                            <textarea type="text" class="form-control" name="notes" id="notes" #notes="ngModel"
+                            placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                            (ngModelChange)="onTextChange()"    
+                            [(ngModel)]="attachmentObject.notes">
+                    </textarea>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="modal-footer d-flex">
+            <button type="button" class="btn btn-outline-secondary" (click)="cancelAttachment()">
+                {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+            </button>
+            <button class="btn btn-primary" type="button" (click)="addAttachment()" [disabled]="isAttachmentInvalid()">
+                {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+            </button>
+        </div>
+    </div>
+</ng-template>

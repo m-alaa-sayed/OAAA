@@ -1,0 +1,82 @@
+<div class="mx-4">
+    <div class="card-body">
+
+        <div class="title py-3">
+            <h4>{{ "PAGES.EXTERNAL_REVIEWER.LABELS.PLEDGE" | translate }}</h4>
+        </div>
+
+        <div class="row mx-5">
+
+            <div class="col-12 justify-content-start py-3"
+                [innerHTML]="translate.currentLang =='ar'?  externalReviewerSettingDto.pledgeAr : externalReviewerSettingDto.pledgeEn">
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <div class="mt-5 d-flex justify-content-start">
+                    <div class="form-check form-check-inline form-radio-primary mx-0">
+
+                        <input type="checkbox" class="form-check-input" name="pledgeAccepted" id="pledgeAccepted"
+                            #pledgeAccepted="ngModel" [disabled]="!showButtons"
+                            [(ngModel)]="externalReviewersRegistrationRequestInfo.pledgeAccepted">
+                        <label class="form-check-label" for="pledgeAccepted">
+                            {{ "PAGES.EXTERNAL_REVIEWER.LABELS.AGREE_TO_THE_ABOVE_CONDITIONS" | translate }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <!-- buttons -->
+        <div *ngIf="showButtons" class="pt-5 d-flex justify-content-between">
+
+            <div class="d-flex justify-content-start rounded">
+                <button type="button" class="step-prev btn btn-primary" (click)="previousEvent.emit()">
+                    {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+                </button>
+
+                <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancelEvent.emit()">
+                    {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+                </button>
+
+            </div>
+
+
+            <div class="d-flex justify-content-end rounded">
+                <button [disabled]="!externalReviewersRegistrationRequestInfo.pledgeAccepted" type="button"
+                    class="step-next btn btn-primary" (click)="open(save)">
+                    {{ 'PAGES.COMMON.LABELS.SAVE_AND_SEND' | translate }}
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<ng-template #save let-modal>
+    <div class="default-modal">
+        <div class="modal-body">
+            <div class="mb-3 row">
+                <label class="col-12 col-form-label">
+                    {{ "PAGES.COMMON.MESSAGES.BASIC_CONFIRM_SAVE" | translate }}</label>
+            </div>
+        </div>
+        <div class="modal-footer d-flex">
+            <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                {{ "PAGES.COMMON.LABELS.NO" | translate }}
+            </button>
+
+            <button class="btn btn-primary" type="button" (click)="submit()">
+                {{ "PAGES.COMMON.LABELS.YES" | translate }}
+            </button>
+        </div>
+    </div>
+</ng-template>

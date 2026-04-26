@@ -1,0 +1,58 @@
+<div class="card dashboard-print-card">
+  <div class="card-header">
+    <h5 class="card-title">{{ 'PAGES.DASHBOARD.OQF.LABELS.CARD_EMPLOYER_DISTRIBUTION' | translate }}</h5>
+  </div>
+  <div class="card-body">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+      <div class="d-flex flex-wrap align-items-center gap-2">
+        <label class="mb-0">{{ 'PAGES.DASHBOARD.OQF.LABELS.YEAR' | translate }}</label>
+        <select class="form-select form-select-sm w-auto" [value]="selectedYear === null ? '' : selectedYear" (change)="onYearChange($any($event.target).value)">
+          <option *ngFor="let option of yearOptions" [value]="option.value === null ? '' : option.value">
+            {{ option.labelKey ? (option.labelKey | translate) : option.label }}
+          </option>
+        </select>
+
+        <label class="mb-0">{{ 'PAGES.DASHBOARD.OQF.LABELS.SEARCH_EMPLOYER' | translate }}</label>
+        <input
+          type="text"
+          class="form-control form-control-sm w-auto"
+          style="min-width: 220px;"
+          [value]="search"
+          (input)="onSearchChange($any($event.target).value)"
+          (keyup.enter)="onSearchSubmit()"
+          [placeholder]="'PAGES.DASHBOARD.OQF.LABELS.SEARCH_PLACEHOLDER' | translate" />
+
+        <button type="button" class="btn btn-primary btn-sm" (click)="onSearchSubmit()">{{ 'PAGES.DASHBOARD.OQF.LABELS.SEARCH' | translate }}</button>
+      </div>
+
+      <div class="d-flex gap-2 dashboard-print-actions">
+        <button type="button" class="btn btn-primary btn-sm" (click)="exportPdf()" [disabled]="isExporting">
+          {{ !isExporting ? ('PAGES.DASHBOARD.OQF.LABELS.EXPORT_PDF' | translate) : ('PAGES.COMMON.LABELS.LOADING' | translate) }}
+        </button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="exportExcel()" [disabled]="isExporting">
+          {{ !isExporting ? ('PAGES.DASHBOARD.OQF.LABELS.EXPORT_EXCEL' | translate) : ('PAGES.COMMON.LABELS.LOADING' | translate) }}
+        </button>
+      </div>
+    </div>
+
+    <oaaaqa-ag-grid
+      [dataList]="tableData"
+      [columns]="columns"
+      [showRowNumbers]="false"
+      [enableColumnFilters]="false"
+      [sizeColumnsToFit]="true"
+      [pagination]="true"
+      [paginationPageSize]="pageSize"
+      [paginationPageSizeSelector]="pageSizeOptions"
+      (onPageChange)="onPageChange($any($event))"
+      (onPageSizeChange)="onPageSizeChange($any($event))">
+    </oaaaqa-ag-grid>
+
+    <app-grouped-bar-chart
+      [series]="series"
+      [categories]="categories"
+      [dataLabelsEnabled]="true"
+      [colors]="colors">
+    </app-grouped-bar-chart>
+  </div>
+</div>

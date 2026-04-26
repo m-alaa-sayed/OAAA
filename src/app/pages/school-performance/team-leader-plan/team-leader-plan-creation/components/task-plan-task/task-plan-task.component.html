@@ -1,0 +1,347 @@
+<form #taskForm="ngForm">
+
+    <div class="default-modal">
+        <div class="modal-header d-flex justify-content-between align-items-center flex-row bg-primary-light p-3">
+            <h5 class="modal-title m-0">
+                {{
+                    'PAGES.TEAM_LEADER_PLAN.LABELS.ADD_TASK' | translate
+                }}
+
+            </h5>
+        </div>
+        <div class="modal-body">
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">{{ "PAGES.TEAM_LEADER_PLAN.LABELS.MEMBER_INFORMATION" | translate }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- row 1 -->
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="form-label">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.NAME'|translate }}</label>
+                            <input type="text" [value]="translate.currentLang=='ar' ?
+                         editTaskObject.memberNameAr : editTaskObject.memberNameEn" class="form-control"
+                                   [disabled]="true">
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.ROLE'|translate }}</label>
+                            <input type="text"
+                                   [value]="'PAGES.COMMON.LABELS.' + editTaskObject.role|translate"
+                                   class="form-control" [disabled]="true">
+                        </div>
+                        <div class="col-4">
+                            <label
+                                    class="form-label">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.SPECIALIZATION'|translate }}</label>
+                            <input type="text" [value]="" class="form-control" [disabled]="true">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card my-2">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">{{ "PAGES.TEAM_LEADER_PLAN.LABELS.TASK_DETAILS" | translate }}</h5>
+                </div>
+                <div class="card-body">
+
+                    <!-- row 1 -->
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.TASK_DATE'|translate }}</label>
+                            <input type="text" [value]="editTaskObject.taskAssignmentDate" class="form-control"
+                                   [disabled]="true">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.PERIOD'|translate }}</label>
+                            <input type="text"
+                                   [value]="'PAGES.TEAM_LEADER_PLAN.LABELS.' + currentSlot|translate "
+                                   class="form-control" [disabled]="true">
+                        </div>
+                    </div>
+
+
+                    <div class="row py-3">
+                        <div class="col-md-12">
+                            <label>{{ "PAGES.TEAM_LEADER_PLAN.LABELS.TASK_TYPE" | translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span>
+                            </label>
+                            <div class="col-12 d-flex">
+                                <div class="form-check form-check-inline form-radio-primary">
+                                    <input class="form-check-input" type="radio" name="taskType" id="interview"
+                                           [disabled]="!isEditMode" [value]="'INTERVIEW'" required
+                                           [(ngModel)]="memberTaskCopy.taskType">
+                                    <label class="form-check-label" for="interview">{{
+                                            "PAGES.TEAM_LEADER_PLAN.LABELS.INTERVIEW" | translate
+                                        }}</label>
+                                </div>
+
+                                <div class="form-check form-check-inline form-radio-primary">
+                                    <input class="form-check-input" [(ngModel)]="memberTaskCopy.taskType" type="radio"
+                                           [disabled]="!isEditMode" [value]="'CLASS_VISIT'" name="taskType" required
+                                           id="classRoomVisit">
+                                    <label class="form-check-label" for="classRoomVisit">{{
+                                            "PAGES.TEAM_LEADER_PLAN.LABELS.CLASSROOM_VISIT" | translate
+                                        }}</label>
+                                </div>
+
+                                <div class="form-check form-check-inline form-radio-primary">
+                                    <input class="form-check-input" [(ngModel)]="memberTaskCopy.taskType" type="radio"
+                                           [disabled]="!isEditMode" [value]="'OTHER'" name="taskType" required
+                                           id="otherTask">
+                                    <label class="form-check-label" for="otherTask">{{
+                                            "PAGES.TEAM_LEADER_PLAN.LABELS.OTHER_TASKS" | translate
+                                        }}</label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- memberTaskCopy.taskType == 'OTHER' -->
+                    <div class="row" *ngIf="memberTaskCopy.taskType == 'OTHER'">
+
+                        <div class="col-4">
+                            <div class="mb-3">
+                                <label>
+                                    {{ "PAGES.TEAM_LEADER_PLAN.LABELS.ACTIVITY_TYPE" | translate }}
+                                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                                </label>
+                                <select class="form-select mb-3" [disabled]="!isEditMode"
+                                        [(ngModel)]="memberTaskCopy.activity" required #activity="ngModel" id="activity"
+                                        name="activity" noWhitespace aria-label="Default select example">
+                                    <option [value]="undefined" disabled selected hidden>
+                                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                    </option>
+                                    <option *ngFor="let activeType of activeTypeOptions" [value]="activeType"
+                                            class="text-dark">
+                                        {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.' + activeType | translate }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div *ngIf="isSubmitting && activity?.invalid" class="text-danger text-start mt-1">
+                                <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                            </div>
+                        </div>
+
+                        <div *ngIf="memberTaskCopy.activity == 'OTHER'" class="col-4">
+                            <label class="form-label">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.OTHER_ACTIVITY_NAME'|translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span></label>
+                            <input type="text" required [disabled]="!isEditMode" #customActivity="ngModel"
+                                   id="customActivity" name="customActivity" [(ngModel)]="memberTaskCopy.customActivity"
+                                   class="form-control">
+                            <div *ngIf="isSubmitting && customActivity?.invalid" class="text-danger text-start mt-1">
+                                <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <!-- <div class="col-4">
+                            <div class="mb-3">
+                                <label>
+                                    {{ "PAGES.TEAM_LEADER_PLAN.LABELS.DOMAIN" | translate }}
+                                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                                </label>
+                                <select class="form-select mb-3" #domain="ngModel" id="domain" name="domain"
+                                        noWhitespace [disabled]="!isEditMode" required
+                                        [(ngModel)]="memberTaskCopy.domain"
+                                        aria-label="Default select example">
+                                    <option [value]="undefined" disabled selected hidden>
+                                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                    </option>
+                                    <option *ngFor="let domain of visitDomainOptions" [value]="domain"
+                                            class="text-dark">
+                                        {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.' + domain | translate }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div *ngIf="isSubmitting && domain?.invalid" class="text-danger text-start mt-1">
+                                <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                            </div>
+                        </div> -->
+
+                        <div class="col-4" *ngIf="memberTaskCopy.taskType == 'CLASS_VISIT'">
+                            <div class="mb-3">
+                                <label>
+                                    {{ "PAGES.TEAM_LEADER_PLAN.LABELS.SUBJECT" | translate }}
+                                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                                </label>
+                                <select class="form-select mb-3" [(ngModel)]="memberTaskCopy.subject"
+                                        [disabled]="!isEditMode" required noWhitespace #subject="ngModel" id="subject"
+                                        name="subject" aria-label="Default select example">
+                                    <option [value]="undefined" disabled selected hidden>
+                                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                    </option>
+                                    <option *ngFor="let subject of subjectOptions" [value]="subject" class="text-dark">
+                                        {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.' + subject | translate }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div *ngIf="isSubmitting && subject?.invalid" class="text-danger text-start mt-1">
+                                <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                            </div>
+                        </div>
+
+                          <div class="col-4" *ngIf="memberTaskCopy.taskType != 'CLASS_VISIT'">
+                            <div class="mb-3">
+                                <label>
+                                    {{ "PAGES.TEAM_LEADER_PLAN.LABELS.SUBJECT" | translate }}
+                                </label>
+                                <select class="form-select mb-3" [(ngModel)]="memberTaskCopy.subject"
+                                        [disabled]="!isEditMode"  noWhitespace #subject="ngModel" id="subject"
+                                        name="subject" aria-label="Default select example">
+                                    <option [value]="undefined" disabled selected hidden>
+                                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                    </option>
+                                    <option *ngFor="let subject of subjectOptions" [value]="subject" class="text-dark">
+                                        {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.' + subject | translate }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div *ngIf="memberTaskCopy.subject == 'OTHER'" class="col-4">
+                            <label class="form-label">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.OTHER_SUBJECT_NAME'|translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span></label>
+                            <input type="text" required [disabled]="!isEditMode" #customSubject="ngModel"
+                                   id="customSubject" name="customSubject" [(ngModel)]="memberTaskCopy.customSubject"
+                                   class="form-control">
+                            <div *ngIf="isSubmitting && customSubject?.invalid" class="text-danger text-start mt-1">
+                                <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- memberTaskCopy.taskType == 'INTERVIEW && OTHER' -->
+                    <div class="row" *ngIf="memberTaskCopy.taskType != 'CLASS_VISIT'">
+
+                        <div class="col-4">
+                            <div class="mb-3">
+                                <label class="form-label">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.PLACE'|translate }}
+                                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                                </label>
+                                <input type="text" required [disabled]="!isEditMode" #place="ngModel" id="place"
+                                       name="place" [(ngModel)]="memberTaskCopy.place" class="form-control">
+                            </div>
+                            <div *ngIf="isSubmitting && place?.invalid" class="text-danger text-start mt-1">
+                                <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="mb-3">
+                                <label>
+                                    {{ "PAGES.TEAM_LEADER_PLAN.LABELS.TARGET_GROUP" | translate }}
+                                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                                </label>
+                                <select class="form-select mb-3" [disabled]="!isEditMode" #targetAudience="ngModel"
+                                        [(ngModel)]="memberTaskCopy.targetAudience" required name="targetAudience"
+                                        id="targetAudience" noWhitespace aria-label="Default select example">
+                                    <option [value]="undefined" disabled selected hidden>
+                                        {{ "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER" | translate }}
+                                    </option>
+                                    <option *ngFor="let audience of targetAudienceOptions" [value]="audience"
+                                            class="text-dark">
+                                        {{ 'PAGES.TEAM_LEADER_PLAN.LABELS.' + audience | translate }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div *ngIf="isSubmitting && targetAudience?.invalid" class="text-danger text-start mt-1">
+                                <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                            </div>
+                        </div>
+
+                        <div *ngIf="memberTaskCopy.targetAudience == 'OTHER'" class="col-4">
+                            <label
+                                    class="form-label">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.OTHER_TARGET_GROUP_NAME'|translate }}
+                                <span *ngIf="isEditMode" class="text-danger">*</span></label>
+                            <input type="text" [disabled]="!isEditMode" required #customTargetAudience="ngModel"
+                                   id="customTargetAudience" name="customTargetAudience"
+                                   [(ngModel)]="memberTaskCopy.customTargetAudience" class="form-control">
+                            <div *ngIf="isSubmitting && customTargetAudience?.invalid"
+                                 class="text-danger text-start mt-1">
+                                <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- memberTaskCopy.taskType == 'CLASS_VISIT' -->
+                    <div class="row" *ngIf="memberTaskCopy.taskType == 'CLASS_VISIT'">
+
+                        <div class="col-4">
+                            <div class="mb-3">
+                                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.GRADE'|translate }}
+                                    <span *ngIf="isEditMode" class="text-danger">*</span>
+                                </label>
+                                <input type="text" [disabled]="!isEditMode" #grade="ngModel" id="grade" name="grade"
+                                       required [(ngModel)]="memberTaskCopy.grade" class="form-control">
+                            </div>
+                            <div *ngIf="isSubmitting && grade?.invalid" class="text-danger text-start mt-1">
+                                <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="mb-3">
+                                <label class="form-label">{{ 'PAGES.TEAM_LEADER_PLAN.LABELS.TEACHER_NAME'|translate }}
+                                    <span *ngIf="isEditMode" class="text-danger">*</span></label>
+                                <input type="text" [disabled]="!isEditMode" required #teacherNameAr="ngModel"
+                                       id="teacherNameAr" name="teacherNameAr"
+                                       [(ngModel)]="memberTaskCopy.teacherNameAr"
+                                       class="form-control">
+                            </div>
+                            <div *ngIf="isSubmitting && teacherNameAr?.invalid" class="text-danger text-start mt-1">
+                                <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                            </div>
+                        </div>
+
+                        <!--                        <div class="col-4">-->
+                        <!--                            <div class="mb-3">-->
+                        <!--                                <label class="form-label">{{'PAGES.TEAM_LEADER_PLAN.LABELS.TEACHER_NAME_EN'|translate}}-->
+                        <!--                                     <span *ngIf="isEditMode" class="text-danger">*</span>-->
+                        <!--                                </label>-->
+                        <!--                                <input type="text" [disabled]="!isEditMode" required #teacherNameEn="ngModel"-->
+                        <!--                                    id="teacherNameEn" name="teacherNameEn" [(ngModel)]="memberTaskCopy.teacherNameEn"-->
+                        <!--                                    class="form-control">-->
+                        <!--                            </div>-->
+                        <!--                            <div *ngIf="isSubmitting && teacherNameEn?.invalid" class="text-danger text-start mt-1">-->
+                        <!--                                <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="notes" class="form-label fw-bold d-block mb-2">
+                                {{ "PAGES.COMMON.LABELS.NOTES" | translate }}
+
+                            </label>
+                            <textarea [disabled]="!isEditMode" class="form-control" id="notes" name="notes" rows="6"
+                                      style="resize: vertical; text-align: right;" [(ngModel)]="memberTaskCopy.notes"
+                                      ></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="modal-footer d-flex">
+            <button type="button" class="btn btn-outline-secondary" (click)="onCloseEvent.emit()">
+                {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+            </button>
+
+            <button class="btn btn-primary" type="button" *ngIf="isEditMode" (click)="addTask()">
+                {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+            </button>
+        </div>
+
+    </div>
+
+</form>

@@ -1,0 +1,92 @@
+<page-title [title]="'PAGES.TRAINING_RESULTS.LABELS.REQUEST_FOR_APPROVAL_OF_TRAINING_RESULTS' | translate"
+    [breadcrumbItems]="[{ label: 'PAGES.TRAINING_RESULTS.LABELS.REQUEST_FOR_APPROVAL_OF_TRAINING_RESULTS' | translate, active: true }]"></page-title>
+
+<app-training-results-request-actions *ngIf="requestObject && showChildComponent && taskId"
+    (actionEventEmitter)="submit($event)" [requestObject]="requestObject" [validateAction]="validateBeforeAction.bind(this)"></app-training-results-request-actions>
+
+
+
+<request-main-data *ngIf="mainRequestData  && showChildComponent"
+    [mainRequestData]="mainRequestData"></request-main-data>
+<request-user-details *ngIf="requestObject  && showChildComponent"
+    [applicantData]="requestObject.applicantUser"></request-user-details>
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <h5 class="text-start">{{'PAGES.TRAINING_RESULTS.LABELS.REQUEST_INFO' | translate}}</h5>
+            </div>
+        </div>
+    </div>
+
+
+    <app-external-reviewers-registration-table *ngIf="requestObject  && showChildComponent && !taskId"
+        [serviceCode]="requestObject.oaaaService?.serviceCode || ''"
+        [externalReviewersRegistrationRequestList]="externalReviewersRegistrationRequestList"
+        [externalReviewerTrainingResultList]="requestObject.externalReviewerTrainingResultList"
+        (erTrainingResultObjectEventEmitter)="updateErtraninigResultList($event)"></app-external-reviewers-registration-table>
+
+
+    <div class="py-3 mx-3">
+        <app-external-reviewers-training-result-table 
+        *ngIf="requestObject  && showChildComponent" 
+        [isEditMode]="['CHEQA_ERTR_RETURN_FOR_EDIT', 'CSEQA_ERTR_RETURN_FOR_EDIT', 'OQF_ERTR_RETURN_FOR_EDIT'].includes(requestObject.serviceStep?.stepCode || '') && taskId" 
+        [isGMEditMode]="['CHEQA_ERTR_UNDER_APPROVE', 'CSEQA_ERTR_UNDER_APPROVE', 'OQF_ERTR_UNDER_APPROVE'].includes(requestObject.serviceStep?.stepCode || '') && taskId" 
+        [canDelete]="false"
+        [externalReviewerTrainingResultList]="requestObject.externalReviewerTrainingResultList"
+        >
+    </app-external-reviewers-training-result-table>
+
+    </div>
+</div>
+
+<div class="card shadow-sm mt-4">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <h5 class="text-start">{{ "PAGES.COMMON.LABELS.NOTES" | translate }}</h5>
+                <small class="text-danger ms-3">
+                    ({{
+                    'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <textarea class="form-control" id="notes" name="notes" [disabled]="['CHEQA_ERTR_UNDER_APPROVE', 'CSEQA_ERTR_UNDER_APPROVE', 'OQF_ERTR_UNDER_APPROVE']
+   .includes(requestObject.serviceStep?.stepCode || '') || !taskId" [(ngModel)]="requestObject.notes" rows="6"
+                     style="resize: vertical; text-align: right;"
+                   placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                   (ngModelChange)="onTextChange()"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- *hasPermission="[Permission.CHEQA_ER_Request_VIEW_ALL, Permission.CSEQA_ER_Request_VIEW_ALL, Permission.OQF_ER_Request_VIEW_ALL]" -->
+<div >
+    <app-recommendation-section
+          [model]="requestObject.externalReviewersRegistrationRequestInfo"
+          [erActivities]="erActivities"
+          [module]="module">
+    </app-recommendation-section>
+</div>
+
+<div class="card shadow-sm my-5">
+    <app-common-attachments [attachmentList]="requestObject.requestAttachmentList || []" [isEditMode]="taskId"
+        (attachmentAddEventEmitter)="addAttchment($event)" (attachmentRemoveEventEmitter)="removeAttchment($event)">
+    </app-common-attachments>
+</div>
+
+<follow-up-request *ngIf="requestObject  && showChildComponent"
+    [requestHistoryList]="requestObject.requestHistoryList || []"></follow-up-request>
+
+<app-training-results-request-actions *ngIf="requestObject  && showChildComponent && taskId"
+    (actionEventEmitter)="submit($event)" [requestObject]="requestObject" [validateAction]="validateBeforeAction.bind(this)"></app-training-results-request-actions>
+
+
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

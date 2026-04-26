@@ -1,0 +1,301 @@
+<page-title *ngIf="service" [title]="translate.currentLang == 'ar' ? service.serviceNameAr : service.serviceNameEn"
+  [breadcrumbItems]="[{ label: 'MENUITEMS.MENU.SERVICES' | translate,link:'/jawda/service-management/service-catalogue-list', active: true },
+{ label: translate.currentLang == 'ar' ? service.serviceNameAr : service.serviceNameEn, active: false }]"></page-title>
+<div class="row">
+  <div class="col-xl-9">
+    <!-- Service Info Card -->
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6 col-lg-3 d-flex align-items-start">
+            <div class="service-inner-icon">
+              <img style="height: 1.4rem;" [src]="'data:image/svg+xml;base64,' + service?.serviceLogo" />
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="mb-1">{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICES_NAME" | translate }}</h6>
+              <p class="text-muted mb-0">
+                {{
+                service?.serviceNameAr ? (translate.currentLang == 'ar' ? service.serviceNameAr : service.serviceNameEn)
+                :
+                ("PAGES.COMMON.MESSAGES.NO_DATA_FOUND" | translate)
+                }}
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3 d-flex align-items-start">
+            <div class="service-inner-icon">
+              <i class="ri-sticky-note-line fs-4"></i>
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="mb-1">{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_TYPE" | translate }}</h6>
+              <p class="text-muted mb-0">
+                {{
+                service?.externalService ?
+                ("PAGES.SEVERVICE_MANAGEMENT.LABELS.EXTERNAL_SERVICE" | translate) :
+                ("PAGES.SEVERVICE_MANAGEMENT.LABELS.INTERNAL_SERVICE" | translate)
+                }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Fees -->
+          <div class="col-md-6 col-lg-3 d-flex align-items-start">
+            <div class="service-inner-icon">
+              <i class="ri-money-dollar-circle-line fs-4"></i>
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="mb-1">{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_FEES" | translate }}</h6>
+              <p class="text-muted mb-0">
+                {{
+                service?.feesDescAr ? (translate.currentLang == 'ar' ? service.feesDescAr : service.feesDescEn) :
+                ("PAGES.COMMON.MESSAGES.NO_DATA_FOUND" | translate)
+                }}
+              </p>
+            </div>
+          </div>
+
+          <!-- SLA Time -->
+          <div class="col-md-6 col-lg-3 d-flex align-items-start">
+            <div class="service-inner-icon">
+              <i class="ri-time-line fs-4"></i>
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="mb-1">{{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.AVERAGE_TIME" | translate }}</h6>
+              <p class="text-muted mb-0">
+                {{
+                service?.serviceSlaAr ? (translate.currentLang == 'ar' ? service.serviceSlaAr : service.serviceSlaEn) :
+                ("PAGES.COMMON.MESSAGES.NO_DATA_FOUND" | translate)
+                }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- service description -->
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label fw-semibold">
+              {{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.SERVICE_DESC" | translate }}
+            </label>
+          </div>
+          <div class="col-12">
+            <p class="form-control-plaintext">
+              {{
+              service && service.serviceDescriptionAr
+              ? (translate.currentLang == "ar" ? service.serviceDescriptionAr : service.serviceDescriptionEn)
+              : ("PAGES.COMMON.MESSAGES.NO_DATA_FOUND" | translate)
+              }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- submission steps -->
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label fw-semibold">
+              {{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.SUBMISSION_STEPS" | translate }}
+            </label>
+          </div>
+
+          <div class="col-12" *ngFor="let executionStep of service?.oaaaServiceExecutionSteps; let i = index">
+            <div class="d-flex align-items-start gap-3">
+              <!-- Step Number Badge -->
+              <div class="badge bg-primary fs-6 rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 2rem; height: 2rem;">
+                {{ i + 1 }}
+              </div>
+
+              <!-- Step Details -->
+              <div class="flex-grow-1">
+                <div class="fw-semibold">
+                  {{ translate.currentLang == 'ar' ? executionStep.stepNameAr : executionStep.stepNameEn }}
+                </div>
+                <div class="text-muted small">
+                  {{ translate.currentLang == 'ar' ? executionStep.stepDescriptionAr : executionStep.stepDescriptionEn
+                  }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- attachments list -->
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label fw-semibold">
+              {{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.REQUIRED_DOCUMENT_DETAILS" | translate }}
+            </label>
+          </div>
+
+          <div class="col-12" *ngFor="let document of service?.oaaaServiceRequiredDocuments; let i = index">
+            <div class="d-flex align-items-start gap-3">
+              <!-- Index Number -->
+              <div class="badge bg-secondary fs-6 rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 2rem; height: 2rem;">
+                {{ i + 1 }}
+              </div>
+
+              <!-- Document Name -->
+              <div class="flex-grow-1 mt-1">
+                <div class="fw-medium">
+                  {{ translate.currentLang == 'ar' ? document.documentNameAr : document.documentNameEn }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label fw-semibold">
+              {{ ((service?.module == 'OQF') ?
+              'PAGES.SEVERVICE_MANAGEMENT.LABELS.OQF_CONDITIONS_DATA' :
+              'PAGES.SEVERVICE_MANAGEMENT.LABELS.CONDITIONS_DATA')
+              | translate }}
+            </label>
+          </div>
+
+          <div class="col-12" *ngFor="let condition of service?.oaaaServiceConditions; let i = index">
+            <div class="d-flex align-items-start gap-3">
+              <!-- Step Number Badge -->
+              <div class="badge bg-primary fs-6 rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 2rem; height: 2rem;">
+                {{ i + 1 }}
+              </div>
+
+              <!-- Step Details -->
+              <div class="flex-grow-1">
+                <div class="fw-semibold">
+                  {{ translate.currentLang == 'ar' ? condition.conditionNameAr : condition.conditionNameEn }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ER Policy - Only show for external reviewer services -->
+    <div class="card shadow-sm mb-3" *ngIf="shouldShowErPolicy()">
+      <div class="card-body">
+        <div class="col-12">
+          <label class="form-label fw-semibold">
+            {{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.ER_POLICY" | translate }}
+          </label>
+        </div>
+        
+        <!-- Show English ER Policy when interface language is English -->
+        <div *ngIf="translate.currentLang == 'en' && service?.externalReviewerPolicyEnglishFileName" class="d-flex">
+          <div class="d-flex align-items-center border rounded">
+            <input type="text" class="form-control-plaintext mx-2"
+              [value]="service?.externalReviewerPolicyEnglishFileName || ('PAGES.COMMON.MESSAGES.NO_DATA_FOUND' | translate)"
+              readonly />
+            
+            <button 
+              type="button"
+              class="btn btn-outline-primary"
+              [title]="'PAGES.SEVERVICE_MANAGEMENT.LABELS.DOWNLOAD_ER_POLICY' | translate"
+              (click)="downloadUploadedFile(service.externalReviewerPolicyEnglishFileName, service.externalReviewerPolicyEnglishBucketName)"
+            >
+              <i class="ri-download-2-fill"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Show Arabic ER Policy when interface language is Arabic -->
+        <div *ngIf="translate.currentLang == 'ar' && service?.externalReviewerPolicyArabicFileName" class="d-flex">
+          <div class="d-flex align-items-center border rounded">
+            <input type="text" class="form-control-plaintext mx-2"
+              [value]="service?.externalReviewerPolicyArabicFileName || ('PAGES.COMMON.MESSAGES.NO_DATA_FOUND' | translate)"
+              readonly />
+            
+            <button 
+              type="button"
+              class="btn btn-outline-primary"
+              [title]="'PAGES.SEVERVICE_MANAGEMENT.LABELS.DOWNLOAD_ER_POLICY' | translate"
+              (click)="downloadUploadedFile(service.externalReviewerPolicyArabicFileName, service.externalReviewerPolicyArabicBucketName)"
+            >
+              <i class="ri-download-2-fill"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Show "No data found" when appropriate file for current language is not available -->
+        <p *ngIf="(translate.currentLang == 'en' && !service?.externalReviewerPolicyEnglishFileName) || 
+                  (translate.currentLang == 'ar' && !service?.externalReviewerPolicyArabicFileName)">
+          {{ "PAGES.COMMON.MESSAGES.NO_DATA_FOUND" | translate }}
+        </p>
+      </div>
+    </div>
+
+            
+  </div>
+
+  <div class="col-xl-3">
+    <!-- Sidebar -->
+    <div class="card h-100 d-flex flex-column shadow-sm">
+      <div class="card-body">
+        <div class="mb-4">
+          <button class="btn btn-primary w-100" (click)="startService()">
+            <i class="fa-solid fa-play me-1"></i>
+            {{ "PAGES.SERVICE_CATALOGUE.LABELS.START_SERVICE" | translate }}
+          </button>
+        </div>
+
+        <!-- ENTITIES_CONCERNED_WITH_PROVIDING_SERVICE -->
+          <!-- <div class="mb-4">
+          <div class="service-label-box mb-2">
+            {{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.ENTITIES_CONCERNED_WITH_PROVIDING_SERVICE" | translate }}
+          </div>
+          <ng-container *ngIf="service?.emnServiceConcernedDeptList?.length; else notFoundEntities">
+            <div *ngFor="let concernedDept of service.emnServiceConcernedDeptList" class="label-value mb-1">
+              {{
+              translate.currentLang === 'ar'
+              ? concernedDept.emnSystemLookup.lookupValueAr
+              : concernedDept.emnSystemLookup.lookupValueEn
+              }}
+            </div>
+          </ng-container>
+          <ng-template #notFoundEntities>
+            <div class="label-value">
+              {{ "PAGES.COMMON.MESSAGES.NO_DATA_FOUND" | translate }}
+            </div>
+          </ng-template>
+        </div> -->
+
+        <!-- CUSTOMER_SERVICE -->
+        <div   class="mb-4">
+          <div class="service-label-box mb-2">
+            {{ "PAGES.SEVERVICE_MANAGEMENT.LABELS.CUSTOMER_SERVICE" | translate }}
+          </div>
+          <div class="label-value">
+            {{
+            service?.customerServiceNumber
+            ? service.customerServiceNumber
+            : ("PAGES.COMMON.MESSAGES.NO_DATA_FOUND" | translate)
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

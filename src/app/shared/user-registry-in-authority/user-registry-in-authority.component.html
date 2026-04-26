@@ -1,0 +1,40 @@
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="mb-0 text-start">{{'PAGES.REQUEST_DETAILS.LABELS.USER_REGISTRY_AUTHORITY'|translate}}</h5>
+    </div>
+  
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-gridjs">
+          <thead>
+            <tr>
+              <th class="text-center">{{'PAGES.REQUEST_DETAILS.LABELS.CENTER'|translate}}</th>
+              <th class="text-center">{{'PAGES.REQUEST_DETAILS.LABELS.JOIN_DATE'|translate}}</th>
+              <th class="text-center">{{'PAGES.REQUEST_DETAILS.LABELS.CONTRIBUTION'|translate}}</th>
+              <th class="text-center">{{'PAGES.COMMON.LABELS.STATUS'|translate}}</th>
+              <th class="text-center">{{'PAGES.COMMON.LABELS.NOTES'|translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of userRegistryList">
+              <td class="text-center">
+                {{'MENUITEMS.MENU.' + row.module |translate}}
+              </td>
+              <td class="text-center" *ngIf="translate.currentLang=='ar'">{{ convertTZ(row?.joiningDate) | date :'dd-MM-yyyy'}}</td>
+              <td class="text-center"*ngIf="translate.currentLang=='en'">{{ convertTZ(row?.joiningDate) | date :'dd-MM-yyyy'}}</td>
+              <td class="text-center">0</td>
+              <td class="text-center">{{'PAGES.COMMON.LABELS.' + row.status |translate}}</td>
+             <td class="text-center">{{ row.statusUpdateNotes }}</td>
+            </tr>
+          </tbody>
+        </table>
+  
+          <!-- No Data Section -->
+          <div *ngIf="!userRegistryList || userRegistryList.length == 0 " class="text-center py-4 text-muted">
+              {{ "PAGES.COMMON.MESSAGES.NO_RESULT" | translate }}
+          </div>
+      </div>
+  
+    </div>
+  
+</div>

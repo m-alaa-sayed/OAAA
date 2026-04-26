@@ -1,0 +1,88 @@
+<div class="modal-header" [class.rtl-layout]="isRTL" [attr.dir]="isRTL ? 'rtl' : 'ltr'">
+  <h4 class="modal-title">{{ title }}</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="onCancel()">
+  </button>
+</div>
+
+<div class="modal-body" [class.rtl-layout]="isRTL" [attr.dir]="isRTL ? 'rtl' : 'ltr'">
+  <form #contactForm="ngForm">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.NAME' | translate }} *</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="contact.name"
+            name="name"
+            #nameField="ngModel"
+            [class.is-invalid]="nameField.invalid && nameField.touched"
+            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_NAME' | translate"
+            required>
+          <div class="invalid-feedback" *ngIf="nameField.invalid && nameField.touched">
+            <small *ngIf="nameField.errors?.['required']">
+              {{ 'PAGES.COMMON.VALIDATION.NAME_REQUIRED' | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.PHONE' | translate }} *</label>
+          <input
+            type="tel"
+            class="form-control"
+            [(ngModel)]="contact.phone"
+            name="phone"
+            #phoneField="ngModel"
+            [class.is-invalid]="phoneField.invalid && phoneField.touched"
+            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_PHONE' | translate"
+            pattern="[0-9]+"
+            required>
+          <div class="invalid-feedback" *ngIf="phoneField.invalid && phoneField.touched">
+            <small *ngIf="phoneField.errors?.['required']">
+              {{ 'PAGES.COMMON.VALIDATION.PHONE_REQUIRED' | translate }}
+            </small>
+            <small *ngIf="phoneField.errors?.['pattern']">
+              {{ 'PAGES.COMMON.VALIDATION.PHONE_NUMBERS_ONLY' | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label class="form-label">{{ 'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.EMAIL' | translate }}</label>
+          <input
+            type="email"
+            class="form-control"
+            [(ngModel)]="contact.email"
+            name="email"
+            #emailField="ngModel"
+            [class.is-invalid]="emailField.invalid && emailField.touched && contact.email.length > 0"
+            [placeholder]="'PAGES.SCHOOL_PERFORMANCE.GENERAL_DATA.ENTER_EMAIL' | translate"
+            email>
+          <div class="invalid-feedback" *ngIf="emailField.invalid && emailField.touched && contact.email.length > 0">
+            <small *ngIf="emailField.errors?.['email']">
+              {{ 'PAGES.COMMON.VALIDATION.EMAIL_INVALID' | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+  </form>
+</div>
+
+<div class="modal-footer" [class.rtl-layout]="isRTL" [attr.dir]="isRTL ? 'rtl' : 'ltr'">
+  <button type="button" class="btn btn-secondary" (click)="onCancel()">
+    {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+  </button>
+  <button type="button" class="btn btn-primary" (click)="onSave()" [disabled]="!isValid()">
+    {{ 'PAGES.COMMON.LABELS.ADD' | translate }}
+  </button>
+</div> 

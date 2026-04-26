@@ -1,0 +1,116 @@
+<div class="card shadow-sm" *ngIf="mode == 'inbox' && taskId || mode == 'view'">
+    <div class="card-body">
+        <div class="row">
+            <div *ngIf="mode == 'inbox' && taskId"
+                 class="col-12 d-flex justify-content-end flex-wrap gap-2">
+
+                <button *hasPermission="[Permission.CLASSROOM_OBSERVATION_VISIT_FORM_CREATE , Permission.GENERAL_EVIDENCE_VISIT_FORM_CREATE]"
+                        class="btn btn-success fw-bold"
+                        (click)="setAction('SUBMIT', decision)">
+                    {{ 'PAGES.COMMON.LABELS.SUBMIT' | translate }}
+                </button>
+                <button *hasPermission="[Permission.CLASSROOM_OBSERVATION_VISIT_FORM_CREATE , Permission.GENERAL_EVIDENCE_VISIT_FORM_CREATE]"
+                        class="btn btn-outline-secondary fw-bold"
+                        (click)="setAction('SAVE', decision)">
+                    {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+                </button>
+                <button class="btn btn-outline-secondary" (click)="open(cancel)">
+                    {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+                </button>
+            </div>
+
+            <div *ngIf="mode == 'view' && visitFormRequestInfo.request.serviceStep.stepCode !== 'VISIT_FORM_DELIVERED'"
+                 class="col-12 d-flex justify-content-end gap-2">
+                <button type="button" class="step-prev btn btn-primary"
+                        [routerLink]="'/jawda/school-performance/visit-form/'+visitFormRequestInfo.type+'/management/'+visitFormRequestInfo.scheduledSchoolVisitId ">
+                    {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+                </button>
+
+                <button *hasPermission="[Permission.CLASSROOM_OBSERVATION_VISIT_FORM_REVIEW , Permission.GENERAL_EVIDENCE_VISIT_FORM_REVIEW]"
+                        class="btn btn-success fw-bold"
+                        (click)="setAction('SAVE', decision)">
+                    {{ 'PAGES.COMMON.LABELS.SAVE_WITHOUT_RETURN' | translate }}
+                </button>
+
+                <button *hasPermission="[Permission.CLASSROOM_OBSERVATION_VISIT_FORM_RETURN_FOR_EDIT, Permission.GENERAL_EVIDENCE_VISIT_FORM_RETURN_FOR_EDIT]"
+                        class="btn btn-outline-secondary fw-bold"
+                        (click)="setAction('RETURN_FOR_EDIT', decision)">
+                    {{ 'PAGES.COMMON.LABELS.RETURN_FOR_EDIT' | translate }}
+                </button>
+
+                <button class="btn btn-outline-secondary" (click)="open(cancel)">
+                    {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+                </button>
+            </div>
+
+            <div *ngIf="mode == 'view' && visitFormRequestInfo.request.serviceStep.stepCode === 'VISIT_FORM_DELIVERED'"
+                 class="col-12 d-flex justify-content-end gap-2">
+
+                <button type="button" class="step-prev btn btn-primary"
+                        [routerLink]="'/jawda/school-performance/visit-form/'+visitFormRequestInfo.type+'/management/'+visitFormRequestInfo.scheduledSchoolVisitId ">
+                    {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+                </button>
+
+                <button class="btn btn-outline-secondary" (click)="open(cancel)">
+                    {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+                </button>
+            </div>
+
+
+            <ng-template #decision let-modal>
+                <div class="modal-body">
+                    <h4 *ngIf="action=='SAVE'" class="modal-title">
+                        {{ "PAGES.COMMON.MESSAGES.SAVE_MESSAGE" | translate }}
+                    </h4>
+                    <h4 *ngIf="action=='RETURN_FOR_EDIT'" class="modal-title">
+                        {{ "PAGES.COMMON.MESSAGES.EDIT_MESSAGE" | translate }}
+                    </h4>
+                    <h4 *ngIf="action=='SUBMIT'" class="modal-title">
+                        {{ "PAGES.COMMON.MESSAGES.SUBMIT_MESSAGE" | translate }}
+                    </h4>
+                </div>
+                <div class="mb-3 mx-2 row">
+                    <div class="form-group col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <label class="form-label" for="formControlLg">{{ "PAGES.COMMON.LABELS.NOTES" | translate }}
+                            <span *ngIf="action=='RETURN_FOR_EDIT'" class="text-danger">*</span>
+
+                        </label>
+                        <textarea rows="2" class="form-control form-control-md" [(ngModel)]="comment"
+
+                        >
+                          </textarea>
+                        <div *ngIf="submitted && (action =='RETURN_FOR_EDIT')
+                                   && (!comment || comment.trim() ==='')" class="invalid-feedback d-block">
+                            {{ "PAGES.COMMON.MESSAGES.FIELD_REQUIRED" | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-end">
+                    <button class="btn btn-outline-secondary" (click)="closePopup()">
+                        {{ 'PAGES.COMMON.LABELS.BACK' | translate }}
+                    </button>
+                    <button *ngIf="action!='SAVE'" class="btn btn-primary" (click)="sendAction()">
+                        {{ 'PAGES.COMMON.LABELS.SUBMIT' | translate }}
+                    </button>
+                    <button *ngIf="action=='SAVE'" class="btn btn-primary" (click)="sendAction()">
+                        {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+                    </button>
+                </div>
+            </ng-template>
+
+            <ng-template #cancel let-modal>
+                <div class="modal-body">
+                    <p>{{ 'PAGES.COMMON.MESSAGES.CLOSE_MSG' | translate }}</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button class="btn btn-outline-secondary" (click)="close()">
+                        {{ 'PAGES.COMMON.LABELS.NO' | translate }}
+                    </button>
+                    <button class="btn btn-primary" (click)="returnToList()">
+                        {{ 'PAGES.COMMON.LABELS.YES' | translate }}
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

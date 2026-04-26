@@ -1,0 +1,527 @@
+@import '../general-data/general-data.component.scss';
+
+
+  .tab-body {
+    .about-school-container {
+      
+      .progress-summary {
+        margin-bottom: 40px;
+        
+        .summary-cards {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 20px;
+          margin-bottom: 30px;
+
+          .summary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid transparent;
+            transition: all 0.3s ease;
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            }
+
+            &.completion-rate {
+              border-left-color: #007bff;
+              
+              .card-icon {
+                background: linear-gradient(135deg, #007bff, #0056b3);
+              }
+            }
+
+            &.total-words {
+              border-left-color: #17a2b8;
+              
+              .card-icon {
+                background: linear-gradient(135deg, #17a2b8, #138496);
+              }
+            }
+
+            &.form-status {
+              border-left-color: #28a745;
+              
+              .card-icon {
+                background: linear-gradient(135deg, #28a745, #1e7e34);
+              }
+            }
+
+            .card-icon {
+              width: 60px;
+              height: 60px;
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: white;
+              font-size: 1.5rem;
+            }
+
+            .card-content {
+              flex: 1;
+
+              h4 {
+                margin: 0 0 8px 0;
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: #6c757d;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+              }
+
+              .card-value {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: #1F487E;
+                margin-bottom: 4px;
+              }
+
+              .card-detail {
+                font-size: 0.85rem;
+                color: #6c757d;
+              }
+            }
+          }
+        }
+      }
+
+      .school-info-form {
+        margin: 40px 0;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e9ecef;
+
+        .about-school-form {
+          .form-group {
+            margin-bottom: 35px;
+
+            .form-label {
+              display: block;
+              font-size: 1.1rem;
+              font-weight: 600;
+              color: #1F487E;
+              margin-bottom: 12px;
+              line-height: 1.5;
+              position: relative;
+
+              .subtitle {
+                display: block;
+                font-size: 0.9rem;
+                font-weight: 400;
+                color: #6c757d;
+                margin-top: 5px;
+                font-style: italic;
+              }
+
+              .word-count {
+                float: left;
+                font-size: 0.8rem;
+                font-weight: 400;
+                color: #007bff;
+                background: #e3f2fd;
+                padding: 2px 8px;
+                border-radius: 12px;
+                margin-top: 2px;
+              }
+            }
+
+            .form-input {
+              width: 100%;
+              padding: 15px 20px;
+              border: 2px solid #e9ecef;
+              border-radius: 8px;
+              font-size: 1rem;
+              font-family: inherit;
+              direction: rtl;
+              text-align: right;
+              background: #fafbfc;
+              transition: all 0.3s ease;
+
+              &:focus {
+                outline: none;
+                border-color: #007bff;
+                background: #ffffff;
+                box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+              }
+
+              &::placeholder {
+                color: #6c757d;
+                font-style: italic;
+              }
+            }
+
+            .form-textarea {
+              width: 100%;
+              padding: 15px 20px;
+              border: 2px solid #e9ecef;
+              border-radius: 8px;
+              font-size: 1rem;
+              font-family: inherit;
+              direction: rtl;
+              text-align: right;
+              background: #fafbfc;
+              transition: all 0.3s ease;
+              resize: vertical;
+              line-height: 1.6;
+
+              &:focus {
+                outline: none;
+                border-color: #007bff;
+                background: #ffffff;
+                box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+              }
+
+              &::placeholder {
+                color: #6c757d;
+                font-style: italic;
+              }
+
+              &.medium {
+                min-height: 150px;
+              }
+
+              &.large {
+                min-height: 250px;
+              }
+            }
+          }
+        }
+      }
+
+      .information-guidelines {
+        margin: 40px 0;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        border-radius: 12px;
+        padding: 30px;
+        border: 1px solid #dee2e6;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+        .guidelines-header {
+          margin-bottom: 25px;
+          text-align: center;
+          border-bottom: 2px solid #007bff;
+          padding-bottom: 15px;
+
+          h4 {
+            color: #1F487E;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            &::before {
+              content: '📋';
+              font-size: 1.2rem;
+            }
+          }
+        }
+
+        .guidelines-content {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 20px;
+
+          .guideline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+
+            &:hover {
+              transform: translateX(5px);
+              box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            i {
+              color: #007bff;
+              font-size: 1.2rem;
+              margin-top: 2px;
+              flex-shrink: 0;
+            }
+
+            span {
+              color: #495057;
+              font-size: 0.95rem;
+              line-height: 1.5;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+
+      .completion-progress {
+        margin: 40px 0;
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        border: 1px solid #dee2e6;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+        .progress-header {
+          margin-bottom: 25px;
+          text-align: center;
+          border-bottom: 2px solid #28a745;
+          padding-bottom: 15px;
+
+          h4 {
+            color: #1F487E;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            &::before {
+              content: '📊';
+              font-size: 1.2rem;
+            }
+          }
+        }
+
+        .progress-content {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 20px;
+
+          .progress-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            &.completed {
+              border-color: #28a745;
+              background: linear-gradient(135deg, #d4edda, #c3e6cb);
+              
+              .progress-icon i {
+                color: #28a745;
+              }
+
+              .progress-status {
+                color: #28a745;
+                font-weight: 600;
+              }
+            }
+
+            .progress-icon {
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              background: #e9ecef;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+
+              i {
+                font-size: 1.2rem;
+                color: #6c757d;
+                transition: color 0.3s ease;
+              }
+            }
+
+            .progress-details {
+              flex: 1;
+
+              .progress-label {
+                display: block;
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: #495057;
+                margin-bottom: 5px;
+              }
+
+              .progress-status {
+                display: block;
+                font-size: 0.85rem;
+                color: #6c757d;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+// Responsive design
+@media (max-width: 1200px) {
+  .tab-content {
+    padding: 15px;
+
+    .tab-body .about-school-container {
+      .progress-summary .summary-cards {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+
+        .summary-card {
+          padding: 20px;
+        }
+      }
+
+      .school-info-form {
+        padding: 20px;
+
+        .about-school-form .form-group {
+          margin-bottom: 25px;
+
+          .form-input,
+          .form-textarea {
+            padding: 12px 16px;
+          }
+        }
+      }
+
+      .information-guidelines {
+        padding: 20px;
+
+        .guidelines-content {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+      }
+
+      .completion-progress {
+        padding: 20px;
+
+        .progress-content {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .tab-content {
+    padding: 10px;
+
+    .tab-header h2 {
+      font-size: 1.5rem;
+    }
+
+    .tab-body .about-school-container {
+      .progress-summary .summary-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+
+        .summary-card {
+          padding: 15px;
+          flex-direction: column;
+          text-align: center;
+          gap: 15px;
+
+          .card-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+          }
+
+          .card-content .card-value {
+            font-size: 1.5rem;
+          }
+        }
+      }
+
+      .school-info-form {
+        padding: 15px;
+
+        .about-school-form .form-group {
+          margin-bottom: 20px;
+
+          .form-label {
+            font-size: 1rem;
+
+            .word-count {
+              float: none;
+              display: block;
+              margin-top: 8px;
+            }
+          }
+
+          .form-input,
+          .form-textarea {
+            padding: 10px 14px;
+            font-size: 0.9rem;
+          }
+        }
+      }
+
+      .information-guidelines {
+        padding: 15px;
+
+        .guidelines-header h4 {
+          font-size: 1.2rem;
+        }
+
+        .guidelines-content .guideline-item {
+          padding: 12px;
+
+          span {
+            font-size: 0.9rem;
+          }
+        }
+      }
+
+      .completion-progress {
+        padding: 15px;
+
+        .progress-header h4 {
+          font-size: 1.2rem;
+        }
+
+        .progress-content .progress-item {
+          padding: 15px;
+
+          .progress-icon {
+            width: 40px;
+            height: 40px;
+
+            i {
+              font-size: 1rem;
+            }
+          }
+
+          .progress-details {
+            .progress-label {
+              font-size: 0.9rem;
+            }
+
+            .progress-status {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

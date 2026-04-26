@@ -1,0 +1,257 @@
+<page-title title="{{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.TITLE' | translate }} - {{ module }}"
+            [breadcrumbItems]="[{ label: 'PAGES.EXTERNAL_REVIEWER_SETTINGS.TITLE' | translate ,  active: true }]">
+    >
+</page-title>
+<form class="row g-3" #submitForm="ngForm" (ngSubmit)="save()" *ngIf="module && dto">
+    <div class="col-lg-12">
+        <div class="card shadow-sm">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <!-- Title aligned left -->
+                <h5 class="card-title mb-0">
+                    {{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.SETTINGS' | translate }}
+                    <span *ngIf="isViewMode && dto.version">({{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.VERSION' | translate }}
+                        {{ dto.version }})</span>
+                </h5>
+
+
+                <!-- Icon aligned right -->
+                <div *ngIf="!isViewMode">
+                    <button type="button" class="btn btn-primary" (click)="openAuditPopup()">
+                        <i class="ri-history-line fs-5 cursor-pointer"
+                           title="{{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.AUDIT_HISTORY' | translate }}">
+                        </i>
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="live-preview">
+                    <div class="row gy-4">
+                        <!-- Edit Period Allowed -->
+                        <div class="col-md-6">
+                            <div>
+                                <label class="form-label">
+                                    {{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.EDIT_PERIOD_ALLOWED' | translate }}
+                                </label>
+                                <div class="d-flex align-items-center">
+                                    <input type="number" class="form-control me-2" name="editPeriodAllowed"
+                                           [(ngModel)]="dto.editPeriodAllowed" required #editPeriodRef="ngModel"
+                                           [disabled]="isViewMode"
+                                           [ngClass]="{ 'is-invalid': submitForm.submitted && editPeriodRef.invalid }"
+                                           step="1" min="1"
+                                           oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    <span style="white-space: nowrap;">
+                                        {{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.EDIT_PERIOD_ALLOWED_SUFFIX' | translate }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notification Percentage -->
+                        <div class="col-md-6">
+                            <div>
+                                <label class="form-label">
+                                    {{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.NOTIFICATION_PERCENTAGE' | translate }}
+                                </label>
+                                <div class="d-flex align-items-center">
+                                    <input type="number" class="form-control me-2"
+                                           name="editPeriodAllowedNotificationPercentage"
+                                           [disabled]="isViewMode"
+                                           [(ngModel)]="dto.editPeriodAllowedNotificationPercentage" required
+                                           #notifyPercentRef="ngModel"
+                                           [ngClass]="{ 'is-invalid': submitForm.submitted && notifyPercentRef.invalid }"
+                                           step="1" min="1"
+                                           oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    <span style="white-space: nowrap;">
+                                        {{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.NOTIFICATION_SUFFIX' | translate }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Acceptance Percentage -->
+                        <div class="col-md-6">
+                            <div>
+                                <label class="form-label">
+                                    {{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.ACCEPTANCE_PERCENTAGE' | translate }}
+                                </label>
+                                <div class="d-flex align-items-center">
+                                    <input type="number" class="form-control me-2"
+                                           name="editPeriodAllowedAcceptancePercentage"
+                                           [disabled]="isViewMode"
+                                           [(ngModel)]="dto.successPercent" required
+                                           #acceptancePercentRef="ngModel"
+                                           [ngClass]="{ 'is-invalid': submitForm.submitted && acceptancePercentRef.invalid }"
+                                           min="0" max="100"
+                                           step="0.01"
+                                           (keydown)="onAcceptanceKeydown($event)"
+                                           (wheel)="$event.preventDefault()"
+                                        >
+                                    <span style="white-space: nowrap;">
+                                        %
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pledge English -->
+                        <div class="col-md-12">
+                            <h5>
+                                {{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.DECLARATION_DATA_TITLE' | translate }}
+                            </h5>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                {{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.PLEDGE_EN' | translate }}
+                            </label>
+                            <app-custom-ckeditor
+                                name="editorEn"
+                                [language]="'en'"
+                                [(ngModel)]="dto.pledgeEn"
+                                [disabled]="isViewMode"
+                            >
+                            </app-custom-ckeditor>
+                            <!-- <textarea class="form-control" name="pledgeEn" rows="3" [(ngModel)]="dto.pledgeEn"></textarea> -->
+                        </div>
+
+
+                        <!-- Pledge Arabic -->
+
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                {{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.PLEDGE_AR' | translate }}
+                            </label>
+                            <app-custom-ckeditor
+                                name="editorAr"
+                                [language]="'ar'"
+                                [(ngModel)]="dto.pledgeAr"
+                                [disabled]="isViewMode"
+                            >
+                            </app-custom-ckeditor>
+                            <!-- <textarea class="form-control" name="pledgeAr" rows="3" [(ngModel)]="dto.pledgeAr"></textarea> -->
+                        </div>
+
+
+                        <!-- Version -->
+                        <div class="col-md-6" hidden>
+                            <div>
+                                <label class="form-label">
+                                    {{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.VERSION' | translate }}
+                                </label>
+                                <input type="text" class="form-control" [value]="dto.version" disabled>
+                            </div>
+                        </div>
+
+                        <!-- Module -->
+                        <div class="col-md-6" hidden>
+                            <div>
+                                <label class="form-label">
+                                    {{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.MODULE' | translate }}
+                                </label>
+                                <input type="text" class="form-control" [value]="dto.module" disabled>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="col-md-12 d-flex justify-content-end p-3">
+
+                            <button type="reset" class="btn btn-outline-secondary waves-effect waves-light "
+                                    (click)="cancel()"
+                                    [hidden]="isViewMode">
+                                {{ 'PAGES.COMMON.LABELS.CANCEL' | translate }}
+                            </button>
+
+                            <button [hidden]="isViewMode" *hasPermission="[Permission.CHEQA_ER_registration_settings_UPDATE,
+                Permission.CSEQA_ER_registration_settings_UPDATE,
+                Permission.OQF_ER_registration_settings_UPDATE]" type="submit" class="btn btn-primary me-2 ms-2">
+                                {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+                            </button>
+
+
+                        </div>
+                    </div> <!-- end row -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Popup Modal -->
+    <ng-template #auditModal let-modal>
+        <div class="modal-header d-flex justify-content-between align-items-center bg-primary-light p-3">
+            <h5 class="modal-title d-flex align-items-center">
+                <i class="ri-history-line mx-1"></i>
+                {{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.AUDIT_HISTORY' | translate }}
+            </h5>
+            <button type="button" class="btn-close m-0 p-0" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body">
+            <div *ngIf="auditLogs && auditLogs.length > 0; else noAudit">
+                <div class="table-responsive">
+                    <table class="table align-middle table-bordered table-hover table-sm">
+                        <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>{{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.ACTION_TYPE' | translate }}</th>
+                            <th>{{ 'PAGES.COMMON.LABELS.EXECUTED_BY' | translate }}</th>
+                            <th>{{ 'PAGES.COMMON.LABELS.ACTION_TIME' | translate }}</th>
+                            <th>{{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.OLD_VERSION' | translate }}</th>
+                            <th>{{ 'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.NEW_VERSION' | translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let log of paginatedAuditLogs; let i = index">
+                            <td>{{ (auditPage - 1) * auditPageSize + i + 1 }}</td>
+                            <td class="text-center">{{ translate.instant('PAGES.COMMON.LABELS.' + log.action) }}</td>
+
+                            <!-- Executed by name (Arabic or English) -->
+                            <td>
+                                {{
+                                    translate.currentLang === 'ar' ? log.parameters['userNameAr'] :
+                                        log.parameters['userNameEn']
+                                }}
+                            </td>
+
+                            <td>{{ log.actionTime | date:'short' }}</td>
+
+                            <!-- Old version as link -->
+                            <td>
+                                <a href="javascript:void(0)" (click)="openVersion(log.parameters['oldVersion'])">
+                                    {{ log.parameters['oldVersion'] || '-' }}
+                                </a>
+                            </td>
+
+                            <!-- New version as link -->
+                            <td>
+                                <a href="javascript:void(0)" (click)="openVersion(log.parameters['newVersion'])">
+                                    {{ log.parameters['newVersion'] || '-' }}
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Pagination -->
+                <div class="col col-sm-12">
+                    <div class="text-sm-right float-end listjs-pagination">
+                        <ngb-pagination [collectionSize]="auditTotal" [(page)]="auditPage"
+                                        [pageSize]="auditPageSize" (pageChange)="onAuditPageChange($event)">
+                        </ngb-pagination>
+                    </div>
+                </div>
+                <!-- End Pagination -->
+            </div>
+            <ng-template #noAudit>
+                <p class="text-muted mb-0 text-center">{{
+                        'PAGES.EXTERNAL_REVIEWER_SETTINGS.LABELS.NO_AUDIT_LOGS' |
+                            translate
+                    }}</p>
+            </ng-template>
+        </div>
+    </ng-template>
+
+
+</form>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

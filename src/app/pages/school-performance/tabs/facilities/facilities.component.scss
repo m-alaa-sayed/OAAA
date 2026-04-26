@@ -1,0 +1,420 @@
+@import '../general-data/general-data.component.scss';
+
+.tab-body {
+  .facilities-container {
+    
+    .table-section {
+      margin-bottom: 40px;
+      border: 1px solid #e9ecef;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+      .table-container {
+        padding: 25px;
+        background: #fafbfc;
+
+        ::ng-deep {
+          .ag-theme-alpine {
+            --ag-header-height: 64px;
+            --ag-row-height: 80px;
+            --ag-header-background-color: #f8f9fa;
+            --ag-header-foreground-color: #1F487E;
+            --ag-border-color: #dee2e6;
+            --ag-row-border-color: #e9ecef;
+            
+            .ag-header {
+              font-weight: 600;
+              font-size: 1rem;
+            }
+
+            .ag-header-cell {
+              background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+              border-right: 2px solid #dee2e6;
+              
+              &:hover {
+                background: linear-gradient(to bottom, #e9ecef, #dee2e6);
+              }
+
+              .ag-header-cell-text {
+                line-height: 1.3;
+                white-space: pre-line;
+                word-wrap: break-word;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100%;
+                padding: 8px 4px;
+              }
+            }
+
+            .ag-row {
+              &:nth-child(even) {
+                background-color: #f8f9fa;
+              }
+
+              &:hover {
+                background-color: #e8f4fd;
+              }
+
+              &.ag-row-editing {
+                background-color: #fff3cd;
+              }
+            }
+
+            .ag-cell {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 12px 8px;
+              border-right: 1px solid #e9ecef;
+              line-height: 1.4;
+
+              &:focus {
+                outline: 2px solid #6f42c1;
+                outline-offset: -2px;
+              }
+
+              &.ag-cell-editing {
+                background-color: #ffffff;
+                border: 2px solid #6f42c1;
+              }
+
+              .facility-cell {
+                width: 100%;
+                text-align: right;
+                padding: 8px;
+
+                .facility-name {
+                  color: #1F487E;
+                  font-weight: 600;
+                  font-size: 0.95rem;
+                  line-height: 1.5;
+                  white-space: pre-wrap;
+                  word-wrap: break-word;
+                }
+              }
+
+              .count-cell {
+                width: 100%;
+                text-align: center;
+
+                .total-count {
+                  background: #6f42c1;
+                  color: white;
+                  padding: 8px 16px;
+                  border-radius: 20px;
+                  font-weight: 600;
+                  font-size: 1rem;
+                  display: inline-block;
+                  min-width: 40px;
+                }
+              }
+
+              .non-functioning-cell {
+                width: 100%;
+                text-align: center;
+
+                .non-functioning-count {
+                  padding: 8px 16px;
+                  border-radius: 20px;
+                  font-weight: 600;
+                  font-size: 1rem;
+                  display: inline-block;
+                  min-width: 40px;
+
+                  &.working {
+                    background: #28a745;
+                    color: white;
+                  }
+
+                  &.not-working {
+                    background: #dc3545;
+                    color: white;
+                  }
+                }
+              }
+
+              .notes-cell {
+                width: 100%;
+                text-align: right;
+                padding: 8px;
+
+                .notes-text {
+                  color: #495057;
+                  font-size: 0.9rem;
+                  line-height: 1.5;
+                  white-space: pre-wrap;
+                  word-wrap: break-word;
+                  font-style: italic;
+                }
+              }
+            }
+
+            // Custom cell editor styling
+            .ag-text-field-input,
+            .ag-number-field-input {
+              border: 2px solid #6f42c1;
+              border-radius: 4px;
+              padding: 8px 12px;
+              font-size: 0.95rem;
+              direction: rtl;
+              
+              &:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(111, 66, 193, 0.2);
+              }
+            }
+
+            .ag-large-text {
+              border: 2px solid #6f42c1;
+              border-radius: 4px;
+              padding: 8px 12px;
+              font-size: 0.9rem;
+              font-family: inherit;
+              direction: rtl;
+              text-align: right;
+              
+              &:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(111, 66, 193, 0.2);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /* Use the shared summary-cards styles but with facility-specific variants */
+    .statistics-summary {
+      .summary-cards {
+        .summary-card {
+          &.total-facilities {
+            border-left-color: #6f42c1;
+            .card-icon {
+              background: linear-gradient(135deg, #6f42c1, #5a379e);
+            }
+          }
+
+          &.functioning-facilities {
+            border-left-color: #28a745;
+            .card-icon {
+              background: linear-gradient(135deg, #28a745, #1e7e34);
+            }
+          }
+
+          &.functionality-rate {
+            border-left-color: #17a2b8;
+            .card-icon {
+              background: linear-gradient(135deg, #17a2b8, #138496);
+            }
+          }
+
+          &.maintenance-needed {
+            border-left-color: #dc3545;
+            .card-icon {
+              background: linear-gradient(135deg, #dc3545, #c82333);
+            }
+          }
+        }
+      }
+    }
+
+    .facility-status {
+      margin: 40px 0;
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      border: 1px solid #dee2e6;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+      .status-header {
+        margin-bottom: 25px;
+        text-align: center;
+        border-bottom: 2px solid #fd7e14;
+        padding-bottom: 15px;
+
+        h4 {
+          color: #1F487E;
+          font-size: 1.4rem;
+          font-weight: 600;
+          margin: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+
+          &::before {
+            content: '📊';
+            font-size: 1.2rem;
+          }
+        }
+      }
+
+      .status-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+
+        .status-item {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          padding: 20px;
+          border-radius: 12px;
+          border: 2px solid transparent;
+          transition: all 0.3s ease;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+          }
+
+          &.functioning {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-color: #28a745;
+            
+            .status-icon i {
+              color: #28a745;
+            }
+          }
+
+          &.non-functioning {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            border-color: #dc3545;
+            
+            .status-icon i {
+              color: #dc3545;
+            }
+          }
+
+          &.facility-types {
+            background: linear-gradient(135deg, #e2e3ff, #d1d4ff);
+            border-color: #6f42c1;
+            
+            .status-icon i {
+              color: #6f42c1;
+            }
+          }
+
+          .status-icon {
+            i {
+              font-size: 2rem;
+            }
+          }
+
+          .status-details {
+            flex: 1;
+
+            .status-label {
+              display: block;
+              font-size: 0.9rem;
+              font-weight: 600;
+              color: #495057;
+              margin-bottom: 5px;
+            }
+
+            .status-count {
+              display: block;
+              font-size: 1.5rem;
+              font-weight: 700;
+              color: #1F487E;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 1200px) {
+  .tab-body .facilities-container {
+    .table-section .table-container {
+      padding: 15px;
+      
+      ::ng-deep .ag-theme-alpine {
+        --ag-header-height: 56px;
+        --ag-row-height: 70px;
+      }
+    }
+
+    .statistics-summary .summary-cards {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+
+      .summary-card {
+        padding: 20px;
+      }
+    }
+
+    .facility-status {
+      padding: 20px;
+
+      .status-content {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .tab-body .facilities-container {
+    .table-section .table-container {
+      padding: 10px;
+      
+      ::ng-deep .ag-theme-alpine {
+        --ag-header-height: 48px;
+        --ag-row-height: 60px;
+        font-size: 0.85rem;
+      }
+    }
+
+    .statistics-summary .summary-cards {
+      grid-template-columns: 1fr;
+      gap: 12px;
+
+      .summary-card {
+        padding: 15px;
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+
+        .card-icon {
+          width: 50px;
+          height: 50px;
+          font-size: 1.2rem;
+        }
+
+        .card-content .card-value {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .facility-status {
+      padding: 15px;
+
+      .status-header h4 {
+        font-size: 1.2rem;
+      }
+
+      .status-content .status-item {
+        padding: 15px;
+
+        .status-details {
+          .status-label {
+            font-size: 0.8rem;
+          }
+
+          .status-count {
+            font-size: 1.3rem;
+          }
+        }
+      }
+    }
+  }
+} 

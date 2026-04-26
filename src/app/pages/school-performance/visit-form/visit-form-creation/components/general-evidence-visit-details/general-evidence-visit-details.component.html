@@ -1,0 +1,52 @@
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h5 class="fw-bold mb-4">{{ 'PAGES.VISIT_FORM.LABELS.ACTIVITY_DATA' | translate }}</h5>
+
+    <div class="row g-3 mb-3 align-items-end">
+      <div class="col-md-4">
+        <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.ACTUAL_MONITORING_DATE' | translate }}
+          <span class="text-danger">*</span>
+        </label>
+        <input type="date" class="form-control" [min]="visitData?.visitFrom"
+            [max]="visitData?.visitTo" [(ngModel)]="visitFormRequestInfo.activityDate" [disabled]="!editable">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.ACTIVITY_TYPE' | translate }}
+          <span class="text-danger">*</span>
+        </label>
+        <select class="form-select" [(ngModel)]="visitFormRequestInfo.activityType" [disabled]="!editable">
+          <option [value]="undefined" disabled selected>{{ 'PAGES.VISIT_FORM.LABELS.SELECT_ACTIVITY_TYPE' | translate }}</option>
+          <option *ngFor="let type of activityTypes" [value]="type">{{ 'PAGES.VISIT_FORM.LABELS.'+type |translate }}</option>
+        </select>
+      </div>
+
+      <div *ngIf="visitFormRequestInfo.activityType == 'OTHER'" class="col-md-4">
+        <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.ACTIVITY_NAME_OTHER' | translate }}
+          <span class="text-danger">*</span>
+        </label>
+        <input type="text" class="form-control" [(ngModel)]="visitFormRequestInfo.customActivityName" [disabled]="!editable">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- buttons -->
+<div *ngIf="showButtons" class="row mt-3 mx-3">
+  <div class="d-flex justify-content-between rounded">
+    <button type="button" class="btn btn-outline-secondary" (click)="cancelEvent.emit()">
+      {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+    </button>
+    <div class="d-flex justify-content-end rounded">
+      <button type="button" class="btn btn-success fw-bold me-2 ms-2" (click)="save()">
+        {{ "PAGES.COMMON.LABELS.SAVE" | translate }}
+      </button>
+
+      <button type="button" class="btn btn-primary me-2 ms-2" [disabled]="!validateDetails" (click)="nextEvent.emit()">
+        {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+      </button>
+    </div>
+  </div>
+
+</div>

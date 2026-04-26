@@ -1,0 +1,871 @@
+.tab-content {
+  padding: 20px;
+  
+  .tab-header {
+    margin-bottom: 25px;
+    
+    h2 {
+      color: #1F487E;
+      font-weight: 600;
+      font-size: 1.8rem;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.achievement-distribution-wrapper {
+  max-width: 100%;
+  
+  .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    
+    .title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #1F487E;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  .grade-panel {
+    margin-bottom: 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    
+    .grade-header {
+      background: linear-gradient(135deg, #1F487E 0%, #2a5ba3 100%);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      
+      .grade-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        flex: 1;
+        
+        &:hover {
+          opacity: 0.9;
+        }
+        
+        i {
+          transition: transform 0.3s ease;
+          font-size: 1.2rem;
+          
+          &.open {
+            transform: rotate(180deg);
+          }
+        }
+      }
+      
+      .grade-actions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        
+        .not-applicable-checkbox {
+          // @media print {
+          //   display: none !important;
+          // }
+          
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          
+          .form-check-input {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            accent-color: #ffffff;
+            cursor: pointer;
+          }
+          
+          .form-check-label {
+            color: white;
+            font-size: 0.9rem;
+            margin: 0;
+            cursor: pointer;
+            white-space: nowrap;
+          }
+        }
+      }
+      
+      &:hover {
+        background: linear-gradient(135deg, #0d3460 0%, #1F487E 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(31, 72, 126, 0.3);
+      }
+    }
+    
+    .grade-body {
+      padding: 0;
+      
+      &.disabled-section {
+        opacity: 0.5;
+        pointer-events: none;
+        background: #f5f5f5;
+
+        .achievement-table {
+          background-color: #f5f5f5;
+
+          th {
+            background-color: #eeeeee !important;
+            color: #adb5bd !important;
+          }
+
+          td {
+            background-color: #f5f5f5 !important;
+            color: #adb5bd !important;
+
+            .cell-input {
+              background-color: #f5f5f5 !important;
+              color: #adb5bd !important;
+              border-color: #dee2e6 !important;
+              cursor: not-allowed !important;
+            }
+          }
+        }
+      }
+      
+      .table-responsive {
+        overflow-x: auto;
+        
+        .achievement-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 0.9rem;
+          
+          thead {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            
+            .main-header {
+              th {
+                padding: 8px 4px;
+                text-align: center;
+                border: 1px solid #dee2e6;
+                font-weight: 600;
+                color: #495057;
+                font-size: 0.85rem;
+                
+                &.subject-header {
+                  background: #1F487E;
+                  color: white;
+                  font-weight: bold;
+                  min-width: 80px;
+                  width: 12%;
+                }
+                
+                &.total-students-header {
+                  background: #20c997;
+                  color: white;
+                  font-weight: bold;
+                  min-width: 70px;
+                  width: 10%;
+                }
+                
+                &.excellent-header {
+                  background: #28a745;
+                  color: white;
+                  font-weight: bold;
+                }
+                
+                &.very-good-header {
+                  background: #17a2b8;
+                  color: white;
+                  font-weight: bold;
+                }
+                
+                &.good-header {
+                  background: #ffc107;
+                  color: #212529;
+                  font-weight: bold;
+                }
+                
+                &.acceptable-header {
+                  background: #fd7e14;
+                  color: white;
+                  font-weight: bold;
+                }
+                
+                &.weak-header {
+                  background: #dc3545;
+                  color: white;
+                  font-weight: bold;
+                  
+                  .needs-help {
+                    color: #ffeb3b;
+                    font-weight: bold;
+                  }
+                  
+                  .failed {
+                    color: #ffcdd2;
+                    font-weight: bold;
+                  }
+                }
+              }
+            }
+            
+            .sub-header {
+              th {
+                padding: 8px 6px;
+                text-align: center;
+                border: 1px solid #dee2e6;
+                font-size: 0.85rem;
+                font-weight: 500;
+                background: #f8f9fa;
+                color: #6c757d;
+                
+                &.count-header {
+                  background: #e3f2fd;
+                  color: #1976d2;
+                }
+                
+                &.percentage-header {
+                  background: #f3e5f5;
+                  color: #7b1fa2;
+                }
+              }
+            }
+          }
+          
+          tbody {
+            tr {
+              &:nth-child(even) {
+                background: #f8f9fa;
+              }
+              
+              &:hover {
+                background: #e3f2fd;
+                transition: background-color 0.2s ease;
+              }
+              
+              &.average-row {
+                background: linear-gradient(135deg, #e3f2fd 0%, #f1f8ff 100%);
+                border-top: 1px solid #2196f3;
+                border-bottom: 1px solid #2196f3;
+                
+                .subject-cell {
+                  background: #2196f3;
+                  color: white;
+                  font-weight: bold;
+                  font-style: italic;
+                }
+                
+                .total-students-cell,
+                .count-cell,
+                .percentage-cell {
+                  background: #e3f2fd;
+                  font-weight: bold;
+                  color: #1976d2;
+                }
+              }
+              
+              &.total-row {
+                background: linear-gradient(135deg, #e8f5e8 0%, #f1f8ff 100%);
+                border-top: 2px solid #28a745;
+                border-bottom: 2px solid #28a745;
+                
+                .subject-cell {
+                  background: #28a745;
+                  color: white;
+                  font-weight: bold;
+                  font-size: 1.1rem;
+                  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+                }
+                
+                .total-students-cell,
+                .count-cell,
+                .percentage-cell {
+                  background: #e8f5e8;
+                  font-weight: bold;
+                  color: #1e7e34;
+                  font-size: 1.05rem;
+                  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
+              }
+            }
+          }
+          
+          td {
+            padding: 6px 4px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            vertical-align: middle;
+            
+            &.subject-cell {
+              background: #1F487E;
+              color: white;
+              font-weight: bold;
+              text-align: center;
+              min-width: 80px;
+            }
+            
+            &.total-students-cell {
+              background: #e8f5e8;
+              color: #28a745;
+              font-weight: bold;
+            }
+            
+            &.count-cell {
+              background: #ffffff;
+              font-weight: 600;
+              color: #333;
+            }
+            
+            &.percentage-cell {
+              background: #f8f9fa;
+              color: #666;
+              font-weight: 500;
+              font-size: 0.95rem;
+            }
+
+            // Input styling within cells
+            .cell-input {
+              border: 2px solid transparent;
+              border-radius: 6px;
+              padding: 4px 6px;
+              font-size: 13px;
+              font-weight: 600;
+              text-align: center;
+              background: rgba(255, 255, 255, 0.9);
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              transition: all 0.3s ease;
+              width: 100%;
+              min-width: 50px;
+              max-width: 100%;
+
+              &:focus:not(:disabled) {
+                outline: none;
+                border-color: #007bff;
+                background: white;
+                box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+                transform: scale(1.02);
+              }
+
+              &:hover:not(:disabled) {
+                border-color: #6c757d;
+                background: white;
+              }
+
+              &:disabled,
+              &[readonly] {
+                background-color: #f8f9fa !important;
+                color: #6c757d !important;
+                border-color: #dee2e6 !important;
+                cursor: not-allowed !important;
+                opacity: 0.7;
+                
+                &:hover {
+                  background-color: #f8f9fa !important;
+                  border-color: #dee2e6 !important;
+                }
+              }
+
+              // Specific styling for different cell types
+              &[type="number"] {
+                text-align: center;
+              }
+            }
+
+            // Styling for span elements (non-editable cells)
+            span {
+              display: inline-block;
+              padding: 6px 8px;
+              font-size: 14px;
+              font-weight: 600;
+              min-height: 20px;
+              line-height: 1.4;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// RTL Support
+[dir="rtl"] {
+  .achievement-distribution-wrapper {
+    .grade-panel {
+      .grade-header {
+        text-align: right;
+      }
+      
+      .achievement-table {
+        td.subject-cell {
+          text-align: right;
+          padding-right: 15px;
+        }
+        
+        th.subject-header {
+          text-align: right;
+          padding-right: 15px;
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .achievement-distribution-wrapper {
+    .top-row {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+      
+      .title {
+        font-size: 1.2rem;
+      }
+    }
+    
+    .grade-panel {
+      .achievement-table {
+        font-size: 0.8rem;
+        
+        td, th {
+          padding: 6px 4px;
+          min-width: auto;
+          
+          .cell-input {
+            min-width: 50px;
+            max-width: 80px;
+            font-size: 12px;
+          }
+        }
+        
+        td.subject-cell {
+          min-width: 100px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .achievement-distribution-wrapper {
+    .grade-panel {
+      .achievement-table {
+        font-size: 0.75rem;
+        
+        td, th {
+          padding: 4px 2px;
+          
+          .cell-input {
+            min-width: 45px;
+            max-width: 70px;
+            padding: 4px 6px;
+            font-size: 11px;
+          }
+        }
+      }
+    }
+  }
+}// All Subjects Combined Table Section
+.all-subjects-section {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  
+  .all-subjects-header {
+    background: linear-gradient(135deg, #00A5A7 0%, #016393 100%);
+    
+    padding: 1rem 1.5rem;
+    margin-bottom: 0;
+    border-radius: 8px 8px 0 0;
+    
+    h3 {
+      margin: 0;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+  }
+  
+  .all-subjects-table {
+    margin-bottom: 0;
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
+    .main-header {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      
+      th {
+        border: 1px solid #dee2e6;
+        font-weight: 600;
+        color: #495057;
+        text-align: center;
+        vertical-align: middle;
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
+    }
+    
+    .sub-header {
+      background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+      
+      th {
+        border: 1px solid #dee2e6;
+        font-weight: 600;
+        color: #495057;
+        text-align: center;
+        vertical-align: middle;
+        padding: 0.5rem;
+        font-size: 0.85rem;
+      }
+    }
+    
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background-color: #f8f9fa;
+        }
+        
+        &:hover {
+          background-color: #e9ecef;
+        }
+        
+        &.average-row {
+          background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+          font-weight: 600;
+          
+          &:hover {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+          }
+        }
+        
+        &.total-row {
+          background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+          font-weight: 700;
+          color: #155724;
+          
+          &:hover {
+            background: linear-gradient(135deg, #c3e6cb 0%, #a7d7b5 100%);
+          }
+        }
+        
+        td {
+          border: 1px solid #dee2e6;
+          padding: 0.75rem;
+          text-align: center;
+          vertical-align: middle;
+          font-size: 0.9rem;
+          
+          &.subject-cell {
+            text-align: right;
+            font-weight: 500;
+            min-width: 200px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Total Summary Section
+.total-summary-section {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e6ed;
+
+  .total-summary-header {
+    text-align: center;
+    margin-bottom: 20px;
+    
+    h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #2c3e50;
+      margin: 0;
+      padding: 10px 0;
+      border-bottom: 2px solid #3498db;
+      display: inline-block;
+      min-width: 200px;
+    }
+  }
+
+  .total-achievement-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    thead {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+
+      th {
+        padding: 15px 10px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        vertical-align: middle;
+
+        &.achievement-level-header {
+          background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+          min-width: 200px;
+        }
+
+        &.percentage-range-header {
+          background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+          min-width: 120px;
+        }
+
+        &.totals-header {
+          background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        &.count-header,
+        &.percentage-header {
+          background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+          color: #333;
+          min-width: 100px;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid #e0e6ed;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: #f8f9fa;
+        }
+
+        &.excellent-summary-row {
+          background: linear-gradient(90deg, #d4edda 0%, #c3e6cb 100%);
+          
+          .excellent-cell {
+            background: #28a745;
+            color: white;
+            font-weight: bold;
+          }
+        }
+
+        &.very-good-summary-row {
+          background: linear-gradient(90deg, #d1ecf1 0%, #bee5eb 100%);
+          
+          .very-good-cell {
+            background: #17a2b8;
+            color: white;
+            font-weight: bold;
+          }
+        }
+
+        &.good-summary-row {
+          background: linear-gradient(90deg, #fff3cd 0%, #ffeaa7 100%);
+          
+          .good-cell {
+            background: #ffc107;
+            color: #212529;
+            font-weight: bold;
+          }
+        }
+
+        &.acceptable-summary-row {
+          background: linear-gradient(90deg, #f8d7da 0%, #f5c6cb 100%);
+          
+          .acceptable-cell {
+            background: #fd7e14;
+            color: white;
+            font-weight: bold;
+          }
+        }
+
+        &.needs-help-summary-row {
+          background: linear-gradient(90deg, #fff3cd 0%, #ffeaa7 100%);
+          
+          .needs-help-cell {
+            background: #ffc107;
+            color: #212529;
+            font-weight: bold;
+          }
+        }
+        
+        &.failed-summary-row {
+          background: linear-gradient(90deg, #f5c6cb 0%, #f1b0b7 100%);
+          
+          .failed-cell {
+            background: #dc3545;
+            color: white;
+            font-weight: bold;
+          }
+        }
+
+        td {
+          padding: 12px 10px;
+          text-align: center;
+          border: 1px solid #e0e6ed;
+          vertical-align: middle;
+
+          &.achievement-level-cell {
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 4px;
+            margin: 2px;
+          }
+
+          &.range-cell {
+            font-weight: 500;
+            color: #495057;
+            background: #f8f9fa;
+            font-size: 0.9rem;
+          }
+
+          &.total-count-cell,
+          &.total-percentage-cell {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #2c3e50;
+            background: #ffffff;
+          }
+
+          &.total-percentage-cell {
+            color: #e74c3c;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive design for total summary
+@media (max-width: 768px) {
+  .total-summary-section {
+    margin: 15px 0;
+    padding: 15px;
+
+    .total-achievement-table {
+      font-size: 0.85rem;
+
+      thead th {
+        padding: 10px 5px;
+        font-size: 0.8rem;
+      }
+
+      tbody td {
+        padding: 8px 5px;
+        font-size: 0.8rem;
+
+        &.achievement-level-cell {
+          .needs-help,
+          .failed {
+            font-size: 0.7rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.bg-disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+// Print styles
+@media print {
+  .achievement-distribution-wrapper {
+    .grade-panel {
+      .grade-body[hidden] {
+        display: block !important;
+      }
+    }
+    
+    .achievement-table {
+      font-size: 0.75rem !important;
+      
+      th, td {
+        padding: 3px 2px !important;
+        font-size: 0.7rem !important;
+      }
+      
+      .cell-input, span {
+        padding: 2px 4px !important;
+        font-size: 0.7rem !important;
+        min-width: 40px !important;
+      }
+      
+      .subject-cell {
+        min-width: 60px !important;
+      }
+    }
+    
+    .grade-body.disabled-section {
+      opacity: 0.5 !important;
+      background: #f5f5f5 !important;
+      
+      .achievement-table {
+        background-color: #f5f5f5 !important;
+        
+        th {
+          background-color: #eeeeee !important;
+          color: #adb5bd !important;
+        }
+        
+        td {
+          background-color: #f5f5f5 !important;
+          color: #adb5bd !important;
+          
+          &:nth-child(even) {
+            background-color: #eeeeee !important;
+          }
+        }
+        
+        .average-row td,
+        .total-row td {
+          background-color: #eeeeee !important;
+          color: #adb5bd !important;
+        }
+      }
+    }
+    
+    .not-applicable-checkbox {
+      display: flex !important;
+      
+      input[type="checkbox"] {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+      
+      label {
+        color: white !important;
+        display: inline-block !important;
+      }
+    }
+    
+    .all-subjects-table,
+    .total-achievement-table {
+      font-size: 0.7rem !important;
+      
+      th, td {
+        padding: 3px 2px !important;
+        font-size: 0.65rem !important;
+      }
+    }
+  }
+}

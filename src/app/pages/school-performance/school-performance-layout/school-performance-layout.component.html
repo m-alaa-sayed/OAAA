@@ -1,0 +1,207 @@
+<div class="school-performance-layout" [attr.dir]="translate.currentLang === 'ar' ? 'rtl' : 'ltr'">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar-nav">
+                <div class="nav-header">
+                        <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.NAVIGATION.TITLE' | translate }}</h3>
+                </div>
+
+                <nav class="nav-tabs">
+                        <button *ngFor="let tab of tabs" class="nav-tab" [class.active]="activeTab === tab.id"
+                                (click)="selectTab(tab)">
+                                <i [ngClass]="translate.currentLang === 'ar' ? 'ri-arrow-left-s-line' : 'ri-arrow-right-s-line'"
+                                        class="tab-arrow"></i>
+                                <span class="tab-label">{{ tab.label | translate }}</span>
+
+                        </button>
+                </nav>
+        </div>
+        <!-- Main Content Area -->
+        <div class="main-content">
+                <!-- School Info Header -->
+                <div class="school-header no-print" *ngIf="selfEvaluationDocument.scheduledSchoolVisit">
+                        <div class="school-details">
+                                <h1 class="school-name">{{ translate.currentLang === 'en' ?
+                                        selfEvaluationDocument.scheduledSchoolVisit.school?.nameEn :
+                                        selfEvaluationDocument.scheduledSchoolVisit.school?.nameAr }}</h1>
+                                <div class="school-meta">
+                                        <span class="school-code">{{ 'MENUITEMS.MENU.SCHOOL_CODE' | translate }}: {{
+                                                selfEvaluationDocument.scheduledSchoolVisit.school?.code
+                                                }}</span>
+                                        <span class="divider">•</span>
+                                        <span class="school-type">{{ 'PAGES.COMMON.LABELS.' +
+                                                selfEvaluationDocument.scheduledSchoolVisit.school?.type | translate
+                                                }}</span>
+                                        <span class="divider">•</span>
+                                        <span class="location">{{ getGovernorateName() }} - {{ getWilayatName()
+                                                }}</span>
+                                </div>
+                        </div>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content-area">
+                        <div class="tab-content-area">
+                                <app-general-data *ngIf="activeTab === 'general-data'" [isViewMode]="!isEditable"
+                                        [showSchoolCommentsSection]="true"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [scheduledSchoolVisit]="selfEvaluationDocument.scheduledSchoolVisit"
+                                        [isSelfEvaluationDocument]="true">
+                                </app-general-data>
+
+                                <app-student-data *ngIf="activeTab === 'student-data'" [isEditable]="isEditable"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [scheduledSchoolVisit]="selfEvaluationDocument.scheduledSchoolVisit"
+                                        [isSelfEvaluationDocument]="true">
+                                </app-student-data>
+
+                                <app-teaching-staff *ngIf="activeTab === 'teaching-staff'"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [isReadonly]="!isEditable"
+                                        [scheduledSchoolVisit]="selfEvaluationDocument.scheduledSchoolVisit"
+                                        [isSelfEvaluationDocument]="true">
+                                </app-teaching-staff>
+
+                                <app-staff-data *ngIf="activeTab === 'staff-data'"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [isEditable]="isEditable"
+                                        [scheduledSchoolVisit]="selfEvaluationDocument.scheduledSchoolVisit"
+                                        [isSelfEvaluationDocument]="true">
+                                </app-staff-data>
+
+                                <app-about-school *ngIf="activeTab === 'about-school'"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [isEditable]="isEditable">
+                                </app-about-school>
+
+                                <app-facilities *ngIf="activeTab === 'facilities'"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [isEditable]="isEditable">
+                                </app-facilities>
+
+                                <app-educational-programs *ngIf="activeTab === 'educational-programs'"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [isReadonly]="!isEditable">
+                                </app-educational-programs>
+
+                                <app-school-activities *ngIf="activeTab === 'school-activities'"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [isEditable]="isEditable">
+                                </app-school-activities>
+
+                                <app-special-needs *ngIf="activeTab === 'special-needs'"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [isEditable]="isEditable">
+                                </app-special-needs>
+
+                                <app-gifted-students *ngIf="activeTab === 'gifted-students'"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [isEditable]="isEditable">
+                                </app-gifted-students>
+
+                                <app-national-tests *ngIf="activeTab === 'national-tests'"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [isEditable]="isEditable">
+                                </app-national-tests>
+
+                                <app-academic-achievement *ngIf="activeTab === 'academic-achievement'"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [isEditable]="isEditable">
+                                </app-academic-achievement>
+
+                                <app-mastery-rates *ngIf="activeTab === 'mastery-rates'"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [isEditable]="isEditable">
+                                </app-mastery-rates>
+
+                                <app-achievement-distribution *ngIf="activeTab === 'achievement-distribution'"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo"
+                                        [isEditable]="isEditable">
+                                </app-achievement-distribution>
+
+                                <app-cohort-tracking *ngIf="activeTab === 'cohort-tracking'" [isEditable]="isEditable"
+                                        [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                </app-cohort-tracking>
+                        </div>
+
+                                <!-- Print-only: render all tabs sequentially (read-only) for printing -->
+                        <div class="print-only print-all-tabs" aria-hidden="true">
+                                <div class="">
+                                        <app-general-data [isViewMode]="true" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-general-data>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-student-data [isEditable]="false" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-student-data>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-teaching-staff [isReadonly]="true" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-teaching-staff>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-staff-data [isEditable]="false" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-staff-data>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-about-school [isEditable]="false" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-about-school>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-facilities [isEditable]="false" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-facilities>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-educational-programs [isReadonly]="true" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-educational-programs>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-school-activities [isEditable]="false" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-school-activities>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-special-needs [isEditable]="false" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-special-needs>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-gifted-students [isEditable]="false" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-gifted-students>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-national-tests [isEditable]="false" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-national-tests>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-academic-achievement [isEditable]="false" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-academic-achievement>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-mastery-rates [isEditable]="false" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-mastery-rates>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-achievement-distribution [isEditable]="false" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-achievement-distribution>
+                                </div>
+
+                                <div class="page-break-before">
+                                        <app-cohort-tracking [isEditable]="false" [schoolInfo]="selfEvaluationDocument.editableSchoolInfo">
+                                        </app-cohort-tracking>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+
+</div>

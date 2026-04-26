@@ -1,0 +1,45 @@
+<div class="card dashboard-print-card">
+  <div class="card-header">
+    <h5 class="card-title">{{ 'PAGES.DASHBOARD.CHEQA.LABELS.CARD_QA_ACTIVITIES' | translate }}</h5>
+  </div>
+  <div class="card-body">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <label class="mb-0">{{ 'PAGES.DASHBOARD.CHEQA.LABELS.YEAR' | translate }}</label>
+        <select class="form-select form-select-sm w-auto" [value]="selectedYear"
+          (change)="onYearChange($any($event.target).value === '' ? null : +($any($event.target).value))">
+          <option [value]="null">{{ 'PAGES.DASHBOARD.CHEQA.LABELS.ALL_YEARS' | translate }}</option>
+          <option value="2026">2026</option>
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+        </select>
+      </div>
+      <div class="d-flex gap-2 dashboard-print-actions">
+        <button type="button" class="btn btn-primary btn-sm" (click)="exportPdf()" [disabled]="isExporting">
+          {{ !isExporting ? ('PAGES.DASHBOARD.CHEQA.LABELS.EXPORT_PDF' | translate) : ('PAGES.COMMON.LABELS.LOADING' | translate) }}
+        </button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="exportExcel()" [disabled]="isExporting">
+          {{ !isExporting ? ('PAGES.DASHBOARD.CHEQA.LABELS.EXPORT_EXCEL' | translate) : ('PAGES.COMMON.LABELS.LOADING' | translate) }}
+        </button>
+      </div>
+    </div>
+
+    <oaaaqa-ag-grid [dataList]="dataList" [columns]="columns" [showRowNumbers]="false" [pagination]="false"
+      [enableColumnFilters]="false" [sizeColumnsToFit]="true">
+    </oaaaqa-ag-grid>
+
+    <div class="row g-3 mt-1">
+      <div class="col-12 col-md-6 col-xl-4" *ngFor="let donut of donutCards">
+        <div class="card h-100">
+          <div class="card-body">
+            <app-donut-chart [title]="donut.title" [series]="donut.series" [labels]="donutLabels"
+              [colors]="donutColors" [totalLabel]="'PAGES.DASHBOARD.CHEQA.LABELS.TOTAL_REVIEWERS' | translate"
+              [height]="280">
+            </app-donut-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

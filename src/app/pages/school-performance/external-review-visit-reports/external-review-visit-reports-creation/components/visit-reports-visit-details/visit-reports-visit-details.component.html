@@ -1,0 +1,267 @@
+<div class="card m-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">{{ "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.VISIT_DETAILS" | translate }}</h5>
+    </div>
+    <div class="card-body">
+
+        <div class="row mx-2">
+            <div class="col-4 d-flex">
+                <h6 class="fw-bold text-dark fw-semibold mb-0">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHEDULE_NUMBER'|translate }} : </h6>
+                <p class="fs-6 text-muted mx-3">{{ visitReportSubmissionRequestInfo.scheduledSchoolVisit?.visitNumber }}
+                </p>
+            </div>
+
+            <div class="col-4 d-flex">
+                <h6 class="fw-bold text-dark fw-semibold mb-0">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SELF_EVALUATION_DOCUMENT_NUMBER'|translate }} : </h6>
+                <p class="fs-6 text-muted mx-3">{{
+                        visitReportSubmissionRequestInfo.selfEvaluationDocumentDto?.documentNumber
+                    }}</p>
+            </div>
+
+            <div class="col-4 d-flex">
+                <h6 class="fw-bold text-dark fw-semibold mb-0">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.PLAN_NUMBER'|translate }} : </h6>
+                <p class="fs-6 text-muted mx-3">{{ visitReportSubmissionRequestInfo.scheduledSchoolVisit?.planNumber }}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="row mx-2 py-3">
+            <div class="col-md-6">
+                <label class="form-label">{{
+                        'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.VISIT_PERIOD_FROM'|translate
+                    }}</label>
+                <input type="date" class="form-control"
+                       [value]="visitReportSubmissionRequestInfo.scheduledSchoolVisit?.visitFrom"
+                       disabled>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.TO'|translate }}</label>
+                <input type="date" class="form-control"
+                       [value]="visitReportSubmissionRequestInfo.scheduledSchoolVisit?.visitTo"
+                       disabled>
+            </div>
+        </div>
+
+
+        <!-- school info card -->
+        <div class="card my-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">{{
+                        "PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_INFORMATION" |
+                            translate
+                    }}</h5>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_NAME'|translate
+                            }}
+                            <span *ngIf="isSchoolInfoEditable" class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control"
+                               [ngModel]="translate.currentLang=='ar'?
+                         visitReportSubmissionRequestInfo.scheduledSchoolVisit!.school!.nameAr : 
+                         visitReportSubmissionRequestInfo.scheduledSchoolVisit!.school!.nameEn"
+                               (ngModelChange)="onSchoolNameChange($event)"
+                               [disabled]="!isSchoolInfoEditable"
+                               [required]="isSchoolInfoEditable"
+                               name="schoolName"
+                               #schoolName="ngModel"
+                               [class.is-invalid]="isSubmitting && isSchoolInfoEditable && schoolName?.invalid">
+                        <div *ngIf="isSubmitting && isSchoolInfoEditable && schoolName?.invalid" class="text-danger text-start mt-1">
+                            <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_CODE'|translate
+                            }}
+                            <span *ngIf="isSchoolInfoEditable" class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control"
+                               [(ngModel)]="visitReportSubmissionRequestInfo.scheduledSchoolVisit!.school!.code"
+                               [disabled]="!isSchoolInfoEditable"
+                               [required]="isSchoolInfoEditable"
+                               name="schoolCode"
+                               #schoolCode="ngModel"
+                               [class.is-invalid]="isSubmitting && isSchoolInfoEditable && schoolCode?.invalid">
+                        <div *ngIf="isSubmitting && isSchoolInfoEditable && schoolCode?.invalid" class="text-danger text-start mt-1">
+                            <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_TYPE'|translate
+                            }}
+                            <span *ngIf="isSchoolInfoEditable" class="text-danger">*</span>
+                        </label>
+                        <ng-container *ngIf="isSchoolInfoEditable; else typeView">
+                            <select class="form-control"
+                                    [(ngModel)]="visitReportSubmissionRequestInfo.scheduledSchoolVisit!.school!.type"
+                                    [required]="isSchoolInfoEditable"
+                                    name="schoolType"
+                                    #schoolType="ngModel"
+                                    [class.is-invalid]="isSubmitting && isSchoolInfoEditable && schoolType?.invalid">
+                                <option [ngValue]="null" disabled>{{ 'PAGES.COMMON.LABELS.SELECT' | translate }}</option>
+                                <option *ngFor="let t of schoolTypes" [ngValue]="t">
+                                    {{ 'PAGES.COMMON.LABELS.' + t | translate }}
+                                </option>
+                            </select>
+                            <div *ngIf="isSubmitting && isSchoolInfoEditable && schoolType?.invalid" class="text-danger text-start mt-1">
+                                <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                            </div>
+                        </ng-container>
+                        <ng-template #typeView>
+                        <input type="text" class="form-control"
+                                   [value]="'PAGES.COMMON.LABELS.' + visitReportSubmissionRequestInfo.scheduledSchoolVisit!.school!.type | translate"
+                                   disabled>
+                        </ng-template>
+                    </div>
+                </div>
+
+
+                <div class="row py-3">
+                    <div class="col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_GENDER'|translate
+                            }}
+                            <span *ngIf="isSchoolInfoEditable" class="text-danger">*</span>
+                        </label>
+                        <ng-container *ngIf="isSchoolInfoEditable; else genderView">
+                            <select class="form-control"
+                                    [(ngModel)]="visitReportSubmissionRequestInfo.scheduledSchoolVisit!.school!.gender"
+                                    [required]="isSchoolInfoEditable"
+                                    name="schoolGender"
+                                    #schoolGender="ngModel"
+                                    [class.is-invalid]="isSubmitting && isSchoolInfoEditable && schoolGender?.invalid">
+                                <option [ngValue]="null" disabled>{{ 'PAGES.COMMON.LABELS.SELECT' | translate }}</option>
+                                <option *ngFor="let g of genders" [ngValue]="g">
+                                    {{ 'PAGES.COMMON.LABELS.' + g | translate }}
+                                </option>
+                            </select>
+                            <div *ngIf="isSubmitting && isSchoolInfoEditable && schoolGender?.invalid" class="text-danger text-start mt-1">
+                                <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                            </div>
+                        </ng-container>
+                        <ng-template #genderView>
+                        <input type="text" class="form-control"
+                                   [value]="'PAGES.COMMON.LABELS.' + visitReportSubmissionRequestInfo.scheduledSchoolVisit!.school!.gender | translate"
+                                   disabled>
+                        </ng-template>
+                    </div>
+
+                    <div class="col-md-8">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.GRADES'|translate
+                            }}
+                            <span *ngIf="isSchoolInfoEditable" class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control"
+                               [(ngModel)]="visitReportSubmissionRequestInfo.scheduledSchoolVisit!.school!.classes"
+                               [disabled]="!isSchoolInfoEditable"
+                               [required]="isSchoolInfoEditable"
+                               name="schoolClasses"
+                               #schoolClasses="ngModel"
+                               [class.is-invalid]="isSubmitting && isSchoolInfoEditable && schoolClasses?.invalid">
+                        <div *ngIf="isSubmitting && isSchoolInfoEditable && schoolClasses?.invalid" class="text-danger text-start mt-1">
+                            <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.GOVERNORATE'|translate
+                            }}</label>
+                        <ng-container *ngIf="isSchoolInfoEditable; else governorateView">
+                            <select class="form-control"
+                                    [ngModel]="selectedGovernorateId"
+                                    (ngModelChange)="onGovernorateSelect($event)"
+                                    name="schoolGovernorate">
+                                <option *ngFor="let g of governorateList" [ngValue]="g.id">
+                                    {{ translate.currentLang=='ar' ? g.nameAr : g.nameEn }}
+                                </option>
+                            </select>
+                        </ng-container>
+                        <ng-template #governorateView>
+                            <input type="text" class="form-control"
+                                   [value]="selectedGovernorateDisplayName"
+                                   disabled>
+                        </ng-template>
+                    </div>
+
+                    <div class=" col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.WILAYAT'|translate
+                            }}</label>
+                        <ng-container *ngIf="isSchoolInfoEditable; else wilayatView">
+                            <select class="form-control"
+                                    [ngModel]="selectedWilayatId"
+                                    (ngModelChange)="onWilayatSelect($event)"
+                                    name="schoolWilayat">
+                                <option *ngFor="let w of wilayatList" [ngValue]="w.id">
+                                    {{ translate.currentLang=='ar' ? w.nameAr : w.nameEn }}
+                                </option>
+                            </select>
+                        </ng-container>
+                        <ng-template #wilayatView>
+                            <input type="text" class="form-control"
+                                   [value]="selectedWilayatDisplayName"
+                                   disabled>
+                        </ng-template>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">{{
+                                'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.GEOGRAPHIC_LOCATION'|translate
+                            }}</label>
+                        <input type="text" class="form-control"
+                               [(ngModel)]="visitReportSubmissionRequestInfo.scheduledSchoolVisit!.school!.geographicLocation"
+                               [disabled]="!isSchoolInfoEditable"
+                               name="schoolGeographicLocation">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">{{ 'PAGES.SELF_EVALUATION_DOCUMENT.LABELS.INTRODUCTION'|translate }}
+                    <span *ngIf="isIntroductionRequired" class="text-danger">*</span>
+                </label>
+                <app-custom-ckeditor id="otherUpdates" name="otherUpdates"
+                          #otherUpdates="ngModel"
+                          [language]="'ar'" [disabled]="!isEditMode"
+                          [ngClass]="{ 'ckeditor-disabled': !isEditMode }"
+                          [required]="isIntroductionRequired"
+                          [(ngModel)]="visitReportSubmissionRequestInfo.otherUpdates"
+                          (ngModelChange)="onIntroductionChange($event)">
+                </app-custom-ckeditor>
+                <div *ngIf="isSubmitting && otherUpdates?.invalid" class="text-danger text-start mt-1">
+                    <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                </div>
+            </div>
+            <div class="text-danger m-3">
+                <span>{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.INTRODUCTION_NOTE'|translate }}</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<step-action-buttons *ngIf="showButtons" [showPreviousBtn]="false"
+                     [showSaveBtn]="showButtons && showSaveBtn"
+                     [showSubmitBtn]="false"
+                     (cancelEvent)="cancelEvent.emit()" (nextEvent)="next()" (saveEvent)="save()"></step-action-buttons>

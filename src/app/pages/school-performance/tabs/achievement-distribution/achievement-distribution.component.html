@@ -1,0 +1,386 @@
+<div class="tab-content">
+  <div class="tab-header">
+    <h2>{{ 'PAGES.SCHOOL_PERFORMANCE.TABS.ACHIEVEMENT_DISTRIBUTION' | translate }}</h2>
+  </div>
+  
+  <div class="achievement-distribution-wrapper" [attr.dir]="translate.currentLang === 'en' ? 'ltr' : 'rtl'">
+    <!-- Top Action Row with Title -->
+    <div class="top-row">
+      <div class="title">
+        {{ 'PAGES.SCHOOL_PERFORMANCE.ACHIEVEMENT_DISTRIBUTION.DISTRIBUTION_OF_ACADEMIC_ACHIEVEMENT' | translate }}
+      </div>
+    </div>
+
+    <!-- Collapsible Panels for Grades -->
+    <div *ngFor="let grade of schoolInfo.gradesData; let i = index" class="grade-panel avoid-page-break">
+      <div class="grade-header">
+        <div class="grade-info" (click)="toggleGradePanel(i)">
+          <i class="ri-arrow-down-s-line" [class.open]="grade.open"></i>
+          <span>{{ grade.name }}</span>
+        </div>
+        <div class="grade-actions">
+          <div class="not-applicable-checkbox">
+            <input type="checkbox"
+                   [disabled]="!isEditable" 
+                   [id]="'grade' + i + 'NotApplicable'"
+                   [(ngModel)]="grade.notApplicable"
+                   class="form-check-input"
+                   (click)="$event.stopPropagation()">
+            <label [for]="'grade' + i + 'NotApplicable'" class="form-check-label">
+              {{ 'PAGES.SCHOOL_PERFORMANCE.ACHIEVEMENT_DISTRIBUTION.NOT_APPLICABLE' | translate }}
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="grade-body" [hidden]="!grade.open" [class.disabled-section]="grade.notApplicable">
+        <div class="table-responsive">
+          <table class="achievement-table">
+            <thead>
+              <tr class="main-header">
+                <th rowspan="2" class="subject-header">المادة</th>
+                <th rowspan="2" class="total-students-header">العدد الكلي للمادة</th>
+                <th colspan="2" class="excellent-header">ممتاز<br/>(90-100)</th>
+                <th colspan="2" class="very-good-header">جيد جداً<br/>(80-89)</th>
+                <th colspan="2" class="good-header">جيد<br/>(65-79)</th>
+                <th colspan="2" class="acceptable-header">مقبول<br/>(50-64)</th>
+                <th colspan="2" class="weak-header">
+                  <span *ngIf="grade.level <= 4" class="needs-help">يحتاج إلى مساعدة</span>
+                  <span *ngIf="grade.level >= 5" class="failed">راسب</span>
+                  <br/>(أقل من 50)
+                </th>
+              </tr>
+              <tr class="sub-header">
+                <th class="count-header">العدد</th>
+                <th class="percentage-header">النسبة</th>
+                <th class="count-header">العدد</th>
+                <th class="percentage-header">النسبة</th>
+                <th class="count-header">العدد</th>
+                <th class="percentage-header">النسبة</th>
+                <th class="count-header">العدد</th>
+                <th class="percentage-header">النسبة</th>
+                <th class="count-header">العدد</th>
+                <th class="percentage-header">النسبة</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let subject of grade.subjects; let j = index" 
+                  [class.average-row]="subject.isAverageRow"
+                  [class.total-row]="subject.totalRow">
+                <td class="subject-cell">{{ subject.name }}</td>
+                
+                <!-- Total Students Cell -->
+                <td class="total-students-cell">
+                  <input 
+                    *ngIf="!subject.isAverageRow && !subject.totalRow"
+                    type="number" 
+                    [disabled]="!isEditable"
+                     [ngClass]="{ 'bg-disabled': !isEditable }"
+                    class="form-control cell-input"
+                    [(ngModel)]="subject.totalStudents"
+                    (ngModelChange)="onSubjectDataChange(grade, subject)"
+                    min="0"
+                    step="1"
+                    placeholder="0">
+                  <span *ngIf="subject.isAverageRow || subject.totalRow">{{ subject.totalStudents || '' }}</span>
+                </td>
+                
+                <!-- Excellent -->
+                <td class="count-cell">
+                  <input 
+                    *ngIf="!subject.isAverageRow && !subject.totalRow"
+                    type="number" 
+                    [disabled]="!isEditable"
+                     [ngClass]="{ 'bg-disabled': !isEditable }"
+                    class="form-control cell-input"
+                    [(ngModel)]="subject.excellent.count"
+                    (ngModelChange)="onAchievementDataChange(grade, subject, 'excellent')"
+                    min="0"
+                    [max]="subject.totalStudents || 999"
+                    step="1"
+                    placeholder="0">
+                  <span *ngIf="subject.isAverageRow || subject.totalRow">{{ subject.excellent.count || '' }}</span>
+                </td>
+                <td class="percentage-cell">
+                  <input 
+                    *ngIf="!subject.isAverageRow && !subject.totalRow"
+                    type="number" 
+                    [disabled]="!isEditable"
+                     [ngClass]="{ 'bg-disabled': !isEditable }"
+                    class="form-control cell-input"
+                    [(ngModel)]="subject.excellent.percentage"
+                    min="0"
+                    max="100"
+                    step="0.01"
+                    placeholder="0.00"
+                    readonly disabled>
+                  <span *ngIf="subject.isAverageRow || subject.totalRow">{{ subject.excellent.percentage || '' }} %</span>
+                </td>
+                
+                <!-- Very Good -->
+                <td class="count-cell">
+                  <input 
+                    *ngIf="!subject.isAverageRow && !subject.totalRow"
+                    type="number" 
+                    [disabled]="!isEditable"
+                     [ngClass]="{ 'bg-disabled': !isEditable }"
+                    class="form-control cell-input"
+                    [(ngModel)]="subject.veryGood.count"
+                    (ngModelChange)="onAchievementDataChange(grade, subject, 'veryGood')"
+                    min="0"
+                    [max]="subject.totalStudents || 999"
+                    step="1"
+                    placeholder="0">
+                  <span *ngIf="subject.isAverageRow || subject.totalRow">{{ subject.veryGood.count || '' }}</span>
+                </td>
+                <td class="percentage-cell">
+                  <input 
+                    *ngIf="!subject.isAverageRow && !subject.totalRow"
+                    type="number" 
+                    [disabled]="!isEditable"
+                     [ngClass]="{ 'bg-disabled': !isEditable }"
+                    class="form-control cell-input"
+                    [(ngModel)]="subject.veryGood.percentage"
+                    min="0"
+                    max="100"
+                    step="0.01"
+                    placeholder="0.00"
+                    readonly disabled>
+                  <span *ngIf="subject.isAverageRow || subject.totalRow">{{ subject.veryGood.percentage || '' }} %</span>
+                </td>
+                
+                <!-- Good -->
+                <td class="count-cell">
+                  <input 
+                    *ngIf="!subject.isAverageRow && !subject.totalRow"
+                    type="number" 
+                    [disabled]="!isEditable"
+                     [ngClass]="{ 'bg-disabled': !isEditable }"
+                    class="form-control cell-input"
+                    [(ngModel)]="subject.good.count"
+                    (ngModelChange)="onAchievementDataChange(grade, subject, 'good')"
+                    min="0"
+                    [max]="subject.totalStudents || 999"
+                    step="1"
+                    placeholder="0">
+                  <span *ngIf="subject.isAverageRow || subject.totalRow">{{ subject.good.count || '' }}</span>
+                </td>
+                <td class="percentage-cell">
+                  <input 
+                    *ngIf="!subject.isAverageRow && !subject.totalRow"
+                    type="number" 
+                    [disabled]="!isEditable"
+                     [ngClass]="{ 'bg-disabled': !isEditable }"
+                    class="form-control cell-input"
+                    [(ngModel)]="subject.good.percentage"
+                    min="0"
+                    max="100"
+                    step="0.01"
+                    placeholder="0.00"
+                    readonly disabled>
+                  <span *ngIf="subject.isAverageRow || subject.totalRow">{{ subject.good.percentage || '' }} %</span>
+                </td>
+                
+                <!-- Acceptable -->
+                <td class="count-cell">
+                  <input 
+                    *ngIf="!subject.isAverageRow && !subject.totalRow"
+                    type="number" 
+                    [disabled]="!isEditable"
+                     [ngClass]="{ 'bg-disabled': !isEditable }"
+                    class="form-control cell-input"
+                    [(ngModel)]="subject.acceptable.count"
+                    (ngModelChange)="onAchievementDataChange(grade, subject, 'acceptable')"
+                    min="0"
+                    [max]="subject.totalStudents || 999"
+                    step="1"
+                    placeholder="0">
+                  <span *ngIf="subject.isAverageRow || subject.totalRow">{{ subject.acceptable.count || '' }}</span>
+                </td>
+                <td class="percentage-cell">
+                  <input 
+                    *ngIf="!subject.isAverageRow && !subject.totalRow"
+                    type="number" 
+                    [disabled]="!isEditable"
+                     [ngClass]="{ 'bg-disabled': !isEditable }"
+                    class="form-control cell-input"
+                    [(ngModel)]="subject.acceptable.percentage"
+                    min="0"
+                    max="100"
+                    step="0.01"
+                    placeholder="0.00"
+                    readonly disabled>
+                  <span *ngIf="subject.isAverageRow || subject.totalRow">{{ subject.acceptable.percentage || '' }} %</span>
+                </td>
+                
+                <!-- Weak -->
+                <td class="count-cell">
+                  <input 
+                    *ngIf="!subject.isAverageRow && !subject.totalRow"
+                    type="number" 
+                    [disabled]="!isEditable"
+                     [ngClass]="{ 'bg-disabled': !isEditable }"
+                    class="form-control cell-input"
+                    [(ngModel)]="subject.weak.count"
+                    (ngModelChange)="onAchievementDataChange(grade, subject, 'weak')"
+                    min="0"
+                    [max]="subject.totalStudents || 999"
+                    step="1"
+                    placeholder="0">
+                  <span *ngIf="subject.isAverageRow || subject.totalRow">{{ subject.weak.count || '' }}</span>
+                </td>
+                <td class="percentage-cell">
+                  <input 
+                    *ngIf="!subject.isAverageRow && !subject.totalRow"
+                    type="number" 
+                    [disabled]="!isEditable"
+                     [ngClass]="{ 'bg-disabled': !isEditable }"
+                    class="form-control cell-input"
+                    [(ngModel)]="subject.weak.percentage"
+                    min="0"
+                    max="100"
+                    step="0.01"
+                    placeholder="0.00"
+                    readonly disabled>
+                  <span *ngIf="subject.isAverageRow || subject.totalRow">{{ subject.weak.percentage || '' }} %</span>
+                </td>
+              </tr>
+            </tbody>
+            
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- All Subjects Total Table -->
+    <div class="all-subjects-section page-break-before page-break-after">
+      <div class="all-subjects-header">
+        <h3>{{ 'PAGES.SCHOOL_PERFORMANCE.ACHIEVEMENT_DISTRIBUTION.TOTAL_SUBJECTS' | translate }}</h3>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="achievement-table all-subjects-table">
+          <thead>
+            <tr class="main-header">
+              <th rowspan="2" class="subject-header">المادة</th>
+              <th colspan="2" class="excellent-header">ممتاز<br/>(90-100)</th>
+              <th colspan="2" class="very-good-header">جيد جداً<br/>(80-89)</th>
+              <th colspan="2" class="good-header">جيد<br/>(65-79)</th>
+              <th colspan="2" class="acceptable-header">مقبول<br/>(50-64)</th>
+              <th colspan="2" class="failed-header">راسب<br/>(أقل من 50)</th>
+              <th colspan="2" class="needs-help-header">يحتاج إلى مساعدة<br/>(أقل من 50)</th>
+            </tr>
+            <tr class="sub-header">
+              <th class="count-header">العدد</th>
+              <th class="percentage-header">النسبة</th>
+              <th class="count-header">العدد</th>
+              <th class="percentage-header">النسبة</th>
+              <th class="count-header">العدد</th>
+              <th class="percentage-header">النسبة</th>
+              <th class="count-header">العدد</th>
+              <th class="percentage-header">النسبة</th>
+              <th class="count-header">العدد</th>
+              <th class="percentage-header">النسبة</th>
+              <th class="count-header">العدد</th>
+              <th class="percentage-header">النسبة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let subject of getAllSubjectsTotals(); let j = index" 
+                [class.average-row]="subject.isAverageRow"
+                [class.total-row]="subject.totalRow">
+              <td class="subject-cell">{{ subject.name }}</td>
+              
+              <!-- Excellent -->
+              <td class="count-cell">{{ subject.excellent.count || '' }}</td>
+              <td class="percentage-cell">{{ subject.excellent.percentage || '' }} %</td>
+              
+              <!-- Very Good -->
+              <td class="count-cell">{{ subject.veryGood.count || '' }}</td>
+              <td class="percentage-cell">{{ subject.veryGood.percentage || '' }} %</td>
+              
+              <!-- Good -->
+              <td class="count-cell">{{ subject.good.count || '' }}</td>
+              <td class="percentage-cell">{{ subject.good.percentage || '' }} %</td>
+              
+              <!-- Acceptable -->
+              <td class="count-cell">{{ subject.acceptable.count || '' }}</td>
+              <td class="percentage-cell">{{ subject.acceptable.percentage || '' }}  %</td>
+              
+              <!-- Failed (راسب) -->
+              <td class="count-cell">{{ subject.failed?.count || '' }}</td>
+              <td class="percentage-cell">{{ subject.failed?.percentage || '' }} %</td>
+              
+              <!-- Needs Help (يحتاج إلى مساعدة) -->
+              <td class="count-cell">{{ subject.needsHelp?.count || '' }}</td>
+              <td class="percentage-cell">{{ subject.needsHelp?.percentage || '' }} %</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Total Summary Table for All Grades -->
+    <div class="total-summary-section">
+      <div class="total-summary-header">
+        <h3>إجمالي الصفوف</h3>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="total-achievement-table">
+          <thead>
+            <tr>
+              <th rowspan="2" class="achievement-level-header">مستوى التحصيل</th>
+              <th rowspan="2" class="percentage-range-header">النسبة المئوية</th>
+              <th colspan="2" class="totals-header">إجمالي الصفوف</th>
+            </tr>
+            <tr>
+              <th class="count-header">العدد</th>
+              <th class="percentage-header">النسبة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="excellent-summary-row">
+              <td class="achievement-level-cell excellent-cell">متميز</td>
+              <td class="range-cell">90-100</td>
+              <td class="total-count-cell">{{ getTotalCountAllGrades('excellent') }}</td>
+              <td class="total-percentage-cell">{{ getTotalPercentageAllGrades('excellent') }} %</td>
+            </tr>
+            <tr class="very-good-summary-row">
+              <td class="achievement-level-cell very-good-cell">جيد جداً</td>
+              <td class="range-cell">80-89</td>
+              <td class="total-count-cell">{{ getTotalCountAllGrades('veryGood') }}</td>
+              <td class="total-percentage-cell">{{ getTotalPercentageAllGrades('veryGood') }} %</td>
+            </tr>
+            <tr class="good-summary-row">
+              <td class="achievement-level-cell good-cell">جيد</td>
+              <td class="range-cell">65-79</td>
+              <td class="total-count-cell">{{ getTotalCountAllGrades('good') }}</td>
+              <td class="total-percentage-cell">{{ getTotalPercentageAllGrades('good') }} %</td>
+            </tr>
+            <tr class="acceptable-summary-row">
+              <td class="achievement-level-cell acceptable-cell">مقبول</td>
+              <td class="range-cell">50-64</td>
+              <td class="total-count-cell">{{ getTotalCountAllGrades('acceptable') }}</td>
+              <td class="total-percentage-cell">{{ getTotalPercentageAllGrades('acceptable') }} %</td>
+            </tr>
+            <tr class="needs-help-summary-row">
+              <td class="achievement-level-cell needs-help-cell">يحتاج إلى مساعدة (4-1)</td>
+              <td class="range-cell">أقل من 50</td>
+              <td class="total-count-cell">{{ getTotalNeedsHelpAllGrades() }}</td>
+              <td class="total-percentage-cell">{{ getTotalNeedsHelpPercentageAllGrades() }} %</td>
+            </tr>
+            <tr class="failed-summary-row">
+              <td class="achievement-level-cell failed-cell">راسب (12-5)</td>
+              <td class="range-cell">أقل من 50</td>
+              <td class="total-count-cell">{{ getTotalFailedAllGrades() }}</td>
+              <td class="total-percentage-cell">{{ getTotalFailedPercentageAllGrades() }} %</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

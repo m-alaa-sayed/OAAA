@@ -1,0 +1,61 @@
+.session-timeout-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.session-timeout-modal {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  padding: 30px 25px;
+  width: 350px;
+  max-width: 90%;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.session-timeout-modal h2 {
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 22px;
+}
+
+.session-timeout-modal p {
+  margin-bottom: 20px;
+  color: #666;
+  font-size: 16px;
+}
+
+.session-timeout-modal button {
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.session-timeout-modal button:hover {
+  background-color: #004d40;
+}

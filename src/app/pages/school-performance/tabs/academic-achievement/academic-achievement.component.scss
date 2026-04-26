@@ -1,0 +1,502 @@
+@import '../general-data/general-data.component.scss';
+
+// Academic Achievement Component Styles
+.academic-achievement-container {
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  .section-header {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    h3, h4 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      flex: 1;
+      text-align: center;
+
+    }
+    
+    h4 {
+      font-size: 1.1rem;
+      border-bottom: 1px solid #dee2e6;
+    }
+    
+    .not-applicable-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      input[type="checkbox"] {
+        margin: 0;
+      }
+      
+      label {
+        margin: 0;
+        font-weight: 500;
+        color: #666;
+        cursor: pointer;
+      }
+      
+      @media print {
+        // display: none !important;
+        margin:0 10px ;
+      }
+    }
+  }
+  
+  // International Tests Section
+  .international-tests-section {
+    margin-bottom: 32px;
+    
+    .tests-grid-container {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      padding: 16px;
+      
+      &.disabled-section {
+        opacity: 0.6;
+        pointer-events: none;
+        
+        ::ng-deep {
+          .ag-theme-quartz {
+            .ag-header,
+            .ag-row,
+            .ag-cell {
+              background-color: #f8f9fa !important;
+              color: #6c757d !important;
+            }
+            
+            .ag-cell {
+              border-color: #dee2e6 !important;
+            }
+            
+            .ag-header-cell {
+              background-color: #e9ecef !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // Performance Summary Section
+  .performance-summary-section {
+    margin-bottom: 32px;
+    
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      
+      .summary-card {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        &.participation-card {
+          border-left-color: #17a2b8;
+          
+          .card-icon {
+            color: #17a2b8;
+          }
+        }
+        
+        &.tests-card {
+          border-left-color: #28a745;
+          
+          .card-icon {
+            color: #28a745;
+          }
+        }
+        
+        &.average-card {
+          border-left-color: #ffc107;
+          
+          .card-icon {
+            color: #ffc107;
+          }
+        }
+        
+        &.improvement-card {
+          border-left-color: #dc3545;
+          
+          .card-icon {
+            color: #dc3545;
+          }
+        }
+        
+        .card-icon {
+          font-size: 2.5rem;
+          flex-shrink: 0;
+        }
+        
+        .card-content {
+          flex: 1;
+          
+          h4 {
+            color: #1F487E;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+          }
+          
+          .card-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #016393;
+            margin-bottom: 4px;
+            line-height: 1;
+          }
+          
+          .card-detail {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+  
+  // Test Results Analysis Section
+  .test-analysis-section {
+    margin-bottom: 32px;
+    
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
+      
+      .analysis-item {
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        border: 1px solid #dee2e6;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s ease;
+        
+        &:hover {
+          border-color: #00A5A7;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-info {
+          margin-bottom: 16px;
+          
+          .test-name {
+            font-weight: bold;
+            color: #1F487E;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+          }
+          
+          .test-result {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+            
+            &.excellent-result {
+              background-color: #d4edda;
+              color: #155724;
+            }
+            
+            &.good-result {
+              background-color: #fff3cd;
+              color: #856404;
+            }
+            
+            &.average-result {
+              background-color: #d1ecf1;
+              color: #0c5460;
+            }
+            
+            &.poor-result {
+              background-color: #f8d7da;
+              color: #721c24;
+            }
+            
+            &.no-result {
+              background-color: #f8f9fa;
+              color: #6c757d;
+            }
+          }
+        }
+        
+        .test-participants {
+          margin-bottom: 16px;
+          padding: 12px;
+          background-color: #f8f9fa;
+          border-radius: 6px;
+          
+          .participants-count {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #016393;
+            margin-left: 8px;
+          }
+          
+          .participants-label {
+            color: #666;
+            font-size: 0.9rem;
+          }
+        }
+        
+        .test-actions {
+          display: flex;
+          gap: 8px;
+          
+          .btn {
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            
+            &.btn-sm {
+              font-size: 0.75rem;
+              padding: 4px 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // Performance Trends Section
+  .trends-section {
+    margin-bottom: 32px;
+    
+    .trends-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      
+      .trend-chart-placeholder {
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        border-radius: 12px;
+        padding: 40px;
+        border: 2px dashed #dee2e6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 200px;
+        
+        .chart-message {
+          text-align: center;
+          color: #6c757d;
+          
+          i {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+          }
+          
+          p {
+            font-size: 1rem;
+            margin: 0;
+            font-weight: 500;
+          }
+        }
+      }
+      
+      .trends-summary {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        
+        .trend-item {
+          background-color: #ffffff;
+          border-radius: 8px;
+          padding: 16px;
+          border: 1px solid #dee2e6;
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+          
+          .trend-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+          }
+          
+          .trend-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            
+            &.best {
+              color: #28a745;
+            }
+            
+            &.needs-improvement {
+              color: #dc3545;
+            }
+            
+            &.rate {
+              color: #17a2b8;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+}
+
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .academic-achievement-container {
+    .performance-summary-section {
+      .summary-cards {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        
+        .summary-card {
+          padding: 20px;
+          
+          .card-icon {
+            font-size: 2rem;
+          }
+          
+          .card-content {
+            .card-value {
+              font-size: 1.5rem;
+            }
+          }
+        }
+      }
+    }
+    
+    .trends-section {
+      .trends-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .academic-achievement-container {
+    padding: 16px;
+    
+    .performance-summary-section {
+      .summary-cards {
+        grid-template-columns: 1fr;
+        
+        .summary-card {
+          padding: 16px;
+          flex-direction: column;
+          text-align: center;
+          gap: 12px;
+          
+          .card-content {
+            .card-value {
+              font-size: 1.8rem;
+            }
+          }
+        }
+      }
+    }
+    
+    .test-analysis-section {
+      .analysis-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .actions-section {
+      .btn {
+        flex: 1;
+        justify-content: center;
+        min-width: 120px;
+      }
+    }
+  }
+}
+
+// Loading Animation
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  
+  .spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #00A5A7;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+} 
+
+
+.no-print-header {
+  display: flex !important;
+}
+
+@media print {
+  .no-print-header {
+    display: none !important;
+  }
+  .academic-achievement-container{
+    padding: 0 !important;
+  }
+  .tests-grid-container {
+    padding: 0 !important;
+  }
+  .section-header {
+    background: #05AAA7 !important;
+    background-color: #05AAA7 !important;
+
+    h3 {
+      color: white !important;
+      // text-align: center;
+      // width: 100%;
+    }
+  }
+
+  .international-tests-header {
+    background: #05AAA7 !important;
+    background-color: #05AAA7 !important;
+    color: white !important;
+
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+
+    h3 {
+      color: white !important;
+      margin-bottom: 0 !important;
+    }
+  }
+
+  .print-only {
+    display: flex !important;
+  }
+}

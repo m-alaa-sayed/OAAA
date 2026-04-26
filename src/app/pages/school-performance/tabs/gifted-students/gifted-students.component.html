@@ -1,0 +1,36 @@
+<div class="tab-content">
+  <!-- Header -->
+  <div class="tab-header">
+    <h2 class="page-title">{{ 'PAGES.SCHOOL_PERFORMANCE.GIFTED_STUDENTS.TITLE' | translate }}</h2>
+  </div>
+  
+  <div class="tab-body">
+    <div class="gifted-students-container">
+      
+      <!-- Main Table Section -->
+      <div class="section-card mb-4">
+        <div class="table-container">
+          <div class="section-header">
+            <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.GIFTED_STUDENTS.TITLE' | translate }}</h3>
+          </div>
+          <oaaaqa-ag-grid
+            [dataList]="schoolInfo.giftedStudentsData"
+            [columns]="giftedStudentsColumns"
+            [selectable]="false"
+            [actions]="gridActions"
+            [pinnedBottomRowData]="pinnedBottomRowData"
+            [parentComponent]="this"
+            [pagination]="true"
+            [paginationPageSize]="10"
+            [paginationPageSizeSelector]="[10, 20, 50]"
+            [enablePrintMode]="true"
+            [showPrintSummary]="true"
+            [printMaxRowsPerPage]="15"
+            (cellValueChanged)="onCellValueChanged($event)"
+            tableHeadColor="#E6F2F7">
+          </oaaaqa-ag-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

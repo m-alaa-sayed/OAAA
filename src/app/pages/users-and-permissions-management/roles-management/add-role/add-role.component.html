@@ -1,0 +1,23 @@
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+<page-title [title]="'PAGES.PERMISSIONS_MANAGEMENT.TITLES.ADD_ROLE' | translate"
+    [breadcrumbItems]="breadCrumbItems"></page-title>
+
+<app-role-basic-info-fields [roleData]="roleData" [mode]="mode" [groups]="groups" [roleTypes]="roleTypes"
+    [isSubmitting]="showValidationErrors" (groupChange)="onGroupChange($event)">
+</app-role-basic-info-fields>
+
+<app-role-procedures-table [procedures]="procedures"
+    [selectedGroup]="roleData.group" [mode]="mode" [isSubmitted]="showValidationErrors">
+</app-role-procedures-table>
+
+<!-- Action Buttons -->
+<div class="d-flex justify-content-end gap-3 mt-3 mb-3">
+    <button type="button" class="btn btn-outline-secondary" (click)="goBack()">
+        {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.EXIT' | translate }}
+    </button>
+    <button type="button" class="btn btn-primary" (click)="save()">
+        <i class="mdi mdi-content-save"></i>
+        {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+    </button>
+</div>

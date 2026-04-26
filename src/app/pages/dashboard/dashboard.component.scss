@@ -1,0 +1,21 @@
+.rounded-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 0px solid #333;
+  }
+  
+
+  #myCard:hover{
+    background: #1F487E; /* Label color on hover */
+  }
+
+  #myCard:hover #myCard-label{
+      color: #fff;
+  }
+  #myCard:hover #myCard-link{
+    background: #fff;
+    color: #1F487E;
+  }
+  

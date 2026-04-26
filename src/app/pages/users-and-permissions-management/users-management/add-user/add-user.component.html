@@ -1,0 +1,129 @@
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+<page-title [title]="'PAGES.PERMISSIONS_MANAGEMENT.TITLES.ADD_USER' | translate"
+    [breadcrumbItems]="breadCrumbItems">
+</page-title>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.ACCOUNT_DATA' | translate }}</h4>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="emailForm" (ngSubmit)="checkUsername()">
+            <div class="row align-items-start">
+                <div class="col-md-6">
+                    <label for="username" class="form-label">
+                        {{ !usernameExists ? ('PAGES.PERMISSIONS_MANAGEMENT.LABELS.EMAIL_USERNAME' | translate) : ('PAGES.PERMISSIONS_MANAGEMENT.LABELS.USERNAME' | translate) }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="username" formControlName="username"
+                            placeholder="{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.USERNAME_PLACEHOLDER' | translate }}"
+                            [class.is-invalid]="emailForm.get('username')?.invalid && emailForm.get('username')?.touched">
+                        <button *ngIf="!usernameExists" type="submit" class="btn btn-primary ms-2"
+                            [disabled]="emailForm.invalid || isCheckingEmail">
+                            <span *ngIf="isCheckingEmail" class="spinner-border spinner-border-sm me-1" role="status"
+                                aria-hidden="true"></span>
+                            {{ 'PAGES.COMMON.LABELS.VERIFY' | translate }}
+                        </button>
+                        <span *ngIf="usernameExists" class="input-group-text bg-success text-white">
+                            <i class="mdi mdi-check-circle"></i>
+                        </span>
+                    </div>
+                    <div *ngIf="emailForm.get('username')?.invalid && emailForm.get('username')?.touched"
+                        class="invalid-feedback d-block">
+                        <small *ngIf="emailForm.get('username')?.errors?.['required']">
+                            {{ 'PAGES.COMMON.VALIDATION.REQUIRED' | translate }}
+                        </small>
+                        <small *ngIf="emailForm.get('username')?.errors?.['minlength']">
+                            {{ 'PAGES.COMMON.VALIDATION.MIN_LENGTH' | translate }}
+                        </small>
+                        <small *ngIf="emailForm.get('username')?.errors?.['arabicNotAllowed']">
+                            {{ 'PAGES.PERMISSIONS_MANAGEMENT.MESSAGES.USERNAME_NO_ARABIC' | translate }}
+                        </small>
+                        <small *ngIf="emailForm.get('username')?.errors?.['noSpacesAllowed']">
+                            {{ 'PAGES.PERMISSIONS_MANAGEMENT.MESSAGES.USERNAME_NO_SPACES' | translate }}
+                        </small>
+                    </div>
+                </div>
+
+                <div class="col-md-6" *ngIf="usernameExists">
+                    <label for="email" class="form-label">
+                        {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.EMAIL' | translate }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input type="email" class="form-control" id="email" formControlName="email"
+                            placeholder="{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.EMAIL_PLACEHOLDER' | translate }}"
+                            [class.is-invalid]="emailForm.get('email')?.invalid && emailForm.get('email')?.touched">
+                    </div>
+                    <div *ngIf="emailForm.get('email')?.invalid && emailForm.get('email')?.touched"
+                        class="invalid-feedback d-block">
+                        <small *ngIf="emailForm.get('email')?.errors?.['required']">
+                            {{ 'PAGES.COMMON.VALIDATION.REQUIRED' | translate }}
+                        </small>
+                        <small *ngIf="emailForm.get('email')?.errors?.['email']">
+                            {{ 'PAGES.COMMON.VALIDATION.INVALID_EMAIL' | translate }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Personal Data Section -->
+<ng-container *ngIf="usernameExists">
+    <app-user-personal-info-fields [user]="user" [userForm]="userForm" [countryList]="countryList"
+        [genderList]="genderList" [governorateList]="governorateList" [organizationList]="organizationList"
+        [centerList]="centerList" [prefixList]="prefixList" [isDisabled]="isDisabled" [isSubmitting]="showValidationErrors" [showButtons]="false">
+    </app-user-personal-info-fields>
+
+    <!-- Notifications Settings -->
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title mb-0">{{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.NOTIFICATIONS_SETTINGS' | translate }}
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="smsNotifications" [(ngModel)]="receiveSms"
+                            [disabled]="isSubmitting || isDisabled">
+                        <label class="form-check-label" for="smsNotifications">
+                            {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.SMS_NOTIFICATIONS' | translate }}
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="emailNotifications"
+                            [(ngModel)]="receiveEmails" [disabled]="isSubmitting || isDisabled">
+                        <label class="form-check-label" for="emailNotifications">
+                            {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.EMAIL_NOTIFICATIONS' | translate }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-end gap-3 mb-3">
+        <button type="button" class="btn btn-outline-secondary" (click)="goBack()" [disabled]="isSubmitting">
+            {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.EXIT' | translate }}
+        </button>
+        <button *ngIf="!isDisabled" type="button" class="btn btn-warning" (click)="reload()" [disabled]="isSubmitting">
+            <i class="mdi mdi-reload"></i>
+            {{ 'PAGES.PERMISSIONS_MANAGEMENT.LABELS.RELOAD' | translate }}
+        </button>
+        <button *ngIf="!isDisabled" type="button" class="btn btn-primary" (click)="save()"
+            [disabled]="isSubmitting">
+            <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1" role="status"
+                aria-hidden="true"></span>
+            <i *ngIf="!isSubmitting" class="mdi mdi-content-save"></i>
+            {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+        </button>
+    </div>
+</ng-container>

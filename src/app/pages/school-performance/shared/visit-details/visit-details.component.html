@@ -1,0 +1,119 @@
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="mb-0 text-start">{{ 'PAGES.VISIT_FORM.LABELS.VISIT_DETAILS'|translate }}</h5>
+    </div>
+    <div class="card-body">
+        <div class="row mb-4">
+            <div class="col-md-4 d-flex">
+                <div class="image-col me-2">
+                    <i class="ri-file-list-line fs-2 text-primary"></i>
+                </div>
+                <div>
+                    <h6 class="text-muted fw-semibold mb-0"> {{ 'PAGES.VISIT_FORM.LABELS.SCHEDULE_NUMBER'|translate }}</h6>
+                    <p class="fs-6 fw-bold text-dark">{{ visitData.visitNumber }}</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="d-flex align-items-start">
+                    <i class="ri-file-copy-2-line fs-2 text-warning me-2"></i>
+                    <div>
+                        <small class="text-muted fw-semibold d-block">
+                            {{ 'PAGES.COMMON.LABELS.SELF_EVALUATION_DOCUMENT_NUMBER' | translate }}
+                        </small>
+                        <span class="fw-bold text-dark">{{ visitData.selfEvaluationDocumentNumber }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 d-flex">
+                <div class="image-col me-2">
+                    <i class="ri-file-list-line fs-2 text-primary"></i>
+                </div>
+                <div>
+                    <h6 class="text-muted fw-semibold mb-0">{{ 'PAGES.VISIT_FORM.LABELS.PLAN_NUMBER'|translate }}</h6>
+                    <p class="fs-6 fw-bold text-dark">{{ visitData.planNumber }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="d-flex align-items-center">
+                <i class="ri-time-line fs-1 text-primary"></i>
+                <h5 class="mb-0">
+                    {{ 'PAGES.VISIT_FORM.LABELS.REVIEW_VISIT_PERIOD' | translate }}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.FROM'|translate }}</label>
+                <input type="date" class="form-control" [value]="visitData.visitFrom" disabled>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.TO'|translate }}</label>
+                <input type="date" class="form-control" [value]="visitData.visitTo" disabled>
+            </div>
+        </div>
+
+        <h5 class="mb-3"> {{ 'PAGES.VISIT_FORM.LABELS.SCHOOL_INFORMATION'|translate }}</h5>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label"> {{ 'PAGES.COMMON.LABELS.SCHOOL_NAME'|translate }}</label>
+                <input type="text" class="form-control"
+                       [value]="this.translate.currentLang == 'ar'?  visitData.schoolNameAr : visitData.schoolNameEn"
+                       disabled>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label"> {{ 'PAGES.COMMON.LABELS.SCHOOL_CODE'|translate }}</label>
+                <input type="text" class="form-control" [value]="visitData.schoolCode" disabled>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label"> {{ 'PAGES.COMMON.LABELS.SCHOOL_TYPE'|translate }}</label>
+                <input type="text" class="form-control" [value]="'PAGES.COMMON.LABELS.'+visitData.schoolType|translate"
+                       disabled>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">{{ 'PAGES.COMMON.LABELS.SCHOOL_PRINCIPAL_NAME'|translate }}</label>
+                <input type="text" class="form-control"
+                       [value]="visitData.schoolManagerName || visitData.principalName || ''" disabled>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">{{ 'PAGES.COMMON.LABELS.SCHOOL_PHONE'|translate }}</label>
+                <input type="text" class="form-control"
+                       [value]="visitData.schoolPhone || visitData.phone || '' " disabled>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">{{ 'PAGES.COMMON.LABELS.GENDER'|translate }}</label>
+                <input type="text" class="form-control"
+                       [value]="'PAGES.COMMON.LABELS.'+visitData.studentsGender.toUpperCase()|translate" disabled>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label d-block">{{ 'PAGES.VISIT_FORM.LABELS.GRADES'|translate }}</label>
+                <input type="text" class="form-control" [value]="visitData.grades" disabled>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.GOVERNORATE'|translate }}</label>
+                <input type="text" class="form-control"
+                       [value]="this.translate.currentLang == 'ar'?  visitData.schoolGovernorateAr : visitData.schoolGovernorateEn"
+                       disabled>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">{{ 'PAGES.VISIT_FORM.LABELS.WILAYAH'|translate }}</label>
+                <input type="text" class="form-control"
+                       [value]="this.translate.currentLang == 'ar'? visitData.wilayatAr : visitData.wilayatEn" disabled>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">{{ 'PAGES.COMMON.LABELS.VILLAGE'|translate }}</label>
+                <input type="text" class="form-control"
+                       [value]="visitData.village  || ''" disabled>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label"> {{ 'PAGES.VISIT_FORM.LABELS.GEOGRAPHIC_LOCATION'|translate }}</label>
+                <input type="text" class="form-control" [value]="visitData?.locationUrl || ''" disabled>
+            </div>
+        </div>
+    </div>
+</div>

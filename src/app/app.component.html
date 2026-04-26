@@ -1,0 +1,8 @@
+<app-session-timeout-warning
+  (stayLoggedIn)="onStayLoggedIn()"
+  (timeoutReached)="logout()"
+  #timeoutModal>
+</app-session-timeout-warning>
+
+<app-loader></app-loader>
+<router-outlet></router-outlet>

@@ -1,0 +1,169 @@
+<div class="card shadow-sm m-4">
+    <div class="card-body">
+        <!-- <h5 class="card-title mb-4">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENTS' | translate }}</h5> -->
+
+        <!-- 1. School Comments on Overall Performance -->
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <label class="form-label">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENTS_ON_OVERALL_PERFORMANCE' | translate }}
+                </label>
+                <div class="small mb-1 school-comment-hint">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENT_FIELD_HINT' | translate }}</div>
+                <app-custom-ckeditor id="schoolCommentsOnOverallPerformance"
+                     name="schoolCommentsOnOverallPerformance"
+                     #schoolCommentsOnOverallPerformance="ngModel"
+                     [disabled]="!isSchoolCommentEditable"
+                     [ngClass]="{ 'ckeditor-disabled': !isSchoolCommentEditable }"
+                     [(ngModel)]="visitReportSubmissionRequestInfo.schoolCommentsOnOverallPerformance">
+                </app-custom-ckeditor>
+            </div>
+        </div>
+
+        <!-- 2. Domain Evaluation School Comments -->
+        <div class="mt-4">
+            <h5 class="mb-4">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENTS_ON_DOMAIN_EVALUATION' | translate }}</h5>
+            
+            <!-- Axis 1: LEARNING_QUALITY -->
+            <div class="card mb-4" *ngIf="getAxisDomains('LEARNING_QUALITY').length > 0">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.AXIS_ONE' | translate }}</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row" *ngFor="let domain of getAxisDomains('LEARNING_QUALITY'); let i = index">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">
+                                {{ getDomainLabel(domain.domain!) | translate }}
+                            </label>
+                            <div class="small mb-1 school-comment-hint">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENT_FIELD_HINT' | translate }}</div>
+                            <app-custom-ckeditor [id]="'domainSchoolComment-' + domain.domain + '-' + i"
+                                 [name]="'domainSchoolComment-' + domain.domain + '-' + i"
+                                 [disabled]="!isSchoolCommentEditable"
+                                 [ngClass]="{ 'ckeditor-disabled': !isSchoolCommentEditable }"
+                                 [(ngModel)]="domain.schoolComments">
+                            </app-custom-ckeditor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Axis 2: SCHOOL_PROCESS_QUALITY -->
+            <div class="card mb-4" *ngIf="getAxisDomains('SCHOOL_PROCESS_QUALITY').length > 0">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.AXIS_TWO' | translate }}</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row" *ngFor="let domain of getAxisDomains('SCHOOL_PROCESS_QUALITY'); let i = index">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">
+                                {{ getDomainLabel(domain.domain!) | translate }}
+                            </label>
+                            <div class="small mb-1 school-comment-hint">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENT_FIELD_HINT' | translate }}</div>
+                            <app-custom-ckeditor [id]="'domainSchoolComment-' + domain.domain + '-' + i"
+                                 [name]="'domainSchoolComment-' + domain.domain + '-' + i"
+                                 [disabled]="!isSchoolCommentEditable"
+                                 [ngClass]="{ 'ckeditor-disabled': !isSchoolCommentEditable }"
+                                 [(ngModel)]="domain.schoolComments">
+                            </app-custom-ckeditor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Axis 3: LEARNING_AND_SCHOOL_PROCESS_QUALITY_ASSURANCE -->
+            <div class="card mb-4" *ngIf="getAxisDomains('LEARNING_AND_SCHOOL_PROCESS_QUALITY_ASSURANCE').length > 0">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.AXIS_THREE' | translate }}</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row" *ngFor="let domain of getAxisDomains('LEARNING_AND_SCHOOL_PROCESS_QUALITY_ASSURANCE'); let i = index">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">
+                                {{ getDomainLabel(domain.domain!) | translate }}
+                            </label>
+                            <div class="small mb-1 school-comment-hint">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENT_FIELD_HINT' | translate }}</div>
+                            <app-custom-ckeditor [id]="'domainSchoolComment-' + domain.domain + '-' + i"
+                                 [name]="'domainSchoolComment-' + domain.domain + '-' + i"
+                                 [disabled]="!isSchoolCommentEditable"
+                                 [ngClass]="{ 'ckeditor-disabled': !isSchoolCommentEditable }"
+                                 [(ngModel)]="domain.schoolComments">
+                            </app-custom-ckeditor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Rest: Safety and Security, General Information, Student Data, Teaching Staff -->
+        <div class="row mt-5">
+            <!-- School Comments on Safety and Security -->
+            <div class="col-md-6 mb-4">
+                <label class="form-label">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENTS_ON_SAFETY_AND_SECURITY' | translate }}
+                </label>
+                <div class="small mb-1 school-comment-hint">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENT_FIELD_HINT' | translate }}</div>
+                <app-custom-ckeditor id="schoolCommentsOnSafetyAndSecurity"
+                     name="schoolCommentsOnSafetyAndSecurity"
+                     #schoolCommentsOnSafetyAndSecurity="ngModel"
+                     [disabled]="!isSchoolCommentEditable"
+                     [ngClass]="{ 'ckeditor-disabled': !isSchoolCommentEditable }"
+                     [(ngModel)]="visitReportSubmissionRequestInfo.schoolCommentsOnSafetyAndSecurity">
+                </app-custom-ckeditor>
+            </div>
+
+            <!-- School Comments on Teaching Staff -->
+            <div class="col-md-6 mb-4" *ngIf="visitReportSubmissionRequestInfo.editableSchoolInfo">
+                <label class="form-label">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENTS_ON_TEACHING_STAFF' | translate }}
+                </label>
+                <div class="small mb-1 school-comment-hint">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENT_FIELD_HINT' | translate }}</div>
+                <app-custom-ckeditor id="schoolCommentsOnCountOfStaff"
+                     name="schoolCommentsOnCountOfStaff"
+                     #schoolCommentsOnCountOfStaff="ngModel"
+                     [disabled]="!isSchoolCommentEditable"
+                     [ngClass]="{ 'ckeditor-disabled': !isSchoolCommentEditable }"
+                     [(ngModel)]="visitReportSubmissionRequestInfo.editableSchoolInfo.schoolCommentsOnCountOfStaff">
+                </app-custom-ckeditor>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="visitReportSubmissionRequestInfo.editableSchoolInfo">
+            <!-- School Comments on General Information -->
+            <div class="col-md-6 mb-4">
+                <label class="form-label">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENTS_ON_ITS_INFORMATION' | translate }}
+                </label>
+                <div class="small mb-1 school-comment-hint">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENT_FIELD_HINT' | translate }}</div>
+                <app-custom-ckeditor id="schoolCommentsOnItsInfo"
+                     name="schoolCommentsOnItsInfo"
+                     #schoolCommentsOnItsInfo="ngModel"
+                     [disabled]="!isSchoolCommentEditable"
+                     [ngClass]="{ 'ckeditor-disabled': !isSchoolCommentEditable }"
+                     [(ngModel)]="visitReportSubmissionRequestInfo.editableSchoolInfo.schoolCommentsOnItsInfo">
+                </app-custom-ckeditor>
+            </div>
+
+            <!-- School Comments on Student Data -->
+            <div class="col-md-6 mb-4">
+                <label class="form-label">
+                    {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENTS_ON_STUDENT_DATA' | translate }}
+                </label>
+                <div class="small mb-1 school-comment-hint">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENT_FIELD_HINT' | translate }}</div>
+                <app-custom-ckeditor id="schoolCommentsOnStudentsInfo"
+                     name="schoolCommentsOnStudentsInfo"
+                     #schoolCommentsOnStudentsInfo="ngModel"
+                     [disabled]="!isSchoolCommentEditable"
+                     [ngClass]="{ 'ckeditor-disabled': !isSchoolCommentEditable }"
+                     [(ngModel)]="visitReportSubmissionRequestInfo.editableSchoolInfo.schoolCommentsOnStudentsInfo">
+                </app-custom-ckeditor>
+            </div>
+        </div>
+    </div>
+</div>
+
+<step-action-buttons [showSubmitBtn]="false"
+                     (previousEvent)="previous()"
+                     (saveEvent)="save()"
+                     [showSaveBtn]="showSaveBtn"
+                     (nextEvent)="next()"
+                     (cancelEvent)="cancel()"></step-action-buttons>
+

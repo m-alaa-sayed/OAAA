@@ -1,0 +1,141 @@
+::ng-deep .action-button {
+    margin-right: 8px !important;  /* Adjust the space between buttons */
+    background: none !important;   /* Remove background */
+    border: none !important;       /* Remove border */
+    padding: 0px 10px !important;  /* Adjust padding if needed */
+    cursor: pointer !important;    /* Change cursor to indicate it's clickable */
+    font-size: 16px !important;     /* Adjust font size if needed */
+    height: 40px !important;
+  }
+  
+  /* Optionally, remove the last button's margin */
+  ::ng-deep .action-button:last-child {
+    margin-right: 0 !important;
+  }
+  
+  /* Optional: Style the button on hover */
+  ::ng-deep .action-button:hover {  
+    background-color: var(--vz-primary) !important;     // Add a border on hover
+    border-radius: 20% !important;
+    opacity: 1 !important;   
+    color: var(--vz-white) !important;                // Optional: Remove any opacity change, or adjust it
+  
+  }
+
+  /* Grid container styles */
+  .ag-grid-container {
+    width: 100%;
+    position: relative; // For proper positioning
+    overflow: auto;
+  }
+
+  ::ng-deep .ag-theme-quartz {
+    min-width: 600px !important;
+    height: 100% !important;
+  }
+
+::ng-deep  .ag-row-drag {
+  pointer-events: auto; /* default */
+}
+
+::ng-deep .ag-dnd-ghost {
+  display: none !important;
+}
+
+/* Header text wrapping styles */
+::ng-deep .ag-header-cell-text {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  line-height: 1.2 !important;
+  padding: 4px 0 !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+}
+
+::ng-deep .ag-header-cell-label {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  display: flex !important;
+  align-items: center !important;
+  min-height: 40px !important;
+}
+
+::ng-deep .ag-header-cell {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  min-height: 50px !important;
+  padding: 0px 8px !important;
+  text-align: center !important;
+}
+
+/* Ensure header container allows for variable height */
+::ng-deep .ag-header-container {
+  min-height: 50px !important;
+}
+
+::ng-deep .ag-header-row {
+  min-height: 50px !important;
+}
+
+/* Arabic text specific wrapping */
+::ng-deep .ag-header-cell-text[dir="rtl"] {
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  hyphens: auto !important;
+}
+
+/* Adjust column resizer positioning for taller headers */
+::ng-deep .ag-header-cell-resize {
+  height: 100% !important;
+}
+
+/* Truncate cell text with ellipsis when it overflows the cell width */
+::ng-deep .oaaaqa-cell-truncate .ag-cell-value,
+::ng-deep .ag-cell.oaaaqa-cell-truncate .ag-cell-value {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: block !important; /* allow max-width to apply */
+  max-width: 100% !important;
+}
+
+/* Optional: ensure pinned rows / cells also truncate */
+::ng-deep .ag-pinned-left .oaaaqa-cell-truncate .ag-cell-value,
+::ng-deep .ag-pinned-right .oaaaqa-cell-truncate .ag-cell-value {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Force left-to-right rendering for numeric fields like phone numbers so they display correctly
+   when the grid is in RTL mode. This keeps digit ordering intact. */
+::ng-deep .oaaaqa-ltr {
+  direction: ltr !important;
+  unicode-bidi: isolate-override !important;
+}
+
+/* Print-specific styles */
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+  
+  .no-print {
+    display: block !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+}

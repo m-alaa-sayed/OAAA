@@ -1,0 +1,32 @@
+<school-performance-layout [isEditable]="isEditable"
+  [selfEvaluationDocument]="selfEvaluationDocument"></school-performance-layout>
+
+
+
+
+<div *ngIf="showButtons" class="row mt-3 mx-3">
+  <div class="d-flex justify-content-between w-100">
+    <!-- Left side (start) -->
+    <div>
+      <button type="button" class="step-prev btn btn-primary" (click)="previousEvent.emit()">
+        {{ 'PAGES.COMMON.LABELS.PREVIOUS' | translate }}
+      </button>
+
+      <button type="button" class="btn btn-outline-secondary me-2 ms-2" (click)="cancelEvent.emit()">
+        {{ "PAGES.COMMON.LABELS.CANCEL" | translate }}
+      </button>
+
+    </div>
+
+    <!-- Right side (end) -->
+    <div>
+      <button type="button" class="btn btn-primary JU me-2" *ngIf="isEditable" (click)="save()">
+        {{ 'PAGES.COMMON.LABELS.SAVE' | translate }}
+      </button>
+
+      <button type="button" class="btn btn-primary" (click)="next()">
+        {{ 'PAGES.COMMON.LABELS.NEXT' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+<div class="tab-content">
+  <!-- Header -->
+  <div class="tab-header">
+    <h2 class="page-title">{{ 'PAGES.SCHOOL_PERFORMANCE.STAFF_DATA.TITLE' | translate }}</h2>
+  </div>
+
+  <div class="tab-body">
+    <div class="staff-data-container">
+      <div class="section-header">
+        <h3 class="section-title">{{ 'PAGES.SCHOOL_PERFORMANCE.STAFF_DATA.TITLE' | translate }}</h3>
+      </div>
+
+      <!-- Main Staff Table Section -->
+      <div class="section-card mb-4">
+        <div class="table-container">
+          <oaaaqa-ag-grid
+            [dataList]="schoolInfo.staffData"
+            [columns]="staffColumns"
+            [selectable]="false"
+            [actions]="gridActions"
+            [pinnedBottomRowData]="pinnedBottomRowData"
+            [parentComponent]="this"
+            [pagination]="true"
+            [paginationPageSize]="10"
+            [paginationPageSizeSelector]="[5, 10, 20, 50]"
+            [enablePrintMode]="true"
+            [showPrintSummary]="false"
+            [printMaxRowsPerPage]="15"
+            (cellValueChanged)="onCellValueChanged($event)"
+            tableHeadColor="#E6F2F7">
+          </oaaaqa-ag-grid>
+        </div>
+      </div>
+
+      <!-- Additional Staff Data Section -->
+      <div class="additional-staff-section no-print">
+        <div class="additional-staff-form">
+          <div class="form-row d-flex gap-3">
+            <div class="form-group flex-fill">
+              <label class="form-label" for="numberOfGuards">
+                {{ 'PAGES.SCHOOL_PERFORMANCE.STAFF_DATA.NUMBER_OF_GUARDS' | translate }}
+              </label>
+              <input type="number" id="numberOfGuards" class="form-input" [readOnly]="!isEditable"
+                [disabled]="!isEditable" [(ngModel)]="schoolInfo.additionalStaffData.numberOfGuards"
+                (ngModelChange)="onAdditionalDataChange('numberOfGuards', $event)"
+                [placeholder]="'PAGES.SCHOOL_PERFORMANCE.STAFF_DATA.ENTER_NUMBER' | translate" name="numberOfGuards"
+                min="0">
+            </div>
+
+            <div class="form-group flex-fill">
+              <label class="form-label" for="numberOfCleaners">
+                {{ 'PAGES.SCHOOL_PERFORMANCE.STAFF_DATA.NUMBER_OF_CLEANERS' | translate }}
+              </label>
+              <input type="number" id="numberOfCleaners" class="form-input" [readOnly]="!isEditable"
+                [disabled]="!isEditable" [(ngModel)]="schoolInfo.additionalStaffData.numberOfCleaners"
+                (ngModelChange)="onAdditionalDataChange('numberOfCleaners', $event)"
+                [placeholder]="'PAGES.SCHOOL_PERFORMANCE.STAFF_DATA.ENTER_NUMBER' | translate" name="numberOfCleaners"
+                min="0">
+            </div>
+
+            <div class="form-group flex-fill">
+              <label class="form-label" for="others">
+                {{ 'PAGES.SCHOOL_PERFORMANCE.STAFF_DATA.OTHERS' | translate }}
+              </label>
+              <input type="number" id="others" class="form-input" [readOnly]="!isEditable"
+                [(ngModel)]="schoolInfo.additionalStaffData.others" [disabled]="!isEditable"
+                (ngModelChange)="onAdditionalDataChange('others', $event)"
+                [placeholder]="'PAGES.SCHOOL_PERFORMANCE.STAFF_DATA.ENTER_NUMBER' | translate" name="others" min="0">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- School Comments on Teaching Staff -->
+      <div class="row mt-4" *ngIf="shouldShowSchoolComments">
+        <div class="col-md-12">
+<label class="form-label">
+          {{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENTS_ON_TEACHING_STAFF' | translate }}
+        </label>
+        <div class="small mb-1 school-comment-hint">{{ 'PAGES.EXTERNAL_REVIEW_VISIT_REPORTS.LABELS.SCHOOL_COMMENT_FIELD_HINT' | translate }}</div>
+        <app-custom-ckeditor id="schoolCommentsOnCountOfStaff"
+           name="schoolCommentsOnCountOfStaff"
+                    #schoolCommentsOnCountOfStaff="ngModel"
+                    [disabled]="!isSchoolCommentEditable"
+                    [ngClass]="{ 'ckeditor-disabled': !isSchoolCommentEditable }"
+                    [(ngModel)]="schoolInfo.schoolCommentsOnCountOfStaff">
+          </app-custom-ckeditor>
+        </div>
+      </div>
+
+      <!-- Print Only Table -->
+      <div class="print-only avoid-page-break">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <tbody>
+              <tr>
+                <td class="fw-bold" style="width: 30%;">{{ 'PAGES.SCHOOL_PERFORMANCE.STAFF_DATA.NUMBER_OF_GUARDS' | translate }}</td>
+                <td>{{ schoolInfo.additionalStaffData.numberOfGuards || 0 }}</td>
+              </tr>
+              <tr>
+                <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.STAFF_DATA.NUMBER_OF_CLEANERS' | translate }}</td>
+                <td>{{ schoolInfo.additionalStaffData.numberOfCleaners || 0 }}</td>
+              </tr>
+              <tr>
+                <td class="fw-bold">{{ 'PAGES.SCHOOL_PERFORMANCE.STAFF_DATA.OTHERS' | translate }}</td>
+                <td>{{ schoolInfo.additionalStaffData.others || 0 }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

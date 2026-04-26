@@ -1,0 +1,135 @@
+<div class="card">
+    <div class="card-body">
+<div class="table-scroll-wrapper">
+  <table class="table table-bordered table-gridjs w-auto">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.NAME" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.ID_TYPE" | translate }}</th>
+                        <th class="px-4 py-2">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.NATIONALITY" | translate }}</th>
+                        <th class="px-4 py-2">{{ "PAGES.COMMON.LABELS.CIVIL_ID_PASSPORT_NUMBER" | translate }}
+                        </th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.COUNTRY_OF_RESIDENCE" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.HIGHEST_EDUCATIONAL_QUALIFICATION" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.EXTERNAL_REVIEWER.LABELS.MAIN_SPECIALIZATION_NAME" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.EMAIL" | translate }}</th>
+
+                         <th class="text-center">{{ "PAGES.COMMON.LABELS.MOBILE" | translate }}</th>
+                        <th class="text-center">{{ "PAGES.COMMON.LABELS.STATUS" | translate }}</th>
+
+                        <th class="text-center">
+                            {{ "PAGES.COMMON.LABELS.JUSTIFICATIONS" | translate }}
+                          <span *ngIf="isEditMode" class="text-danger">*</span>
+                        </th>
+                        <th class="text-center">
+                            {{ "PAGES.ER_DELETION.LABELS.GM_DELETION_STATUS" | translate }}
+                            <span *ngIf="isGMEditMode" class="text-danger">*</span>                        
+                        </th>
+
+                        <th *ngIf="isEditMode && canDelete" class="text-center">{{ "PAGES.COMMON.LABELS.ACTIONS" |
+                            translate }}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let row of externalReviewerDeletionList; let i = index" class="text-center">
+                        <td class="text-center">{{ i + 1 }}</td>
+                        <td class="text-center">
+                             {{translate.currentLang === 'ar' ?
+                            row.externalReviewer?.user?.fullNameAr
+                            : row.externalReviewer?.user?.fullNameEn}}
+                        </td>
+                        <td class="text-center">
+                            {{ (row.externalReviewer?.user?.insideOman 
+                                ? 'PAGES.EXTERNAL_REVIEWERS_REQUEST_LIST.LABELS.INSIDE_OMAN' 
+                                : 'PAGES.EXTERNAL_REVIEWERS_REQUEST_LIST.LABELS.OUTSIDE_OMAN') | translate }}
+                        </td>
+                        <td class="px-2 py-2">
+                             {{translate.currentLang === 'ar' ?
+                            row.externalReviewer?.user?.nationality?.countryNameAr
+                            : row.externalReviewer?.user?.nationality?.countryNameEn}}
+                        </td>
+                        <td class="px-2 py-2">
+                         {{ row.externalReviewer?.user?.insideOman 
+                                ? row.externalReviewer?.user.civilNo
+                                : row.externalReviewer?.user.passportNo }}
+                        </td>
+                        <td class="px-2 py-2">
+                             {{translate.currentLang === 'ar' ?
+                            row.externalReviewer?.user?.country?.countryNameAr
+                            : row.externalReviewer?.user?.country?.countryNameEn}}
+                        </td>
+                    
+                        <td class="px-2 py-2">
+                            {{translate.currentLang === 'ar' ?
+                            row.externalReviewer?.externalReviewersActiveRegistrationRequestInfo?.qualification?.degreeObtained?.lookupValueAr
+                            : row.externalReviewer?.externalReviewersActiveRegistrationRequestInfo?.qualification?.degreeObtained?.lookupValueEn}}
+                        </td>
+
+                        <td class="px-2 py-2">
+                            {{
+                                module === 'CSEQA'
+                                ? (
+                                    row.externalReviewer?.externalReviewersActiveRegistrationRequestInfo?.qualification?.otherCseqaGeneralSpecialization
+                                        ? row.externalReviewer?.externalReviewersActiveRegistrationRequestInfo?.qualification?.otherCseqaGeneralSpecialization
+                                        : (translate.currentLang === 'en'
+                                            ? row.externalReviewer?.externalReviewersActiveRegistrationRequestInfo?.qualification?.cseqaGeneralSpecialization?.nameEn ?? ''
+                                            : row.externalReviewer?.externalReviewersActiveRegistrationRequestInfo?.qualification?.cseqaGeneralSpecialization?.nameAr ?? '')
+                                    )
+                                : (
+                                    row.externalReviewer?.externalReviewersActiveRegistrationRequestInfo?.qualification?.otherGeneralSpecialization
+                                        ? row.externalReviewer?.externalReviewersActiveRegistrationRequestInfo?.qualification?.otherGeneralSpecialization
+                                        : (translate.currentLang === 'en'
+                                            ? row.externalReviewer?.externalReviewersActiveRegistrationRequestInfo?.qualification?.specificSpecialization?.generalSpecialization?.nameEn ?? ''
+                                            : row.externalReviewer?.externalReviewersActiveRegistrationRequestInfo?.qualification?.specificSpecialization?.generalSpecialization?.nameAr ?? '')
+                                    )
+                            }}
+                        </td>
+
+
+                        <td class="px-2 py-2">
+                            {{row.externalReviewer?.user?.email}}
+                        </td>
+                       <td class="px-2 py-2">
+                            {{row.externalReviewer?.user?.mobileNo}}
+                        </td>
+                        <td class="px-2 py-2">
+                        {{ 'PAGES.COMMON.LABELS.' + row.externalReviewer?.status | translate }}
+                        </td>
+                        <td class="text-center">
+                            <textarea rows="4" [disabled]="!isEditMode" [(ngModel)]="row.deletionNotes"
+                            placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}" 
+                            (ngModelChange)="onTextChange(row.deletionNotes || '')"
+                            required
+                            [class.is-invalid]="isEditMode && !row.deletionNotes"
+                            ></textarea>
+                        </td>
+                        <td class="text-center">
+                            <select class="form-select w-100" id="gmDeletionStatus" name="gmDeletionStatus" 
+                                [disabled]="!isGMEditMode" [(ngModel)]="row.deletionStatus" required
+                                #gmDeletionStatusControl="ngModel" 
+                                [class.is-invalid]="(gmDeletionStatusControl.invalid && gmDeletionStatusControl.touched) && (isGMEditMode)">
+                                <option *ngFor="let option of currentDeletionStatusOptions" [value]="option.value">
+                                    {{'PAGES.ER_DELETION.LABELS.'+option.label | translate }}
+                                </option>
+                            </select>
+                        </td>
+                        <td *ngIf="isEditMode && canDelete" class="text-center">
+                            <button class="btn" (click)="deleteResult(row)">
+                                <i class="ri-delete-bin-line text-danger"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- No Data Section -->
+            <div *ngIf="!externalReviewerDeletionList || externalReviewerDeletionList.length == 0 "
+                class="text-center py-4 text-muted">
+                {{ "PAGES.COMMON.MESSAGES.NO_RESULT" | translate }}
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,152 @@
+<div class="card-body">
+    <div class="d-flex justify-content-between align-items-center p-3">
+        <h5>{{"PAGES.TRAINING_RESULTS.LABELS.REGISTER_CANDIDATE_RESULT" | translate}} </h5>
+
+        <button class="btn btn-primary justify-content-end d-flex" (click)="open(details)"
+            [disabled]="!selectedExternalReviewersRegistrationRequest || selectedExternalReviewersRegistrationRequest.length === 0">
+            <i class="ri-eye-fill me-1"></i>
+            {{ "PAGES.COMMON.LABELS.DETAILS" | translate }}
+        </button>
+    </div>
+
+    <oaaaqa-ag-grid [actions]="actions" [dataList]="filteredExternalReviewersRegistrationRequestList"
+        [selectable]="true" (selectedListChangeEvent)="OnExternalReviewersSelectChange($event)" [columns]="columns">
+    </oaaaqa-ag-grid>
+</div>
+
+
+<ng-template #details let-modal>
+    <form #submitForm="ngForm">
+        <div class="default-modal">
+            <div class="modal-header bg-primary-light p-3 d-flex justify-content-between align-items-center">
+                <h5 class="modal-title">{{ 'PAGES.TRAINING_RESULTS.LABELS.TRAINING_REQUEST_DETAILS' | translate }}</h5>
+                <button type="button" class="btn-close m-0 p-0" (click)="cancel()"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">
+                        <h5 class="text-start">{{ "PAGES.TRAINING_RESULTS.LABELS.CANDIDATES_INFORMATION" | translate }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- <div *ngFor="let externalReviwer of selectedExternalReviewersRegistrationRequest"
+                            class="row text-start"> -->
+
+                            <div class="tags-list my-5 d-flex flex-wrap gap-5" >
+                                <span class="badge bg-secondary px-3 py-2 fs-5"
+                                    *ngFor="let externalReviwer of selectedExternalReviewersRegistrationRequest">
+                                    {{ translate.currentLang === 'ar' ? externalReviwer.applicantUser?.fullNameAr 
+                                    : externalReviwer.applicantUser?.fullNameEn }}
+                                </span>
+                            </div>
+                            <!-- <div class="col-md-6 mb-2">
+                                <span class="fw-bold">{{'PAGES.USER_TASKS.LABELS.APPLICANT_USER' | translate }}</span>
+                                <span class="ms-2">{{ translate.currentLang == 'ar' ?
+                                    externalReviwer.applicantUser?.fullNameAr :
+                                    externalReviwer.applicantUser?.fullNameEn }}</span>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <span class="fw-bold">{{ 'PAGES.COMMON.LABELS.REQUEST_TYPE' | translate }}:</span>
+                                <span class="ms-2">{{ translate.currentLang == 'ar' ?
+                                    externalReviwer.oaaaService?.serviceNameAr :
+                                    externalReviwer.oaaaService?.serviceNameEn }}</span>
+                            </div> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+
+
+                <!-- Lower Section: Training Management -->
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="text-start"> {{ 'PAGES.EXTERNAL_REVIEWER.LABELS.TRAINING_RESULT' | translate }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Training Status -->
+                            <div class="col-md-4 mb-3">
+                                <div class="d-flex flex-column align-items-start justify-content-start">
+                                    <label for="trainingStatus" class="form-label mb-0 fw-bold me-2">
+                                        {{ "PAGES.EXTERNAL_REVIEWER.LABELS.TRAINING_STATUS" | translate }} <span
+                                            class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" id="trainingStatus" name="trainingStatus"
+                                        [(ngModel)]="trainingStatus" required #trainingStatusControl="ngModel"
+                                        [ngClass]="{'is-invalid': isSubmitting && trainingStatusControl.invalid}">
+                                        <option [value]="undefined" disabled selected hidden>
+                                            {{
+                                            "PAGES.COMMON.LABELS.SELECT_PLACEHOLDER"
+                                            | translate }}
+                                        </option>
+                                        <option *ngFor="let option of trainingStatusOptions" [value]="option.value">
+                                            {{'PAGES.TRAINING_RESULTS.LABELS.'+option.label | translate }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div *ngIf="isSubmitting && trainingStatusControl?.invalid"
+                                    class="text-danger text-start mt-1">
+                                    <small>{{ 'PAGES.COMMON.MESSAGES.FIELD_REQUIRED' | translate }}</small>
+                                </div>
+                            </div>
+
+                            <!-- File Upload -->
+                            <div class="col-6 mb-3">
+                                <label class="form-label mb-0 fw-bold me-2">{{ "PAGES.REQUEST_DETAILS.LABELS.ATACHMENT"
+                                    |
+                                    translate }}
+                                </label>
+                                <div class="input-group">
+                                    <ng-container>
+                                        <input type="file" class="d-none" #fileInput (change)="onFileSelected($event)"
+                                            id="inputGroupFile02" aria-describedby="inputGroupFileAddon04"
+                                            aria-label="Upload" />
+                                        <button class="btn btn-outline-primary" type="button"
+                                            (click)="fileInput.click()">
+                                            <i class=" ri-upload-2-fill"></i> <!-- Upload icon -->
+                                        </button>
+                                    </ng-container>
+
+                                    <ng-container #fileSelected>
+                                        <input type="text" class="form-control m-0" [disabled]="true"
+                                            [value]="trainingResultFileName || ''" readonly title="File selected">
+                                    </ng-container>
+                                    <button *ngIf="trainingResultFileName" type="button" class="btn btn-outline-success"
+                                        type="button" id="inputGroupFileAddon04"
+                                        (click)="downloadUploadedFile(trainingResultFileName,trainingResultBucketName)">Download</button>
+                                </div>
+                            </div>
+
+                            <!-- Notes -->
+                            <div class="col-md-12 mb-3">
+                                <div class="text-start">
+                                    <label for="notes" class="form-label fw-bold d-block mb-2">
+                                        {{ "PAGES.COMMON.LABELS.NOTES" | translate }}
+
+                                        <small class="text-danger ms-3">
+                                            ({{
+                                            'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }})</small>
+                                    </label>
+                                    <textarea class="form-control" id="notes" name="notes" [(ngModel)]="notes" rows="4"
+                                        placeholder="{{ 'PAGES.COMMON.LABELS.DESCRIPTION_HINT' | translate }}"
+                                        style="resize: none; text-align: right; min-height: 80px;"
+                                        (ngModelChange)="onTextChange()"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex">
+                <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+                    {{ "PAGES.COMMON.LABELS.NO" | translate }}
+                </button>
+
+                <button class="btn btn-primary" type="button" (click)="addToList()">
+                    {{ "PAGES.COMMON.LABELS.YES" | translate }}
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>
