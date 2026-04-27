@@ -21,6 +21,7 @@ import {forkJoin} from 'rxjs';
 import {SelfEvaluationDocumentSetting} from '../../types/self-evaluation-document-setting';
 import {SchoolDataService} from '../../service/school-data.service';
 import {SchoolInfo} from "../../types/school-info";
+import { Permission } from 'src/app/core/enum/permission';
 
 @Component({
     selector: 'self-evaluation-document-creation',
@@ -28,6 +29,7 @@ import {SchoolInfo} from "../../types/school-info";
     styleUrl: './self-evaluation-document-creation.component.scss'
 })
 export class SelfEvaluationDocumentCreationComponent implements OnInit {
+    readonly Permission = Permission;
 
     selfEvaluationDocument: SelfEvaluationDocument = {} as SelfEvaluationDocument;
     selfEvaluationDocumentSetting: SelfEvaluationDocumentSetting = {} as SelfEvaluationDocumentSetting;
