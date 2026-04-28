@@ -106,6 +106,7 @@ export const MENU: MenuItem[] = [
         permissions: [Permission.CHEQA_ER_Acceptance_CRITERIA_MANAGE,
             Permission.CHEQA_ER_registration_settings_MANAGE,
             Permission.CHEQA_ER_Registration_Request_VIEW_ALL,
+            Permission.EXTERNAL_REVIEWERS_CANDIDATES_CHEQA_VIEW_ALL,
             Permission.CHEQA_ER_Request_VIEW_ALL, Permission.CHEQA_ER_VIEW,
             Permission.CHEQA_ER_Training_results_Registration_Request_VIEW_ALL,
             Permission.CHEQA_ER_Training_results_Registration_Request_COMPLETE_TASK,
@@ -149,6 +150,7 @@ export const MENU: MenuItem[] = [
                 roles: [],
                 permissions: [Permission.CHEQA_ER_Request_VIEW_ALL,
                     Permission.CHEQA_ER_Registration_Request_VIEW_ALL,
+                    Permission.EXTERNAL_REVIEWERS_CANDIDATES_CHEQA_VIEW_ALL,
                     Permission.CHEQA_ER_VIEW,
                     Permission.CHEQA_ER_Training_results_Registration_Request_VIEW_ALL,
                     Permission.CHEQA_ER_Training_results_Registration_Request_COMPLETE_TASK,
@@ -172,7 +174,7 @@ export const MENU: MenuItem[] = [
                         link: '/jawda/external-reviewers/external-reviewers-candidates/CHEQA',
                         procedures: ['EXTERNAL_REVIEWERS_CANDIDATES_CHEQA'],
                         roles: [],
-                        permissions: [Permission.CHEQA_ER_Request_VIEW_ALL]
+                        permissions: [Permission.EXTERNAL_REVIEWERS_CANDIDATES_CHEQA_VIEW_ALL]
                     },
                     {
                         id: 523,

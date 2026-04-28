@@ -133,9 +133,9 @@ const routes: Routes = [
     canActivate: [hasPermissionGuard],
     data: {
       permissions: [
-        Permission.CSEQA_ER_Request_VIEW_ALL,
-        Permission.CHEQA_ER_Request_VIEW_ALL,
-        Permission.OQF_ER_Request_VIEW_ALL
+        Permission.EXTERNAL_REVIEWERS_CANDIDATES_CSEQA_VIEW_ALL,
+        Permission.EXTERNAL_REVIEWERS_CANDIDATES_CHEQA_VIEW_ALL,
+        Permission.EXTERNAL_REVIEWERS_CANDIDATES_OQF_VIEW_ALL
       ]
     }
   },
@@ -145,9 +145,9 @@ const routes: Routes = [
     canActivate: [hasPermissionGuard],
     data: {
       permissions: [
-        Permission.CSEQA_ER_Request_VIEW_ALL,
-        Permission.CHEQA_ER_Request_VIEW_ALL,
-        Permission.OQF_ER_Request_VIEW_ALL
+        Permission.EXTERNAL_REVIEWERS_CANDIDATES_CSEQA_VIEW_DETAILS,
+        Permission.EXTERNAL_REVIEWERS_CANDIDATES_CHEQA_VIEW_DETAILS,
+        Permission.EXTERNAL_REVIEWERS_CANDIDATES_OQF_VIEW_DETAILS
       ]
     }
   },
