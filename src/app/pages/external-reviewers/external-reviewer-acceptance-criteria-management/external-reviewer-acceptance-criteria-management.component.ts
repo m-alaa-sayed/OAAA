@@ -174,6 +174,7 @@ export class ExternalReviewerAcceptanceCriteriaManagementComponent implements On
                 return of(null);
             }),
             catchError(error => {
+                this.toastService.show(this.translate.instant('PAGES.COMMON.MESSAGES.' + error), { classname: 'bg-danger text-white', autohide: false });
                 console.error('Error loading criterion', error);
                 this.dtos = [];
                 return of(null);
@@ -198,6 +199,7 @@ export class ExternalReviewerAcceptanceCriteriaManagementComponent implements On
                 return of(null);
             }),
             catchError(error => {
+                this.toastService.show(this.translate.instant('PAGES.COMMON.MESSAGES.' + error), { classname: 'bg-danger text-white', autohide: false });
                 console.error('Error loading attachments', error);
                 this.attachments = [];
                 return of(null);

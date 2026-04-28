@@ -422,6 +422,7 @@
         "SAVE_ERROR": "Failed to save. Please try again.",
         "LOAD_ERROR": "Failed to load data. Please try again.",
         "ERROR_LOADING_DATA": "Error loading data",
+        "ERROR_LOADING": "Error loading data",
         "EDIT_SUCCESS": "Edited successfully.",
         "SEND_NOTIFICATIONS_SUCCESS": "Notifications have been sent successfully.",
         "UNSUPPORTED_MODULE": "The selected module is not supported.",

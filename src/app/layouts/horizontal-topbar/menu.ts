@@ -52,6 +52,7 @@ export const MENU: MenuItem[] = [
                 link: '/jawda/users-permissions-management',
                 parentId: 3,
                 roles: ['USER_MANAGEMENT_ADMIN'],
+                procedures: ['USERS_AND_PERMISSIONS_MANAGEMENT'],
                 permissions: [
                     // Permission.ADMIN_ADD_USER,
                     // Permission.ADMIN_DELETE_USER,
@@ -408,7 +409,7 @@ export const MENU: MenuItem[] = [
                         link: '/jawda/external-reviewers/external-reviewers-candidates/OQF',
                         procedures: ['EXTERNAL_REVIEWERS_CANDIDATES_OQF'],
                         roles: [],
-                        permissions: [Permission.OQF_ER_Request_VIEW_ALL]
+                        permissions: []
                     },
                     {
                         id: 623,

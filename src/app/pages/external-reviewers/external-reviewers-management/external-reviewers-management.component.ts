@@ -280,15 +280,37 @@ export class ExternalReviewersManagementComponent extends BaseModal {
         label: this.translate.instant('PAGES.COMMON.LABELS.ACTIVE'), 
         icon: 'ri-checkbox-circle-fill', 
         callback: (row: any) => this.setAction(row.data.id, "ACTIVE") ,
-        show: (row: any) => row.data.status != 'ACTIVE' && row.data.status != 'REMOVED', 
+        show: (row: any) => this.showChangeStatusAction('ACTIVE', row),
       },
       { 
         label: this.translate.instant('PAGES.COMMON.LABELS.INACTIVE'), 
         icon: 'ri-close-circle-fill', 
         callback: (row: any) => this.setAction(row.data.id, "IN_ACTIVE") ,
-        show: (row: any) => row.data.status != 'IN_ACTIVE' && row.data.status != 'WITHDRAW' && row.data.status != 'REMOVED', 
+        show: (row: any) => this.showChangeStatusAction('IN_ACTIVE', row), 
       }
     ];
+  }
+
+  showChangeStatusAction(status: string, row: any): boolean {
+    const userPermissions = this.authService.getUserClaim()?.permissions ?? [];
+    const hasPermission = this.module == 'CSEQA' 
+      ? userPermissions.includes(Permission.CSEQA_ER_NOTIFY) 
+      : this.module == 'CHEQA' 
+        ? userPermissions.includes(Permission.CHEQA_ER_NOTIFY) 
+        : this.module == 'OQF' 
+          ? userPermissions.includes(Permission.OQF_ER_NOTIFY) 
+          : false;
+
+    if (!hasPermission) {
+      return false;
+    }
+
+    if (status === 'ACTIVE') {
+      return row.data.status !== 'ACTIVE' && row.data.status !== 'REMOVED';
+    } else if (status === 'IN_ACTIVE') {
+      return row.data.status !== 'IN_ACTIVE' && row.data.status !== 'WITHDRAW' && row.data.status !== 'REMOVED';
+    }
+    return false;
   }
 
   openDetails(externalReviewerId: any) {
